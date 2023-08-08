@@ -1,6 +1,6 @@
 # BatteryBoi - A Battery Indicator for Winners
 ### What?
-**BatteryBoi** (better name pending a [Twitter Poll](https://twitter.com/mistermeenr)) is a FREE **replacement Battery Indicator for the MacOS Menu Bar**. <br><br><br>
+**BatteryBoi** (better name pending a [Twitter Poll](https://twitter.com/mistermeenr)) is a **replacement Battery Indicator for the MacOS Menu Bar**. <br><br><br>
 
 ### Why?
 The battery icon really needed an indicator for how much time is left in terms of minutes and hours. So as a fun evening project, I [@MisterMeenr](https://twitter.com/mistermeenr) made it. <br><br><br>
