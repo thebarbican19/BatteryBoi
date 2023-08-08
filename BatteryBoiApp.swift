@@ -64,14 +64,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
 
         }
         
-        WindowManager.shared.windowOpen(.about)
         
         NSApp.setActivationPolicy(.accessory)
         
     }
     
     @objc func statusBarButtonClicked(sender: NSStatusBarButton) {
-        WindowManager.shared.windowOpen(.about)
         
     }
 
