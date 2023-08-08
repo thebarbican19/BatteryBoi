@@ -70,6 +70,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
     }
     
     @objc func statusBarButtonClicked(sender: NSStatusBarButton) {
+        //WindowManager.shared.windowOpen(.about)
         
     }
 

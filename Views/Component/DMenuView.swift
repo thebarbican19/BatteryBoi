@@ -219,7 +219,7 @@ struct BatteryIcon: View {
         .onChange(of: self.manager.charging, perform: { newValue in
             withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.9, blendDuration: 1)) {
                 switch newValue {
-                    case true : self.progress = 0.0
+                    case true : self.progress = min(100 * (self.size.width - 6), (self.size.width - 6))
                     case false : self.progress = min(CGFloat(self.manager.percentage / 100) * (self.size.width - 6), (self.size.width - 6))
                     
                 }
@@ -230,7 +230,7 @@ struct BatteryIcon: View {
         .onChange(of: self.manager.percentage, perform: { newValue in
             withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.9, blendDuration: 1)) {
                 switch self.manager.charging {
-                    case true : self.progress = 0.0
+                    case true : self.progress = min(100 * (self.size.width - 6), (self.size.width - 6))
                     case false : self.progress = min(CGFloat(newValue / 100) * (self.size.width - 6), (self.size.width - 6))
                     
                 }
@@ -247,15 +247,26 @@ struct BatteryIcon: View {
             }
           
         })
+        .onAppear() {
+            withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.9, blendDuration: 1)) {
+                switch self.manager.charging {
+                    case true : self.progress = min(100 * (self.size.width - 6), (self.size.width - 6))
+                    case false : self.progress = min(CGFloat(self.manager.percentage / 100) * (self.size.width - 6), (self.size.width - 6))
+                    
+                }
+                
+            }
+            
+        }
         .inverse(
             BatteryStatus(size, font: font).mask(
                 Rectangle()
                     .fill(.black)
                     .frame(width: self.size.width)
-                    .position(x: -(self.size.width / 2) + self.progress + 4, y: self.size.height / 2)
+                    .position(x: -(self.size.width / 2) + self.progress + 6, y: self.size.height / 2)
 
             )
-                        
+            
         )
         
     }
@@ -308,7 +319,7 @@ struct BatteryContainer: View {
 struct MenuContainer: View {
     var body: some View {
         BatteryContainer(.init(width: 32, height: 15), radius: 5, font: 11)
-            .opacity(0.96)
+            .opacity(0.9)
             .environmentObject(BatteryManager.shared)
         
     }
