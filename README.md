@@ -11,15 +11,15 @@ You can remove the default MacOS battery icon by holding *Command * & dragging t
 ### Roadmap
 This is just a fun project however, with your support, I will be adding...
 
-- [X] **Battery Replacement**
-- [ ] **Improved Alerts**
-- [ ] **A Dynamic Island-Style Modal with Sexy Indicator**
-- [ ] **More Stats**
-- [ ] **Custom Keyboard Shortcuts**
+- [X] **🔋 Battery Replacement**
+- [ ] **🚨 Improved Alerts**
+- [ ] **🏝️ A Dynamic Island-Style Modal with Sexy Indicator**
+- [ ] **📈 More Stats**
+- [ ] **⌨️ Custom Keyboard Shortcuts**
 
 <br><br><br>
 
 ### This is so good - Take My Money. 
-**BatteryBoi is FREE for everybody!** But if you want to support future development and see some of the roadmap items implemented, then consider donating. 
+**BatteryBoi is FREE for everybody!** But if you want to support future development and see some of the roadmap items implemented, then consider donating via this [🔐 Secure Stripe Link](https://buy.stripe.com/14k7wl8PN5Dw81214a). 
 
 Thank you for your consideration.
