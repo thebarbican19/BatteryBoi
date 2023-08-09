@@ -1,29 +1,36 @@
 # BatteryBoi - A Battery Indicator for Winners
 ### What
-**BatteryBoi** (better name pending a [Twitter Poll](https://twitter.com/mistermeenr)) is a **replacement Battery Indicator for the MacOS Menu Bar**. <br><br><br>
+**BatteryBoi** (better name pending a [Twitter Poll](https://twitter.com/mistermeenr)) is a **replacement Battery Indicator for the MacOS Menu Bar**. <br><br>
 
 ### Why?
-The battery icon really needed an indicator for how much time is left in terms of minutes and hours. So as a fun evening project, I [@MisterMeenr](https://twitter.com/mistermeenr) made it. <br><br><br>
+The battery icon really needed an indicator for how much time is left in terms of minutes and hours. So as a fun evening project, I [@MisterMeenr](https://twitter.com/mistermeenr) made it. <br><br>
 
 ### How (to Install)
-You can install the app by downloading the (latest released .DMG file)[https://github.com/thebarbican19/BatteryBoi/releases/]. This contains an executable version of the app - **you do not need to Xcode to run this.**
-<br>
+You can install the app by downloading the [latest released .DMG file](https://github.com/thebarbican19/BatteryBoi/releases/). This contains an executable version of the app - **you do not need to Xcode to run this.**
+<br><br>
 Open/mount the DMG file and drag BatteryBoi into the Applications Folder. And that's it!
-<br>
+<br><br>
 You can hide the default battery icon by going to **System Preferences** > **Control Center** > **Battery** > **Show in Menu Bar**
-<br><br><br>
+<br><br>
+
+#### Updates
+BatteryBoi does not currently have support to perform automatic updates. Please 🚶🏻 follow or ⭐️ start this repo to follow for release updates. 
+<br><br>
 
 ### Roadmap
 This is just a fun project however, with your support, I will be adding...
 
 - [X] **🔋 Battery Replacement**
 - [ ] **➡️ Dynamic Width***
+- [ ] **⬇️ Sparkle Intergration**
 - [ ] **🚨 Improved Alerts**
 - [ ] **🏝️ A Dynamic Island-Style Modal with Sexy Indicator**
 - [ ] **📈 More Stats**
 - [ ] **⌨️ Custom Keyboard Shortcuts**
 
-<br><br><br>
+<br><br>Ideas are welcome. 
+
+<br><br>
 
 ### Q&A
 **Q** Does this app steal my data? <br>
@@ -36,8 +43,7 @@ This is just a fun project however, with your support, I will be adding...
 **A** Estimated time until battery depletion is calculated by the System. Sometimes this information just isn't available. When it isn't, it will fall back on the Battery Percentage. 
 
 
-<br><br><br>
-
+<br><br>
 
 ### This is so good - Take My Money. 
 **BatteryBoi is FREE for everybody!** But if you want to support future development and see some of the roadmap items implemented, then consider donating via this [🔐 Secure Stripe Link](https://buy.stripe.com/14k7wl8PN5Dw81214a). 
