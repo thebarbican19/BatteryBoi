@@ -1,6 +1,6 @@
 # BatteryBoi - A Battery Indicator for Winners
 
-![BatteryBoi Promo image showing what the app does in a GIF](https://pub-3d59231d7ecc43e7af32a82026f9e071.r2.dev/batteryboi-animated.gif)
+![BatteryBoi Promo image]([https://pub-3d59231d7ecc43e7af32a82026f9e071.r2.dev/batteryboi-animated.gif](https://pub-3d59231d7ecc43e7af32a82026f9e071.r2.dev/batteryboi-promo.jpeg))
 ### What
 **BatteryBoi** (better name pending a [Twitter Poll](https://twitter.com/mistermeenr)) is a **replacement Battery Indicator for the MacOS Menu Bar**. <br><br>
 
