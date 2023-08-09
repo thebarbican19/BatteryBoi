@@ -22,7 +22,7 @@ BatteryBoi does not currently have support to perform automatic updates. Please 
 This is just a fun project however, with your support, I will be adding...
 
 - [X] **🔋 Battery Replacement**
-- [ ] **🚀 Login at Launch**
+- [x] **🚀 Login at Launch**
 - [ ] **➡️ Dynamic Width***
 - [ ] **⬇️ Sparkle Intergration**
 - [ ] **🚨 Improved Alerts**
