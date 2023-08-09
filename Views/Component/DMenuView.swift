@@ -8,7 +8,13 @@
 import SwiftUI
 import Combine
 
-private enum BatteryAnimationType {
+enum BatteryViewType {
+    case menubar
+    case modal
+    
+}
+
+enum BatteryAnimationType {
     case charging
     case percent
     case low
@@ -157,7 +163,7 @@ private struct BatteryStub: View {
     
     var body: some View {
         ZStack {
-            BatteryMask(.constant(2)).foregroundColor(Color.white)
+            BatteryMask(.constant(2)).foregroundColor(Color("BatteryDefault"))
 
             
         }
@@ -280,18 +286,20 @@ struct BatteryContainer: View {
     @State private var radius:CGFloat
     @State private var font:CGFloat
     @State private var warning:Double = 0.0
+    @State private var type:BatteryViewType
 
-    init(_ size: CGSize, radius:CGFloat, font:CGFloat) {
+    init(_ size: CGSize, radius:CGFloat, font:CGFloat, type:BatteryViewType) {
         self._size = State(initialValue: size)
         self._radius = State(initialValue: radius)
         self._font = State(initialValue: font)
+        self._type = State(initialValue: type)
 
     }
     
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: self.radius, style: .continuous)
-                .fill(.white)
+                .fill(Color("BatteryDefault"))
                 .frame(width:self.size.width, height: self.size.height)
                 .mask(
                     Rectangle().inverse(BatteryIcon(size, radius: radius, font: font))
@@ -318,7 +326,7 @@ struct BatteryContainer: View {
 
 struct MenuContainer: View {
     var body: some View {
-        BatteryContainer(.init(width: 32, height: 15), radius: 5, font: 11)
+        BatteryContainer(.init(width: 32, height: 15), radius: 5, font: 11, type:.menubar)
             .opacity(0.9)
             .environmentObject(BatteryManager.shared)
         

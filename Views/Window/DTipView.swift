@@ -21,11 +21,9 @@ struct TipContainer: View {
                     .blur(radius: 5)
                     .blendMode(.overlay)
             
-//                BatteryContainer(.init(width: 150, height: 55), radius: 16, font: 18)
-                BatteryContainer(.init(width: 39, height: 16), radius: 5, font: 11)
-                    .opacity(0.96)
-                    .scaleEffect(2)
-//                    .environmentObject(BatteryManager.shared)
+                BatteryContainer(.init(width: 150, height: 55), radius: 16, font: 18, type: .modal)
+                    .environmentObject(BatteryManager.shared)
+                
             }
            
             Slider(value: $progress).padding(.top, 70).onChange(of: progress, perform: { newValue in

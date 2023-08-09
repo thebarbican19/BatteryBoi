@@ -44,8 +44,8 @@ class CustomView: NSView {
 final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWindowDelegate, ObservableObject {
     static var shared = AppDelegate()
     
-    private var status:NSStatusItem? = nil
-    private var hosting:NSHostingView = NSHostingView(rootView: MenuContainer())
+    public var status:NSStatusItem? = nil
+    public var hosting:NSHostingView = NSHostingView(rootView: MenuContainer())
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         self.status = NSStatusBar.system.statusItem(withLength: 45)
@@ -57,13 +57,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
             button.action = #selector(statusBarButtonClicked(sender:))
             button.target = self
             
+            print("Buttin Apperance: " ,button.effectiveAppearance.name)
+
         }
         
         if let window = NSApplication.shared.windows.first {
             window.close()
 
         }
-        
         
         NSApp.setActivationPolicy(.accessory)
         

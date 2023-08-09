@@ -8,6 +8,8 @@
 import Foundation
 import Combine
 import LaunchAtLogin
+import AppKit
+import SwiftUI
 
 enum SettingsStateValue:String {
     case enabled
