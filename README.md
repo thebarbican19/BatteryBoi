@@ -50,8 +50,8 @@ This is just a fun project however, with your support, I will be adding...
 
 <br><br>
 
-### This is so good - Take My Money. 
-**BatteryBoi is FREE for everybody!** But if you want to support future development and see some of the roadmap items implemented, then consider donating via this [🔐 Secure Stripe Link](https://buy.stripe.com/14k7wl8PN5Dw81214a). 
-<br><be>
+### Spare some change?
+**BatteryBoi is and will remain open-source and free for everybody!** But if you want to support future development and see some of the roadmap items implemented, then consider donating via this [🔐 Secure Stripe Link](https://buy.stripe.com/14k7wl8PN5Dw81214a). Any amount is appreciated. 
+<br><br>
 
 #### Thank you for your consideration.
