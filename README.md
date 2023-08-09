@@ -41,6 +41,7 @@ This is just a fun project however, with your support, I will be adding...
 <br><br>
 **Q.** The estimated time does not show up. Why? <br>
 **A.** Estimated time until battery depletion is calculated by the System. Sometimes this information just isn't available. When it isn't, it will fall back on the Battery Percentage. 
+<br><br>
 **Q.** Can I revert back to the old MacOS Battery Indicator?<br>
 **A.** Yes! Go to **System Preferences** > **Control Center** > **Battery** > **Show in Menu Bar** and toggle it on. 
 
