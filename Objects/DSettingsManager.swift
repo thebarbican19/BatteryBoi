@@ -51,6 +51,14 @@ enum SettingsStateValue:String {
 
 class SettingsManager:ObservableObject {
     static var shared = SettingsManager()
+    
+    init() {
+        if self.enabledAutoLaunch == .undetermined {
+            self.enabledAutoLaunch = .enabled
+            
+        }
+        
+    }
 
     public var enabledAutoLaunch:SettingsStateValue {
         get {

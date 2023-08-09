@@ -6,14 +6,21 @@
 //
 
 import SwiftUI
+import EnalogClient
+
+enum SystemEvents:String {
+    case fatalError = "fatal.error"
+    case userInstalled = "user.installed"
+
+}
 
 enum SystemDefaultsKeys: String {
     case enabledAnalytics = "sd_settings_analytics"
     case enabledLogin = "sd_settings_login"
     case enabledEstimate = "sd_settings_estimate"
 
+    case versionInstalled = "sd_version_installed"
     case versionCurrent = "sd_version_current"
-    case versionCache = "sd_version_cache"
     
 }
 
@@ -57,21 +64,24 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
             button.action = #selector(statusBarButtonClicked(sender:))
             button.target = self
             
-            print("Buttin Apperance: " ,button.effectiveAppearance.name)
-
         }
         
         if let window = NSApplication.shared.windows.first {
             window.close()
 
         }
-        
+                        
+        _ = SettingsManager.shared
+        _ = AppManager.shared
+
         NSApp.setActivationPolicy(.accessory)
         
     }
     
     @objc func statusBarButtonClicked(sender: NSStatusBarButton) {
-        //WindowManager.shared.windowOpen(.about)
+        #if DEBUG
+            WindowManager.shared.windowOpen(.about)
+        #endif
         
     }
 
