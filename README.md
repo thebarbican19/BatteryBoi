@@ -27,7 +27,7 @@ This is just a fun project however, with your support, I will be adding...
 - [ ] **📈 More Stats**
 - [ ] **⌨️ Custom Keyboard Shortcuts**
 
-<br><br>Ideas are welcome. 
+<br>Ideas are welcome. 
 
 <br><br>
 
