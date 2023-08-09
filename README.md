@@ -1,17 +1,23 @@
 # BatteryBoi - A Battery Indicator for Winners
-### What?
+### What
 **BatteryBoi** (better name pending a [Twitter Poll](https://twitter.com/mistermeenr)) is a **replacement Battery Indicator for the MacOS Menu Bar**. <br><br><br>
 
 ### Why?
 The battery icon really needed an indicator for how much time is left in terms of minutes and hours. So as a fun evening project, I [@MisterMeenr](https://twitter.com/mistermeenr) made it. <br><br><br>
 
-### Removing the Default
-You can remove the default MacOS battery icon by holding *Command * & dragging the battery icon off the Menu Bar, releasing it will remove it. <br><br><br>
+### How (to Install)
+You can install the app by downloading the (latest released .DMG file)[https://github.com/thebarbican19/BatteryBoi/releases/]. This contains an executable version of the app - **you do not need to Xcode to run this.**
+<br>
+Open/mount the DMG file and drag BatteryBoi into the Applications Folder. And that's it!
+<br>
+You can hide the default battery icon by going to **System Preferences** > **Control Center** > **Battery** > **Show in Menu Bar**
+<br><br><br>
 
 ### Roadmap
 This is just a fun project however, with your support, I will be adding...
 
 - [X] **🔋 Battery Replacement**
+- [ ] **➡️ Dynamic Width***
 - [ ] **🚨 Improved Alerts**
 - [ ] **🏝️ A Dynamic Island-Style Modal with Sexy Indicator**
 - [ ] **📈 More Stats**
@@ -21,13 +27,13 @@ This is just a fun project however, with your support, I will be adding...
 
 ### Q&A
 **Q** Does this app steal my data? <br>
-**A** No, there's no tracking. Look at the code if you don't belive me.
+**A** No, there's no tracking. Look at the code if you don't believe me.
 <br><br>
 **Q** Did you make any other sweet sweet apps I can try? <br>
 **A** Yeah, [SprintDock](https://sprintdock.app) is my masterpeice. Check it out!
 <br><br>
-**Q** The estimated time does not show up? <br>
-**A** Estimated time until battery deplition is calculated by the System. Sometimes this information just isn't available. When it isn't, it will fall back on the Battery Percentage. 
+**Q** The estimated time does not show up. Why? <br>
+**A** Estimated time until battery depletion is calculated by the System. Sometimes this information just isn't available. When it isn't, it will fall back on the Battery Percentage. 
 
 
 <br><br><br>
