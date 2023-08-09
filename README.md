@@ -23,7 +23,8 @@ This is just a fun project however, with your support, I will be adding...
 
 - [X] **🔋 Battery Replacement**
 - [x] **🚀 Login at Launch**
-- [ ] **➡️ Dynamic Width***
+- [ ] **➡️ Dynamic Width**
+- [ ] **🇲🇽 Multiple Language Support**
 - [ ] **⬇️ Sparkle Intergration**
 - [ ] **🚨 Improved Alerts**
 - [ ] **🏝️ A Dynamic Island-Style Modal with Sexy Indicator**
