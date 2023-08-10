@@ -7,9 +7,12 @@
 
 import Foundation
 import Combine
-import LaunchAtLogin
 import AppKit
 import SwiftUI
+
+#if !OLDER_MACOS
+    import LaunchAtLogin
+#endif
 
 enum SettingsStateValue:String {
     case enabled
@@ -48,36 +51,36 @@ enum SettingsStateValue:String {
     
 }
 
-
 class SettingsManager:ObservableObject {
     static var shared = SettingsManager()
     
-    init() {
-        if self.enabledAutoLaunch == .undetermined {
-            self.enabledAutoLaunch = .enabled
-            
-        }
-        
-    }
-
     public var enabledAutoLaunch:SettingsStateValue {
         get {
-            if UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledLogin.rawValue) == nil {
-                return .undetermined
+            #if !OLDER_MACOS
+                if UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledLogin.rawValue) == nil {
+                    return .undetermined
+                    
+                }
                 
-            }
-            
-            return LaunchAtLogin.isEnabled ? .enabled : .disabled
+                return LaunchAtLogin.isEnabled ? .enabled : .disabled
+                
+            #endif
+
+            return .restricted
             
         }
         
         set {
-            if self.enabledAutoLaunch != .undetermined {
-                LaunchAtLogin.isEnabled = newValue.enabled
+            #if !OLDER_MACOS
+                if self.enabledAutoLaunch != .undetermined {
+                    LaunchAtLogin.isEnabled = newValue.enabled
+                    
+                    UserDefaults.save(.enabledLogin, value: newValue.enabled)
+                    
+                }
                 
-                UserDefaults.save(.enabledLogin, value: newValue.enabled)
-                
-            }
+            #endif
+
            
         }
         
@@ -103,6 +106,43 @@ class SettingsManager:ObservableObject {
         set {
             if self.enabledEstimateStatus != newValue {
                 UserDefaults.save(.enabledEstimate, value: newValue.enabled)
+                
+            }
+            
+        }
+        
+    }
+    
+    public var enabledMarqueeAnimation:Bool {
+        get {
+            UserDefaults.main.bool(forKey: SystemDefaultsKeys.enabledMarquee.rawValue)
+            
+        }
+        
+        set {
+            if self.enabledMarqueeAnimation != newValue {
+                UserDefaults.save(.enabledMarquee, value: newValue)
+                
+            }
+            
+        }
+        
+    }
+    
+    public var enabledStyle:BatteryStyle {
+        get {
+            if let style = UserDefaults.main.string(forKey: SystemDefaultsKeys.enabledStyle.rawValue) {
+                return BatteryStyle(rawValue: style) ?? .chunky
+                
+            }
+
+            return .chunky
+            
+        }
+        
+        set {
+            if self.enabledStyle != newValue {
+                UserDefaults.save(.enabledMarquee, value: newValue)
                 
             }
             

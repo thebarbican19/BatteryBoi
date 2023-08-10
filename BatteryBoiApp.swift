@@ -11,6 +11,8 @@ import EnalogClient
 enum SystemEvents:String {
     case fatalError = "fatal.error"
     case userInstalled = "user.installed"
+    case userClicked = "user.cta"
+    case userLaunched = "user.launched"
 
 }
 
@@ -18,6 +20,8 @@ enum SystemDefaultsKeys: String {
     case enabledAnalytics = "sd_settings_analytics"
     case enabledLogin = "sd_settings_login"
     case enabledEstimate = "sd_settings_estimate"
+    case enabledMarquee = "sd_settings_marquee"
+    case enabledStyle = "sd_settings_style"
 
     case versionInstalled = "sd_version_installed"
     case versionCurrent = "sd_version_current"
@@ -70,11 +74,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
             window.close()
 
         }
-                        
-        _ = SettingsManager.shared
+        
+        EnalogManager.main.throttle(perMinute: 3)
+        EnalogManager.main.ingest(SystemEvents.userLaunched, description: "Launched JoeBattery")
+        
         _ = AppManager.shared
 
         NSApp.setActivationPolicy(.accessory)
+        
+        if SettingsManager.shared.enabledAutoLaunch == .undetermined {
+            SettingsManager.shared.enabledAutoLaunch = .enabled
+            
+        }
         
     }
     
@@ -83,6 +94,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
             WindowManager.shared.windowOpen(.about)
         #endif
         
+        switch SettingsManager.shared.enabledEstimateStatus {
+            case .enabled : SettingsManager.shared.enabledEstimateStatus = .disabled
+            case .disabled : SettingsManager.shared.enabledEstimateStatus = .enabled
+            default : break
+            
+        }
+                
     }
 
 }

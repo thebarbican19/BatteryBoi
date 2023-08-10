@@ -48,10 +48,16 @@ class BatteryManager:ObservableObject {
     private var updates = Set<AnyCancellable>()
 
     init() {
-        Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { _ in
+        Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
             self.powerStatus(true)
                         
         }
+        
+        AppManager.shared.$estimate.removeDuplicates().sink() { newValue in
+            self.formatted = ""
+            self.powerStatus(true)
+
+        }.store(in: &updates)
         
         $percentage.removeDuplicates().sink() { newValue in
             self.powerStatus()
@@ -73,20 +79,17 @@ class BatteryManager:ObservableObject {
             }
         
         }
-        
-        self.formatted = "\(Int(self.percentage))"
-        
+                        
         if SettingsManager.shared.enabledEstimateStatus == .restricted && self.powerRemaing != nil {
             SettingsManager.shared.enabledEstimateStatus = .enabled
             
         }
-        
+
         if let remaining = self.powerRemaing, let hour = remaining.hours, let minute = remaining.minutes {
             if SettingsManager.shared.enabledEstimateStatus == .enabled && self.charging == false {
-                self.remaining = remaining
-                
                 if hour > 0 && minute > 0 {
-                    self.formatted = "+\(hour)h"
+                    //self.formatted = "\(hour)h \(minute)m"
+                    self.formatted = "\(hour)h"
 
                 }
                 else if hour > 0 && minute == 0 {
@@ -98,10 +101,17 @@ class BatteryManager:ObservableObject {
 
                 }
                 
+                self.remaining = remaining
+                
             }
             
         }
         
+        if self.formatted.isEmpty == true {
+            self.formatted = "\(Int(self.percentage))"
+
+        }
+   
     }
     
     private var powerCharging:Bool {

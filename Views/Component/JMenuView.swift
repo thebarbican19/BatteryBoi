@@ -8,6 +8,39 @@
 import SwiftUI
 import Combine
 
+enum BatteryStyle:String {
+    case chunky
+    case basic
+    
+    var radius:CGFloat {
+        switch self {
+            case .basic : return 3
+            case .chunky : return 5
+            
+        }
+        
+    }
+    
+    var size:CGSize {
+        switch self {
+            case .basic : return .init(width: 28, height: 13)
+            case .chunky : return .init(width: 32, height: 15)
+            
+        }
+        
+    }
+    
+    var padding:CGFloat {
+        switch self {
+            case .basic : return 1
+            case .chunky : return 2
+            
+        }
+        
+    }
+    
+}
+
 enum BatteryViewType {
     case menubar
     case modal
@@ -19,13 +52,74 @@ enum BatteryAnimationType {
     case percent
     case low
 
-    var icon:String {
+    var icon:String? {
         switch self {
-            case .percent : return ""
+            case .percent : return nil
             case .charging : return "ChargingIcon"
             case .low : return "PlugIcon"
             
         }
+        
+    }
+    
+}
+
+private struct BatteryMarqueeView: View {
+    @EnvironmentObject var manager:BatteryManager
+
+    @State private var size:CGSize
+    @State private var font:CGFloat
+    @State private var position:CGFloat
+    @State private var width:CGFloat
+
+    init(_ size:CGSize, font:CGFloat) {
+        self._size = State(initialValue: size)
+        self._font = State(initialValue: font)
+        self._position = State(initialValue: 0)
+        self._width = State(initialValue: 0)
+
+    }
+
+    var body: some View {
+        VStack {
+            ScrollView(.horizontal, showsIndicators: false) {
+                Text(self.manager.formatted).overlay(
+                    GeometryReader { geo in
+                        Color.clear.onAppear() {
+                            if SettingsManager.shared.enabledMarqueeAnimation {
+                                
+                            }
+                            
+                            self.width = geo.size.width
+                            self.position = self.width - size.width
+                            
+                        }
+                        
+                    }
+                    
+                )
+                .foregroundColor(Color.black)
+                .style(self.font)
+                .offset(x:-self.position)
+                
+            }
+            .animation(Animation.easeOut(duration: 5), value: self.position)
+            .onChange(of: self.position, perform: { newValue in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
+                    switch self.position {
+                        case 0 : self.position = self.width - size.width
+                        default : self.position = 0
+                        
+                    }
+                    
+                }
+                
+            })
+            .frame(width: size.width)
+            .background(Color.clear)
+
+        }
+        
         
     }
     
@@ -71,24 +165,29 @@ private struct BatteryCharge: View {
 
     var body: some View {
         ZStack() {
-            Image(self.animation.icon)
-                .resizable()
-                .padding(.vertical, 4)
-                .aspectRatio(contentMode: .fit)
-                .background(Color.clear)
-                .scaleEffect(self.animation != .percent ? 1.0 : 0.8)
-                .opacity(self.animation != .percent ? 1.0 : 0.0)
-                .blur(radius: self.animation != .percent ? 0.0 : 2.0)
-                .animation(Animation.default.delay(0.4), value: self.animation)
+            if let icon = self.animation.icon {
+                Image(icon)
+                    .resizable()
+                    .padding(.vertical, 4)
+                    .aspectRatio(contentMode: .fit)
+                    .background(Color.clear)
+                    .scaleEffect(self.animation != .percent ? 1.0 : 0.8)
+                    .opacity(self.animation != .percent ? 1.0 : 0.0)
+                    .blur(radius: self.animation != .percent ? 0.0 : 2.0)
+                
+            }
 
             Text(self.manager.formatted)
-                .font(.system(size: self.font, weight: .bold))
-                .lineLimit(1)
-                .tracking(-0.4)
-                .padding(2)
-                .scaleEffect(self.animation == .percent ? 1.0 : 0.8)
-                .opacity(self.animation == .percent ? 1.0 : 0.0)
-                .animation(Animation.default.delay(0.4), value: self.animation)
+                  .style(self.font)
+                  .padding(2)
+                  .scaleEffect(self.animation == .percent ? 1.0 : 0.8)
+                  .opacity(self.animation == .percent ? 1.0 : 0.0)
+                  .animation(Animation.default.delay(0.4), value: self.animation)
+                  .foregroundColor(Color.black)
+
+//            BatteryMarqueeView(self.size, font: self.font)
+//                .scaleEffect(self.animation == .percent ? 1.0 : 0.8)
+//                .opacity(self.animation == .percent ? 1.0 : 0.0)
             
         }
         .onAppear() {
@@ -108,6 +207,7 @@ private struct BatteryCharge: View {
             self.animation = self.manager.charging ? .charging : .low
 
         }
+        .animation(Animation.default.delay(0.4), value: self.animation)
         .foregroundColor(Color.black)
         .frame(width: self.size.width, height: self.size.height)
 
@@ -135,12 +235,12 @@ private struct BatteryStatus: View {
             }
             else {
                 Text(self.manager.formatted)
-                    .font(.system(size: self.font, weight: .bold))
                     .frame(width: self.size.width, height: self.size.height)
-                    .lineLimit(1)
-                    .tracking(-0.4)
+                    .style(self.font)
                     .padding(2)
                     .foregroundColor(Color.black)
+                
+//                BatteryMarqueeView(self.size, font: self.font)
                 
             }
             
@@ -165,7 +265,6 @@ private struct BatteryStub: View {
         ZStack {
             BatteryMask(.constant(2)).foregroundColor(Color("BatteryDefault"))
 
-            
         }
         .position(x:proxy.size.width + 1, y:proxy.size.height / 2)
         .frame(width: 1.5, height: 6)
