@@ -23,12 +23,16 @@ This is just a fun project however, with your support, I will be adding...
 
 - [X] **🔋 Battery Replacement**
 - [x] **🚀 Login at Launch**
-- [ ] **➡️ Dynamic Width**
+- [ ] **🟡 System Colour Alerts**
+- [ ] **🪫 Low Power Mode Toggle (Suggested by @Crear12)**
+- [ ] ~~**➡️ Dynamic Width**~~ **Marquee Effect**
 - [ ] **🇲🇽 Multiple Language Support**
 - [ ] **⬇️ Sparkle Intergration**
 - [ ] **🚨 Improved Alerts**
 - [ ] **🏝️ A Dynamic Island-Style Modal with Sexy Indicator**
 - [ ] **📈 More Stats**
+- [ ] **⚙️ App Preferences**
+- [ ] **🎧 Bluetooth Device Support**
 - [ ] **⌨️ Custom Keyboard Shortcuts**
 
 <br>Ideas are welcome. 
@@ -37,7 +41,7 @@ This is just a fun project however, with your support, I will be adding...
 
 ### Q&A
 **Q.** Does this app steal my data? <br>
-**A.** The app **only tracks installs** with [Enalog](https://github.com/thebarbican19/EnalogSwift). If you don't belive me, check the source code.
+**A.** The app **only tracks installs** with [Enalog](https://github.com/thebarbican19/EnalogSwift). If you don't believe me, check the source code.
 <br><br>
 **Q.** Did you make any other sweet sweet apps I can try? <br>
 **A.** Yeah, [SprintDock](https://sprintdock.app) is my masterpeice. Check it out!
