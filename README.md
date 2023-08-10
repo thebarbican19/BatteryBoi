@@ -24,7 +24,7 @@ This is just a fun project however, with your support, I will be adding...
 - [X] **🔋 Battery Replacement**
 - [x] **🚀 Login at Launch**
 - [ ] **🟡 System Colour Alerts**
-- [ ] **🪫 Low Power Mode Toggle (Suggested by @Crear12)**
+- [ ] **🪫 Low Power Mode Toggle** (Suggested by @Crear12)
 - [ ] ~~**➡️ Dynamic Width**~~ **Marquee Effect**
 - [ ] **🇲🇽 Multiple Language Support**
 - [ ] **⬇️ Sparkle Intergration**
