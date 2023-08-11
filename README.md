@@ -50,8 +50,10 @@ This is just a fun project however, with your support, I will be adding...
 **A.** The app **only logs installs** with [Enalog](https://github.com/thebarbican19/EnalogSwift). <br><br>&ensp;&ensp;&ensp;The information captured in this logging event is... <br><br>&ensp;&ensp;&ensp; - **Device Architecture (Silicon or Intel)** <br>
 &ensp;&ensp;&ensp; - **MacOS Version Number**<br>
 &ensp;&ensp;&ensp; - **System Locale (ISO Country Code)** <br>
-&ensp;&ensp;&ensp; - **Theme (Dark/Light Mode)**. <br><br>
-&ensp;&ensp;&ensp; **No personal data or anything that can be remotely attributed to your person is collected, stored, processed, or transferred. Ever!**
+&ensp;&ensp;&ensp; - **Theme (Dark/Light Mode)**. 
+<br><br>
+**Q.** What about Personal Data? <br>
+**A.** No personal data or anything that can be remotely attributed to your person is collected, stored, processed, or transferred. 
 <br><br>
 **Q.** Did you make any other sweet sweet apps I can try? <br>
 **A.** Yeah, [SprintDock](https://sprintdock.app) is my masterpeice. Check it out!
