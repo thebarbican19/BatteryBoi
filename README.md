@@ -7,7 +7,7 @@
 ### Why
 The battery icon really needed an indicator for how much time is left in terms of minutes and hours. So as a fun evening project, I [@MisterMeenr](https://twitter.com/mistermeenr) made it. <br><br>
 
-### H👴🏻w (to Install)
+### How (to Install)
 
 1. You can install the app by downloading the [latest released .DMG file](https://github.com/thebarbican19/BatteryBoi/releases/). This contains an executable version of the app - **you do not need to Xcode to run this.**
 2. Open/mount the DMG file and drag JoeBattery into the Applications Folder. And that's it!
@@ -23,7 +23,7 @@ This is just a fun project however, with your support, I will be adding...
 
 - [X] **🔋 Battery Replacement**
 - [x] **🚀 Login at Launch**
-- [ ] **👴🏻 Support for macOS Monterey (v12)**
+- [x] **👴🏻 Support for macOS Monterey & Big Sur (v11)**
 - [ ] **🟡 System Colour Alerts**
 - [ ] **🪫 Low Power Mode Toggle** (Suggested by @Crear12)
 - [ ] ~~**➡️ Dynamic Width**~~ **Marquee Effect**
@@ -52,7 +52,9 @@ This is just a fun project however, with your support, I will be adding...
 <br><br>
 **Q.** Can I revert back to the old MacOS Battery Indicator?<br>
 **A.** Yes! Go to **System Preferences** > **Control Center** > **Battery** > **Show in Menu Bar** and toggle it on. 
-
+<br><br>
+**Q.** How can I quit the App?<br>
+**A.** Right now, the only way to quit the app is from the **Activity Monitor** App.
 
 <br><br>
 
