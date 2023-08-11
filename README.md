@@ -1,4 +1,6 @@
 # BatteryBoi - A Battery Indicator for Winners
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Github All Releases](https://img.shields.io/github/downloads/thebarbican19/BatteryBoi/total.svg)]()
 
 ![BatteryBoi Promo image](https://pub-3d59231d7ecc43e7af32a82026f9e071.r2.dev/batteryboi-promo.jpeg)
 ### What
