@@ -1,4 +1,4 @@
-  Q211  za    # BatteryBoi - A Battery Indicator for Winners
+t  Q211  za    # BatteryBoi - A Battery Indicator for Winners
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Github All Releases](https://img.shields.io/github/downloads/thebarbican19/BatteryBoi/total.svg)]()
 
@@ -73,7 +73,7 @@ This is just a fun project however, with your support, I will be adding...
 ### Spare some change?
 In a world where almost every app has a reoccurring fee, **BatteryBoi is and will remain open-source and free for everybody!** But if you want to support future development and see some of the roadmap items implemented, then consider donating via this [🔐 Secure Stripe Link](https://donate.stripe.com/5kAg2R7LJ2rkepq14b). Any amount is appreciated. 
 <br><br>
-**Can't afford to pay?** I please share with anyone who has a Mac.
+**Can't afford to pay?** Don't you stress about it! You can support the project simply by sharing it with who ever has a Mac.
 <br><br>
 
 #### Thank you for your consideration.
