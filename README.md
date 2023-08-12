@@ -17,8 +17,8 @@ The battery icon really needed an indicator for how much time is left in terms o
 <br><br>
 
 #### Updates
-BatteryBoi does not currently have support to perform automatic updates. Please 🚶🏻 follow me on [Twitter](https://twitter.com/mistermeenr) or [Github](https://github.com/), or ⭐️ start this repo to follow for release updates. </br>
-alternatively, you can get priority updates to your email if you become a [paid contributor](https://donate.stripe.com/5kAg2R7LJ2rkepq14b).
+BatteryBoi does not currently have support to perform automatic updates. Please 🚶🏻 follow me on [Twitter](https://twitter.com/mistermeenr) or [Github](https://github.com/), or ⭐️ start this repo to follow for release updates. </br></br>
+Alternatively, you can get priority updates to your email if you become a [paid contributor](https://donate.stripe.com/5kAg2R7LJ2rkepq14b).
 <br><br>
 
 ### Roadmap
@@ -71,9 +71,9 @@ This is just a fun project however, with your support, I will be adding...
 <br><br>
 
 ### Spare some change?
-**BatteryBoi is and will remain open-source and free for everybody!** But if you want to support future development and see some of the roadmap items implemented, then consider donating via this [🔐 Secure Stripe Link](https://donate.stripe.com/5kAg2R7LJ2rkepq14b). Any amount is appreciated. 
+In a world where almost every app has a reoccurring fee, **BatteryBoi is and will remain open-source and free for everybody!** But if you want to support future development and see some of the roadmap items implemented, then consider donating via this [🔐 Secure Stripe Link](https://donate.stripe.com/5kAg2R7LJ2rkepq14b). Any amount is appreciated. 
 <br><br>
-Can't afford to pay? Then please share with anyone who has a Mac.
+**Can't afford to pay?** I please share with anyone who has a Mac.
 <br><br>
 
 #### Thank you for your consideration.
