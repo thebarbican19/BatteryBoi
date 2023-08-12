@@ -1,4 +1,4 @@
-# BatteryBoi - A Battery Indicator for Winners
+  Q211  za    # BatteryBoi - A Battery Indicator for Winners
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Github All Releases](https://img.shields.io/github/downloads/thebarbican19/BatteryBoi/total.svg)]()
 
@@ -17,7 +17,8 @@ The battery icon really needed an indicator for how much time is left in terms o
 <br><br>
 
 #### Updates
-BatteryBoi does not currently have support to perform automatic updates. Please 🚶🏻 follow or ⭐️ start this repo to follow for release updates. 
+BatteryBoi does not currently have support to perform automatic updates. Please 🚶🏻 follow me on [Twitter](https://twitter.com/mistermeenr) or [Github](https://github.com/), or ⭐️ start this repo to follow for release updates. </br>
+alternatively, you can get priority updates to your email if you become a [paid contributor](https://donate.stripe.com/5kAg2R7LJ2rkepq14b).
 <br><br>
 
 ### Roadmap
@@ -71,6 +72,8 @@ This is just a fun project however, with your support, I will be adding...
 
 ### Spare some change?
 **BatteryBoi is and will remain open-source and free for everybody!** But if you want to support future development and see some of the roadmap items implemented, then consider donating via this [🔐 Secure Stripe Link](https://donate.stripe.com/5kAg2R7LJ2rkepq14b). Any amount is appreciated. 
+<br><br>
+Can't afford to pay? Then please share with anyone who has a Mac.
 <br><br>
 
 #### Thank you for your consideration.
