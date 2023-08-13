@@ -1,4 +1,4 @@
-t  Q211  za    # BatteryBoi - A Battery Indicator for Winners
+# BatteryBoi - A Battery Indicator for Winners
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Github All Releases](https://img.shields.io/github/downloads/thebarbican19/BatteryBoi/total.svg)]()
 
