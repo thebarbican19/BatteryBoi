@@ -4,26 +4,31 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Github All Releases](https://img.shields.io/github/downloads/thebarbican19/BatteryBoi/total.svg)]()
 # BatteryBoi - A Battery Indicator to Rule Them All!
-
-### What
 **BatteryBoi** is a **replacement Battery Indicator for the MacOS Menu Bar**. <br><br>
 
-### Why
-The battery icon really needed an indicator for how much time is left in terms of minutes and hours. So as a fun evening project, I ([@MisterMeenr](https://twitter.com/mistermeenr)) made it. <br><br>
+## Why
+The battery icon really needed an indicator for how much time is left in terms of minutes and hours. So as a fun evening project, I ([@MisterMeenr](https://twitter.com/mistermeenr)) made it. <br><br><br>
 
-### How (to Install)
+## How (to Install)
 
 1. You can install the app by downloading the [latest released .DMG file](https://github.com/thebarbican19/BatteryBoi/releases/). This contains an executable version of the app - **you do not need to Xcode to run this.**
 2. Open/mount the DMG file and drag BatteryBoi into the Applications Folder. And that's it!
 3. You can hide the default battery icon by going to **System Preferences** > **Control Center** > **Battery** > **Show in Menu Bar**
-<br><br>
+<br><br><br>
 
-#### Updates
+### Updates
 BatteryBoi does not currently have support to perform automatic updates. Please 🚶🏻 follow me on [Twitter](https://twitter.com/mistermeenr) or [Github](https://github.com/), or ⭐️ start this repo to follow for release updates. </br></br>
 Alternatively, you can get priority updates to your email if you become a [paid contributor](https://donate.stripe.com/5kAg2R7LJ2rkepq14b).
-<br><br>
+<br><br><br>
 
-### Roadmap
+### Works On...
+**BatteryBoi** runs on **both Intel & Silicon (M1 & M2)** for the following MacOS versions
+- 11.0 (Big Sur)
+- 12.0 (Monterey)
+- 13.0 (Ventura)
+- 14.0 (Sonoma)
+<br><br><br>
+## Roadmap
 This is just a fun project however, with your support, I will be adding...
 
 - [X] **🔋 Battery Replacement**
@@ -43,9 +48,9 @@ This is just a fun project however, with your support, I will be adding...
 
 <br>Ideas are welcome. 
 
-<br><br>
+<br><br><br>
 
-### Q&A
+## Q&A
 **Q.** Is the app GDPR compliment?<br>
 **A.** BatteryBoi does not collect, store, process, or transfer any personal information as defined by Article 4, Section 1 of the GDPR
 <br><br>
@@ -70,9 +75,9 @@ This is just a fun project however, with your support, I will be adding...
 **Q.** How can I quit the App?<br>
 **A.** Right now, the only way to quit the app is from the **Activity Monitor** App.
 
-<br><br>
+<br><br><br>
 
-### Spare some change?
+## Spare some change?
 In a world where almost every app has a reoccurring fee, **BatteryBoi is and will remain open-source and free for everybody!** But if you want to support future development and see some of the roadmap items implemented, then consider donating via this [🔐 Secure Stripe Link](https://donate.stripe.com/5kAg2R7LJ2rkepq14b). Any amount is appreciated. 
 <br><br>
 **Can't afford to pay?** Don't you stress about it! You can support the project simply by sharing it with who ever has a Mac.
