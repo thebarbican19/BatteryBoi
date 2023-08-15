@@ -1,13 +1,15 @@
-# BatteryBoi - A Battery Indicator for Winners
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Github All Releases](https://img.shields.io/github/downloads/thebarbican19/BatteryBoi/total.svg)]()
 
 ![BatteryBoi Promo image](https://pub-3d59231d7ecc43e7af32a82026f9e071.r2.dev/batteryboi-promo.jpeg)
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Github All Releases](https://img.shields.io/github/downloads/thebarbican19/BatteryBoi/total.svg)]()
+# BatteryBoi - A Battery Indicator to Rule Them All!
+
 ### What
 **BatteryBoi** is a **replacement Battery Indicator for the MacOS Menu Bar**. <br><br>
 
 ### Why
-The battery icon really needed an indicator for how much time is left in terms of minutes and hours. So as a fun evening project, I [@MisterMeenr](https://twitter.com/mistermeenr) made it. <br><br>
+The battery icon really needed an indicator for how much time is left in terms of minutes and hours. So as a fun evening project, I ([@MisterMeenr](https://twitter.com/mistermeenr)) made it. <br><br>
 
 ### How (to Install)
 
@@ -44,7 +46,7 @@ This is just a fun project however, with your support, I will be adding...
 <br><br>
 
 ### Q&A
-**Q.** Is the app GDRP compliment?<br>
+**Q.** Is the app GDPR compliment?<br>
 **A.** BatteryBoi does not collect, store, process, or transfer any personal information as defined by Article 4, Section 1 of the GDPR
 <br><br>
 **Q.** Does this app steal my data? <br>
