@@ -32,7 +32,7 @@ Alternatively, you can get priority updates to your email if you become a [paid 
 - 12.0 (Monterey)
 - 13.0 (Ventura)
 - 14.0 (Sonoma)
-- [*.0 (Big Chungus)](https://twitter.com/mistermeenr/status/1643378900313964544?s=20)
+- *.0 [(Big Chungus)](https://twitter.com/mistermeenr/status/1643378900313964544?s=20)
 
 <br><br><br>
 ## Roadmap
