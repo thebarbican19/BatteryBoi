@@ -85,9 +85,9 @@ This is just a fun project however, with your support, I will be adding...
 <br><br><br>
 
 ## Spare some change?
-In a world where almost every app has a reoccurring fee, **BatteryBoi is and will remain open-source and free for everybody!** But if you want to support future development and see some of the roadmap items implemented, then consider donating via this [🔐 Secure Stripe Link](https://donate.stripe.com/5kAg2R7LJ2rkepq14b). Any amount is appreciated. 
+In a world where almost every app has a reoccurring fee, **BatteryBoi is and will remain open-source and free for everybody!** But if you want to support future development and see some of the roadmap items implemented, then consider donating via our website [batteryboi.ovatar.io](https://batteryboi.ovatar.io/). Any amount is appreciated. 
 <br><br>
-**Can't afford to pay?** Don't you stress about it! You can support the project simply by sharing it with who ever has a Mac.
+**Can't afford to pay?** Don't you stress about it! You can support the project simply by sharing it with whoever has a Mac.
 <br><br>
 
 #### Thank you for your consideration.
