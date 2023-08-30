@@ -1,5 +1,5 @@
 
-![BatteryBoi Promo image]([https://pub-3d59231d7ecc43e7af32a82026f9e071.r2.dev/batteryboi-promo.jpeg](https://pub-3d59231d7ecc43e7af32a82026f9e071.r2.dev/BatteryBoi%20Poster.jpg))
+![BatteryBoi Promo image](https://pub-3d59231d7ecc43e7af32a82026f9e071.r2.dev/BatteryBoi%20Poster.jpg)
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![GitHub Sponsors](https://img.shields.io/github/sponsors/thebarbican19)
