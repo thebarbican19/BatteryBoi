@@ -1,0 +1,13 @@
+//
+//  DEnviroments.xcconfig
+//  BatteryBoi
+//
+//  Created by Joe Barbour on 8/9/23.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+SD_ENALOG_KEY = F1908DM0WIFYECGGNN3WDTDP
+
+SD_SLACK_CHANNEL = C05N4FHJSUB

@@ -1,0 +1,43 @@
+"AlertSomePercentTitle" = "%d%% Restante"; // 90% Restante
+"AlertOnePercentTitle" = "Seu Mac está prestes a Desligar";
+"AlertChargingTitle" = "Carregando...";
+"AlertChargingStoppedTitle" = "Carregador Removido";
+"AlertChargingCompleteTitle" = "Carga Completa";
+"AlertDeviceConnectedTitle" = "'%@' Conectado"; // 'Fones de Ouvido do Joe' Conectado
+"AlertDeviceDisconnectedTitle" = "'%@' Desconectado"; // 'Fones de Ouvido do Joe' Desconectado
+"AlertDeviceUnknownTitle" = "Desconhecido";
+"AlertDeviceCalculatingTitle" = "Calculando...";
+
+"AlertEstimateSummary" = "**%@** até esgotar"; // 1 hora, 32 minutos até esgotar
+"AlertPercentSummary" = "Hora de pegar o cabo!";
+"AlertStartedChargeSummary" = "Carga completa às **%@**."; // Carga completa às 2:32pm
+"AlertChargedSummary" = "Sua bateria está completamente carregada.";
+
+"TimestampHourFullLabel_Plural" = "%d horas";
+"TimestampHourFullLabel_Single" = "%d hora";
+"TimestampMinuteFullLabel_Plural" = "%d minutos";
+"TimestampMinuteFullLabel_Single" = "%d minuto";
+"TimestampMinuteDaysLabel_Plural" = "%d dias";
+"TimestampHourAbbriviatedLabel" = "h";
+"TimestampMinuteAbbriviatedLabel" = "m";
+"TimestampDayAbbriviatedLabel" = "d";
+"TimestampNeverLabel" = "Nunca";
+"TimestampNowLabel" = "Há Poucos Momentos";
+
+"SettingsWebsiteLabel" = "Site";
+"SettingsQuitLabel" = "Sair";
+"SettingsThemeLabel" = "Aparência";
+"SettingsEfficiencyLabel" = "Baixo Consumo";
+"SettingsCheckUpdatesLabel" = "Verificar Atualizações";
+"SettingsNewUpdateLabel" = "Instalar Nova Atualização";
+"SettingsDisplayLabel" = "Exibir";
+"SettingsDisplayPercentLabel" = "Porcentagem";
+"SettingsDisplayEstimateLabel" = "Tempo";
+"SettingsDisplayNoneLabel" = "Nenhum";
+"SettingsEnabledLabel" = "Ativado";
+"SettingsDisabledLabel" = "Desativado";
+
+"UpdateStatusCheckingLabel" = "Verificando Atualizações...";
+"UpdateStatusIdleLabel" = "Última Verificação: %@"; // Última Verificação: há 4 horas
+"UpdateStatusEmptyLabel" = "Nenhuma Atualização Disponível";
+"UpdateStatusNewLabel" = "%@ está Disponível!"; // Versão 1 está Disponível

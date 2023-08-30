@@ -1,0 +1,43 @@
+"AlertSomePercentTitle" = "%d%% verbleiben"; // 90% verbleiben
+"AlertOnePercentTitle" = "Ihr Mac wird gleich herunterfahren";
+"AlertChargingTitle" = "Lädt...";
+"AlertChargingStoppedTitle" = "Ladegerät entfernt";
+"AlertChargingCompleteTitle" = "Ladevorgang abgeschlossen";
+"AlertDeviceConnectedTitle" = "'%@' verbunden"; //'Joes Kopfhörer' verbunden
+"AlertDeviceDisconnectedTitle" = "'%@' getrennt"; //'Joes Kopfhörer' getrennt
+"AlertDeviceUnknownTitle" = "Unbekannt";
+"AlertDeviceCalculatingTitle" = "Berechne...";
+
+"AlertEstimateSummary" = "**%@** bis leer"; // 1 Stunde, 32 Minuten bis leer
+"AlertPercentSummary" = "Zeit, das Kabel zu holen!";
+"AlertStartedChargeSummary" = "Vollständig geladen um **%@**."; // Vollständig geladen um 14:32 Uhr
+"AlertChargedSummary" = "Ihr Akku ist vollständig geladen.";
+
+"TimestampHourFullLabel_Plural" = "%d Stunden";
+"TimestampHourFullLabel_Single" = "%d Stunde";
+"TimestampMinuteFullLabel_Plural" = "%d Minuten";
+"TimestampMinuteFullLabel_Single" = "%d Minute";
+"TimestampMinuteDaysLabel_Plural" = "%d Tage";
+"TimestampHourAbbriviatedLabel" = "Std";
+"TimestampMinuteAbbriviatedLabel" = "Min";
+"TimestampDayAbbriviatedLabel" = "Tg";
+"TimestampNeverLabel" = "Nie";
+"TimestampNowLabel" = "Vor einigen Augenblicken";
+
+"SettingsWebsiteLabel" = "Webseite";
+"SettingsQuitLabel" = "Beenden";
+"SettingsThemeLabel" = "Erscheinungsbild";
+"SettingsEfficiencyLabel" = "Energiesparmodus";
+"SettingsCheckUpdatesLabel" = "Nach Updates suchen";
+"SettingsNewUpdateLabel" = "Neues Update installieren";
+"SettingsDisplayLabel" = "Anzeige";
+"SettingsDisplayPercentLabel" = "Prozentsatz";
+"SettingsDisplayEstimateLabel" = "Zeit";
+"SettingsDisplayNoneLabel" = "Keine";
+"SettingsEnabledLabel" = "Aktiviert";
+"SettingsDisabledLabel" = "Deaktiviert";
+
+"UpdateStatusCheckingLabel" = "Suche nach Updates...";
+"UpdateStatusIdleLabel" = "Zuletzt überprüft: %@"; // Zuletzt überprüft: vor 4 Stunden
+"UpdateStatusEmptyLabel" = "Keine Updates verfügbar";
+"UpdateStatusNewLabel" = "%@ ist verfügbar!"; // Zuletzt überprüft: vor 4 Stunden

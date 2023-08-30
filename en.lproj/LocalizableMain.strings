@@ -1,0 +1,43 @@
+"AlertSomePercentTitle" = "%d%% Remaining"; // 90% Remaining
+"AlertOnePercentTitle" = "Your Mac is about to Power Down";
+"AlertChargingTitle" = "Charging...";
+"AlertChargingStoppedTitle" = "Charger Removed";
+"AlertChargingCompleteTitle" = "Charging Complete";
+"AlertDeviceConnectedTitle" = "'%@' Connected"; //'Joe's Headphones' Connected
+"AlertDeviceDisconnectedTitle" = "'%@' Disconnected"; //'Joe's Headphones' Disconnected
+"AlertDeviceUnknownTitle" = "Unknown";
+"AlertDeviceCalculatingTitle" = "Calculating...";
+
+"AlertEstimateSummary" = "**%@** until empty"; // 1 hour, 32 minutes until empty
+"AlertPercentSummary" = "Time to grab the cable!";
+"AlertStartedChargeSummary" = "Fully charged at **%@**."; // Fully charged at 2:32pm
+"AlertChargedSummary" = "Your battery is fully charged.";
+
+"TimestampHourFullLabel_Plural" = "%d hours";
+"TimestampHourFullLabel_Single" = "%d hour";
+"TimestampMinuteFullLabel_Plural" = "%d minutes";
+"TimestampMinuteFullLabel_Single" = "%d minute";
+"TimestampMinuteDaysLabel_Plural" = "%d days";
+"TimestampHourAbbriviatedLabel" = "h";
+"TimestampMinuteAbbriviatedLabel" = "m";
+"TimestampDayAbbriviatedLabel" = "d";
+"TimestampNeverLabel" = "Never";
+"TimestampNowLabel" = "A Few Moments Ago";
+
+"SettingsWebsiteLabel" = "Website";
+"SettingsQuitLabel" = "Quit";
+"SettingsThemeLabel" = "Appearance";
+"SettingsEfficiencyLabel" = "Low Power";
+"SettingsCheckUpdatesLabel" = "Check for Updates";
+"SettingsNewUpdateLabel" = "Install New Update";
+"SettingsDisplayLabel" = "Display";
+"SettingsDisplayPercentLabel" = "Percentage";
+"SettingsDisplayEstimateLabel" = "Time";
+"SettingsDisplayNoneLabel" = "None";
+"SettingsEnabledLabel" = "Enabled";
+"SettingsDisabledLabel" = "Disabled";
+
+"UpdateStatusCheckingLabel" = "Checking for Updates...";
+"UpdateStatusIdleLabel" = "Last Checked: %@"; // Last Checked: 4 hours ago
+"UpdateStatusEmptyLabel" = "No Updates Available";
+"UpdateStatusNewLabel" = "%@ is Available!"; // Version 1 is Available

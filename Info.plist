@@ -4,7 +4,17 @@
 <dict>
 	<key>EN_API_KEY</key>
 	<string>$(SD_ENALOG_KEY)</string>
-    <key>EN_PROJECT_NAME</key>
-    <string>BatteryBoi</string>
+	<key>EN_PROJECT_NAME</key>
+	<string>BatteryBoi</string>
+	<key>SD_SLACK_CHANNEL</key>
+	<string>$(SD_SLACK_CHANNEL)</string>
+	<key>MDItemKeywords</key>
+	<string>Battery,Power,BatteryBoi</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>We need access to Bluetooth to show the Battery Status for your Connected Devices.</string>
+	<key>SUPublicEDKey</key>
+	<string>t1V9elylrpBkN0l4EkNxs7eEGVLF3Yd0P0sKDXqxfoA=</string>
+	<key>SUFeedURL</key>
+	<string>https://api.ovatar.io/version.xml?id=com.ovatar.batteryapp</string>
 </dict>
 </plist>

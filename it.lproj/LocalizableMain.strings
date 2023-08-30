@@ -1,0 +1,43 @@
+"AlertSomePercentTitle" = "Rimangono %d%%"; // 90% Rimangono
+"AlertOnePercentTitle" = "Il tuo Mac sta per spegnersi";
+"AlertChargingTitle" = "In carica...";
+"AlertChargingStoppedTitle" = "Caricatore rimosso";
+"AlertChargingCompleteTitle" = "Carica completata";
+"AlertDeviceConnectedTitle" = "'%@' Connesso"; //'Cuffie di Joe' Connesse
+"AlertDeviceDisconnectedTitle" = "'%@' Disconnesso"; //'Cuffie di Joe' Disconnesse
+"AlertDeviceUnknownTitle" = "Sconosciuto";
+"AlertDeviceCalculatingTitle" = "Calcolo in corso...";
+
+"AlertEstimateSummary" = "**%@** fino a esaurimento"; // 1 ora, 32 minuti fino a esaurimento
+"AlertPercentSummary" = "È ora di prendere il cavo!";
+"AlertStartedChargeSummary" = "Completamente carico alle **%@**."; // Completamente carico alle 14:32
+"AlertChargedSummary" = "La tua batteria è completamente carica.";
+
+"TimestampHourFullLabel_Plural" = "%d ore";
+"TimestampHourFullLabel_Single" = "%d ora";
+"TimestampMinuteFullLabel_Plural" = "%d minuti";
+"TimestampMinuteFullLabel_Single" = "%d minuto";
+"TimestampMinuteDaysLabel_Plural" = "%d giorni";
+"TimestampHourAbbriviatedLabel" = "h";
+"TimestampMinuteAbbriviatedLabel" = "m";
+"TimestampDayAbbriviatedLabel" = "d";
+"TimestampNeverLabel" = "Mai";
+"TimestampNowLabel" = "Pochi istanti fa";
+
+"SettingsWebsiteLabel" = "Sito web";
+"SettingsQuitLabel" = "Esci";
+"SettingsThemeLabel" = "Aspetto";
+"SettingsEfficiencyLabel" = "Risparmio energetico";
+"SettingsCheckUpdatesLabel" = "Cerca aggiornamenti";
+"SettingsNewUpdateLabel" = "Installa nuovo aggiornamento";
+"SettingsDisplayLabel" = "Schermo";
+"SettingsDisplayPercentLabel" = "Percentuale";
+"SettingsDisplayEstimateLabel" = "Tempo";
+"SettingsDisplayNoneLabel" = "Nessuno";
+"SettingsEnabledLabel" = "Abilitato";
+"SettingsDisabledLabel" = "Disabilitato";
+
+"UpdateStatusCheckingLabel" = "Controllo aggiornamenti...";
+"UpdateStatusIdleLabel" = "Ultimo controllo: %@"; // Ultimo controllo: 4 ore fa
+"UpdateStatusEmptyLabel" = "Nessun aggiornamento disponibile";
+"UpdateStatusNewLabel" = "%@ è disponibile!"; // Versione 1 è disponibile

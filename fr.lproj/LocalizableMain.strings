@@ -1,0 +1,43 @@
+"AlertSomePercentTitle" = "%d%% restants"; // 90% restants
+"AlertOnePercentTitle" = "Votre Mac est sur le point de s'éteindre";
+"AlertChargingTitle" = "En charge...";
+"AlertChargingStoppedTitle" = "Chargeur retiré";
+"AlertChargingCompleteTitle" = "Charge complète";
+"AlertDeviceConnectedTitle" = "'%@' connecté"; // 'Écouteurs de Joe' connectés
+"AlertDeviceDisconnectedTitle" = "'%@' déconnecté"; // 'Écouteurs de Joe' déconnectés
+"AlertDeviceUnknownTitle" = "Inconnu";
+"AlertDeviceCalculatingTitle" = "Calcul en cours...";
+
+"AlertEstimateSummary" = "**%@** jusqu'à épuisement"; // 1 heure, 32 minutes jusqu'à épuisement
+"AlertPercentSummary" = "Il est temps de prendre le câble!";
+"AlertStartedChargeSummary" = "Complètement chargé à **%@**."; // Complètement chargé à 14h32
+"AlertChargedSummary" = "Votre batterie est complètement chargée.";
+
+"TimestampHourFullLabel_Plural" = "%d heures"; 
+"TimestampHourFullLabel_Single" = "%d heure";
+"TimestampMinuteFullLabel_Plural" = "%d minutes";
+"TimestampMinuteFullLabel_Single" = "%d minute";
+"TimestampMinuteDaysLabel_Plural" = "%d jours";
+"TimestampHourAbbriviatedLabel" = "h";
+"TimestampMinuteAbbriviatedLabel" = "m";
+"TimestampDayAbbriviatedLabel" = "j";
+"TimestampNeverLabel" = "Jamais";
+"TimestampNowLabel" = "Il y a quelques instants";
+
+"SettingsWebsiteLabel" = "Site web";
+"SettingsQuitLabel" = "Quitter";
+"SettingsThemeLabel" = "Apparence";
+"SettingsEfficiencyLabel" = "Économie d'énergie";
+"SettingsCheckUpdatesLabel" = "Vérifier les mises à jour";
+"SettingsNewUpdateLabel" = "Installer la nouvelle mise à jour";
+"SettingsDisplayLabel" = "Affichage";
+"SettingsDisplayPercentLabel" = "Pourcentage";
+"SettingsDisplayEstimateLabel" = "Temps";
+"SettingsDisplayNoneLabel" = "Aucun";
+"SettingsEnabledLabel" = "Activé";
+"SettingsDisabledLabel" = "Désactivé";
+
+"UpdateStatusCheckingLabel" = "Recherche de mises à jour...";
+"UpdateStatusIdleLabel" = "Dernière vérification : %@"; // Dernière vérification : il y a 4 heures
+"UpdateStatusEmptyLabel" = "Pas de mises à jour disponibles";
+"UpdateStatusNewLabel" = "%@ est disponible!"; // Version 1 est disponible
