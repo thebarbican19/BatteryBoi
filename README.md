@@ -21,11 +21,6 @@ The battery icon really needed an indicator for how much time is left in terms o
 3. You can hide the default battery icon by going to **System Preferences** > **Control Center** > **Battery** > **Show in Menu Bar**
 <br><br><br>
 
-### Updates
-BatteryBoi does not currently have support to perform automatic updates. Please 🚶🏻 follow me on [Twitter](https://twitter.com/mistermeenr) or [Github](https://github.com/), or ⭐️ start this repo to follow for release updates. </br></br>
-Alternatively, you can get priority updates to your email if you become a [paid contributor](https://donate.stripe.com/5kAg2R7LJ2rkepq14b).
-<br><br><br>
-
 ### Works On...
 **BatteryBoi** runs on **both Intel & Silicon (M1 & M2)** for the following MacOS versions
 - 11.0 (Big Sur)
@@ -42,14 +37,13 @@ This is just a fun project however, with your support, I will be adding...
 - [x] **🚀 Login at Launch**
 - [x] **👴🏻 Support for macOS Monterey & Big Sur (v11)**
 - [ ] **🟡 System Colour Alerts**
-- [ ] **🪫 Low Power Mode Toggle** (Suggested by @Crear12)
-- [ ] ~~**➡️ Dynamic Width**~~ **Marquee Effect**
+- [x] **🪫 Low Power Mode Toggle** (Suggested by @Crear12)
 - [ ] **🇲🇽 Multiple Language Support**
-- [ ] **⬇️ Sparkle Intergration**
-- [ ] **🚨 Improved Alerts**
-- [ ] **🏝️ A Dynamic Island-Style Modal with Sexy Indicator**
+- [x] **⬇️ Sparkle Intergration**
+- [x] **🚨 Improved Alerts**
+- [x] **🏝️ A Dynamic Island-Style Modal with Sexy Indicator**
 - [ ] **📈 More Stats**
-- [ ] **⚙️ App Preferences**
+- [x] **⚙️ App Preferences**
 - [ ] **🎧 Bluetooth Device Support**
 - [ ] **⌨️ Custom Keyboard Shortcuts**
 
@@ -79,8 +73,6 @@ This is just a fun project however, with your support, I will be adding...
 **Q.** Can I revert back to the old MacOS Battery Indicator?<br>
 **A.** Yes! Go to **System Preferences** > **Control Center** > **Battery** > **Show in Menu Bar** and toggle it on. 
 <br><br>
-**Q.** How can I quit the App?<br>
-**A.** Right now, the only way to quit the app is from the **Activity Monitor** App.
 
 <br><br><br>
 
