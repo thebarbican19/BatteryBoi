@@ -1,5 +1,5 @@
 
-![BatteryBoi Promo image](https://pub-3d59231d7ecc43e7af32a82026f9e071.r2.dev/batteryboi-promo.jpeg)
+![BatteryBoi Promo image]([https://pub-3d59231d7ecc43e7af32a82026f9e071.r2.dev/batteryboi-promo.jpeg](https://pub-3d59231d7ecc43e7af32a82026f9e071.r2.dev/BatteryBoi Poster.jpg))
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![GitHub Sponsors](https://img.shields.io/github/sponsors/thebarbican19)
@@ -31,7 +31,7 @@ The battery icon really needed an indicator for how much time is left in terms o
 
 <br><br><br>
 ## Roadmap
-This is just a fun project however, with your support, I will be adding...
+With continued support, I will be adding...
 
 - [X] **🔋 Battery Replacement**
 - [x] **🚀 Login at Launch**
