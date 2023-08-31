@@ -35,7 +35,7 @@ However, because of popular demand, the scope of this project has expanded signi
 <br><br><br>
 
 ## Localization
-Has been Localized into the following languages, either by way of auto-translation or by direct translation by the community.
+**BatteryBoi (v2.0.0)** Has been Localized into the following languages, either by way of auto-translation or by direct translation by the community.
 
 #### Verified
 - 🇬🇧 [English](https://github.com/thebarbican19/BatteryBoi/blob/main/en.lproj/LocalizableMain.strings)
