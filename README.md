@@ -12,7 +12,7 @@
 **BatteryBoi** is a **replacement Battery Indicator for the MacOS Menu Bar**. <br><br>
 
 ## Why
-The battery icon really needed an indicator for how much time is left in terms of minutes and hours. So as a fun evening project, I ([@MisterMeenr](https://twitter.com/mistermeenr)) made it. <br><br><br>
+The battery icon really needed an indicator for how much time is left in terms of minutes and hours. So as a fun evening project, I ([@MisterMeenr](https://twitter.com/mistermeenr)) made it. However, because of popular demand, the scope of this project has expanded significantly to be a full-fledge battery app giving you notifications and insights into your battery, and even your connected devices (Bluetooth support coming very soon!)<br><br><br>
 
 ## How (to Install)
 
