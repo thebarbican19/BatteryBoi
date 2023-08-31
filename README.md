@@ -74,6 +74,7 @@ With continued support, I will be adding...
 - [ ] **☀️ Light Mode**
 - [ ] **🎨 Customisation View**
 - [ ] **📈 More Stats**
+- [ ] **↗️ Move and Snap to Position**
 - [x] **⚙️ App Preferences**
 - [ ] **🎧 Bluetooth Device Support**
 - [ ] **⌨️ Custom Keyboard Shortcuts**
