@@ -16,6 +16,12 @@ The battery icon really needed an indicator for how much time is left in terms o
 
 <br>
 However, because of popular demand, the scope of this project has expanded significantly to be a full-fledged, open-source, completely free battery app giving you beautiful notifications and insights into your battery, and even your connected devices (Bluetooth support coming very soon!).<br><br><br>
+<br>
+
+## Product Hunt Launch 🚀
+**BatteryBoi will be going live on [Product Hunt](https://www.producthunt.com/products/batteryboi)** on **Tuesday 5th September**. Please please help by upvoting and sharing the word before, during, and after! 
+
+<br><br>
 
 ## How (to Install)
 
