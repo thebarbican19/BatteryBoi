@@ -48,7 +48,7 @@ Has been Localized into the following languages, either by way of auto-translati
 - 🇮🇹 [Italian](https://github.com/thebarbican19/BatteryBoi/blob/main/it.lproj/LocalizableMain.strings)
 
 <br>
-If you would like to help by verifying your native language, or if it is not yet on the list adding it please see the [Localization Issue](https://github.com/thebarbican19/BatteryBoi/issues/12) on GitHub
+If you would like to help by verifying your native language, or if it is not yet on the list adding it please see the [Localization Documentation](https://github.com/thebarbican19/BatteryBoi/issues/12)
 
 
 
