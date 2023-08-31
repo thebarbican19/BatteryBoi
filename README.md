@@ -30,6 +30,29 @@ The battery icon really needed an indicator for how much time is left in terms o
 - 15.0 [(Big Chungus)](https://twitter.com/mistermeenr/status/1643378900313964544?s=20)
 
 <br><br><br>
+
+## Localization
+Has been Localized into the following languages, either by way of auto-translation or by direct translation by the community.
+
+#### Verified
+- 🇬🇧 [English](https://github.com/thebarbican19/BatteryBoi/blob/main/en.lproj/LocalizableMain.strings)
+- 🇯🇵 [Japanese](https://github.com/thebarbican19/BatteryBoi/blob/main/jp.lproj/LocalizableMain.strings) (Provided by [@fus1ondev](https://github.com/fus1ondev))
+
+#### Unverified/Auto-Translated
+- 🇩🇪 [German](https://github.com/thebarbican19/BatteryBoi/blob/main/de.lproj/LocalizableMain.strings)
+- 🇪🇸 [Spanish (Traditional)](https://github.com/thebarbican19/BatteryBoi/blob/main/en.lproj/LocalizableMain.strings)
+- 🇲🇽 [Spanish (Latin America)](https://github.com/thebarbican19/BatteryBoi/blob/main/es-419.lproj/LocalizableMain.strings)
+- 🇫🇷 [French](https://github.com/thebarbican19/BatteryBoi/blob/main/fr.lproj/LocalizableMain.strings)
+- 🇵🇹 [Portuguese (Traditional)](https://github.com/thebarbican19/BatteryBoi/blob/main/pt-PT.lproj/LocalizableMain.strings)
+- 🇧🇷 [Portuguese (Brazil)](https://github.com/thebarbican19/BatteryBoi/blob/main/pt-BR.lproj/LocalizableMain.strings)
+- 🇮🇹 [Italian](https://github.com/thebarbican19/BatteryBoi/blob/main/it.lproj/LocalizableMain.strings)
+
+<br>
+If you would like to help by verifying your native language, or if it is not yet on the list adding it please see the [Localization Issue](https://github.com/thebarbican19/BatteryBoi/issues/12) on GitHub
+
+
+
+<br><br><br>
 ## Roadmap
 With continued support, I will be adding...
 
@@ -37,8 +60,8 @@ With continued support, I will be adding...
 - [x] **🚀 Login at Launch**
 - [x] **👴🏻 Support for macOS Monterey & Big Sur (v11)**
 - [ ] **🟡 System Colour Alerts**
-- [x] **🪫 Low Power Mode Toggle** (Suggested by @Crear12)
-- [ ] **🇲🇽 Multiple Language Support**
+- [x] **🪫 Low Power Mode Toggle** (Suggested by [@Crear12](https://github.com/Crear12))
+- [x] **🇲🇽 Multiple Language Support**
 - [x] **⬇️ Sparkle Intergration**
 - [x] **🚨 Improved Alerts**
 - [x] **🏝️ A Dynamic Island-Style Modal with Sexy Indicator**
