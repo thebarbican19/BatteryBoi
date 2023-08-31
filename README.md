@@ -35,7 +35,7 @@ However, because of popular demand, the scope of this project has expanded signi
 <br><br><br>
 
 ## Localization
-**BatteryBoi (v2.0.0)** Has been Localized into the following languages, either by way of auto-translation or by direct translation by the community.
+**BatteryBoi** has been Localized into the following languages, either by way of auto-translation or by direct translation by the community.
 
 #### Verified
 - 🇬🇧 [English](https://github.com/thebarbican19/BatteryBoi/blob/main/en.lproj/LocalizableMain.strings)
@@ -103,7 +103,7 @@ With continued support, I will be adding...
 <br><br><br>
 
 ## Spare some change?
-In a world where almost every app has a recurring fee, **BatteryBoi is and will remain open-source and free for everybody!** But if you want to support future development and see some of the roadmap items implemented, then consider donating via our website [batteryboi.ovatar.io](https://batteryboi.ovatar.io/) or via  my [GitHub Sponsor page](https://github.com/sponsors/thebarbican19). Any amount is appreciated. 
+In a world where almost every app has a recurring fee, **BatteryBoi is and will remain open-source and free for everybody!** But if you want to support future development and see some of the roadmap items implemented, then consider donating via our website [batteryboi.ovatar.io](https://batteryboi.ovatar.io/) or via  my [GitHub Sponsor page](https://github.com/sponsors/thebarbican19).
 <br><br>
 **Can't afford to pay?** Don't you stress about it! You can support the project simply by sharing it with whoever has a Mac, or even just by ⭐️ this project.
 <br><br>
