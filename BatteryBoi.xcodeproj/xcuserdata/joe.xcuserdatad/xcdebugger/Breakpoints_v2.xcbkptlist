@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "5DFB315C-CB0C-43A2-9DFB-B359C949A883"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F9B27D5F-F795-4888-A23A-059E0A71691E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BatteryBoi/Objects/JSettingsManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "enabledAutoLaunch"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5D9D36C2-F30B-480E-98EB-6D54192873DD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "315"
+            endingLineNumber = "315"
+            landmarkName = "ingest(_:description:metadata:tags:channel:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5D9D36C2-F30B-480E-98EB-6D54192873DD - b89b94bbb69af62d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "318"
+                  endingLineNumber = "318"
+                  offsetFromSymbolStart = "3585">
+               </Location>
+               <Location
+                  uuid = "5D9D36C2-F30B-480E-98EB-6D54192873DD - b89b94bbb69a89c8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "315"
+                  endingLineNumber = "315"
+                  offsetFromSymbolStart = "5099">
+               </Location>
+               <Location
+                  uuid = "5D9D36C2-F30B-480E-98EB-6D54192873DD - b89b94bbb69a89c8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "315"
+                  endingLineNumber = "315"
+                  offsetFromSymbolStart = "5300">
+               </Location>
+               <Location
+                  uuid = "5D9D36C2-F30B-480E-98EB-6D54192873DD - b89b94bbb69af60a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "317"
+                  endingLineNumber = "317"
+                  offsetFromSymbolStart = "3815">
+               </Location>
+               <Location
+                  uuid = "5D9D36C2-F30B-480E-98EB-6D54192873DD - b89b94bbb69af60a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "317"
+                  endingLineNumber = "317"
+                  offsetFromSymbolStart = "3903">
+               </Location>
+               <Location
+                  uuid = "5D9D36C2-F30B-480E-98EB-6D54192873DD - b89b94bbb69af60a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "317"
+                  endingLineNumber = "317"
+                  offsetFromSymbolStart = "3891">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BCFB6636-697F-4544-9267-66BD880EB2D7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "305"
+            endingLineNumber = "305"
+            landmarkName = "ingest(_:description:metadata:tags:channel:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "BCFB6636-697F-4544-9267-66BD880EB2D7 - b89b94bbb69a889e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "305"
+                  endingLineNumber = "305"
+                  offsetFromSymbolStart = "3232">
+               </Location>
+               <Location
+                  uuid = "BCFB6636-697F-4544-9267-66BD880EB2D7 - b89b94bbb69a88a1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "306"
+                  endingLineNumber = "306"
+                  offsetFromSymbolStart = "3507">
+               </Location>
+               <Location
+                  uuid = "BCFB6636-697F-4544-9267-66BD880EB2D7 - b89b94bbb69a88a1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "306"
+                  endingLineNumber = "306"
+                  offsetFromSymbolStart = "3595">
+               </Location>
+               <Location
+                  uuid = "BCFB6636-697F-4544-9267-66BD880EB2D7 - b89b94bbb69a88a1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "306"
+                  endingLineNumber = "306"
+                  offsetFromSymbolStart = "3583">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B3B99617-3D6E-4497-B17C-5A30C3EDA3BB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "304"
+            endingLineNumber = "304"
+            landmarkName = "ingest(_:description:metadata:tags:channel:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B3B99617-3D6E-4497-B17C-5A30C3EDA3BB - b89b94bbb69a887f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "304"
+                  endingLineNumber = "304"
+                  offsetFromSymbolStart = "3037">
+               </Location>
+               <Location
+                  uuid = "B3B99617-3D6E-4497-B17C-5A30C3EDA3BB - b89b94bbb69a887f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "304"
+                  endingLineNumber = "304"
+                  offsetFromSymbolStart = "3455">
+               </Location>
+               <Location
+                  uuid = "B3B99617-3D6E-4497-B17C-5A30C3EDA3BB - b89b94bbb69a887f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "304"
+                  endingLineNumber = "304"
+                  offsetFromSymbolStart = "3543">
+               </Location>
+               <Location
+                  uuid = "B3B99617-3D6E-4497-B17C-5A30C3EDA3BB - b89b94bbb69a887f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "304"
+                  endingLineNumber = "304"
+                  offsetFromSymbolStart = "3531">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FF9279C5-0FE3-4DE5-9231-F24DDF10D29A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "302"
+            endingLineNumber = "302"
+            landmarkName = "ingest(_:description:metadata:tags:channel:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "FF9279C5-0FE3-4DE5-9231-F24DDF10D29A - b89b94bbb69a883d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "302"
+                  endingLineNumber = "302"
+                  offsetFromSymbolStart = "2670">
+               </Location>
+               <Location
+                  uuid = "FF9279C5-0FE3-4DE5-9231-F24DDF10D29A - b89b94bbb69a883d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "302"
+                  endingLineNumber = "302"
+                  offsetFromSymbolStart = "3232">
+               </Location>
+               <Location
+                  uuid = "FF9279C5-0FE3-4DE5-9231-F24DDF10D29A - b89b94bbb69a883d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "302"
+                  endingLineNumber = "302"
+                  offsetFromSymbolStart = "3239">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2AD5CDA2-FA15-4AC7-A2B7-CB2D40791F48"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "301"
+            endingLineNumber = "301"
+            landmarkName = "ingest(_:description:metadata:tags:channel:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "2AD5CDA2-FA15-4AC7-A2B7-CB2D40791F48 - b89b94bbb69a881a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "301"
+                  endingLineNumber = "301"
+                  offsetFromSymbolStart = "2512">
+               </Location>
+               <Location
+                  uuid = "2AD5CDA2-FA15-4AC7-A2B7-CB2D40791F48 - b89b94bbb69a881a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "301"
+                  endingLineNumber = "301"
+                  offsetFromSymbolStart = "3037">
+               </Location>
+               <Location
+                  uuid = "2AD5CDA2-FA15-4AC7-A2B7-CB2D40791F48 - b89b94bbb69a881a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "301"
+                  endingLineNumber = "301"
+                  offsetFromSymbolStart = "3044">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "90A6AFF0-F54F-43A3-BDAF-C6013EAF82EA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "300"
+            endingLineNumber = "300"
+            landmarkName = "ingest(_:description:metadata:tags:channel:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "90A6AFF0-F54F-43A3-BDAF-C6013EAF82EA - b89b94bbb69a881a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "301"
+                  endingLineNumber = "301"
+                  offsetFromSymbolStart = "2512">
+               </Location>
+               <Location
+                  uuid = "90A6AFF0-F54F-43A3-BDAF-C6013EAF82EA - b89b94bbb69a881a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "301"
+                  endingLineNumber = "301"
+                  offsetFromSymbolStart = "3037">
+               </Location>
+               <Location
+                  uuid = "90A6AFF0-F54F-43A3-BDAF-C6013EAF82EA - b89b94bbb69a881a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "301"
+                  endingLineNumber = "301"
+                  offsetFromSymbolStart = "3044">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "816289D8-341A-4175-84CC-7D1E881F8F30"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "311"
+            endingLineNumber = "311"
+            landmarkName = "ingest(_:description:metadata:tags:channel:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "816289D8-341A-4175-84CC-7D1E881F8F30 - b89b94bbb69a8967"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "312"
+                  endingLineNumber = "312"
+                  offsetFromSymbolStart = "3751">
+               </Location>
+               <Location
+                  uuid = "816289D8-341A-4175-84CC-7D1E881F8F30 - b89b94bbb69a8944"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "311"
+                  endingLineNumber = "311"
+                  offsetFromSymbolStart = "3756">
+               </Location>
+               <Location
+                  uuid = "816289D8-341A-4175-84CC-7D1E881F8F30 - b89b94bbb69a8944"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "311"
+                  endingLineNumber = "311"
+                  offsetFromSymbolStart = "3844">
+               </Location>
+               <Location
+                  uuid = "816289D8-341A-4175-84CC-7D1E881F8F30 - b89b94bbb69a8944"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "EnalogClient.EnalogManager.ingest(_: Swift.String, description: Swift.String, metadata: Swift.Optional&lt;Swift.Decodable &amp; Swift.Encodable&gt;, tags: Swift.Optional&lt;Swift.Array&lt;Swift.String&gt;&gt;, channel: Swift.Optional&lt;EnalogClient.EnalogChannelObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Developer/Xcode/DerivedData/BatteryBoi-eqglpqlwknwxtoazzdfpxyzgbrbg/SourcePackages/checkouts/EnalogSwift/Sources/EnalogClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "311"
+                  endingLineNumber = "311"
+                  offsetFromSymbolStart = "3832">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
