@@ -1,0 +1,46 @@
+// Translation Provided by Alexey Petraky (https://github.com/joostiphone)
+
+"AlertSomePercentTitle" = "%d%% Beschikbaar"; // 90% Beschikbaar
+"AlertOnePercentTitle" = "Je Mac sluit zo dadelijk af";
+"AlertChargingTitle" = "Laden...";
+"AlertChargingStoppedTitle" = "Oplader Verwijderd";
+"AlertChargingCompleteTitle" = "Opladen Gereed";
+
+"AlertDeviceConnectedTitle" = "'%@' Verbonden"; //'Joe's Headphones' Verbonden
+"AlertDeviceDisconnectedTitle" = "'%@' Ontkoppeld"; //'Joe's Headphones' Ontkoppeld
+"AlertDeviceUnknownTitle" = "Onbekend";
+"AlertDeviceCalculatingTitle" = "Aan het rekenen...";
+"AlertEstimateSummary" = "%@ totdat de batterij leeg is"; // 1 uur, 32 minuten totdat de batterij leeg is
+"AlertPercentSummary" = "Tijd om op te laden!";
+"AlertStartedChargeSummary" = "Volledig opgeladen om %@."; // Volledig opgeladen om 14:32u
+"AlertChargedSummary" = "De batterij is volledig opgeladen.";
+
+"TimestampHourFullLabel_Plural" = "%d uren";
+"TimestampHourFullLabel_Single" = "%d uur";
+"TimestampMinuteFullLabel_Plural" = "%d minuten";
+"TimestampMinuteFullLabel_Single" = "%d minuut";
+"TimestampMinuteDaysLabel_Plural" = "%d dagen";
+"TimestampHourAbbriviatedLabel" = "h";
+"TimestampMinuteAbbriviatedLabel" = "m";
+"TimestampDayAbbriviatedLabel" = "d";
+"TimestampNeverLabel" = "Nooit";
+"TimestampNowLabel" = "Zojuist";
+
+"SettingsWebsiteLabel" = "Website";
+"SettingsQuitLabel" = "Afsluiten";
+"SettingsThemeLabel" = "Uiterlijk";
+"SettingsEfficiencyLabel" = "Laag Vermogen";
+"SettingsCheckUpdatesLabel" = "Check voor Updates";
+"SettingsNewUpdateLabel" = "Installeer Nieuwe Update";
+"SettingsDisplayLabel" = "Beeldscherm";
+"SettingsDisplayPercentLabel" = "Percentage";
+"SettingsDisplayEstimateLabel" = "Tijd";
+"SettingsDisplayNoneLabel" = "Leeg";
+"SettingsDisplayRemovedLabel" = "Icoon Menu Balk Verborgen";
+"SettingsEnabledLabel" = "Ingeschakeld";
+"SettingsDisabledLabel" = "Uitgeschakeld";
+
+"UpdateStatusCheckingLabel" = "Op Updates Controleren...";
+"UpdateStatusIdleLabel" = "Laatste controle: %@"; // Laatste Controle: 4 uur geleden
+"UpdateStatusEmptyLabel" = "Geen Updates Beschikbaar";
+"UpdateStatusNewLabel" = "Nieuwe Update Beschikbaar!";

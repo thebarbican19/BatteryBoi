@@ -33,11 +33,12 @@
 "SettingsDisplayLabel" = "Exibir";
 "SettingsDisplayPercentLabel" = "Porcentagem";
 "SettingsDisplayEstimateLabel" = "Tempo";
-"SettingsDisplayNoneLabel" = "Nenhum";
+"SettingsDisplayNoneLabel" = "Vazio";
+"SettingsDisplayRemovedLabel" = "Ícone da Barra de Menu Oculto";
 "SettingsEnabledLabel" = "Ativado";
 "SettingsDisabledLabel" = "Desativado";
 
 "UpdateStatusCheckingLabel" = "Verificando Atualizações...";
 "UpdateStatusIdleLabel" = "Última Verificação: %@"; // Última Verificação: há 4 horas
 "UpdateStatusEmptyLabel" = "Nenhuma Atualização Disponível";
-"UpdateStatusNewLabel" = "%@ está Disponível!"; // Versão 1 está Disponível
+"UpdateStatusNewLabel" = "Nova atualização disponível!";

@@ -113,7 +113,7 @@ struct SettingsButton: View {
             
         }
         .onHover { hover in
-            withAnimation(Animation.easeOut.delay(0.1)) {
+            withAnimation(Animation.easeOut.delay(self.hover ? 1.2 : 0.1)) {
                 self.hover = hover
                 
             }
@@ -179,11 +179,6 @@ struct SettingsContainer: View {
             GeometryReader { geo in
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(alignment: .bottom, spacing: 8) {
-                        if self.update == true {
-                            SettingsButton(item: .init(.appInstallUpdate))
-
-                        }
-
                         ForEach(settings.menu, id: \.self) { item in
                             SettingsButton(item: item)
                             

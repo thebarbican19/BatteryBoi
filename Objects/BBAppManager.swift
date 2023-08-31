@@ -25,6 +25,7 @@ class AppManager:ObservableObject {
             
             guard let self = self else {
                 return
+                
             }
             
             if self.counter > 999 {
@@ -59,11 +60,8 @@ class AppManager:ObservableObject {
         else {
             UserDefaults.save(.versionInstalled, value: Date())
             
-            if #available(macOS 12.0, *) {
-                EnalogManager.main.ingest(SystemEvents.userInstalled, description: "Installed App")
-                
-            }
-
+            EnalogManager.main.ingest(SystemEvents.userInstalled, description: "Installed App")
+  
             return Date()
             
         }

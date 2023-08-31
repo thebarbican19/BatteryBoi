@@ -1,0 +1,46 @@
+// Translation Provided by Luke (https://github.com/fus1ondev)
+
+"AlertSomePercentTitle" = "%d%%残っています"; // 90%残っています
+"AlertOnePercentTitle" = "お使いのMacは間もなく電源が切れます";
+"AlertChargingTitle" = "充電中...";
+"AlertChargingStoppedTitle" = "充電器が取り外されました";
+"AlertChargingCompleteTitle" = "充電済み";
+"AlertDeviceConnectedTitle" = "'%@'が接続されました"; //'Joe's Headphones'が接続されました
+"AlertDeviceDisconnectedTitle" = "'%@'の接続が解除されました"; //'Joe's Headphones'の接続が解除されました
+"AlertDeviceUnknownTitle" = "不明";
+"AlertDeviceCalculatingTitle" = "計算中...";
+
+"AlertEstimateSummary" = "充電が無くなるまで %@"; // 充電が無くなるまで 1時間32分
+"AlertPercentSummary" = "ケーブルに繋ぐ時間です！";
+"AlertStartedChargeSummary" = "%@ に充電完了"; // 2:32pm に充電完了
+"AlertChargedSummary" = "バッテリーは完全に充電されています。";
+
+"TimestampHourFullLabel_Plural" = "%d時間";
+"TimestampHourFullLabel_Single" = "%d時間";
+"TimestampMinuteFullLabel_Plural" = "%d分";
+"TimestampMinuteFullLabel_Single" = "%d分";
+"TimestampMinuteDaysLabel_Plural" = "%d日";
+"TimestampHourAbbriviatedLabel" = "h";
+"TimestampMinuteAbbriviatedLabel" = "m";
+"TimestampDayAbbriviatedLabel" = "d";
+"TimestampNeverLabel" = "なし";
+"TimestampNowLabel" = "数分前";
+
+"SettingsWebsiteLabel" = "ウェブサイト";
+"SettingsQuitLabel" = "終了";
+"SettingsThemeLabel" = "外観";
+"SettingsEfficiencyLabel" = "低電力";
+"SettingsCheckUpdatesLabel" = "アップデートを確認";
+"SettingsNewUpdateLabel" = "新しいアップデートをインストール";
+"SettingsDisplayLabel" = "表示";
+"SettingsDisplayPercentLabel" = "パーセンテージ";
+"SettingsDisplayEstimateLabel" = "時間";
+"SettingsDisplayNoneLabel" = "なし";
+"SettingsDisplayRemovedLabel" = "メニューバーのアイコンを非表示";
+"SettingsEnabledLabel" = "有効";
+"SettingsDisabledLabel" = "無効";
+
+"UpdateStatusCheckingLabel" = "アップデートを確認...";
+"UpdateStatusIdleLabel" = "最後に確認した時刻: %@"; // 最後に確認した時刻: 4時間前
+"UpdateStatusEmptyLabel" = "利用可能なアップデートはありません";
+"UpdateStatusNewLabel" = "新しいアップデートが利用可能です！";

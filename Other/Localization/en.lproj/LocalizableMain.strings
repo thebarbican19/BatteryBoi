@@ -18,13 +18,14 @@
 "TimestampMinuteFullLabel_Plural" = "%d minutes";
 "TimestampMinuteFullLabel_Single" = "%d minute";
 "TimestampMinuteDaysLabel_Plural" = "%d days";
+"TimestampMinuteDaysLabel_Single" = "%d day";
 "TimestampHourAbbriviatedLabel" = "h";
 "TimestampMinuteAbbriviatedLabel" = "m";
 "TimestampDayAbbriviatedLabel" = "d";
 "TimestampNeverLabel" = "Never";
 "TimestampNowLabel" = "A Few Moments Ago";
 
-"SettingsWebsiteLabel" = "Website";
+"SettingsWebsiteLabel" = "Support Development";
 "SettingsQuitLabel" = "Quit";
 "SettingsThemeLabel" = "Appearance";
 "SettingsEfficiencyLabel" = "Low Power";
@@ -33,11 +34,12 @@
 "SettingsDisplayLabel" = "Display";
 "SettingsDisplayPercentLabel" = "Percentage";
 "SettingsDisplayEstimateLabel" = "Time";
-"SettingsDisplayNoneLabel" = "None";
+"SettingsDisplayNoneLabel" = "Empty";
+"SettingsDisplayRemovedLabel" = "Menu Bar Icon Hidden";
 "SettingsEnabledLabel" = "Enabled";
 "SettingsDisabledLabel" = "Disabled";
 
 "UpdateStatusCheckingLabel" = "Checking for Updates...";
 "UpdateStatusIdleLabel" = "Last Checked: %@"; // Last Checked: 4 hours ago
 "UpdateStatusEmptyLabel" = "No Updates Available";
-"UpdateStatusNewLabel" = "%@ is Available!"; // Version 1 is Available
+"UpdateStatusNewLabel" = "New Update Available!"; 

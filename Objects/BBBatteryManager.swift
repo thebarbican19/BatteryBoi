@@ -116,11 +116,11 @@ struct BatteryRemaining:Equatable {
                     
                 }
                 else if hours == 0 {
-                    self.formatted = "TimestampMinuteFullLabel".localise([hour])
+                    self.formatted = "TimestampMinuteFullLabel".localise([minutes])
                     
                 }
                 else if minute == 0 {
-                    self.formatted = "TimestampHourFullLabel".localise([minutes])
+                    self.formatted = "TimestampHourFullLabel".localise([hour])
                     
                 }
                 
@@ -164,6 +164,11 @@ class BatteryManager:ObservableObject {
             
         }.store(in: &updates)
         
+        AppManager.shared.appTimer(6).sink { _ in
+            self.remaining = self.powerRemaing
+
+        }.store(in: &updates)
+
         AppManager.shared.appTimer(60).sink { _ in
             self.saver = self.powerSaveModeStatus
 
@@ -171,6 +176,7 @@ class BatteryManager:ObservableObject {
         
         self.powerStatus(true)
                 
+        
     }
     
     deinit {
@@ -181,8 +187,7 @@ class BatteryManager:ObservableObject {
     private func powerStatus(_ force:Bool = false) {
         if force == true {
             self.percentage = self.powerPercentage
-            self.saver = self.powerSaveModeStatus
-            
+
             if self.powerCharging != self.charging.state {
                 self.charging = .init(self.powerCharging)
                 
@@ -223,7 +228,9 @@ class BatteryManager:ObservableObject {
         
     }
     
-    public var powerRemaing:BatteryRemaining? {
+    private var powerRemaing:BatteryRemaining? {
+        print("Battery Power Remaining Function Polled at \(Date())")
+
         let process = Process()
         process.launchPath = "/bin/sh"
         process.arguments = ["-c", "pmset -g batt | grep -o '[0-9]\\{1,2\\}:[0-9]\\{2\\}'"]
@@ -320,6 +327,8 @@ class BatteryManager:ObservableObject {
     }
     
     private var powerSaveModeStatus:BatteryModeType {
+        print("Battery Power Saving Function Polled at \(Date())")
+
         let task = Process()
         task.launchPath = "/usr/bin/env"
         task.arguments = ["bash", "-c", "pmset -g | grep lowpowermode"]
@@ -346,7 +355,7 @@ class BatteryManager:ObservableObject {
             }
             
         }
-        
+                
         return .unavailable
         
     }

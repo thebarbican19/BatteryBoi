@@ -97,13 +97,8 @@ class UpdateManager: NSObject,SPUUpdaterDelegate,ObservableObject {
         
     }
     
-    public func updateCheck(_ forground:Bool) {
-        switch forground {
-            case true : self.updater?.checkForUpdates()
-            case false : self.updater?.checkForUpdatesInBackground()
-            
-        }
-        
+    public func updateCheck() {
+        self.updater?.checkForUpdatesInBackground()
         self.state = .checking
 
     }
@@ -121,11 +116,6 @@ class UpdateManager: NSObject,SPUUpdaterDelegate,ObservableObject {
     
     func updaterShouldDownloadReleaseNotes(_ updater: SPUUpdater) -> Bool {
         return true
-        
-    }
-
-    func checkForUpdatesAndDownloadIfNeeded() {
-        self.updater?.checkForUpdatesInBackground()
         
     }
 
@@ -166,7 +156,8 @@ class UpdateManager: NSObject,SPUUpdaterDelegate,ObservableObject {
     }
     
     func updaterDidNotFindUpdate(_ updater: SPUUpdater) {
-        print("No updates" ,updater)
+        print("✅ Version \(String(describing: Bundle.main.infoDictionary?["CFBundleShortVersionString"])) is the Latest")
+        
         DispatchQueue.main.async {
             self.available = nil
             self.state = .completed
@@ -244,7 +235,7 @@ class UpdateManager: NSObject,SPUUpdaterDelegate,ObservableObject {
     }
     
     func showUpdaterError(_ error: Error, acknowledgement: @escaping () -> Void) {
-        print("error")
+        print("error" ,error)
     }
     
     func showDownloadInitiated(cancellation: @escaping () -> Void) {

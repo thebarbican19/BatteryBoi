@@ -8,6 +8,7 @@
 import SwiftUI
 import EnalogSwift
 import Sparkle
+import Combine
 
 enum SystemDeviceTypes:String,Codable {
     case macbook
@@ -90,6 +91,7 @@ enum SystemDefaultsKeys: String {
             case .batteryUntilFull:return "Seconds until Charged"
             case .batteryLastCharged:return "Seconds until Charged"
             case .batteryDepletionRate:return "Battery Depletion Rate"
+            
             case .versionInstalled:return "Installed on"
             case .versionCurrent:return "Active Version"
             case .versionIdenfiyer:return "App ID"
@@ -129,18 +131,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
     
     public var status:NSStatusItem? = nil
     public var hosting:NSHostingView = NSHostingView(rootView: MenuContainer())
+    public var updates = Set<AnyCancellable>()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         self.status = NSStatusBar.system.statusItem(withLength: 45)
         self.hosting.frame.size = NSSize(width: 45, height: 22)
-        
-        if let button = self.status?.button {
-            button.title = ""
-            button.addSubview(self.hosting)
-            button.action = #selector(statusBarButtonClicked(sender:))
-            button.target = self
-            
-        }
         
         if let window = NSApplication.shared.windows.first {
             window.close()
@@ -154,24 +149,34 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
 
         }
         
-        _ = SettingsManager.shared.enabledTheme
-        
-        UpdateManager.shared.updateCheck(false)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+            _ = SettingsManager.shared.enabledTheme
+            _ = SettingsManager.shared.enabledDisplay()
+            
+            print("\n\nApp Version: \(AppManager.shared.appInstalled)\n\n")
+            
+            UpdateManager.shared.updateCheck()
+            
             switch BatteryManager.shared.charging.state {
                 case .battery : WindowManager.shared.windowOpen(.userLaunched, device: nil)
                 case .charging : WindowManager.shared.windowOpen(.chargingBegan, device: nil)
                 
             }
             
-        }
-        
-        NSApp.setActivationPolicy(.accessory)
-        
-        if #available(macOS 13.0, *) {
-            if SettingsManager.shared.enabledAutoLaunch == .undetermined {
-                SettingsManager.shared.enabledAutoLaunch = .enabled
+            SettingsManager.shared.$display.sink { type in
+                switch type {
+                    case .hidden : self.applicationMenuBarIcon(false)
+                    default : self.applicationMenuBarIcon(true)
+                    
+                }
+                
+            }.store(in: &self.updates)
+            
+            if #available(macOS 13.0, *) {
+                if SettingsManager.shared.enabledAutoLaunch == .undetermined {
+                    SettingsManager.shared.enabledAutoLaunch = .enabled
+                    
+                }
                 
             }
             
@@ -179,9 +184,43 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
         
     }
     
-    @objc func statusBarButtonClicked(sender: NSStatusBarButton) {
-        WindowManager.shared.windowOpen(.userInitiated, device: nil)
+    private func applicationMenuBarIcon(_ visible:Bool) {
+        if visible == true {
+            if let button = self.status?.button {
+                button.title = ""
+                button.addSubview(self.hosting)
+                button.action = #selector(applicationStatusBarButtonClicked(sender:))
+                button.target = self
                 
+            }
+            
+        }
+        else {
+            if let button = self.status?.button {
+                button.subviews.forEach { $0.removeFromSuperview() }
+                
+            }
+            
+        }
+        
+    }
+    
+    @objc func applicationStatusBarButtonClicked(sender: NSStatusBarButton) {
+        #if DEBUG
+            WindowManager.shared.windowOpen(.chargingBegan, device: nil)
+
+        #else
+            WindowManager.shared.windowOpen(.userInitiated, device: nil)
+
+        #endif
+                
+    }
+    
+    @objc func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        WindowManager.shared.windowOpen(.userInitiated, device: nil)
+
+        return false
+        
     }
 
 }

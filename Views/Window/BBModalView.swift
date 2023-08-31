@@ -156,6 +156,46 @@ struct ModalIcon: View {
     
 }
 
+struct ModalUpdatePrompt: View {
+    @EnvironmentObject var update:UpdateManager
+
+    var body: some View {
+        if let _ = self.update.available {
+            HStack(alignment: .center, spacing: 3) {
+                Circle()
+                    .fill(Color("BatteryEfficient"))
+                    .frame(width: 5, height: 5)
+                
+                Text("UpdateStatusNewLabel".localise())
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundColor(Color("BatteryEfficient"))
+                    .lineLimit(1)
+                
+            }
+            .padding(.top, 10)
+            .onHover { hover in
+                switch hover {
+                    case true : NSCursor.pointingHand.push()
+                    default : NSCursor.pop()
+                    
+                }
+                
+            }
+            .onTapGesture {
+                SettingsManager.shared.settingsAction(.init(.appInstallUpdate))
+                
+            }
+            
+        }
+        else {
+            EmptyView()
+            
+        }
+        
+    }
+    
+}
+
 struct ModalIndicator: View {
     @EnvironmentObject var battery:BatteryManager
     @EnvironmentObject var manager:WindowManager
@@ -183,6 +223,8 @@ struct ModalIndicator: View {
                     .lineLimit(2)
                 
                 ViewMarkdown($subtitle)
+                
+                ModalUpdatePrompt()
                
             }
             .padding(0)
@@ -193,15 +235,6 @@ struct ModalIndicator: View {
             RadialProgressContainer()
 
         }
-//        .overlay(
-//            ZStack(alignment: .center) {
-//                BatteryContainer(.init(width: 32, height: 15), radius: 5, font: 11)
-//
-//            }
-//            .background(Color.green)
-//            .scaleEffect(4.0)
-//
-//        )
         .padding(.vertical, 14)
         .padding(.trailing, 16)
         .padding(.leading, 18)

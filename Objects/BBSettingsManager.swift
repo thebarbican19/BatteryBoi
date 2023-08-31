@@ -13,26 +13,29 @@ import ServiceManagement
 import EnalogSwift
 
 enum SettingsDisplayType:String {
-    case estimate
-    case none
+    case countdown
+    case empty
     case percent
+    case hidden
     
     var type:String {
         switch self {
-            case .estimate : return "SettingsDisplayEstimateLabel".localise()
+            case .countdown : return "SettingsDisplayEstimateLabel".localise()
             case .percent : return "SettingsDisplayPercentLabel".localise()
-            case .none : return "SettingsDisplayNoneLabel".localise()
-            
+            case .empty : return "SettingsDisplayNoneLabel".localise()
+            case .hidden : return "SettingsDisplayRemovedLabel".localise()
+
         }
         
     }
     
     var icon:String {
         switch self {
-            case .estimate : return "TimeIcon"
+            case .countdown : return "TimeIcon"
             case .percent : return "PercentIcon"
-            case .none : return "EmptyIcon"
-            
+            case .empty : return "EmptyIcon"
+            case .hidden : return "EmptyIcon"
+
         }
         
     }
@@ -147,7 +150,7 @@ class SettingsManager:ObservableObject {
     static var shared = SettingsManager()
     
     @Published var menu:[SettingsActionObject] = []
-    @Published var display:SettingsDisplayType = .estimate
+    @Published var display:SettingsDisplayType = .countdown
     @Published var theme:SettingsTheme = .dark
 
     private var updates = Set<AnyCancellable>()
@@ -217,12 +220,9 @@ class SettingsManager:ObservableObject {
                         
                         UserDefaults.save(.enabledLogin, value: newValue.enabled)
                         
-                        
                     }
                     catch {
-                        UserDefaults.save(.enabledLogin, value: newValue.enabled)
-                        
-                        EnalogManager.main.ingest(SystemEvents.fatalError, description: "")
+                        EnalogManager.main.ingest(SystemEvents.fatalError, description: error.localizedDescription)
                         
                     }
                     
@@ -234,7 +234,7 @@ class SettingsManager:ObservableObject {
         
     }
     
-    public func enabledDisplay(_ toggle:Bool) -> SettingsDisplayType {
+    public func enabledDisplay(_ toggle:Bool = false) -> SettingsDisplayType {
         var output:SettingsDisplayType = .percent
 
         if let type = UserDefaults.main.string(forKey: SystemDefaultsKeys.enabledDisplay.rawValue) {
@@ -244,16 +244,23 @@ class SettingsManager:ObservableObject {
         
         if toggle {
             switch output {
-                case .estimate : output = .percent
-                case .percent : output = .none
-                default : output = .estimate
+                case .countdown : output = .percent
+                case .percent : output = .empty
+                case .empty : output = .hidden
+                default : output = .countdown
                 
             }
             
             UserDefaults.save(.enabledDisplay, value: output.rawValue)
             
         }
-    
+        
+        switch output {
+            case .hidden : NSApp.setActivationPolicy(.regular)
+            default : NSApp.setActivationPolicy(.accessory)
+            
+        }
+       
         return output
         
     }
@@ -384,7 +391,7 @@ class SettingsManager:ObservableObject {
         }
         else if action.type == .appUpdateCheck {
             if UpdateManager.shared.available == nil {
-                UpdateManager.shared.updateCheck(false)
+                UpdateManager.shared.updateCheck()
 
             }
             else {
@@ -419,8 +426,7 @@ class SettingsManager:ObservableObject {
         }
 
         output.append(.init(.customiseDisplay))
-        
-        output.append(.init(.appWebsite))
+        //output.append(.init(.appWebsite))
         output.append(.init(.appUpdateCheck))
 
         return output

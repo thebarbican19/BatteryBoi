@@ -71,15 +71,15 @@ class StatsManager:ObservableObject {
         let state = BatteryManager.shared.charging.state
         
         if state == .charging {
-            if display == .none {
+            if display == .empty {
                 return nil
                 
             }
             
         }
         else {
-            if SettingsManager.shared.enabledDisplay(false) == .estimate {
-                if let remaining = BatteryManager.shared.powerRemaing, let hour = remaining.hours, let minute = remaining.minutes {
+            if SettingsManager.shared.enabledDisplay() == .countdown {
+                if let remaining = BatteryManager.shared.remaining, let hour = remaining.hours, let minute = remaining.minutes {
                     if hour > 0 && minute > 0 {
                        return "+\(hour)\("TimestampHourAbbriviatedLabel".localise())"
 
@@ -94,10 +94,6 @@ class StatsManager:ObservableObject {
                     }
                         
                 }
-                
-            }
-            else if display == .none {
-                return nil
                 
             }
             
@@ -138,7 +134,7 @@ class StatsManager:ObservableObject {
     private var statsSubtitle:String {
         let state = BatteryManager.shared.charging.state
         let percent = Int(BatteryManager.shared.percentage)
-        let remaining = BatteryManager.shared.powerRemaing
+        let remaining = BatteryManager.shared.remaining
         let full = BatteryManager.shared.powerUntilFull
 
         switch AppManager.shared.alert {

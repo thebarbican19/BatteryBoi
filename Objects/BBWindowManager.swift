@@ -75,7 +75,7 @@ class WindowManager: ObservableObject {
                 }
                 
             }
-            
+                        
         }.store(in: &updates)
         
 //        #if DEBUG

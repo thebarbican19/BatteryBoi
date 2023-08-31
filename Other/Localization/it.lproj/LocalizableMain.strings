@@ -40,4 +40,4 @@
 "UpdateStatusCheckingLabel" = "Controllo aggiornamenti...";
 "UpdateStatusIdleLabel" = "Ultimo controllo: %@"; // Ultimo controllo: 4 ore fa
 "UpdateStatusEmptyLabel" = "Nessun aggiornamento disponibile";
-"UpdateStatusNewLabel" = "%@ è disponibile!"; // Versione 1 è disponibile
+"UpdateStatusNewLabel" = "Nuovo aggiornamento disponibile!";

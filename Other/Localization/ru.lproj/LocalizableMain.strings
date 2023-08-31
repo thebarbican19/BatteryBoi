@@ -1,0 +1,48 @@
+// Translation Provided by Alexey Petraky (https://github.com/ko-oler)
+
+"AlertSomePercentTitle" = "%d%% Осталось"; // 90% Осталось
+"AlertOnePercentTitle" = "Ваш Mac скоро выключится";
+"AlertChargingTitle" = "Зарядка..";
+"AlertChargingStoppedTitle" = "Зарядное устройство удалено";
+"AlertChargingCompleteTitle" = "Зарядка завершена";
+"AlertDeviceConnectedTitle" = "'%@' Подключено"; // Наушники Джо подключены
+"AlertDeviceDisconnectedTitle" = "'%@' Отключено"; //Наушники Джо отключены
+"AlertDeviceUnknownTitle" = "Неизвестно";
+"AlertDeviceCalculatingTitle" = "Подсчет...";
+
+"AlertEstimateSummary" = "Заряда хватит на %@ "; // Заряда хватит на 1 час 32 минуты
+"AlertPercentSummary" = "Пора искать зарядное устройство!";
+"AlertStartedChargeSummary" = "Батарея будет заряжена к %@."; // Батарея будет заряжена к 14:32
+"AlertChargedSummary" = "Батарея полностью заряжена.";
+
+"TimestampHourFullLabel_Plural" = "%d часа";
+"TimestampHourFullLabel_Single" = "%d час";
+"TimestampMinuteFullLabel_Plural" = "%d минуты";
+"TimestampMinuteFullLabel_Single" = "%d минута";
+"TimestampMinuteDaysLabel_Plural" = "%d дней";
+"TimestampHourAbbriviatedLabel" = "ч";
+"TimestampMinuteAbbriviatedLabel" = "м";
+"TimestampDayAbbriviatedLabel" = "д";
+"TimestampNeverLabel" = "Никогда";
+"TimestampNowLabel" = "Недавно";
+
+"SettingsWebsiteLabel" = "Сайт";
+"SettingsQuitLabel" = "Выйти";
+"SettingsThemeLabel" = "Внешний вид";
+"SettingsEfficiencyLabel" = "Режим энергосбережения";
+"SettingsCheckUpdatesLabel" = "Проверить";
+"SettingsNewUpdateLabel" = "Установить новое обновление";
+
+"SettingsDisplayLabel" = "Отображение";
+"SettingsDisplayPercentLabel" = "Процент";
+"SettingsDisplayEstimateLabel" = "Время";
+"SettingsDisplayNoneLabel" = "Пусто";
+"SettingsDisplayRemovedLabel" = "Скрыть иконку в строке меню";
+"SettingsEnabledLabel" = "Включено";
+"SettingsDisabledLabel" = "Выключено";
+
+"UpdateStatusCheckingLabel" = "Проверка на наличие новых обновлений...";
+"UpdateStatusIdleLabel" = "Последняя проверка: %@"; // Последняя проверка: 4 часа назад
+"UpdateStatusEmptyLabel" = "Обновлений нет";
+"UpdateStatusNewLabel" = "Доступно обновление!";
+

@@ -153,21 +153,21 @@ private struct BatteryStatus: View {
 
     var body: some View {
         HStack(spacing: 0.5) {
-            if self.manager.charging.state == .charging || self.manager.percentage <= 25 {
-                BatteryPulsatingIcon()
-
-            }
+//            if self.manager.charging.state == .charging || self.manager.percentage <= 25 {
+//                BatteryPulsatingIcon()
+//
+//            }
 
             if let summary = self.stats.display {
                 Text(summary)
                     .frame(width: self.size.width, height: self.size.height)
                     .style(self.font)
                     .padding(2)
-                    .foregroundColor(Color.black)
                                 
             }
             
         }
+        .foregroundColor(Color.black)
         .animation(Animation.easeInOut, value: self.manager.charging)
 
     }
@@ -228,13 +228,7 @@ struct BatteryIcon: View {
             .frame(maxWidth: self.size.width, alignment: .leading)
             .foregroundColor(Color.black)
             .overlay(
-                BatteryStatus(size, font: font).mask(
-                    Rectangle()
-                        .fill(.black)
-                        .position(x: self.progress, y: self.size.height / 2)
-                        .offset(y:-2)
-
-                )
+                BatteryStatus(size, font: font)
              
             )
                         
@@ -245,7 +239,7 @@ struct BatteryIcon: View {
                 Rectangle()
                     .fill(.black)
                     .frame(width: self.size.width)
-                    .position(x: -(self.size.width / 2) + (self.progress + 2.6), y: self.size.height / 2)
+                    .position(x: -(self.size.width / 2) + (self.progress + 3.6), y: self.size.height / 2)
 
             )
             
@@ -331,6 +325,7 @@ struct MenuContainer: View {
         BatteryContainer(.init(width: 32, height: 15), radius: 5, font: 11)
             .environmentObject(BatteryManager.shared)
             .environmentObject(StatsManager.shared)
+            .environmentObject(UpdateManager.shared)
 
     }
     

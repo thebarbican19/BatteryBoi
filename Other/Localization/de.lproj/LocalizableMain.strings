@@ -33,11 +33,12 @@
 "SettingsDisplayLabel" = "Anzeige";
 "SettingsDisplayPercentLabel" = "Prozentsatz";
 "SettingsDisplayEstimateLabel" = "Zeit";
-"SettingsDisplayNoneLabel" = "Keine";
+"SettingsDisplayNoneLabel" = "Leer";
+"SettingsDisplayRemovedLabel" = "Menüleistensymbol ausgeblendet";
 "SettingsEnabledLabel" = "Aktiviert";
 "SettingsDisabledLabel" = "Deaktiviert";
 
 "UpdateStatusCheckingLabel" = "Suche nach Updates...";
 "UpdateStatusIdleLabel" = "Zuletzt überprüft: %@"; // Zuletzt überprüft: vor 4 Stunden
 "UpdateStatusEmptyLabel" = "Keine Updates verfügbar";
-"UpdateStatusNewLabel" = "%@ ist verfügbar!"; // Zuletzt überprüft: vor 4 Stunden
+"UpdateStatusNewLabel" = "Neues Update verfügbar!";
