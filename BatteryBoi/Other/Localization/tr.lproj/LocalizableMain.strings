@@ -1,0 +1,46 @@
+// Translation Provided by Soner Kalonya (https://github.com/kalonya)
+
+"AlertSomePercentTitle" = "Kalan %%d%"; // Kalan %90
+"AlertOnePercentTitle" = "Mac'iniz Kapanmak Üzere";
+"AlertChargingTitle" = "Şarj oluyor...";
+"AlertChargingStoppedTitle" = "Şarj Aleti Çıkarıldı";
+"AlertChargingCompleteTitle" = "Şarj Tamamlandı";
+"AlertDeviceConnectedTitle" = "'%@' Bağlandı";  // 'Joe'nun Kulaklıkları' Bağlandı
+"AlertDeviceDisconnectedTitle" = "'%@' Bağlantısı Kesildi"; // 'Joe'nun Kulaklıkları' Bağlantısı Kesildi
+"AlertDeviceUnknownTitle" = "Bilinmeyen";
+"AlertDeviceCalculatingTitle" = "Hesaplanıyor...";
+"AlertEstimateSummary" = "%@ kaldı"; // 1 saat, 32 dakika kaldı
+"AlertPercentSummary" = "Şarj kablosunu takma zamanı!";
+"AlertStartedChargeSummary" = "Saat %@' de tam şarj oldu."; // Saat 2:32'de tam şarj oldu
+"AlertChargedSummary" = "Piliniz tamamen şarj oldu.";
+
+"TimestampHourFullLabel_Plural" = "%d saat";
+"TimestampHourFullLabel_Single" = "%d saat";
+"TimestampMinuteFullLabel_Plural" = "%d dakika";
+"TimestampMinuteFullLabel_Single" = "%d dakika";
+"TimestampMinuteDaysLabel_Plural" = "%d gün";
+"TimestampHourAbbriviatedLabel" = "s";
+"TimestampMinuteAbbriviatedLabel" = "d";
+"TimestampDayAbbriviatedLabel" = "g";
+"TimestampNeverLabel" = "Hiç";
+"TimestampNowLabel" = "Birkaç Dakika Önce";
+
+"SettingsWebsiteLabel" = "Web Sitesi";
+"SettingsQuitLabel" = "Çıkış";
+"SettingsThemeLabel" = "Görünüm";
+"SettingsEfficiencyLabel" = "Düşük Güç";
+"SettingsCheckUpdatesLabel" = "Güncellemeleri Kontrol Et";
+"SettingsNewUpdateLabel" = "Yeni Güncellemeyi Yükle";
+
+"SettingsDisplayLabel" = "Gösterge";
+"SettingsDisplayPercentLabel" = "Yüzde";
+"SettingsDisplayEstimateLabel" = "Süre";
+"SettingsDisplayNoneLabel" = "Boş";
+"SettingsDisplayRemovedLabel" = "Menü Çubuğu Simgesi Gizlendi";
+"SettingsEnabledLabel" = "Etkin";
+"SettingsDisabledLabel" = "Devre Dışı";
+
+"UpdateStatusCheckingLabel" = "Güncellemeler Kontrol Ediliyor...";
+"UpdateStatusIdleLabel" = "Son Kontrol: %@"; // Son Kontrol: 4 saat önce
+"UpdateStatusEmptyLabel" = "İndirilebilir Güncelleme Yok";
+"UpdateStatusNewLabel" = "Yeni Güncelleme Mevcut!";

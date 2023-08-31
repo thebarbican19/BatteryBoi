@@ -64,6 +64,7 @@
 		D89CCFEF2AA0285500D9531A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
 		D89CCFF22AA0FC5B00D9531A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
 		D89CCFF32AA0FDEA00D9531A /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
+		D8CDA7F52AA10E5F00FAD41E /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
 		D8D9E59C2A7DE7AB00E295FA /* BatteryBoi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BatteryBoi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8D9E59F2A7DE7AB00E295FA /* BatteryBoiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryBoiApp.swift; sourceTree = "<group>"; };
 		D8D9E5A32A7DE7AE00E295FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -277,6 +278,7 @@
 				ja,
 				ru,
 				nl,
+				tr,
 			);
 			mainGroup = D8D9E5932A7DE7AA00E295FA;
 			packageReferences = (
@@ -349,6 +351,7 @@
 				D89CCFEF2AA0285500D9531A /* ja */,
 				D89CCFF22AA0FC5B00D9531A /* ru */,
 				D89CCFF32AA0FDEA00D9531A /* nl */,
+				D8CDA7F52AA10E5F00FAD41E /* tr */,
 			);
 			name = LocalizableMain.strings;
 			sourceTree = "<group>";
