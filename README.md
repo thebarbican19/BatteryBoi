@@ -70,6 +70,8 @@ With continued support, I will be adding...
 - [x] **⬇️ Sparkle Intergration**
 - [x] **🚨 Improved Alerts**
 - [x] **🏝️ A Dynamic Island-Style Modal with Sexy Indicator**
+- [ ] **☀️ Light Mode**
+- [ ] **🎨 Customisation View**
 - [ ] **📈 More Stats**
 - [x] **⚙️ App Preferences**
 - [ ] **🎧 Bluetooth Device Support**
