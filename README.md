@@ -40,6 +40,8 @@ However, because of popular demand, the scope of this project has expanded signi
 #### Verified
 - 🇬🇧 [English](https://github.com/thebarbican19/BatteryBoi/blob/main/en.lproj/LocalizableMain.strings)
 - 🇯🇵 [Japanese](https://github.com/thebarbican19/BatteryBoi/blob/main/jp.lproj/LocalizableMain.strings) (Provided by [@fus1ondev](https://github.com/fus1ondev))
+- 🇷🇺 [Russian](https://github.com/thebarbican19/BatteryBoi/blob/main/ru.lproj/LocalizableMain.strings) (Provided by [Alexey Petraky @ko-oler](https://github.com/ko-oler))
+- 🇳🇱 [Dutch](https://github.com/thebarbican19/BatteryBoi/blob/main/nl.lproj/LocalizableMain.strings) (Provided by [@joostiphone](https://github.com/joostiphone))
 
 #### Unverified/Auto-Translated
 - 🇩🇪 [German](https://github.com/thebarbican19/BatteryBoi/blob/main/de.lproj/LocalizableMain.strings)
@@ -51,7 +53,7 @@ However, because of popular demand, the scope of this project has expanded signi
 - 🇮🇹 [Italian](https://github.com/thebarbican19/BatteryBoi/blob/main/it.lproj/LocalizableMain.strings)
 
 <br>
-If you would like to help by verifying your native language, or if it is not yet on the list adding it please see the [Localization Documentation](https://github.com/thebarbican19/BatteryBoi/issues/12)
+If you would like to help by verifying your native language, or if it is not yet on the list adding it please see the Localization Documentation. ([#12][i12])
 
 
 
