@@ -38,19 +38,20 @@ However, because of popular demand, the scope of this project has expanded signi
 **BatteryBoi** has been Localized into the following languages, either by way of auto-translation or by direct translation by the community.
 
 #### Verified
-- 🇬🇧 [English](https://github.com/thebarbican19/BatteryBoi/blob/main/en.lproj/LocalizableMain.strings)
-- 🇯🇵 [Japanese](https://github.com/thebarbican19/BatteryBoi/blob/main/jp.lproj/LocalizableMain.strings) (Provided by [@fus1ondev](https://github.com/fus1ondev))
-- 🇷🇺 [Russian](https://github.com/thebarbican19/BatteryBoi/blob/main/ru.lproj/LocalizableMain.strings) (Provided by [Alexey Petraky @ko-oler](https://github.com/ko-oler))
-- 🇳🇱 [Dutch](https://github.com/thebarbican19/BatteryBoi/blob/main/nl.lproj/LocalizableMain.strings) (Provided by [@joostiphone](https://github.com/joostiphone))
+- 🇬🇧 [English](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/en.lproj/LocalizableMain.strings)
+- 🇯🇵 [Japanese](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/jp.lproj/LocalizableMain.strings) (Provided by [@fus1ondev](https://github.com/fus1ondev))
+- 🇷🇺 [Russian](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/ru.lproj/LocalizableMain.strings) (Provided by [Alexey Petraky @ko-oler](https://github.com/ko-oler))
+- 🇳🇱 [Dutch](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/nl.lproj/LocalizableMain.strings) (Provided by [@joostiphone](https://github.com/joostiphone))
+- 🇹🇷 [Turkish](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [Soner Kalonya @kalonya](https://github.com/kalonya))
 
 #### Unverified/Auto-Translated
-- 🇩🇪 [German](https://github.com/thebarbican19/BatteryBoi/blob/main/de.lproj/LocalizableMain.strings)
-- 🇪🇸 [Spanish (Traditional)](https://github.com/thebarbican19/BatteryBoi/blob/main/en.lproj/LocalizableMain.strings)
-- 🇲🇽 [Spanish (Latin America)](https://github.com/thebarbican19/BatteryBoi/blob/main/es-419.lproj/LocalizableMain.strings)
-- 🇫🇷 [French](https://github.com/thebarbican19/BatteryBoi/blob/main/fr.lproj/LocalizableMain.strings)
-- 🇵🇹 [Portuguese (Traditional)](https://github.com/thebarbican19/BatteryBoi/blob/main/pt-PT.lproj/LocalizableMain.strings)
-- 🇧🇷 [Portuguese (Brazil)](https://github.com/thebarbican19/BatteryBoi/blob/main/pt-BR.lproj/LocalizableMain.strings)
-- 🇮🇹 [Italian](https://github.com/thebarbican19/BatteryBoi/blob/main/it.lproj/LocalizableMain.strings)
+- 🇩🇪 [German](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/de.lproj/LocalizableMain.strings)
+- 🇪🇸 [Spanish (Traditional)](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/en.lproj/LocalizableMain.strings)
+- 🇲🇽 [Spanish (Latin America)](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/es-419.lproj/LocalizableMain.strings)
+- 🇫🇷 [French](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/fr.lproj/LocalizableMain.strings)
+- 🇵🇹 [Portuguese (Traditional)](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/pt-PT.lproj/LocalizableMain.strings)
+- 🇧🇷 [Portuguese (Brazil)](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/pt-BR.lproj/LocalizableMain.strings)
+- 🇮🇹 [Italian](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/it.lproj/LocalizableMain.strings)
 
 <br>
 If you would like to help by verifying your native language, or if it is not yet on the list adding it please see the Localization Documentation. ([#12][i12])
