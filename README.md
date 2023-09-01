@@ -71,7 +71,7 @@ With continued support, I will be adding...
 - [X] **🔋 Battery Replacement**
 - [x] **🚀 Login at Launch**
 - [x] **👴🏻 Support for macOS Monterey & Big Sur (v11)**
-- [ ] **🟡 System Colour Alerts**
+- [ ] **🟡 System Colour Alerts & Charging Icon**
 - [x] **🪫 Low Power Mode Toggle** (Suggested by [@Crear12](https://github.com/Crear12))
 - [x] **🇲🇽 Multiple Language Support**
 - [x] **⬇️ Sparkle Intergration**
