@@ -80,11 +80,21 @@ With continued support, I will be adding...
 - [x] **🚨 Improved Alerts**
 - [x] **🏝️ A Dynamic Island-Style Modal with Sexy Indicator**
 - [ ] **☀️ Light Mode**
+- [ ] **🔉 Sound Effects**
 - [ ] **🎨 Customisation View**
+    - [ ] **🔉 Sound Effects (Toggle)**
+    - [ ] **⚙️Display (Toggle)**
+    - [ ] **👁️Hide/Show Menu Bar Toggle**
+    - [ ] **☀️Light/Dark Mode Toggle**
+
 - [ ] **📈 More Stats**
 - [ ] **↗️ Move and Snap to Position**
 - [x] **⚙️ App Preferences**
 - [ ] **🎧 Bluetooth Device Support**
+    - [ ] **Custom Notifications**
+    - [ ] **Quick View**
+    - [ ] **Add to Menu Bar**
+
 - [ ] **⌨️ Custom Keyboard Shortcuts**
 
 <br>Ideas are welcome. 
