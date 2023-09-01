@@ -111,6 +111,8 @@ With continued support, I will be adding...
 **Q.** Can I revert back to the old MacOS Battery Indicator?<br>
 **A.** Yes! Go to **System Preferences** > **Control Center** > **Battery** > **Show in Menu Bar** and toggle it on. 
 <br><br>
+**Q.** Is there support for other devices?<br>
+**A.** Not yet, but the main feature in the pipeline is battery notifications and display information for all Bluetooth Device that provide battery information. 
 
 <br><br><br>
 
