@@ -49,6 +49,8 @@ However, because of popular demand, the scope of this project has expanded signi
 - 🇷🇺 [Russian](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/ru.lproj/LocalizableMain.strings) (Provided by [Alexey Petraky @ko-oler](https://github.com/ko-oler))
 - 🇳🇱 [Dutch](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/nl.lproj/LocalizableMain.strings) (Provided by [@joostiphone](https://github.com/joostiphone))
 - 🇹🇷 [Turkish](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [Soner Kalonya @kalonya](https://github.com/kalonya))
+- 🇨🇳 [Chinese (Traditional & Simplified)](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [Desmoed Richtofen @Shane1119](https://github.com/Shane1119))
+
 
 #### Unverified/Auto-Translated
 - 🇩🇪 [German](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/de.lproj/LocalizableMain.strings)
