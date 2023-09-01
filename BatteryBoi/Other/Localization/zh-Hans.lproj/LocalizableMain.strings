@@ -1,0 +1,47 @@
+// Translation Provided by Desmoed Richtofen (https://github.com/Shane1119)
+
+"AlertSomePercentTitle" = "剩余电量 %d%%"; // 90% Remaining 
+"AlertOnePercentTitle" = "您的Mac即将关机"; 
+"AlertChargingTitle" = "正在充电..."; 
+"AlertChargingStoppedTitle" = "充电结束"; 
+"AlertChargingCompleteTitle" = "电量已满"; 
+"AlertDeviceConnectedTitle" = "'%@' 已连接"; //'Joe's Headphones' Connected 
+"AlertDeviceDisconnectedTitle" = "'%@' 已断开"; //'Joe's Headphones' Disconnected 
+"AlertDeviceUnknownTitle" = "未知设备"; 
+"AlertDeviceCalculatingTitle" = "正在计算...";
+
+"AlertEstimateSummary" = "剩余可用 %@"; // 1 hour, 32 minutes until empty 
+"AlertPercentSummary" = "请连接电源!"; 
+"AlertStartedChargeSummary" = "已于 %@ 完成充电."; // Fully charged at 2:32pm 
+"AlertChargedSummary" = "您的Mac电量已满.";
+
+"TimestampHourFullLabel_Plural" = "%d 时"; 
+"TimestampHourFullLabel_Single" = "%d 时"; 
+"TimestampMinuteFullLabel_Plural" = "%d 分"; 
+"TimestampMinuteFullLabel_Single" = "%d 分"; 
+"TimestampMinuteDaysLabel_Plural" = "%d 日"; 
+"TimestampHourAbbriviatedLabel" = "h"; 
+"TimestampMinuteAbbriviatedLabel" = "m"; 
+"TimestampDayAbbriviatedLabel" = "d"; 
+"TimestampNeverLabel" = "从未"; 
+"TimestampNowLabel" = "刚刚";
+
+"SettingsWebsiteLabel" = "主页"; 
+"SettingsQuitLabel" = "退出"; 
+"SettingsThemeLabel" = "外观"; 
+"SettingsEfficiencyLabel" = "低能耗模式"; 
+"SettingsCheckUpdatesLabel" = "检查更新"; 
+"SettingsNewUpdateLabel" = "安装更新"; 
+"SettingsDisplayLabel" = "显示设置"; 
+"SettingsDisplayPercentLabel" = "百分比"; 
+"SettingsDisplayEstimateLabel" = "可用时间"; 
+"SettingsDisplayNoneLabel" = "无"; 
+"SettingsDisplayRemovedLabel" = "在工具栏隐藏图标";
+
+"SettingsEnabledLabel" = "启用"; 
+"SettingsDisabledLabel" = "禁用";
+"UpdateStatusCheckingLabel" = "正在检查更新";
+
+"UpdateStatusIdleLabel" = "上次检查: %@"; // Last Checked: 4 hours ago 
+"UpdateStatusEmptyLabel" = "暂无更新"; 
+"UpdateStatusNewLabel" = "更新可用";
