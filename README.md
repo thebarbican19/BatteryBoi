@@ -16,6 +16,12 @@ The battery icon really needed an indicator for how much time is left in terms o
 
 <br>
 However, because of popular demand, the scope of this project has expanded significantly to be a full-fledged, open-source, completely free battery app giving you beautiful notifications and insights into your battery, and even your connected devices (Bluetooth support coming very soon!).<br><br><br>
+<br>
+
+## Product Hunt Launch 🚀
+**BatteryBoi will be going live on [Product Hunt](https://www.producthunt.com/products/batteryboi)** on **Tuesday 5th September**. Please please help by upvoting and sharing the word before, during, and after! 
+
+<br><br>
 
 ## How (to Install)
 
@@ -39,10 +45,12 @@ However, because of popular demand, the scope of this project has expanded signi
 
 #### Verified
 - 🇬🇧 [English](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/en.lproj/LocalizableMain.strings)
-- 🇯🇵 [Japanese](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/jp.lproj/LocalizableMain.strings) (Provided by [@fus1ondev](https://github.com/fus1ondev))
+- 🇯🇵 [Japanese](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/ja.lproj/LocalizableMain.strings) (Provided by [@fus1ondev](https://github.com/fus1ondev))
 - 🇷🇺 [Russian](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/ru.lproj/LocalizableMain.strings) (Provided by [Alexey Petraky @ko-oler](https://github.com/ko-oler))
 - 🇳🇱 [Dutch](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/nl.lproj/LocalizableMain.strings) (Provided by [@joostiphone](https://github.com/joostiphone))
 - 🇹🇷 [Turkish](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [Soner Kalonya @kalonya](https://github.com/kalonya))
+- 🇨🇳 [Chinese (Traditional & Simplified)](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [Desmoed Richtofen @Shane1119](https://github.com/Shane1119))
+
 
 #### Unverified/Auto-Translated
 - 🇩🇪 [German](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/de.lproj/LocalizableMain.strings)
@@ -54,7 +62,7 @@ However, because of popular demand, the scope of this project has expanded signi
 - 🇮🇹 [Italian](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/it.lproj/LocalizableMain.strings)
 
 <br>
-If you would like to help by verifying your native language, or if it is not yet on the list adding it please see the Localization Documentation. ([#12][i12])
+If you would like to help by verifying your native language, or if it is not yet on the list adding it please see Documentation in Issue https://github.com/thebarbican19/BatteryBoi/issues/12
 
 
 
@@ -65,7 +73,7 @@ With continued support, I will be adding...
 - [X] **🔋 Battery Replacement**
 - [x] **🚀 Login at Launch**
 - [x] **👴🏻 Support for macOS Monterey & Big Sur (v11)**
-- [ ] **🟡 System Colour Alerts**
+- [ ] **🟡 System Colour Alerts & Charging Icon**
 - [x] **🪫 Low Power Mode Toggle** (Suggested by [@Crear12](https://github.com/Crear12))
 - [x] **🇲🇽 Multiple Language Support**
 - [x] **⬇️ Sparkle Intergration**
@@ -74,6 +82,7 @@ With continued support, I will be adding...
 - [ ] **☀️ Light Mode**
 - [ ] **🎨 Customisation View**
 - [ ] **📈 More Stats**
+- [ ] **↗️ Move and Snap to Position**
 - [x] **⚙️ App Preferences**
 - [ ] **🎧 Bluetooth Device Support**
 - [ ] **⌨️ Custom Keyboard Shortcuts**
@@ -104,6 +113,8 @@ With continued support, I will be adding...
 **Q.** Can I revert back to the old MacOS Battery Indicator?<br>
 **A.** Yes! Go to **System Preferences** > **Control Center** > **Battery** > **Show in Menu Bar** and toggle it on. 
 <br><br>
+**Q.** Is there support for other devices?<br>
+**A.** Not yet, but the main feature in the pipeline is battery notifications and display information for all Bluetooth Device that provide battery information. 
 
 <br><br><br>
 
