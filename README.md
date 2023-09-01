@@ -96,6 +96,7 @@ With continued support, I will be adding...
     - [ ] **Add to Menu Bar**
 
 - [ ] **⌨️ Custom Keyboard Shortcuts**
+- [ ] **⌨️ Custom IF/THEN Triggers** (at 10%, lower the brightness to 0.3)
 
 <br>Ideas are welcome. 
 
