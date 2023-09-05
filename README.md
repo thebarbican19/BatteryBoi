@@ -82,7 +82,7 @@ With continued support, I will be adding...
 - [x] **🚨 Improved Alerts**
 - [x] **🏝️ A Dynamic Island-Style Modal with Sexy Indicator**
 - [ ] **☀️ Light Mode**
-- [ ] **🔉 Sound Effects**
+- [x] **🔉 Sound Effects**
 - [ ] **🎨 Customisation View**
     - [ ] **🔉 Sound Effects (Toggle)**
     - [ ] **⚙️Display (Toggle)**
@@ -90,7 +90,7 @@ With continued support, I will be adding...
     - [ ] **☀️Light/Dark Mode Toggle**
 
 - [ ] **📈 More Stats**
-- [ ] **↗️ Move and Snap to Position**
+- [x] **↗️ Move and Snap to Position**
 - [x] **⚙️ App Preferences**
 - [ ] **🎧 Bluetooth Device Support**
     - [ ] **Custom Notifications**
