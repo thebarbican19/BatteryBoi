@@ -136,6 +136,7 @@ Here's a list of places BatteryBoi has been featured across the web and across t
 - [🇯🇵 Apple CH](https://applech2.com/archives/20230831-batteryboi-for-macbook-battery.html)
 - [🇩🇪 iFun](https://www.ifun.de/batteryboi-zeigt-die-restliche-akku-laufzeit-in-der-menueleiste-215907/)
 
+<br><br><br>
 
 ## Spare some change?
 In a world where almost every app has a recurring fee, **BatteryBoi is and will remain open-source and free for everybody!** But if you want to support future development and see some of the roadmap items implemented, then consider donating via our website [batteryboi.ovatar.io](https://batteryboi.ovatar.io/) or via  my [GitHub Sponsor page](https://github.com/sponsors/thebarbican19).
