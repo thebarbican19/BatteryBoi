@@ -194,11 +194,11 @@ extension Date {
         
         if let formatter = formatter {
             if formatter.contains("a") == true {
-                return self.string("HH:mm")
+                return self.string("hh:mm a")
                 
             }
             else {
-                return self.string("hh:mm a")
+                return self.string("HH:mm")
 
             }
             
