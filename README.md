@@ -19,7 +19,7 @@ However, because of popular demand, the scope of this project has expanded signi
 <br>
 
 ## Product Hunt Launch 🚀
-**BatteryBoi will be going live on [Product Hunt](https://www.producthunt.com/products/batteryboi)** on **6th September (TODAY!!)**. Please please help by upvoting and sharing the word before, during, and after! 
+**BatteryBoi will be going live on [Product Hunt](https://www.producthunt.com/products/batteryboi)** on **5th September (TODAY!!)**. Please please help by upvoting and sharing the word before, during, and after! 
 
 <br><br>
 
