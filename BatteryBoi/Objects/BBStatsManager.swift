@@ -9,30 +9,39 @@ import Foundation
 import EnalogSwift
 import Combine
 
+struct StatsDisplayObject {
+    var standard:String?
+    var overlay:String?
+    
+}
+
 class StatsManager:ObservableObject {
     static var shared = StatsManager()
     
     @Published var display:String?
+    @Published var overlay:String?
     @Published var title:String
     @Published var subtitle:String
 
     private var updates = Set<AnyCancellable>()
 
     init() {
-        self.display = ""
+        self.display = nil
         self.title = ""
         self.subtitle = ""
         
         UserDefaults.changed.receive(on: DispatchQueue.main).sink { key in
             if key == .enabledDisplay {
                 self.display = self.statsDisplay
-                
+                self.overlay = self.statsOverlay
+
             }
                        
         }.store(in: &updates)
         
         AppManager.shared.$alert.receive(on: DispatchQueue.main).sink() { newValue in
             self.display = self.statsDisplay
+            self.overlay = self.statsOverlay
             self.title = self.statsTitle
             self.subtitle = self.statsSubtitle
             
@@ -40,6 +49,7 @@ class StatsManager:ObservableObject {
         
         BatteryManager.shared.$charging.receive(on: DispatchQueue.main).sink() { newValue in
             self.display = self.statsDisplay
+            self.overlay = self.statsOverlay
             self.title = self.statsTitle
             self.subtitle = self.statsSubtitle
             
@@ -47,6 +57,7 @@ class StatsManager:ObservableObject {
 
         BatteryManager.shared.$percentage.receive(on: DispatchQueue.main).sink() { newValue in
             self.display = self.statsDisplay
+            self.overlay = self.statsOverlay
             self.title = self.statsTitle
             self.subtitle = self.statsSubtitle
             
@@ -54,6 +65,7 @@ class StatsManager:ObservableObject {
 
         BatteryManager.shared.$saver.receive(on: DispatchQueue.main).sink() { newValue in
             self.display = self.statsDisplay
+            self.overlay = self.statsOverlay
             self.title = self.statsTitle
             self.subtitle = self.statsSubtitle
             
@@ -78,22 +90,12 @@ class StatsManager:ObservableObject {
             
         }
         else {
-            if SettingsManager.shared.enabledDisplay() == .countdown {
-                if let remaining = BatteryManager.shared.remaining, let hour = remaining.hours, let minute = remaining.minutes {
-                    if hour > 0 && minute > 0 {
-                       return "+\(hour)\("TimestampHourAbbriviatedLabel".localise())"
-
-                    }
-                    else if hour > 0 && minute == 0 {
-                        return "\(hour)\("TimestampHourAbbriviatedLabel".localise())"
-
-                    }
-                    else if hour == 0 && minute > 0 {
-                        return "\(minute)\("TimestampMinuteAbbriviatedLabel".localise())"
-
-                    }
-                        
-                }
+            if display == .empty {
+                return nil
+                
+            }
+            else if SettingsManager.shared.enabledDisplay() == .countdown {
+                return self.statsCountdown
                 
             }
             
@@ -101,6 +103,52 @@ class StatsManager:ObservableObject {
         
         return "\(Int(BatteryManager.shared.percentage))"
 
+    }
+    
+    private var statsOverlay:String? {
+        let state = BatteryManager.shared.charging.state
+
+        if state == .charging {
+            return nil
+            
+        }
+        else {
+            if SettingsManager.shared.enabledDisplay() == .countdown {
+                return "\(Int(BatteryManager.shared.percentage))"
+                
+            }
+            else if SettingsManager.shared.enabledDisplay() == .empty {
+                return "\(Int(BatteryManager.shared.percentage))"
+
+            }
+            else {
+                return self.statsCountdown
+                
+            }
+            
+        }
+        
+    }
+    
+    private var statsCountdown:String? {
+        if let remaining = BatteryManager.shared.remaining, let hour = remaining.hours, let minute = remaining.minutes {
+            if hour > 0 && minute > 0 {
+               return "+\(hour)\("TimestampHourAbbriviatedLabel".localise())"
+
+            }
+            else if hour > 0 && minute == 0 {
+                return "\(hour)\("TimestampHourAbbriviatedLabel".localise())"
+
+            }
+            else if hour == 0 && minute > 0 {
+                return "\(minute)\("TimestampMinuteAbbriviatedLabel".localise())"
+
+            }
+                
+        }
+        
+        return nil
+        
     }
     
     private var statsTitle:String {

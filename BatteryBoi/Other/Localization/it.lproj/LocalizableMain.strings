@@ -36,8 +36,29 @@
 "SettingsDisplayNoneLabel" = "Nessuno";
 "SettingsEnabledLabel" = "Abilitato";
 "SettingsDisabledLabel" = "Disabilitato";
+"SettingsAboutLabel" = "Informazioni";
+"SettingsCustomizationLabel" = "Personalizzazione";
+"SettingsSoundEffectsLabel" = "Effetti Sonori";
+"SettingsTriggersLabel" = "Comandi";
+"SettingsNotificationsLabel" = "Notifiche";
+"SettingsPrereleasesLabel" = "Release Beta";
+
+"SettingsCustomizationMenuLabel" = "Icona della Barra del Menu";
+"SettingsCustomizationThemeDarkLabel" = "Scuro";
+"SettingsCustomizationThemeLightLabel" = "Chiaro";
+"SettingsCustomizationThemeSystemLabel" = "Sistema";
+"SettingsCustomizationThemeTitle" = "Aspetto";
 
 "UpdateStatusCheckingLabel" = "Controllo aggiornamenti...";
 "UpdateStatusIdleLabel" = "Ultimo controllo: %@"; // Ultimo controllo: 4 ore fa
 "UpdateStatusEmptyLabel" = "Nessun aggiornamento disponibile";
 "UpdateStatusNewLabel" = "Nuovo aggiornamento disponibile!";
+
+"AboutTitle" = "BatteryBoi, gratuito, per sempre, per tutti...";
+"AboutBodyOne" = "Nel frenetico panorama delle app dove i portafogli soffrono spesso di abbonamenti ricorrenti, BatteryBoi è 100% gratuito e Open Source, per sempre!";
+"AboutBodyTwo" = "Creare un'app che sembri così buona richiede molti giorni di lavoro, sudore e talvolta lacrime. È per questo che chiedo alle persone e alle aziende che possono permetterselo di considerare di fare una donazione.";
+"AboutBodyThree" = "Le donazioni manterranno le luci accese e gli aggiornamenti/correzioni continueranno.";
+"AboutBodyFooter" = "Grazie - Joe (Fondatore di BatteryBoi)";
+"AboutGithubAction" = "GitHub";
+"AboutDonateAction" = "Donare";
+"AboutShareAction" = "Condividere";

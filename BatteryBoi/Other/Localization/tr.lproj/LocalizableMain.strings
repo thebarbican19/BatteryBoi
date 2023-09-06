@@ -27,10 +27,15 @@
 
 "SettingsWebsiteLabel" = "Web Sitesi";
 "SettingsQuitLabel" = "Çıkış";
-"SettingsThemeLabel" = "Görünüm";
 "SettingsEfficiencyLabel" = "Düşük Güç";
 "SettingsCheckUpdatesLabel" = "Güncellemeleri Kontrol Et";
 "SettingsNewUpdateLabel" = "Yeni Güncellemeyi Yükle";
+"SettingsAboutLabel" = "Hakkında";
+"SettingsCustomizationLabel" = "Özelleştirme";
+"SettingsSoundEffectsLabel" = "Ses Efektleri";
+"SettingsTriggersLabel" = "Komutlar";
+"SettingsNotificationsLabel" = "Bildirimler";
+"SettingsPrereleasesLabel" = "Beta Sürümler";
 
 "SettingsDisplayLabel" = "Gösterge";
 "SettingsDisplayPercentLabel" = "Yüzde";
@@ -40,7 +45,22 @@
 "SettingsEnabledLabel" = "Etkin";
 "SettingsDisabledLabel" = "Devre Dışı";
 
+"SettingsCustomizationMenuLabel" = "Menü Çubuğu Simgesi";
+"SettingsCustomizationThemeDarkLabel" = "Koyu";
+"SettingsCustomizationThemeLightLabel" = "Açık";
+"SettingsCustomizationThemeSystemLabel" = "Sistem";
+"SettingsCustomizationThemeTitle" = "Görünüm";
+
 "UpdateStatusCheckingLabel" = "Güncellemeler Kontrol Ediliyor...";
 "UpdateStatusIdleLabel" = "Son Kontrol: %@"; // Son Kontrol: 4 saat önce
 "UpdateStatusEmptyLabel" = "İndirilebilir Güncelleme Yok";
 "UpdateStatusNewLabel" = "Yeni Güncelleme Mevcut!";
+
+"AboutTitle" = "BatteryBoi, Herkes için ücretsiz, sınırsız...";
+"AboutBodyOne" = "Cüzdanların tekrarlayan abonelikler karşısında sık sık inlediği yoğun uygulama dünyasında, BatteryBoi sonuna dek %100 ücretsiz ve Açık-Kaynak!";
+"AboutBodyTwo" = "Bu kalitede bir uygulamanın hazırlanması, günler süren çalışmanın, kan ve terin, bazen de gözyaşlarının sonucudur. Bu yüzden, lütfen, maddi durumu elverişli olan kişi ve işletmelerden bağış yapmayı düşünmelerini rica ediyorum.";
+"AboutBodyThree" = "Bağışlar, projemizin ayakta kalmasını sağlayacak ve güncellemelerin/duzeltmelerin devam etmesine yardımcı olacaktır.";
+"AboutBodyFooter" = "Teşekkürler - Joe (BatteryBoi'nin Kurucusu)";
+"AboutGithubAction" = "GitHub";
+"AboutDonateAction" = "Bağış Yap";
+"AboutShareAction" = "Paylaş";

@@ -37,11 +37,32 @@
 "SettingsDisplayEstimateLabel" = "可用時間"; 
 "SettingsDisplayNoneLabel" = "無"; 
 "SettingsDisplayRemovedLabel" = "在工具列隱藏圖示";
+"SettingsAboutLabel" = "關於";
+"SettingsCustomizationLabel" = "客製化";
+"SettingsSoundEffectsLabel" = "音效設定";
+"SettingsTriggersLabel" = "快捷設定";
+"SettingsNotificationsLabel" = "通知設定";
+"SettingsPrereleasesLabel" = "測試版本";
 
 "SettingsEnabledLabel" = "啓用"; 
 "SettingsDisabledLabel" = "禁用";
 "UpdateStatusCheckingLabel" = "正在檢查更新";
 
+"SettingsCustomizationMenuLabel" = "工具列圖示";
+"SettingsCustomizationThemeDarkLabel" = "暗色";
+"SettingsCustomizationThemeLightLabel" = "亮色";
+"SettingsCustomizationThemeSystemLabel" = "自動";
+"SettingsCustomizationThemeTitle" = "外觀設定";
+
 "UpdateStatusIdleLabel" = "上次檢查: %@"; // Last Checked: 4 hours ago 
 "UpdateStatusEmptyLabel" = "暫無更新"; 
 "UpdateStatusNewLabel" = "更新可用";
+
+"AboutTitle" = "BatteryBoi, 無常, 無限, 無邊...";
+"AboutBodyOne" = "在使用萬千程式的過程中, 錢包常常因為扣款而啜泣. 不過BatteryBoi 會向你保證永久免費, 永久開源!";
+"AboutBodyTwo" = "創造出這個小東西讓我好幾天沒合眼, 真的超累. 這就是為什麼我會希望一些個人或者商戶能夠稍稍捐贈一下我, 十分感謝.";
+"AboutBodyThree" = "您的捐贈會幫助本程式的後續維護和更新, 以及我讓每天多喝上一小杯咖啡.";
+"AboutBodyFooter" = "謝謝 - Joe (BatteryBoi 開發者)";
+"AboutGithubAction" = "GitHub";
+"AboutDonateAction" = "捐贈";
+"AboutShareAction" = "分享";

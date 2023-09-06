@@ -10,6 +10,26 @@ import Combine
 import IOKit.ps
 import EnalogSwift
 
+enum BatteryCondition: String {
+    case optimal = "Normal"
+    case suboptimal = "Replace Soon"
+    case malfunctioning = "Service Battery"
+    case unknown = "Unknown"
+    
+}
+
+struct BatteryMetricsObject {
+    var cycles:Int
+    var heath:BatteryCondition
+    
+    init(cycles:String, health:String) {
+        self.cycles = Int(cycles) ?? 0
+        self.heath = BatteryCondition(rawValue: health) ?? .optimal
+        
+    }
+    
+}
+
 enum BatteryModeType {
     case normal
     case efficient
@@ -155,7 +175,8 @@ class BatteryManager:ObservableObject {
     @Published var mode:Bool = false
     @Published var saver:BatteryModeType = .unavailable
     @Published var rate:BatteryEstimateObject? = nil
-    
+    @Published var metrics:BatteryMetricsObject? = nil
+
     private var updates = Set<AnyCancellable>()
 
     init() {
@@ -171,6 +192,7 @@ class BatteryManager:ObservableObject {
 
         AppManager.shared.appTimer(60).sink { _ in
             self.saver = self.powerSaveModeStatus
+            self.metrics = self.powerProfilerDetails
 
         }.store(in: &updates)
         
@@ -229,8 +251,6 @@ class BatteryManager:ObservableObject {
     }
     
     private var powerRemaing:BatteryRemaining? {
-        print("Battery Power Remaining Function Polled at \(Date())")
-
         let process = Process()
         process.launchPath = "/bin/sh"
         process.arguments = ["-c", "pmset -g batt | grep -o '[0-9]\\{1,2\\}:[0-9]\\{2\\}'"]
@@ -327,8 +347,6 @@ class BatteryManager:ObservableObject {
     }
     
     private var powerSaveModeStatus:BatteryModeType {
-        print("Battery Power Saving Function Polled at \(Date())")
-
         let task = Process()
         task.launchPath = "/usr/bin/env"
         task.arguments = ["bash", "-c", "pmset -g | grep lowpowermode"]
@@ -377,6 +395,48 @@ class BatteryManager:ObservableObject {
             
         }
                 
+    }
+    
+    private var powerProfilerDetails:BatteryMetricsObject? {
+        let process = Process()
+        process.launchPath = "/usr/bin/env"
+        process.arguments = ["system_profiler", "SPPowerDataType"]
+
+        let pipe = Pipe()
+        process.standardOutput = pipe
+
+        process.launch()
+
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        
+        if let output = String(data: data, encoding: .utf8) {
+            let lines = output.split(separator: "\n")
+            
+            var cycles: String?
+            var heath: String?
+            
+            for line in lines {
+                if line.contains("Cycle Count") {
+                    cycles = String(line.split(separator: ":").last ?? "").trimmingCharacters(in: .whitespaces)
+                    
+                }
+                
+                if line.contains("Condition") {
+                    heath = String(line.split(separator: ":").last ?? "").trimmingCharacters(in: .whitespaces)
+                    
+                }
+                
+                if let cycles = cycles, let heath = heath {
+                    return .init(cycles: cycles, health: heath)
+                    
+                }
+                
+            }
+          
+        }
+        
+        return nil
+        
     }
     
 }

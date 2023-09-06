@@ -39,8 +39,29 @@
 "SettingsDisplayRemovedLabel" = "Icoon Menu Balk Verborgen";
 "SettingsEnabledLabel" = "Ingeschakeld";
 "SettingsDisabledLabel" = "Uitgeschakeld";
+"SettingsAboutLabel" = "Over";
+"SettingsCustomizationLabel" = "Personaliseer";
+"SettingsSoundEffectsLabel" = "Geluideffecten"; 
+"SettingsTriggersLabel" = "Commando’s"; 
+"SettingsNotificationsLabel" = "Berichten"; 
+"SettingsPrereleasesLabel" = "Beta Versies"; 
+
+"SettingsCustomizationMenuLabel" = "Menubalk Icoon"; 
+"SettingsCustomizationThemeDarkLabel" = "Donker"; 
+"SettingsCustomizationThemeLightLabel" = "Licht"; 
+"SettingsCustomizationThemeSystemLabel" = "Systeem"; 
+"SettingsCustomizationThemeTitle" = "Uiterlijk";
 
 "UpdateStatusCheckingLabel" = "Op Updates Controleren...";
 "UpdateStatusIdleLabel" = "Laatste controle: %@"; // Laatste Controle: 4 uur geleden
 "UpdateStatusEmptyLabel" = "Geen Updates Beschikbaar";
 "UpdateStatusNewLabel" = "Nieuwe Update Beschikbaar!";
+
+"AboutTitle" = "BatteryBoi, Gratis, Altijd, voor Iedereen..";
+"AboutBodyOne" = "In het drukke app-landschap waar portemonnees vaak huilen door terugkerende abonnementen. BatteryBoi is 100% gratis & Open-Source, voor altijd!";
+"AboutBodyTwo" = "Het is vele dagen werk, bloed, zweet en soms tranen om deze app te ontwikkelen die er zo goed uitziet. Daarom vraag ik mensen en bedrijven die het zich kunnen veroorloven om een donatie te overwegen.";
+"AboutBodyThree" = "Donaties zorgen ervoor dat het licht blijft branden en dat er updates/fixes blijven komen.";
+"AboutBodyFooter" = "Bedankt - Joe (Oprichter van BatteryBoi)";
+"AboutGithubAction" = "GitHub";
+"AboutDonateAction" = "Doneer";
+"AboutShareAction" = "Deel";

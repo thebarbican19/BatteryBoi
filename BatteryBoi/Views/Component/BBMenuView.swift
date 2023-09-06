@@ -51,66 +51,47 @@ public struct BatteryPulsatingIcon: View {
     @EnvironmentObject var manager:BatteryManager
 
     @State private var visible:Bool = false
-    @State private var icon:String? = "ChargingIcon"
+    @State private var icon:String = "ChargingIcon"
     
-    public var body: some View {
-        VStack {
-            if let icon = self.icon {
-                Image(icon)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .font(.system(size: 20, weight: .bold))
-                    .opacity(self.visible ? 1.0 : 0.0)
-                    .background(Color.clear)
-                    .foregroundColor(Color.white)
-                    .padding(2)
-                    .offset(y:0)
-                    .onAppear() {
-                        withAnimation(Animation.easeInOut) {
-                            self.visible.toggle()
-                            
-                        }
-                        
-                    }
-            }
-            
-        }
-        .onAppear() {
-            if manager.charging.state == .charging && manager.percentage != 100 {
-                self.icon = "ChargingIcon"
-                
-            }
-            else {
-                self.icon = nil
-                
-            }
-            
-        }
-        .onChange(of: manager.charging) { newValue in
-            if newValue.state == .charging {
-                self.icon = "ChargingIcon"
-                
-            }
-            else {
-                self.icon = nil
-                
-            }
-            
-        }
-        .onChange(of: self.visible) { newValue in
-            DispatchQueue.main.asyncAfter(deadline: .now() + (self.visible ? 2.0 : 0.8)) {
-                withAnimation(Animation.easeInOut) {
-                    self.visible.toggle()
-                    
-                }
-                
-            }
-            
-        }
+    init(_ icon:String) {
+        self._icon = State(initialValue: icon)
         
     }
     
+    public var body: some View {
+        Rectangle()
+            .fill(Color.black)
+            .mask(
+               Image(icon)
+                   .resizable()
+                   .aspectRatio(contentMode: .fit)
+            
+            )
+            .frame(width: 5, height: 8)
+            .onAppear() {
+                withAnimation(Animation.easeInOut) {
+                    self.visible = true
+                    
+                }
+            }
+            .offset(y:0.4)
+            .opacity(self.visible ? 1.0 : 0.0)
+            .onChange(of: self.visible) { newValue in
+                DispatchQueue.main.asyncAfter(deadline: .now() + (self.visible ? 2.0 : 0.8)) {
+                    withAnimation(Animation.easeInOut) {
+                        self.visible.toggle()
+    
+                    }
+    
+                }
+    
+            }
+           
+    }
+    
 }
+
+
 
 
 public struct BatteryMask: Shape {
@@ -144,29 +125,75 @@ private struct BatteryStatus: View {
 
     @State private var size:CGSize
     @State private var font:CGFloat
+    @State private var icon:String? = nil
+
+    @Binding private var hover:Bool
     
-    init(_ size:CGSize, font:CGFloat) {
+    init(_ size:CGSize, font:CGFloat, hover:Binding<Bool>) {
         self._size = State(initialValue: size)
         self._font = State(initialValue: font)
-
+        self._hover = hover
+        
     }
 
     var body: some View {
-        HStack(spacing: 0.5) {
-//            if self.manager.charging.state == .charging || self.manager.percentage <= 25 {
-//                BatteryPulsatingIcon()
-//
-//            }
+        ZStack {
+            if let overlay = self.stats.overlay {
+                Text(overlay).style(self.font).offset(y:self.hover ? 0.0 : -self.size.height)
+                
+            }
 
-            if let summary = self.stats.display {
-                Text(summary)
-                    .frame(width: self.size.width, height: self.size.height)
-                    .style(self.font)
-                    .padding(2)
-                                
+            HStack(alignment: .center, spacing:0.4) {
+                if let icon = self.icon {
+                    BatteryPulsatingIcon(icon)
+                    
+                }
+                
+                if let summary = self.stats.display {
+                    Text(summary).style(self.font)
+                    
+                }
+                
+            }
+            .offset(y:self.hover ? self.size.height : 0.0)
+            .foregroundColor(Color.black)
+            .frame(width: self.size.width, height: self.size.height)
+            
+        }
+        .onAppear() {
+            if self.manager.charging.state == .charging && self.manager.percentage != 100 {
+                self.icon = "ChargingIcon"
+                
+            }
+            else {
+                self.icon = nil
+
             }
             
         }
+        .onChange(of: manager.charging) { newValue in
+            if newValue.state == .charging && self.manager.percentage != 100 {
+                self.icon = "ChargingIcon"
+                
+            }
+            else {
+                self.icon = nil
+
+            }
+            
+        }
+        .onChange(of: manager.percentage) { newValue in
+            if self.manager.charging.state == .charging && newValue != 100 {
+                self.icon = "ChargingIcon"
+
+            }
+            else {
+                self.icon = nil
+
+            }
+            
+        }
+        .frame(alignment: .center)
         .foregroundColor(Color.black)
         .animation(Animation.easeInOut, value: self.manager.charging)
 
@@ -206,14 +233,17 @@ struct BatteryIcon: View {
     @State var font:CGFloat
     @State var padding:CGFloat
     @State var progress:CGFloat
+    
+    @Binding var hover:Bool
 
-    init(_ size: CGSize, radius: CGFloat, font:CGFloat) {
+    init(_ size: CGSize, radius: CGFloat, font:CGFloat, hover:Binding<Bool>) {
         self._size = State(initialValue: size)
         self._radius = State(initialValue: radius)
         self._max = State(initialValue: radius)
         self._font = State(initialValue: font)
         self._padding = State(initialValue: 1.6)
         self._progress = State(initialValue: 1.0)
+        self._hover = hover
 
     }
     
@@ -228,18 +258,18 @@ struct BatteryIcon: View {
             .frame(maxWidth: self.size.width, alignment: .leading)
             .foregroundColor(Color.black)
             .overlay(
-                BatteryStatus(size, font: font)
+                BatteryStatus(size, font: font, hover: $hover)
              
             )
                         
         }
         .animation(.linear, value: self.manager.percentage)
         .inverse(
-            BatteryStatus(size, font: font).mask(
+            BatteryStatus(size, font: font, hover: $hover).mask(
                 Rectangle()
                     .fill(.black)
                     .frame(width: self.size.width)
-                    .position(x: -(self.size.width / 2) + (self.progress + 3.6), y: self.size.height / 2)
+                    .position(x: -(self.size.width / 2) + (self.progress + 2.0), y: self.size.height / 2)
 
             )
             
@@ -276,10 +306,12 @@ struct BatteryIcon: View {
 struct BatteryContainer: View {
     @EnvironmentObject var manager:BatteryManager
     @EnvironmentObject var updates:UpdateManager
+    @EnvironmentObject var stats:StatsManager
 
     @State private var size:CGSize
     @State private var radius:CGFloat
     @State private var font:CGFloat
+    @State private var hover:Bool = false
 
     init(_ size: CGSize, radius:CGFloat, font:CGFloat) {
         self._size = State(initialValue: size)
@@ -295,11 +327,31 @@ struct BatteryContainer: View {
                 .opacity(0.9)
                 .frame(width:self.size.width, height: self.size.height)
                 .mask(
-                    Rectangle().inverse(BatteryIcon(size, radius: radius, font: font))
+                    Rectangle().inverse(BatteryIcon(size, radius: radius, font: font, hover: $hover))
                     
                 )
 
         }
+        .onHover { hover in
+            if self.stats.overlay != nil {
+                withAnimation(Animation.easeOut(duration: 0.3).delay(self.hover ? 0.8 : 0.1)) {
+                    self.hover = hover
+                    
+                }
+                
+            }
+            
+        }
+        .onChange(of: self.manager.charging, perform: { newValue in
+            if newValue.state == .charging && self.hover == true {
+                withAnimation(Animation.easeOut(duration: 0.3)) {
+                    self.hover = false
+                    
+                }
+            
+            }
+            
+        })
         .overlay(
             GeometryReader { geo in
                 if let _ = self.updates.available {

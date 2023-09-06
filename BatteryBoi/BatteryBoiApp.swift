@@ -10,6 +10,26 @@ import EnalogSwift
 import Sparkle
 import Combine
 
+public struct SystemAppUsage {
+    var day:Int
+    var timestamp:Date
+    
+}
+
+public enum SystemSoundEffects:String {
+    case high = "highnote"
+    case low = "lownote"
+  
+    public func play(_ force:Bool = false) {
+        if SettingsManager.shared.enabledSoundEffects == .enabled || force == true {
+            NSSound(named: self.rawValue)?.play()
+
+        }
+        
+    }
+    
+}
+
 enum SystemDeviceTypes:String,Codable {
     case macbook
     case macbookPro
@@ -55,6 +75,9 @@ enum SystemDeviceTypes:String,Codable {
 enum SystemEvents:String {
     case fatalError = "fatal.error"
     case userInstalled = "user.installed"
+    case userUpdated = "user.updated"
+    case userActive = "user.active"
+    case userTerminated = "user.quit"
     case userClicked = "user.cta"
     case userPreferences = "user.preferences"
     case userLaunched = "user.launched"
@@ -69,14 +92,21 @@ enum SystemDefaultsKeys: String {
     case enabledDisplay = "sd_settings_display"
     case enabledStyle = "sd_settings_style"
     case enabledTheme = "sd_settings_theme"
-    
+    case enabledSoundEffects = "sd_settings_sfx"
+    case enabledChargeEighty = "sd_charge_eighty"
+    case enabledProgressState = "sd_progress_state"
+
     case batteryUntilFull = "sd_charge_full"
     case batteryLastCharged = "sd_charge_last"
     case batteryDepletionRate = "sd_depletion_rate"
+    case batteryWindowPosition = "sd_window_position"
 
     case versionInstalled = "sd_version_installed"
     case versionCurrent = "sd_version_current"
     case versionIdenfiyer = "sd_version_id"
+    
+    case usageDay = "sd_usage_days"
+    case usageTimestamp = "sd_usage_date"
 
     var name:String {
         switch self {
@@ -87,15 +117,22 @@ enum SystemDefaultsKeys: String {
             case .enabledStyle:return "Icon Style"
             case .enabledDisplay:return "Icon Display Text"
             case .enabledTheme:return "Theme"
-            
+            case .enabledSoundEffects:return "SFX"
+            case .enabledChargeEighty:return "Show complete at 80%"
+            case .enabledProgressState:return "Show Progress"
+
             case .batteryUntilFull:return "Seconds until Charged"
             case .batteryLastCharged:return "Seconds until Charged"
             case .batteryDepletionRate:return "Battery Depletion Rate"
+            case .batteryWindowPosition:return "Battery Window Positio"
             
             case .versionInstalled:return "Installed on"
             case .versionCurrent:return "Active Version"
             case .versionIdenfiyer:return "App ID"
 
+            case .usageDay:return "sd_usage_days"
+            case .usageTimestamp:return "sd_usage_timestamp"
+            
         }
         
     }
@@ -143,9 +180,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
         }
         
         if let channel = Bundle.main.infoDictionary?["SD_SLACK_CHANNEL"] as? String  {
-            EnalogManager.main.user(AppManager.shared.appIdentifyer)
-            EnalogManager.main.crash(SystemEvents.fatalError, channel: .init(.slack, id:channel))
-            EnalogManager.main.ingest(SystemEvents.userLaunched, description: "Launched BatteryBoi")
+            #if DEBUG
+                EnalogManager.main.user(AppManager.shared.appIdentifyer)
+                EnalogManager.main.crash(SystemEvents.fatalError, channel: .init(.slack, id:channel))
+                EnalogManager.main.ingest(SystemEvents.userLaunched, description: "Launched BatteryBoi")
+            
+            #endif
 
         }
         
@@ -153,8 +193,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
             _ = SettingsManager.shared.enabledTheme
             _ = SettingsManager.shared.enabledDisplay()
             
-            print("\n\nApp Version: \(AppManager.shared.appInstalled)\n\n")
-            
+            print("\n\nApp Installed: \(AppManager.shared.appInstalled)\n\n")
+            print("\n\nApp Usage (Days): \(AppManager.shared.appUsage?.day)\n\n")
+
             UpdateManager.shared.updateCheck()
             
             switch BatteryManager.shared.charging.state {
@@ -182,6 +223,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
             
         }
         
+        NSAppleEventManager.shared().setEventHandler(self, andSelector: #selector(applicationHandleURLEvent(event:reply:)), forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
+
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationFocusDidMove(notification:)), name: NSWindow.didMoveNotification, object:nil)
+        
     }
     
     private func applicationMenuBarIcon(_ visible:Bool) {
@@ -206,13 +251,20 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
     }
     
     @objc func applicationStatusBarButtonClicked(sender: NSStatusBarButton) {
-        #if DEBUG
-            WindowManager.shared.windowOpen(.chargingBegan, device: nil)
+        if WindowManager.shared.windowIsVisible(.userInitiated) == false {
+            #if DEBUG
+                WindowManager.shared.windowOpen(.chargingBegan, device: nil)
 
-        #else
-            WindowManager.shared.windowOpen(.userInitiated, device: nil)
+            #else
+                WindowManager.shared.windowOpen(.userInitiated, device: nil)
 
-        #endif
+            #endif
+            
+        }
+        else {
+            WindowManager.shared.windowClose()
+            
+        }
                 
     }
     
@@ -222,5 +274,30 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
         return false
         
     }
+    
+    @objc func applicationHandleURLEvent(event: NSAppleEventDescriptor, reply: NSAppleEventDescriptor) {
+        
+        if let path = event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))?.stringValue?.components(separatedBy: "://").last {
+            
+        }
+        
+    }
 
+    @objc func applicationFocusDidMove(notification:NSNotification) {
+        if let window = notification.object as? NSWindow {
+            if window.title == "modalwindow" {
+                NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseUp]) { _ in
+                    window.animator().alphaValue = 1.0;
+                    window.animator().setFrame(WindowManager.shared.windowHandleFrame(), display: true, animate: true)
+                    
+                }
+                
+                _ = WindowManager.shared.windowHandleFrame(moved: window.frame)
+                
+            }
+
+        }
+        
+    }
+    
 }

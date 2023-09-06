@@ -37,8 +37,30 @@
 "SettingsDisplayRemovedLabel" = "Menüleistensymbol ausgeblendet";
 "SettingsEnabledLabel" = "Aktiviert";
 "SettingsDisabledLabel" = "Deaktiviert";
+"SettingsAboutLabel" = "Über";
+"SettingsCustomizationLabel" = "Anpassung";
+"SettingsSoundEffectsLabel" = "Soundeffekte";
+"SettingsTriggersLabel" = "Befehle";
+"SettingsNotificationsLabel" = "Benachrichtigungen";
+"SettingsPrereleasesLabel" = "Beta-Versionen";
+
+"SettingsCustomizationMenuLabel" = "Menüleistensymbol";
+"SettingsCustomizationThemeDarkLabel" = "Dunkel";
+"SettingsCustomizationThemeLightLabel" = "Hell";
+"SettingsCustomizationThemeSystemLabel" = "System";
+"SettingsCustomizationThemeTitle" = "Erscheinungsbild";
 
 "UpdateStatusCheckingLabel" = "Suche nach Updates...";
 "UpdateStatusIdleLabel" = "Zuletzt überprüft: %@"; // Zuletzt überprüft: vor 4 Stunden
 "UpdateStatusEmptyLabel" = "Keine Updates verfügbar";
 "UpdateStatusNewLabel" = "Neues Update verfügbar!";
+
+"AboutTitle" = "BatteryBoi, kostenlos, für immer, für alle...";
+"AboutBodyOne" = "In der hektischen App-Landschaft, wo Geldbeutel oft wegen wiederkehrenden Abonnements leiden, ist BatteryBoi 100% kostenlos & Open-Source, für immer!";
+"AboutBodyTwo" = "Die Erstellung dieser gut aussehenden App ist das Ergebnis vieler Tage Arbeit, Blut, Schweiß und manchmal Tränen. Deshalb bitte ich Menschen und Unternehmen, die es sich leisten können, eine Spende in Erwägung zu ziehen.";
+"AboutBodyThree" = "Spenden halten die Lichter an und sorgen für Updates und Fehlerbehebungen.";
+"AboutBodyFooter" = "Danke - Joe (Gründer von BatteryBoi)";
+"AboutGithubAction" = "GitHub";
+"AboutDonateAction" = "Spenden";
+"AboutShareAction" = "Teilen";
+

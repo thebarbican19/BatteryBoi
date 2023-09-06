@@ -248,26 +248,36 @@ extension UserDefaults {
     }
 
     static func save(_ key:SystemDefaultsKeys, value:Any?) {
+        self.save(string: key.rawValue, value: value)
+        
+    }
+    
+    static func save(string key:String, value:Any?) {
         if let value = value {
-            main.set(Date(), forKey: "\(key.rawValue)_timestamp")
-            main.set(value, forKey: key.rawValue)
+            main.set(Date(), forKey: "\(key)_timestamp")
+            main.set(value, forKey: key)
             main.synchronize()
             
-            changed.send(key)
+            if let system = SystemDefaultsKeys(rawValue: key) {
+                changed.send(system)
 
-            print("\n\n💾 Saved \(value) to '\(key.rawValue)'\n\n")
+            }
+
+            print("\n\n💾 Saved \(value) to '\(key)'\n\n")
             
         }
         else {
-            main.removeObject(forKey: key.rawValue)
+            main.removeObject(forKey: key)
             main.synchronize()
 
-            changed.send(key)
+            if let system = SystemDefaultsKeys(rawValue: key) {
+                changed.send(system)
+
+            }
 
         }
         
     }
-    
 }
 
 extension CodingUserInfoKey {

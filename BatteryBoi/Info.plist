@@ -14,5 +14,16 @@
 	<string>https://api.ovatar.io/version?id=com.ovatar.batteryapp&amp;beta=true</string>
 	<key>SUPublicEDKey</key>
 	<string>t1V9elylrpBkN0l4EkNxs7eEGVLF3Yd0P0sKDXqxfoA=</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.ovatar.batteryapp</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>batteryboi</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

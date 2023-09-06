@@ -22,8 +22,9 @@ struct SettingsButton: View {
     @EnvironmentObject var settings:SettingsManager
     @EnvironmentObject var battery:BatteryManager
 
+    @Binding var hover:Bool
+
     @State var item:SettingsActionObject
-    @State var hover:Bool = false
     @State var subtitle:String? = nil
     @State var color:String? = nil
     @State var icon:String? = nil
@@ -74,6 +75,11 @@ struct SettingsButton: View {
                 self.icon = self.settings.enabledDisplay(false).icon
 
             }
+            else if item.type == .customiseSoundEffects {
+                self.subtitle = self.settings.sfx.subtitle
+                self.icon = self.settings.sfx.icon
+
+            }
             
         }
         .onChange(of: self.battery.saver, perform: { newValue in
@@ -104,20 +110,24 @@ struct SettingsButton: View {
                     self.icon = newValue.icon
                     
                 }
-
+                
+                
             }
             
+        })
+        .onChange(of: self.settings.sfx, perform: { newValue in
+            if item.type == .customiseSoundEffects {
+                self.subtitle = self.settings.sfx.subtitle
+                self.icon = self.settings.sfx.icon
+
+            }
+
         })
         .onTapGesture {
             SettingsManager.shared.settingsAction(item)
             
         }
         .onHover { hover in
-            withAnimation(Animation.easeOut.delay(self.hover ? 1.2 : 0.1)) {
-                self.hover = hover
-                
-            }
-            
             switch hover {
                 case true : NSCursor.pointingHand.push()
                 default : NSCursor.pop()
@@ -173,6 +183,7 @@ struct SettingsContainer: View {
     
     @State var update:Bool = false
     @State var scroll:CGPoint = .zero
+    @State var hover:Bool = false
 
     var body: some View {
         ZStack {
@@ -180,7 +191,7 @@ struct SettingsContainer: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(alignment: .bottom, spacing: 8) {
                         ForEach(settings.menu, id: \.self) { item in
-                            SettingsButton(item: item)
+                            SettingsButton(hover:$hover, item: item)
                             
                         }
                         
@@ -192,7 +203,7 @@ struct SettingsContainer: View {
                         
                     })
                     .onPreferenceChange(SettingsScrollOffsetKey.self) { value in
-                        if WindowManager.shared.state == .expand {
+                        if WindowManager.shared.state.expanded == true {
                             self.scroll = value
 
                         }
@@ -205,14 +216,21 @@ struct SettingsContainer: View {
                 .padding(.leading, 20)
                 .padding(.trailing, 46)
                 
-
                 SettingsButtonQuit(proxy: geo)
 
             }
 
         }
-        .padding(.horizontal, 6)
+        .padding(.top, 14)
+        .padding(.horizontal, 8)
         .frame(height: 76)
+        .onHover { hover in
+            withAnimation(Animation.easeOut.delay(self.hover ? 1.2 : 0.1)) {
+                self.hover = hover
+                
+            }
+            
+        }
         .onAppear() {
             self.update = updates.available != nil ? true : false
             

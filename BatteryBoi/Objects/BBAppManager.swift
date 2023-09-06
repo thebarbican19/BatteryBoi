@@ -30,13 +30,14 @@ class AppManager:ObservableObject {
             
             if self.counter > 999 {
                 self.counter = 0
-
+                self.appUsageTracker()
+                
             }
-            
+                        
             self.counter += 1
             
         }
-        
+                
         self.timer?.store(in: &updates)
     
     }
@@ -63,6 +64,57 @@ class AppManager:ObservableObject {
             EnalogManager.main.ingest(SystemEvents.userInstalled, description: "Installed App")
   
             return Date()
+            
+        }
+        
+    }
+    
+    public func appUsageTracker() {
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone(identifier: "America/Los_Angeles")!
+        
+        if let latest = self.appUsage {
+            let last = calendar.dateComponents([.year, .month, .day], from: latest.timestamp)
+            let current = calendar.dateComponents([.year, .month, .day], from: Date())
+
+            if let lastDate = calendar.date(from: last), let currentDate = calendar.date(from: current) {
+                if currentDate > lastDate {
+                    self.appUsage = .init(day: latest.day + 1, timestamp: Date())
+
+                }
+                
+            }
+            
+        }
+        else {
+            self.appUsage = .init(day: 1, timestamp: Date())
+
+        }
+        
+    }
+
+    public var appUsage:SystemAppUsage? {
+        get {
+            let days = UserDefaults.main.object(forKey: SystemDefaultsKeys.usageDay.rawValue) as? Int
+            let timestamp = UserDefaults.main.object(forKey: SystemDefaultsKeys.usageTimestamp.rawValue) as? Date
+   
+            if let days = days, let timestamp = timestamp {
+                return .init(day: days, timestamp: timestamp)
+
+            }
+            
+            return nil
+
+        }
+        
+        set {
+            if let newValue = newValue {
+                UserDefaults.save(.usageDay, value: newValue.day)
+                UserDefaults.save(.usageTimestamp, value: newValue.timestamp)
+
+                EnalogManager.main.ingest(SystemEvents.userActive, description: "\(newValue.day) Days Active")
+                
+            }
             
         }
         

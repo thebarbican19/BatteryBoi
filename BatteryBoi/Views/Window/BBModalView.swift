@@ -14,7 +14,9 @@ enum ModalAnimationTypes:Int {
     case begin
     case pinhole
     case reveal
-    case expand
+    case stats
+    case detailed
+    case settings
     case dismiss
     
     var blur:CGFloat {
@@ -23,7 +25,9 @@ enum ModalAnimationTypes:Int {
             case .begin : return 12.0
             case .pinhole : return 2.0
             case .reveal : return 0.0
-            case .expand : return 0.0
+            case .detailed : return 0.0
+            case .settings : return 0.0
+            case .stats : return 0.0
             case .dismiss : return 4.0
 
         }
@@ -36,7 +40,9 @@ enum ModalAnimationTypes:Int {
             case .begin : return 0.05
             case .pinhole : return 1.0
             case .reveal : return 1.0
-            case .expand : return 1.0
+            case .detailed : return 1.0
+            case .settings : return 1.0
+            case .stats : return 1.0
             case .dismiss : return 0.0
 
         }
@@ -49,7 +55,9 @@ enum ModalAnimationTypes:Int {
             case .begin : return .init(width: 40, height: 40)
             case .pinhole : return .init(width: 120, height: 120)
             case .reveal : return .init(width: 400, height: 120)
-            case .expand : return .init(width: 410, height: 210)
+            case .detailed : return .init(width: 410, height: 210)
+            case .stats : return .init(width: 410, height: 260)
+            case .settings : return .init(width: 410, height: 390)
             case .dismiss : return .init(width: 120, height: 120)
     
         }
@@ -62,8 +70,10 @@ enum ModalAnimationTypes:Int {
             case .begin : return 1.4
             case .pinhole : return 0.5
             case .reveal : return 0.5
-            case .expand : return 3.0
-            case .dismiss : return 0.18
+            case .detailed : return 3.0
+            case .settings : return 3.0
+            case .stats : return 3.0
+            case .dismiss : return 0.05
 
         }
     }
@@ -74,7 +84,9 @@ enum ModalAnimationTypes:Int {
             case .begin : return true
             case .pinhole : return true
             case .reveal : return true
-            case .expand : return modal == .userInitiated ? true : false
+            case .detailed : return modal == .userInitiated ? true : false
+            case .settings : return false
+            case .stats : return false
             case .dismiss : return false
 
         }
@@ -87,7 +99,9 @@ enum ModalAnimationTypes:Int {
             case .begin : return 66
             case .pinhole : return 66
             case .reveal : return 66
-            case .expand : return 46
+            case .detailed : return 42
+            case .settings : return 42
+            case .stats : return 42
             case .dismiss : return 66
 
         }
@@ -100,8 +114,19 @@ enum ModalAnimationTypes:Int {
             case .begin : return 0.0
             case .pinhole : return 0.0
             case .reveal : return 8.0
-            case .expand : return 2.0
-            case .dismiss : return 3.0
+            case .detailed : return 0.0
+            case .settings : return 0.0
+            case .stats : return 0.0
+            case .dismiss : return 0.0
+
+        }
+        
+    }
+    
+    var scale:CGFloat {
+        switch self {
+            case .dismiss : return 0.8
+            default : return 1.0
 
         }
         
@@ -113,9 +138,26 @@ enum ModalAnimationTypes:Int {
             case .begin : return false
             case .pinhole : return false
             case .reveal : return true
-            case .expand : return true
+            case .detailed : return true
+            case .settings : return true
+            case .stats : return true
             case .dismiss : return false
 
+        }
+        
+    }
+    
+    var expanded:Bool {
+        switch self {
+            case .initial : return false
+            case .begin : return false
+            case .pinhole : return false
+            case .reveal : return false
+            case .detailed : return true
+            case .settings : return true
+            case .stats : return true
+            case .dismiss : return false
+            
         }
         
     }
@@ -134,6 +176,37 @@ enum ModalAlertTypes:Int {
     case userLaunched
     case deviceConnected
     case deviceRemoved
+    
+    var sfx:SystemSoundEffects? {
+        switch self {
+            case .chargingBegan : return .high
+            case .chargingComplete : return .high
+            case .chargingStopped : return .low
+            case .percentTwentyFive : return .low
+            case .percentTen : return .low
+            case .percentFive : return .low
+            case .percentOne : return .low
+            case .userLaunched : return nil
+            case .userInitiated : return nil
+            case .deviceRemoved : return .low
+            case .deviceConnected : return .high
+
+        }
+        
+    }
+    
+    var trigger:Bool {
+        switch self {
+            case .chargingBegan : return true
+            case .chargingComplete : return true
+            case .chargingStopped : return true
+            case .deviceRemoved : return true
+            case .deviceConnected : return true
+            default : return false
+            
+        }
+        
+    }
 
 }
 
@@ -156,22 +229,44 @@ struct ModalIcon: View {
     
 }
 
-struct ModalUpdatePrompt: View {
-    @EnvironmentObject var update:UpdateManager
+struct ModalStatsSubview: View {
+    @EnvironmentObject var manager:BatteryManager
 
     var body: some View {
-        if let _ = self.update.available {
-            HStack(alignment: .center, spacing: 3) {
+        HStack {
+            
+        }
+        
+    }
+    
+}
+
+struct ModalUpdatePrompt: View {
+    @EnvironmentObject var update:UpdateManager
+    @EnvironmentObject var notices:NoticeManager
+
+    var body: some View {
+        if self.update.available != nil || self.notices.notice != nil {
+            HStack(alignment: .top, spacing: 3) {
                 Circle()
                     .fill(Color("BatteryEfficient"))
                     .frame(width: 5, height: 5)
+                    .offset(y:5)
                 
-                Text("UpdateStatusNewLabel".localise())
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundColor(Color("BatteryEfficient"))
-                    .lineLimit(1)
+                if let notice = self.notices.notice {
+                    Text(notice.title)
+
+                }
+                else {
+                    Text("UpdateStatusNewLabel".localise())
+                    
+                }
                 
             }
+            .padding(0)
+            .font(.system(size: 12, weight: .bold))
+            .foregroundColor(Color("BatteryEfficient"))
+            .lineLimit(2)
             .padding(.top, 10)
             .onHover { hover in
                 switch hover {
@@ -182,7 +277,14 @@ struct ModalUpdatePrompt: View {
                 
             }
             .onTapGesture {
-                SettingsManager.shared.settingsAction(.init(.appInstallUpdate))
+                if let _ = self.notices.notice {
+                    NoticeManager.shared.noticeAction()
+                    
+                }
+                else {
+                    SettingsManager.shared.settingsAction(.init(.appInstallUpdate))
+
+                }
                 
             }
             
@@ -205,6 +307,7 @@ struct ModalIndicator: View {
     @State private var icon:Bool
     @State private var title:String = ""
     @State private var subtitle:String = ""
+    @State private var details:Bool = false
 
     init(_ type:ModalAlertTypes) {
         self._type = State(initialValue: type)
@@ -213,27 +316,37 @@ struct ModalIndicator: View {
     }
     
     var body: some View {
-        HStack(alignment: .center) {
-            ModalIcon().opacity(self.manager.state.content ? 1.0 : 0.0)
-            
-            VStack(alignment: .leading, spacing: 2) {
-                Text(self.title)
-                    .font(.system(size: 18, weight: .bold))
-                    .foregroundColor(.white)
-                    .lineLimit(2)
-                
-                ViewMarkdown($subtitle)
-                
-                ModalUpdatePrompt()
-               
-            }
-            .padding(0)
-            .opacity(self.manager.state.content ? 1.0 : 0.0)
-            
-            Spacer()
-            
-            RadialProgressContainer()
+        VStack {
+            HStack(alignment: .center) {
+                ModalIcon()
+                    .opacity(self.details ? 1.0 : 0.0)
+                    .scaleEffect(self.details ? 1.0 : 0.9)
 
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(self.title)
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundColor(.white)
+                        .lineLimit(2)
+                    
+                    ViewMarkdown($subtitle)
+                    
+                    ModalUpdatePrompt()
+                    
+                }
+                .padding(0)
+                .opacity(self.details ? 1.0 : 0.0)
+                
+                Spacer()
+                
+                RadialProgressContainer()
+                
+            }
+            
+//            HStack {
+//                Text("Stats").foregroundColor(Color.white)
+//
+//            }
+            
         }
         .padding(.vertical, 14)
         .padding(.trailing, 16)
@@ -261,6 +374,11 @@ struct ModalIndicator: View {
                 
             }
             
+            withAnimation(.easeIn(duration: newValue.content ? 0.4 : 0.1).delay(newValue.content ? 0.5 : 0.0)) {
+                self.details = newValue.content
+                
+            }
+            
         }
             
     }
@@ -274,27 +392,44 @@ struct ModalView: View {
     @State private var type:ModalAlertTypes
     @State private var final:ModalAnimationTypes
     @State private var scale:CGFloat = 0.0
+    
+    @Binding var size:CGSize
 
-    init(_ type:ModalAlertTypes) {
+    init(_ type:ModalAlertTypes, size:Binding<CGSize>) {
         self._type = State(initialValue: type)
-        self._final = State(initialValue: type == .userInitiated ? .expand : .reveal)
+        self._final = State(initialValue: type == .userInitiated ? .detailed : .reveal)
+        self._size = size
         
     }
     
     var body: some View {
         VStack() {
-            ModalIndicator(self.type)
+            GeometryReader { geometry in
+                VStack {
+                    switch window.state {
+                        case .settings : AboutContainer()
+                        default : ModalIndicator(self.type)
+                        
+                    }
+                                        
+                    SettingsContainer()
+                    
+                }
+                .clipped()
+                .background(GeometryReader { geometry in
+                    Color.clear.onAppear() {
+                        self.size = geometry.size
 
-            Spacer()
+                    }
+                    
+                })
 
-            SettingsContainer()
+            }
 
         }
-        .frame(width: 430, height: 210)
         .background(
             RoundedRectangle(cornerRadius: 2, style: .continuous).fill(Color("BatteryBackground"))
                 .opacity(self.window.state.opacity)
-                .offset(y:self.window.state == .expand ? -4.0 : 0)
                 .onHover(perform: { hover in
                     self.window.hover = hover ? 1 : 0
                     
@@ -311,8 +446,8 @@ struct ModalView: View {
             }
  
         )
+        .scaleEffect(self.window.state.scale, anchor: .top)
         .blur(radius: self.window.state.blur)
-        .scaleEffect(0.96 + self.scale)
         .onAppear() {
             if self.manager.alert == nil {
                 withAnimation(Animation.easeOut(duration: self.window.state.duration).delay(0.2)) {
@@ -323,20 +458,6 @@ struct ModalView: View {
                 
             }
             
-        }
-        .onChange(of: self.window.hover) { newValue in
-            if self.window.state == .reveal {
-                withAnimation(Animation.easeOut(duration: CGFloat(newValue) > self.scale ? 3.0 : 0.3)) {
-                    switch newValue {
-                        case 0 : self.scale = 0.0
-                        default : self.scale = 0.04
-                        
-                    }
-                                        
-                }
-                
-            }
-                                            
         }
         .onChange(of: self.window.state) { newValue in
             if let next = ModalAnimationTypes(rawValue: newValue.rawValue + 1) {
@@ -359,15 +480,35 @@ struct ModalView: View {
                 
             }
             
-            if newValue == .expand {
-                withAnimation(Animation.easeOut(duration: 0.1)) {
-                    self.scale = 0.04
-                    
-                }
+        }
+        
+    }
+    
+}
+
+struct ModalAligment: View {
+    @EnvironmentObject var window:WindowManager
+
+    @State var type:ModalAlertTypes
+    @State var size:CGSize = .zero
+
+    init(_ type: ModalAlertTypes) {
+        self._type = State(initialValue: type)
+
+    }
+    
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack() {
+                Color.clear
+                
+                ModalView(self.type, size: $size)
                 
             }
-            
+                        
         }
+        .frame(width: 440, height: 410)
+        .background(Color.clear)
         
     }
     
@@ -380,21 +521,21 @@ struct ModalContainer: View {
     init(_ type: ModalAlertTypes, device:BluetoothObject?) {
         self._type = State(initialValue: type)
         self._device = State(initialValue: device)
-
+        
     }
     
     var body: some View {
         VStack {
-            ModalView(type)
-            
+            ModalAligment(self.type)
+          
         }
-        .frame(width: 440, height: 260)
         .environmentObject(WindowManager.shared)
         .environmentObject(AppManager.shared)
         .environmentObject(BatteryManager.shared)
         .environmentObject(SettingsManager.shared)
         .environmentObject(UpdateManager.shared)
         .environmentObject(StatsManager.shared)
+        .environmentObject(NoticeManager.shared)
 
     }
     

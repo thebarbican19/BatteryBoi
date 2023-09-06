@@ -67,12 +67,15 @@ struct RadialProgressContainer: View {
             
             RadialProgressBar(progress: $progress, size: .init(width: 80, height: 80))
 
-            Text("\(self.percent)")
-                .foregroundColor(.white)
-                .font(.system(size: 20, weight: .bold))
+            VStack {
+                Text("\(self.percent)")
+                    .foregroundColor(Color("BatteryTitle"))
+                    .font(.system(size: 20, weight: .bold))
+                
+            }
 
         }
-        .offset(x:self.manager.state.content ? 0.0 : -34.0, y:self.manager.state.content ? 0.0 : -4.0)
+        .offset(x:self.manager.state.content ? 0.0 : -30.0, y:self.manager.state.expanded ? 4.0 : 1.0)
         .frame(width: 90, height: 90)
         .onAppear() {
             if let device = AppManager.shared.device?.battery {

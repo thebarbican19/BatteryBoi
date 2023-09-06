@@ -11,6 +11,13 @@ import IOBluetooth
 import IOKit.ps
 import Cocoa
 
+enum BluetoothDistanceType {
+    case proximate
+    case near
+    case far
+    
+}
+
 enum BluetoothDeviceType:String,Decodable {
     case mouse = "mouse"
     case headphones = "headphones"
@@ -64,6 +71,7 @@ struct BluetoothBatteryObject:Decodable,Equatable {
         
         
     }
+    
 }
 
 struct BluetoothObject:Decodable,Equatable {
@@ -109,7 +117,8 @@ struct BluetoothObject:Decodable,Equatable {
         case firmware = "device_firmwareVersion"
         case type = "device_minorType"
         case vendor = "device_vendorID"
-        
+        case rssi = "device_RSSI"
+
     }
     
 }

@@ -12,6 +12,54 @@ import SwiftUI
 import ServiceManagement
 import EnalogSwift
 
+enum SettingsSoundEffects:String {
+    case enabled
+    case disabled
+    
+    var subtitle:String {
+        switch self {
+            case .enabled : "SettingsEnabledLabel".localise()
+            default : "SettingsDisabledLabel".localise()
+            
+        }
+        
+    }
+    
+    var icon:String {
+        switch self {
+            case .enabled : "AudioIcon"
+            default : "MuteIcon"
+            
+        }
+        
+    }
+
+}
+
+enum SettingsBeta:String {
+    case enabled
+    case disabled
+    
+    var subtitle:String {
+        switch self {
+            case .enabled : "SettingsEnabledLabel".localise()
+            default : "SettingsDisabledLabel".localise()
+            
+        }
+        
+    }
+    
+    var icon:String {
+        switch self {
+            case .enabled : "AudioIcon"
+            default : "MuteIcon"
+            
+        }
+        
+    }
+
+}
+
 enum SettingsDisplayType:String {
     case countdown
     case empty
@@ -23,7 +71,7 @@ enum SettingsDisplayType:String {
             case .countdown : return "SettingsDisplayEstimateLabel".localise()
             case .percent : return "SettingsDisplayPercentLabel".localise()
             case .empty : return "SettingsDisplayNoneLabel".localise()
-            case .hidden : return "SettingsDisplayRemovedLabel".localise()
+            case .hidden : return "Hidden"
 
         }
         
@@ -51,11 +99,13 @@ struct SettingsActionObject:Hashable {
             case .appWebsite : self.title = "SettingsWebsiteLabel".localise()
             case .appQuit : self.title = "SettingsQuitLabel".localise()
             case .appEfficencyMode : self.title = "SettingsEfficiencyLabel".localise()
+            case .appBeta : self.title = "SettingsPrereleasesLabel".localise()
             case .appUpdateCheck : self.title = "SettingsCheckUpdatesLabel".localise()
             case .appInstallUpdate : self.title = "SettingsNewUpdateLabel".localise()
             case .customiseTheme : self.title = "SettingsThemeLabel".localise()
             case .customiseDisplay : self.title = "SettingsDisplayLabel".localise()
             case .customiseNotifications : self.title = "SettingsDisplayPercentLabel".localise()
+            case .customiseSoundEffects : self.title = "SettingsSoundEffectsLabel".localise()
             
         }
         
@@ -71,6 +121,8 @@ enum SettingsActionTypes {
     case appUpdateCheck
     case appEfficencyMode
     case appInstallUpdate
+    case appBeta
+    case customiseSoundEffects
     case customiseDisplay
     case customiseTheme
     case customiseNotifications
@@ -78,13 +130,15 @@ enum SettingsActionTypes {
     var icon:String {
         switch self {
             case .appEfficencyMode : return "EfficiencyIcon"
-            case .appUpdateCheck : return "UpdateIcon"
-            case .appInstallUpdate : return "UpdateIcon"
+            case .appUpdateCheck : return "CycleIcon"
+            case .appInstallUpdate : return "CycleIcon"
             case .appWebsite : return "WebsiteIcon"
+            case .appBeta : return "WebsiteIcon"
             case .appQuit : return "WebsiteIcon"
             case .customiseDisplay : return "PercentIcon"
             case .customiseTheme : return "PercentIcon"
             case .customiseNotifications : return "PercentIcon"
+            case .customiseSoundEffects : return "PercentIcon"
 
         }
         
@@ -151,6 +205,7 @@ class SettingsManager:ObservableObject {
     
     @Published var menu:[SettingsActionObject] = []
     @Published var display:SettingsDisplayType = .countdown
+    @Published var sfx:SettingsSoundEffects = .enabled
     @Published var theme:SettingsTheme = .dark
 
     private var updates = Set<AnyCancellable>()
@@ -159,11 +214,13 @@ class SettingsManager:ObservableObject {
         self.menu = self.settingsMenu
         self.display = self.enabledDisplay(false)
         self.theme = self.enabledTheme
+        self.sfx = self.enabledSoundEffects
 
         UserDefaults.changed.receive(on: DispatchQueue.main).sink { key in
             switch key {
                 case .enabledDisplay : self.display = self.enabledDisplay(false)
                 case .enabledTheme : self.theme = self.enabledTheme
+                case .enabledSoundEffects : self.sfx = self.enabledSoundEffects
                 default : break
                 
             }
@@ -341,6 +398,69 @@ class SettingsManager:ObservableObject {
         
     }
     
+    public var enabledChargeEighty:Bool {
+        get {
+            if UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledChargeEighty.rawValue) == nil {
+                return false
+                
+            }
+            else {
+                return UserDefaults.main.bool(forKey: SystemDefaultsKeys.enabledChargeEighty.rawValue)
+                
+            }
+        
+        }
+        
+        set {
+            UserDefaults.save(.enabledChargeEighty, value: newValue)
+            
+        }
+        
+    }
+    
+    public var enabledProgressBar:Bool {
+        get {
+            if UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledChargeEighty.rawValue) == nil {
+                return false
+                
+            }
+            else {
+                return UserDefaults.main.bool(forKey: SystemDefaultsKeys.enabledChargeEighty.rawValue)
+                
+            }
+        
+        }
+        
+        set {
+            UserDefaults.save(.enabledChargeEighty, value: newValue)
+            
+        }
+        
+    }
+    
+    public var enabledSoundEffects:SettingsSoundEffects {
+        get {
+            if let key = UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledSoundEffects.rawValue) as? String {
+                return SettingsSoundEffects(rawValue: key) ?? .enabled
+                
+            }
+            
+            return .enabled
+        
+        }
+        
+        set {
+            if self.enabledSoundEffects == .disabled && newValue == .enabled {
+                SystemSoundEffects.high.play(true)
+                
+            }
+            
+            UserDefaults.save(.enabledSoundEffects, value: newValue.rawValue)
+            
+        }
+        
+    }
+
     public var enabledBluetoothStatus:SettingsStateValue {
         get {
             if UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledBluetooth.rawValue) == nil {
@@ -372,33 +492,47 @@ class SettingsManager:ObservableObject {
     
     public func settingsAction(_ action:SettingsActionObject) {
         if action.type == .appWebsite {
-            if let url = URL(string: "http://batteryboi.ovatar.io/") {
+            if let url = URL(string: "http://batteryboi.ovatar.io/index?ref=app&modal=donate") {
                 NSWorkspace.shared.open(url)
 
             }
 
         }
         else if action.type == .appQuit {
-            NSApp.terminate(self)
+            WindowManager.shared.windowClose()
+            
+            EnalogManager.main.ingest(SystemEvents.userUpdated, description: "User Quit")
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                NSApp.terminate(self)
+                
+            }
 
         }
         else if action.type == .appInstallUpdate {
-            if let url = URL(string: "http://batteryboi.ovatar.io/index?modal=update") {
-                NSWorkspace.shared.open(url)
-
+            if let update = UpdateManager.shared.available {
+                if let url = URL(string: "http://batteryboi.ovatar.io/index?modal=update") {
+                    NSWorkspace.shared.open(url)
+                    
+                    EnalogManager.main.ingest(SystemEvents.userUpdated, description: "Updating to \(update.version.formatted)")
+                    
+                }
+                
             }
 
         }
         else if action.type == .appUpdateCheck {
-            if UpdateManager.shared.available == nil {
-                UpdateManager.shared.updateCheck()
-
-            }
-            else {
+            if let update = UpdateManager.shared.available {
                 if let url = URL(string: "http://batteryboi.ovatar.io/index?modal=update") {
                     NSWorkspace.shared.open(url)
 
+                    EnalogManager.main.ingest(SystemEvents.userUpdated, description: "Updating to \(update.version.formatted)")
+
                 }
+                
+            }
+            else {
+                UpdateManager.shared.updateCheck()
 
             }
 
@@ -410,8 +544,19 @@ class SettingsManager:ObservableObject {
             }
             
         }
+        else if action.type == .appBeta {
+            
+        }
         else if action.type == .customiseDisplay {
-            _ = SettingsManager.shared.enabledDisplay(true)
+            _ = self.enabledDisplay(true)
+            
+        }
+        else if action.type == .customiseSoundEffects {
+            switch self.enabledSoundEffects {
+                case .enabled : self.enabledSoundEffects = .disabled
+                case .disabled : self.enabledSoundEffects = .enabled
+
+            }
             
         }
         
@@ -420,19 +565,19 @@ class SettingsManager:ObservableObject {
     private var settingsMenu:[SettingsActionObject] {
         var output = Array<SettingsActionObject>()
         
-        if #available(macOS 12.0, *) {
-            output.append(.init(.appEfficencyMode))
-            
-        }
+//        if #available(macOS 12.0, *) {
+//            output.append(.init(.appEfficencyMode))
+//            
+//        }
 
         output.append(.init(.customiseDisplay))
-        //output.append(.init(.appWebsite))
+        output.append(.init(.customiseSoundEffects))
+
         output.append(.init(.appUpdateCheck))
+        output.append(.init(.appWebsite))
 
         return output
         
     }
-    
-    
 
 }

@@ -7,17 +7,13 @@
 "AlertChargingCompleteTitle" = "Зарядка завершена";
 "AlertDeviceConnectedTitle" = "'%@' Подключено"; // Наушники Джо подключены
 "AlertDeviceDisconnectedTitle" = "'%@' Отключено"; //Наушники Джо отключены
-"AlertDeviceUnknownTitle" = "Неизвестно";
-"AlertDeviceCalculatingTitle" = "Подсчет...";
+"AlertDeviceUnknownTitle" = "Неизвестно"; "AlertDeviceCalculatingTitle" = "Подсчет...";
+"AlertEstimateSummary" = "Заряда хватит на %@"; // Заряда хватит на 1 час 32 минуты
+"AlertPercentSummary" = "Пора искать зарядное устройство!"; "AlertStartedChargeSummary" = "Батарея будет заряжена к %@."; // Батарея будет заряжена к 14:32
+"AlertChargedSummary" = "Батарея полностью заряжена."; "TimestampHourFullLabel_Plural" = "%d часа(ов)";
 
-"AlertEstimateSummary" = "Заряда хватит на %@ "; // Заряда хватит на 1 час 32 минуты
-"AlertPercentSummary" = "Пора искать зарядное устройство!";
-"AlertStartedChargeSummary" = "Батарея будет заряжена к %@."; // Батарея будет заряжена к 14:32
-"AlertChargedSummary" = "Батарея полностью заряжена.";
-
-"TimestampHourFullLabel_Plural" = "%d часа";
 "TimestampHourFullLabel_Single" = "%d час";
-"TimestampMinuteFullLabel_Plural" = "%d минуты";
+"TimestampMinuteFullLabel_Plural" = "%d минут(ы)";
 "TimestampMinuteFullLabel_Single" = "%d минута";
 "TimestampMinuteDaysLabel_Plural" = "%d дней";
 "TimestampHourAbbriviatedLabel" = "ч";
@@ -38,11 +34,32 @@
 "SettingsDisplayEstimateLabel" = "Время";
 "SettingsDisplayNoneLabel" = "Пусто";
 "SettingsDisplayRemovedLabel" = "Скрыть иконку в строке меню";
+
 "SettingsEnabledLabel" = "Включено";
 "SettingsDisabledLabel" = "Выключено";
+"SettingsAboutLabel" = "О приложении";
+"SettingsCustomizationLabel" = "Кастомизация";
+"SettingsSoundEffectsLabel" = "Звуковые эффекты";
+"SettingsTriggersLabel" = "Команды";
+"SettingsNotificationsLabel" = "Уведомления";
+"SettingsPrereleasesLabel" = "Бета-релизы";
+
+"SettingsCustomizationMenuLabel" = "Значок в строке меню";
+"SettingsCustomizationThemeDarkLabel" = "Темная";
+"SettingsCustomizationThemeLightLabel" = "Светлая";
+"SettingsCustomizationThemeSystemLabel" = "Системная";
+"SettingsCustomizationThemeTitle" = "Вид";
 
 "UpdateStatusCheckingLabel" = "Проверка на наличие новых обновлений...";
 "UpdateStatusIdleLabel" = "Последняя проверка: %@"; // Последняя проверка: 4 часа назад
-"UpdateStatusEmptyLabel" = "Обновлений нет";
+"UpdateStatusEmptyLabel" = "Обновлений нет"; 
 "UpdateStatusNewLabel" = "Доступно обновление!";
 
+"AboutTitle" = "BatteryBoi, Бесплатный, Навсегда, для Всех...";
+"AboutBodyOne" = "В мире приложений, где наши кошельки страдают от всевозможных подписок, BatteryBoi на 100% бесплатный и c открытым исходным кодом навсегда!";
+"AboutBodyTwo" = "Создание приложения с такими красивым интерфейсом потребовало много дней усердной работы, пота и иногда даже слез. Поэтому я прошу людей и компании, которые могут себе позволить, сделать пожертвования.";
+"AboutBodyThree" = "Пожертвования позволят и дальше поддерживать выпуск правок и обновлений для приложения.";
+"AboutBodyFooter" = "Спасибо тебе - Joe (Основатель BatteryBoi)";
+"AboutGithubAction" = "GitHub";
+"AboutDonateAction" = "Пожертвовать";
+"AboutShareAction" = "Поделиться";
