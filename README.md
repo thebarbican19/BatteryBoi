@@ -141,7 +141,7 @@ Here's a list of places BatteryBoi has been featured across the web and across t
 ## Spare some change?
 In a world where almost every app has a recurring fee, **BatteryBoi is and will remain open-source and free for everybody!** But if you want to support future development and see some of the roadmap items implemented, then consider donating via our website [batteryboi.ovatar.io](https://batteryboi.ovatar.io/) or via  my [GitHub Sponsor page](https://github.com/sponsors/thebarbican19).
 <br><br>
-**Can't afford to pay?** Don't you stress about it! You can support the project simply by sharing it with whoever has a Mac, or even just by ⭐️ this project.
+**Can't afford to pay?** Don't you stress about it! You can support the project simply by sharing it with whoever has a Mac, rate/upvote the project on [Product Hunt](https://www.producthunt.com/posts/batteryboi-open-source), or Star this repo... Or all of them!
 <br><br>
 
 #### Thank you for your consideration.
