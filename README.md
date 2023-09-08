@@ -99,6 +99,8 @@ With continued support, I will be adding...
 
 - [ ] **⌨️ Custom Keyboard Shortcuts**
 - [ ] **⌨️ Custom IF/THEN Triggers** (at 10%, lower the brightness to 0.3)
+- [ ] **📱 iOS/iPad App (Bidirectional Syncing of Battery Information)**
+- [ ] **🧳 SMJobBless Helper Command Line**
 
 <br>Ideas are welcome. 
 
