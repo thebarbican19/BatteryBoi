@@ -83,7 +83,7 @@ With continued support, I will be adding...
 - [x] **🏝️ A Dynamic Island-Style Modal with Sexy Indicator**
 - [ ] **☀️ Light Mode**
 - [x] **🔉 Sound Effects**
-- [ ] **🎨 Customisation View** Funding Goal $500 or 10 Github Sponsors
+- [ ] **🎨 Customisation View** Funding Goal: **$500**
     - [ ] **🔉 Sound Effects (Toggle)**
     - [ ] **⚙️Display (Toggle)**
     - [ ] **👁️Hide/Show Menu Bar Toggle**
@@ -98,8 +98,8 @@ With continued support, I will be adding...
     - [ ] **Add to Menu Bar**
 
 - [ ] **⌨️ Custom Keyboard Shortcuts**
-- [ ] **⌨️ Custom IF/THEN Triggers** (at 10%, lower the brightness to 0.3)
-- [ ] **📱 iOS/iPad App (Bidirectional Syncing of Battery Information)**
+- [ ] **⌨️ Custom IF/THEN Triggers** (at 10%, lower the brightness to 0.3) Funding Goal: **$1,000**
+- [ ] **📱 iOS/iPad App (Bidirectional Syncing of Battery Information)** Funding Goal: **$2,500**
 - [ ] **🧳 SMJobBless Helper Command Line**
 
 <br>Ideas are welcome. 
