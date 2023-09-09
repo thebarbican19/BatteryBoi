@@ -83,7 +83,7 @@ With continued support, I will be adding...
 - [x] **🏝️ A Dynamic Island-Style Modal with Sexy Indicator**
 - [ ] **☀️ Light Mode**
 - [x] **🔉 Sound Effects**
-- [ ] **🎨 Customisation View**
+- [ ] **🎨 Customisation View** Funding Goal $500 or 10 Github Sponsors
     - [ ] **🔉 Sound Effects (Toggle)**
     - [ ] **⚙️Display (Toggle)**
     - [ ] **👁️Hide/Show Menu Bar Toggle**
