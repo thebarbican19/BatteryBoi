@@ -18,7 +18,7 @@
 "TimestampMinuteFullLabel_Plural" = "%d Minuten";
 "TimestampMinuteFullLabel_Single" = "%d Minute";
 "TimestampMinuteDaysLabel_Plural" = "%d Tage";
-"TimestampMinuteDaysLabel_single" = "%d Tag";
+"TimestampMinuteDaysLabel_Single" = "%d Tag";
 "TimestampHourAbbriviatedLabel" = "Std";
 "TimestampMinuteAbbriviatedLabel" = "Min";
 "TimestampDayAbbriviatedLabel" = "Tg";
