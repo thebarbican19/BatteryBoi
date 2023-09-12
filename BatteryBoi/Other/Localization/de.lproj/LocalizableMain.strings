@@ -1,5 +1,5 @@
 "AlertSomePercentTitle" = "%d%% verbleiben"; // 90% verbleiben
-"AlertOnePercentTitle" = "Ihr Mac wird gleich herunterfahren";
+"AlertOnePercentTitle" = "Dein Mac wird gleich herunterfahren";
 "AlertChargingTitle" = "Lädt...";
 "AlertChargingStoppedTitle" = "Ladegerät entfernt";
 "AlertChargingCompleteTitle" = "Ladevorgang abgeschlossen";
@@ -11,18 +11,19 @@
 "AlertEstimateSummary" = "**%@** bis leer"; // 1 Stunde, 32 Minuten bis leer
 "AlertPercentSummary" = "Zeit, das Kabel zu holen!";
 "AlertStartedChargeSummary" = "Vollständig geladen um **%@**."; // Vollständig geladen um 14:32 Uhr
-"AlertChargedSummary" = "Ihr Akku ist vollständig geladen.";
+"AlertChargedSummary" = "Dein Akku ist vollständig geladen.";
 
 "TimestampHourFullLabel_Plural" = "%d Stunden";
 "TimestampHourFullLabel_Single" = "%d Stunde";
 "TimestampMinuteFullLabel_Plural" = "%d Minuten";
 "TimestampMinuteFullLabel_Single" = "%d Minute";
 "TimestampMinuteDaysLabel_Plural" = "%d Tage";
+"TimestampMinuteDaysLabel_single" = "%d Tag";
 "TimestampHourAbbriviatedLabel" = "Std";
 "TimestampMinuteAbbriviatedLabel" = "Min";
 "TimestampDayAbbriviatedLabel" = "Tg";
 "TimestampNeverLabel" = "Nie";
-"TimestampNowLabel" = "Vor einigen Augenblicken";
+"TimestampNowLabel" = "Eben gerade";
 
 "SettingsWebsiteLabel" = "Webseite";
 "SettingsQuitLabel" = "Beenden";
