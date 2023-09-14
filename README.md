@@ -8,7 +8,7 @@
 [![Swift Version](https://img.shields.io/badge/Swift-5.x-orange.svg)]()
 [![MacOS Version](https://img.shields.io/badge/Supported%20Version-v11.0,%20v12.0,%20v13.0,%20v14.0+-orange)]()
 [![MacOS Version](https://img.shields.io/badge/Discussion%20Group-Telegram-blue)]()
-![Telegram](https://img.shields.io/badge/:badgeContent?logo=telegram&label=Telegram%20Discussion&link=https%3A%2F%2Ft.me%2F%2BRmAXB2JfyOQzMTk0)
+[![Telegram](https://img.shields.io/badge/:badgeContent?logo=telegram&label=Telegram%20Discussion&link=https%3A%2F%2Ft.me%2F%2BRmAXB2JfyOQzMTk0)
 
 
 # BatteryBoi - A Battery Indicator to Rule Them All!
