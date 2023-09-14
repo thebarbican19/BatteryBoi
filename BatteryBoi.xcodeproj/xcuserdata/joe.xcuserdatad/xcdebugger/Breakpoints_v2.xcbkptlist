@@ -551,5 +551,117 @@
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E51607C3-A331-47EE-B9B9-618B1A3245A7"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BatteryBoi/Objects/BBStatsManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "StatsManager"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "E51607C3-A331-47EE-B9B9-618B1A3245A7 - 2379a568ac55ab0f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; BatteryBoi.StatsContainerObject in variable initialization expression of static BatteryBoi.StatsManager.container : BatteryBoi.StatsContainerObject"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBStatsManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "1172">
+               </Location>
+               <Location
+                  uuid = "E51607C3-A331-47EE-B9B9-618B1A3245A7 - 2379a568ac55ab0f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; BatteryBoi.StatsContainerObject in variable initialization expression of static BatteryBoi.StatsManager.container : BatteryBoi.StatsContainerObject"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBStatsManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "1019">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3DBCF27E-2168-42F0-A29D-B5C324415502"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BatteryBoi/Objects/BBStatsManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "StatsManager"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "3DBCF27E-2168-42F0-A29D-B5C324415502 - 2379a568ac55aa8b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; BatteryBoi.StatsContainerObject in variable initialization expression of static BatteryBoi.StatsManager.container : BatteryBoi.StatsContainerObject"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBStatsManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
+                  offsetFromSymbolStart = "3604">
+               </Location>
+               <Location
+                  uuid = "3DBCF27E-2168-42F0-A29D-B5C324415502 - 2379a568ac55aa49"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; BatteryBoi.StatsContainerObject in variable initialization expression of static BatteryBoi.StatsManager.container : BatteryBoi.StatsContainerObject"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBStatsManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "74"
+                  endingLineNumber = "74"
+                  offsetFromSymbolStart = "5300">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C34D6C32-1F12-4CFB-A94B-B53ABC06F533"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BatteryBoi/Objects/BBStatsManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "StatsManager"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

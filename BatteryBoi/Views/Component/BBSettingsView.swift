@@ -16,7 +16,7 @@ struct SettingsScrollOffsetKey: PreferenceKey {
     
 }
 
-struct SettingsButton: View {
+struct SettingsItem: View {
     @EnvironmentObject var manager:AppManager
     @EnvironmentObject var updates:UpdateManager
     @EnvironmentObject var settings:SettingsManager
@@ -34,8 +34,8 @@ struct SettingsButton: View {
             Image(icon ?? item.type.icon)
                 .font(.system(size: 23, weight: .medium))
                 .foregroundColor(self.color == nil ? Color("BatterySubtitle") : Color("BatteryEfficient"))
+                .frame(height: 36)
                 .padding(.trailing, 6)
-                .padding(.vertical, 8)
 
             VStack(alignment: .leading) {
                 Text(item.title)
@@ -53,7 +53,7 @@ struct SettingsButton: View {
             }
             
         }
-        .padding(.vertical, 12)
+        .frame(height: 60)
         .padding(.leading, 18)
         .padding(.trailing, 26)
         .background(
@@ -64,6 +64,11 @@ struct SettingsButton: View {
             if item.type == .appEfficencyMode {
                 self.color = self.battery.saver == .efficient ? "BatteryEfficient" : nil
                 self.subtitle = self.battery.saver == .efficient ? "SettingsEnabledLabel".localise() : "SettingsDisabledLabel".localise()
+
+            }
+            else if item.type == .appPinned {
+                self.subtitle = self.settings.pinned.subtitle
+                self.icon = self.settings.pinned.icon
 
             }
             else if item.type == .appUpdateCheck {
@@ -78,6 +83,11 @@ struct SettingsButton: View {
             else if item.type == .customiseSoundEffects {
                 self.subtitle = self.settings.sfx.subtitle
                 self.icon = self.settings.sfx.icon
+
+            }
+            else if item.type == .customiseCharge {
+                self.subtitle = self.settings.charge.subtitle
+                self.icon = self.settings.charge.icon
 
             }
             
@@ -123,6 +133,22 @@ struct SettingsButton: View {
             }
 
         })
+        .onChange(of: self.settings.pinned, perform: { newValue in
+            if item.type == .appPinned {
+                self.subtitle = self.settings.pinned.subtitle
+                self.icon = self.settings.pinned.icon
+
+            }
+            
+        })
+        .onChange(of: self.settings.charge, perform: { newValue in
+            if item.type == .customiseCharge {
+                self.subtitle = self.settings.charge.subtitle
+                self.icon = self.settings.charge.icon
+
+            }
+            
+        })
         .onTapGesture {
             SettingsManager.shared.settingsAction(item)
             
@@ -140,111 +166,107 @@ struct SettingsButton: View {
     
 }
 
-struct SettingsButtonQuit: View {
-    @State var proxy:GeometryProxy
+struct SettingsOverlayItem: View {
+    @EnvironmentObject var bluetooth:BluetoothManager
+    @EnvironmentObject var manager:AppManager
+
+    @State private var item:SettingsActionType
+    @State private var icon:String = ""
+    @State private var visible:Bool = true
+    @State private var timeline = Array<String>()
+    @State private var index:Int = 0
+
+    init(_ item:SettingsActionType) {
+        self._item = State(initialValue: item)
+        
+    }
+    
+    let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
     
     var body: some View {
-        ZStack {
-            LinearGradient(gradient: Gradient(colors: [Color("BatteryBackground").opacity(0.0), Color("BatteryBackground")]), startPoint: .leading, endPoint: .trailing)
-                .offset(x:-23)
+        RoundedRectangle(cornerRadius: 30, style: .continuous)
+            .fill(Color("BatteryButton"))
+            .frame(width: 60)
+            .overlay(
+                Image(systemName: self.icon)
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(Color("BatterySubtitle"))
             
-            RoundedRectangle(cornerRadius: 30, style: .continuous)
-                .fill(Color("BatteryButton"))
-                .overlay(
-                    Image(systemName: "power")
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundColor(Color("BatterySubtitle"))
+            )
+            .onAppear() {
+                self.index = 0
+                self.timeline = self.bluetooth.connected.map({ $0.type.icon })
                 
-                )
-                .onHover { hover in
-                    switch hover {
-                        case true : NSCursor.pointingHand.push()
-                        default : NSCursor.pop()
+                if self.item == .appQuit {
+                    self.icon = "power"
+                    
+                }
+                else {
+                    switch self.manager.menu {
+                        case .settings : self.icon = self.timeline.index(self.index) ?? "headphones"
+                        default : self.icon = "gearshape.fill"
                         
                     }
                     
                 }
-                .onTapGesture {
-                    SettingsManager.shared.settingsAction(.init(.appQuit))
+                
+
+            }
+            .onChange(of: self.manager.menu) { newValue in
+                if self.item == .appDevices {
+                    switch self.manager.menu {
+                        case .settings : self.icon = self.timeline.index(self.index) ?? "headphones"
+                        default : self.icon = "gearshape.fill"
+                        
+                    }
+
+                }
+                
+            }
+            .onChange(of: self.bluetooth.connected) { newValue in
+                if item == .appDevices {
+                    self.timeline = newValue.map({ $0.type.icon })
                     
                 }
-            
-        }
-        .position(x:proxy.size.width - 48, y:29)
-        .frame(width:58, height: 58)
-        
-    }
-    
-}
-
-struct SettingsContainer: View {
-    @EnvironmentObject var updates:UpdateManager
-    @EnvironmentObject var settings:SettingsManager
-    
-    @State var update:Bool = false
-    @State var scroll:CGPoint = .zero
-    @State var hover:Bool = false
-
-    var body: some View {
-        ZStack {
-            GeometryReader { geo in
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(alignment: .bottom, spacing: 8) {
-                        ForEach(settings.menu, id: \.self) { item in
-                            SettingsButton(hover:$hover, item: item)
+                
+            }
+            .onReceive(timer) { _ in
+                if item == .appDevices {
+                    switch self.timeline.index(self.index) {
+                        case nil : self.index = 0
+                        default : self.index += 1
+                        
+                    }
+                    
+                    if let icon = self.timeline.index(self.index) {
+                        withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.9, blendDuration: 1)) {
+                            self.icon = icon
+                            
                             
                         }
                         
-                        Spacer().frame(width: 32)
-                        
                     }
-                    .background(GeometryReader { geometry in
-                        Color.clear.preference(key: SettingsScrollOffsetKey.self, value: geometry.frame(in: .named("scroll")).origin)
-                        
-                    })
-                    .onPreferenceChange(SettingsScrollOffsetKey.self) { value in
-                        if WindowManager.shared.state.expanded == true {
-                            self.scroll = value
-
-                        }
-                        
-                    }
+                   
+                }
+                
+            }
+            .onHover { hover in
+                switch hover {
+                    case true : NSCursor.pointingHand.push()
+                    default : NSCursor.pop()
                     
                 }
-                .coordinateSpace(name: "scroll")
-                .mask(30, scroll: $scroll)
-                .padding(.leading, 20)
-                .padding(.trailing, 46)
-                
-                SettingsButtonQuit(proxy: geo)
-
-            }
-
-        }
-        .padding(.top, 14)
-        .padding(.horizontal, 8)
-        .frame(height: 76)
-        .onHover { hover in
-            withAnimation(Animation.easeOut.delay(self.hover ? 1.2 : 0.1)) {
-                self.hover = hover
                 
             }
+            .onTapGesture {
+                switch self.item {
+                    case .appQuit : SettingsManager.shared.settingsAction(.init(self.item))
+                    default : AppManager.shared.appToggleMenu(true)
+                    
+                }
             
-        }
-        .onAppear() {
-            self.update = updates.available != nil ? true : false
-            
-        }
-        .onChange(of: self.updates.available, perform: { newValue in
-            withAnimation(Animation.easeOut.delay(0.1)) {
-                self.update = newValue != nil ? true : false
-                
             }
 
-        })
-        
     }
     
 }
-
-

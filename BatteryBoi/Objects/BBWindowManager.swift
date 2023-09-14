@@ -66,10 +66,10 @@ class WindowManager: ObservableObject {
     }
     
     @Published public var active: Int = 0
-    @Published public var hover: Int = 0
-    @Published public var state: ModalAnimationTypes = .initial
-    @Published public var type: ModalAnimationTypes = .initial
+    @Published public var hover: Bool = false
+    @Published public var state: HUDState = .hidden
     @Published public var position: WindowPosition = .topMiddle
+    @Published public var opacity: CGFloat = 1.0
 
     init() {
         BatteryManager.shared.$charging.dropFirst().removeDuplicates().sink { charging in
@@ -94,7 +94,11 @@ class WindowManager: ObservableObject {
                 
             }
             else {
-                if percent == 100 {
+                if percent == 100 && SettingsManager.shared.enabledChargeEighty == .disabled {
+                    self.windowOpen(.chargingComplete, device: nil)
+                    
+                }
+                else if percent == 80 && SettingsManager.shared.enabledChargeEighty == .enabled {
                     self.windowOpen(.chargingComplete, device: nil)
                     
                 }
@@ -103,98 +107,108 @@ class WindowManager: ObservableObject {
             
         }.store(in: &updates)
         
-        //        #if DEBUG
-        //            BluetoothManager.shared.$list.removeDuplicates().dropFirst().receive(on: DispatchQueue.main).sink() { items in
-        //                if let latest = items.sorted(by: { $0.updated > $1.updated }).first {
-        //                    if latest.updated.now == true && (latest.battery.general != nil || latest.battery.left != nil || latest.battery.right != nil) {
-        //
-        //                        switch latest.connected {
-        //                            case .connected : self.windowOpen(.deviceConnected, device: latest)
-        //                            default : self.windowOpen(.deviceRemoved, device: latest)
-        //
-        //                        }
-        //
-        //                    }
-        //
-        //                }
-        //
-        //            }.store(in: &updates)
-        //
-        //            AppManager.shared.appTimer(60).dropFirst().receive(on: DispatchQueue.main).sink { _ in
-        //                let connected = BluetoothManager.shared.list.filter({ $0.connected == .connected })
-        //
-        //                for device in connected {
-        //                    switch device.battery.general {
-        //                        case 25 : self.windowOpen(.percentTwentyFive, device: device)
-        //                        default : break
-        //
-        //                    }
-        //
-        //                }
-        //
-        //            }.store(in: &updates)
-        //
-        //        #endif
-        
-        AppManager.shared.appTimer(1).dropFirst().receive(on: DispatchQueue.main).sink { _ in
-            if self.hover > 0 && self.state == .reveal {
-                self.hover += 1
-                
-            }
-            
-            if self.hover == 3 && self.state.expanded == false {
-                withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.7, blendDuration: 1.0)) {
-                    self.hover = 0
-                    self.state = .detailed
-                    
+        #if DEBUG
+            BluetoothManager.shared.$connected.removeDuplicates().dropFirst(1).receive(on: DispatchQueue.main).sink() { items in
+                if let latest = items.sorted(by: { $0.updated > $1.updated }).first {
+                    if latest.updated.now == true {
+                        switch latest.connected {
+                            case .connected : self.windowOpen(.deviceConnected, device: latest)
+                            default : self.windowOpen(.deviceRemoved, device: latest)
+
+                        }
+
+                    }
+
                 }
-                
-            }
-            
-            if self.state.content == true && self.hover == 0 {
-                self.active += 1
-                
-                if self.state == .reveal && self.active > 3 && self.hover == 0 {
-                    withAnimation(Animation.easeIn(duration: 0.3).delay(0.1)) {
-                        self.state = .dismiss
-                        self.hover = 0
+
+            }.store(in: &updates)
+
+            AppManager.shared.appTimer(60).dropFirst().receive(on: DispatchQueue.main).sink { _ in
+                let connected = BluetoothManager.shared.list.filter({ $0.connected == .connected })
+
+                for device in connected {
+                    switch device.battery.general {
+                        case 25 : self.windowOpen(.percentTwentyFive, device: device)
+                        case 10 : self.windowOpen(.percentTen, device: device)
+                        case 5 : self.windowOpen(.percentFive, device: device)
+                        case 1 : self.windowOpen(.percentOne, device: device)
+                        default : break
                         
                     }
-                    
+
+                }
+
+            }.store(in: &updates)
+
+        #endif
+        
+        SettingsManager.shared.$pinned.sink { pinned in
+            if pinned == .enabled {
+                withAnimation(Animation.easeOut) {
+                    self.opacity = 1.0
+
                 }
                 
             }
-       
+            
         }.store(in: &updates)
-        
+
         NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseUp, .rightMouseUp]) { event in
             if NSRunningApplication.current == NSWorkspace.shared.frontmostApplication {
-                if self.state == .reveal {
-                    withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.7, blendDuration: 1.0)) {
-                        self.state = .detailed
-                        
-                    }
+                if self.state == .revealed {
+                    self.windowSetState(.detailed)
                     
                 }
                 
             }
             else {
-                self.windowClose()
+                if SettingsManager.shared.enabledPinned == .disabled {
+                    if self.state.visible == true {
+                        self.windowSetState(.dismissed)
+                        
+                    }
+
+                }
+                else {
+                    self.windowSetState(.revealed)
+
+                }
                 
             }
             
         }
         
-        $state.removeDuplicates().sink { state in
-            if state == .dismiss {
-                WindowManager.shared.windowClose()
+        $state.sink { state in
+            if state == .dismissed {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                    WindowManager.shared.windowClose()
+                    
+                }
                 
+            }
+            else if state == .progress {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    self.windowSetState(.revealed)
+                    
+                }
+
             }
             
         }.store(in: &updates)
         
         self.position = self.windowLastPosition
         
+        
+    }
+    
+    public func windowSetState(_ state:HUDState, animated:Bool = true) {
+        if self.state != state {
+            withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.7, blendDuration: 1.0)) {
+                self.state = state
+                
+            }
+            
+        }
         
     }
     
@@ -213,30 +227,30 @@ class WindowManager: ObservableObject {
     
     public func windowOpen(_ type:ModalAlertTypes, device:BluetoothObject?) {
         if let window = self.windowExists(type) {
-            window.contentView = NSHostingController(rootView: ModalContainer(type, device: device)).view
+            window.contentView = WindowHostingView(rootView: ModalContainer(type, device: device))
             
             DispatchQueue.main.async {
                 if window.canBecomeKeyWindow {
                     window.makeKeyAndOrderFront(nil)
+                    window.alphaValue = 1.0
                     
-                    NSAnimationContext.runAnimationGroup({ (context) -> Void in
-                        context.duration = 0.2
-                        
-                        window.animator().alphaValue = 1.0
-                        
-                    }) {
-                        if AppManager.shared.alert == nil {
-                            if let sfx = type.sfx {
-                                sfx.play()
-                                
-                            }
+                    self.windowSetState(.progress)
+                    
+                    if AppManager.shared.alert == nil {
+                        if let sfx = type.sfx {
+                            sfx.play()
                             
                         }
                         
-                        AppManager.shared.device = device
-                        AppManager.shared.alert = type
-                        
                     }
+                    
+                    if BluetoothManager.shared.connected.count > 0 {
+                        AppManager.shared.menu = .devices
+
+                    }
+                    
+                    AppManager.shared.device = device
+                    AppManager.shared.alert = type
                     
                 }
                 
@@ -246,28 +260,15 @@ class WindowManager: ObservableObject {
         
     }
     
-    public func windowClose() {
+    private func windowClose() {
         if let window = NSApplication.shared.windows.filter({$0.title == "modalwindow"}).first {
             if AppManager.shared.alert != nil {
-                withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.7, blendDuration: WindowManager.shared.state.bounce).delay(WindowManager.shared.state.duration)) {
-                    WindowManager.shared.state = .dismiss
-                    
-                }
+                AppManager.shared.alert = nil
+                AppManager.shared.device = nil
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + WindowManager.shared.state.duration + 0.1) {
-                    NSAnimationContext.runAnimationGroup({ (context) -> Void in
-                        context.duration = 1.0
-                        
-                        window.animator().alphaValue = 0.0;
-                        
-                        
-                    }) {
-                        AppManager.shared.alert = nil
-                        AppManager.shared.device = nil
-                        
-                    }
-                    
-                }
+                self.state = .hidden
+                
+                window.alphaValue = 0.0
                 
             }
 
@@ -314,7 +315,7 @@ class WindowManager: ObservableObject {
         let windowHeight = self.screen.height / 2
         let windowMargin: CGFloat = 40
         
-        let positionDefault = CGSize(width: 480, height: 450)
+        let positionDefault = CGSize(width: 420, height: 220)
         
         if triggered > 5 {
             if let moved = moved {
@@ -417,4 +418,27 @@ class WindowManager: ObservableObject {
         
     }
 
+}
+
+class WindowHostingView<Content>: NSHostingView<Content> where Content: View {
+    override func scrollWheel(with event: NSEvent) {
+        super.scrollWheel(with: event)
+        
+        if SettingsManager.shared.enabledPinned == .enabled {
+            withAnimation(Animation.easeOut) {
+                if event.deltaY < 0 && WindowManager.shared.opacity > 0.4 {
+                    WindowManager.shared.opacity += (event.deltaY / 100)
+                    
+                }
+                else if event.deltaY > 0 && WindowManager.shared.opacity < 1.0 {
+                    WindowManager.shared.opacity += (event.deltaY / 100)
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+    
 }

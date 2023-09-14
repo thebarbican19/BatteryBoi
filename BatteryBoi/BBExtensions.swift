@@ -24,7 +24,7 @@ struct ViewScrollMask: ViewModifier {
                     ]), startPoint: .leading, endPoint: .trailing).frame(width: padding)
                     
                     Rectangle().fill(.black).frame(width:geo.size.width - padding)
-                 
+                
                 }
                 
             }
@@ -147,6 +147,19 @@ extension String {
         return output
 
     }
+}
+
+extension Array<String> {
+    public func index(_ index:Int, fallback:String? = nil) -> String? {
+        if self.indices.contains(index) {
+            return self[index]
+            
+        }
+       
+        return fallback
+
+    }
+    
 }
 
 extension Date {
@@ -278,6 +291,16 @@ extension UserDefaults {
         }
         
     }
+    
+    static func timestamp(_ key:SystemDefaultsKeys) -> Date? {
+        if let timetamp = UserDefaults.main.object(forKey: "\(key.rawValue)_timestamp") as? Date {
+            return timetamp
+        }
+        
+        return nil
+        
+    }
+    
 }
 
 extension CodingUserInfoKey {

@@ -1,18 +1,16 @@
-// Translation Provided by Joost (https://github.com/joostiphone)
-
-"AlertSomePercentTitle" = "%d%% Beschikbaar"; // 90% Beschikbaar
+"AlertSomePercentTitle" = "%d%% Beschikbaar"; // 90% Remaining
 "AlertOnePercentTitle" = "Je Mac sluit zo dadelijk af";
 "AlertChargingTitle" = "Laden...";
 "AlertChargingStoppedTitle" = "Oplader Verwijderd";
 "AlertChargingCompleteTitle" = "Opladen Gereed";
-
-"AlertDeviceConnectedTitle" = "'%@' Verbonden"; //'Joe's Headphones' Verbonden
-"AlertDeviceDisconnectedTitle" = "'%@' Ontkoppeld"; //'Joe's Headphones' Ontkoppeld
+"AlertDeviceConnectedTitle" = "'%@' Verbonden"; // 'Joe's Headphones' Connected
+"AlertDeviceDisconnectedTitle" = "'%@' Ontkoppeld"; // 'Joe's Headphones' Disconnected
 "AlertDeviceUnknownTitle" = "Onbekend";
 "AlertDeviceCalculatingTitle" = "Aan het rekenen...";
-"AlertEstimateSummary" = "%@ totdat de batterij leeg is"; // 1 uur, 32 minuten totdat de batterij leeg is
+
+"AlertEstimateSummary" = "%@ totdat de batterij leeg is"; // 1 hour, 32 minutes until empty
 "AlertPercentSummary" = "Tijd om op te laden!";
-"AlertStartedChargeSummary" = "Volledig opgeladen om %@."; // Volledig opgeladen om 14:32u
+"AlertStartedChargeSummary" = "Volledig opgeladen om %@."; // Fully charged at 2:32pm
 "AlertChargedSummary" = "De batterij is volledig opgeladen.";
 
 "TimestampHourFullLabel_Plural" = "%d uren";
@@ -20,40 +18,44 @@
 "TimestampMinuteFullLabel_Plural" = "%d minuten";
 "TimestampMinuteFullLabel_Single" = "%d minuut";
 "TimestampMinuteDaysLabel_Plural" = "%d dagen";
-"TimestampHourAbbriviatedLabel" = "h";
-"TimestampMinuteAbbriviatedLabel" = "m";
-"TimestampDayAbbriviatedLabel" = "d";
+"TimestampMinuteDaysLabel_Single" = "%d dag";
+"TimestampHourAbbriviatedLabel" = "uur";
+"TimestampMinuteAbbriviatedLabel" = "minuut";
+"TimestampDayAbbriviatedLabel" = "dag";
 "TimestampNeverLabel" = "Nooit";
 "TimestampNowLabel" = "Zojuist";
 
 "SettingsWebsiteLabel" = "Website";
 "SettingsQuitLabel" = "Afsluiten";
-"SettingsThemeLabel" = "Uiterlijk";
+"SettingsPinnedLabel" = "Vastmaken aan scherm";
+"SettingsEightyLabel" = "Opladen tot 80%";
+"SettingsRateLabel" = "Beoordeel BatteryBoi";
 "SettingsEfficiencyLabel" = "Laag Vermogen";
 "SettingsCheckUpdatesLabel" = "Check voor Updates";
 "SettingsNewUpdateLabel" = "Installeer Nieuwe Update";
 "SettingsDisplayLabel" = "Beeldscherm";
+"SettingsDisplayCycleLabel" = "Aantal laadcycli";
 "SettingsDisplayPercentLabel" = "Percentage";
 "SettingsDisplayEstimateLabel" = "Tijd";
 "SettingsDisplayNoneLabel" = "Leeg";
-"SettingsDisplayRemovedLabel" = "Icoon Menu Balk Verborgen";
 "SettingsEnabledLabel" = "Ingeschakeld";
 "SettingsDisabledLabel" = "Uitgeschakeld";
+
 "SettingsAboutLabel" = "Over";
 "SettingsCustomizationLabel" = "Personaliseer";
-"SettingsSoundEffectsLabel" = "Geluideffecten"; 
-"SettingsTriggersLabel" = "Commando’s"; 
-"SettingsNotificationsLabel" = "Berichten"; 
-"SettingsPrereleasesLabel" = "Beta Versies"; 
+"SettingsSoundEffectsLabel" = "Geluideffecten";
+"SettingsTriggersLabel" = "Commando’s";
+"SettingsNotificationsLabel" = "Berichten";
+"SettingsPrereleasesLabel" = "Beta Versies";
 
-"SettingsCustomizationMenuLabel" = "Menubalk Icoon"; 
-"SettingsCustomizationThemeDarkLabel" = "Donker"; 
-"SettingsCustomizationThemeLightLabel" = "Licht"; 
-"SettingsCustomizationThemeSystemLabel" = "Systeem"; 
+"SettingsCustomizationMenuLabel" = "Menubalk Icoon";
+"SettingsCustomizationThemeDarkLabel" = "Donker";
+"SettingsCustomizationThemeLightLabel" = "Licht";
+"SettingsCustomizationThemeSystemLabel" = "Systeem";
 "SettingsCustomizationThemeTitle" = "Uiterlijk";
 
 "UpdateStatusCheckingLabel" = "Op Updates Controleren...";
-"UpdateStatusIdleLabel" = "Laatste controle: %@"; // Laatste Controle: 4 uur geleden
+"UpdateStatusIdleLabel" = "Laatste controle: %@"; // Last Checked: 4 hours ago
 "UpdateStatusEmptyLabel" = "Geen Updates Beschikbaar";
 "UpdateStatusNewLabel" = "Nieuwe Update Beschikbaar!";
 
@@ -65,3 +67,15 @@
 "AboutGithubAction" = "GitHub";
 "AboutDonateAction" = "Doneer";
 "AboutShareAction" = "Deel";
+
+"BluetoothDeviceHeadphonesLabel" = "Koptelefoon";
+"BluetoothDeviceMouseLabel" = "Muis";
+"BluetoothDeviceGamepadLabel" = "Spelcontroller";
+"BluetoothDeviceSpeakerLabel" = "Speaker";
+"BluetoothDeviceKeyboardLabel" = "Toetsenbord";
+"BluetoothDeviceOtherLabel" = "Anders";
+"BluetoothConnectLabel" = "Verbinden";
+"BluetoothDisconnectLabel" = "Loskoppelen";
+"BluetoothDistanceProximateLabel" = "Op het bureau/tafel";
+"BluetoothDistanceNearLabel" = "In dezelfde ruimte";
+"BluetoothDistanceFarLabel" = "In een ander gedeelte";

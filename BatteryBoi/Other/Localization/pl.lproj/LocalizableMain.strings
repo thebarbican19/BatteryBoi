@@ -1,0 +1,44 @@
+"AlertSomePercentTitle" = "Pozostało %d%%"; // 90% Remaining
+"AlertOnePercentTitle" = "Twój Mac zaraz się wyłączy";
+"AlertChargingTitle" = "Ładowanie...";
+"AlertChargingStoppedTitle" = "Ładowarka odłączona";
+"AlertChargingCompleteTitle" = "Ładowanie zakończone";
+"AlertDeviceConnectedTitle" = "Podłączono '%@'"; //'Podłączono słuchawki Joe'
+"AlertDeviceDisconnectedTitle" = "Odłączono '%@'"; //'Odłączono słuchawki Joe'
+"AlertDeviceUnknownTitle" = "Nieznane";
+"AlertDeviceCalculatingTitle" = "Obliczanie...";
+
+"AlertEstimateSummary" = "%@ do wyczerpania"; // 1 godzina, 32 minuty do wyczerpania
+"AlertPercentSummary" = "Czas podłączyć ładowarkę!";
+"AlertStartedChargeSummary" = "Pełne naładowanie o %@."; // Pełne naładowanie o 14:32
+"AlertChargedSummary" = "Twoja bateria jest w pełni naładowana.";
+
+"TimestampHourFullLabel_Plural" = "%d godzin";
+"TimestampHourFullLabel_Single" = "%d godzina";
+"TimestampMinuteFullLabel_Plural" = "%d minut";
+"TimestampMinuteFullLabel_Single" = "%d minuta";
+"TimestampMinuteDaysLabel_Plural" = "%d dni";
+"TimestampHourAbbriviatedLabel" = "g";
+"TimestampMinuteAbbriviatedLabel" = "m";
+"TimestampDayAbbriviatedLabel" = "d";
+"TimestampNeverLabel" = "Nigdy";
+"TimestampNowLabel" = "Przed chwilą";
+
+"SettingsWebsiteLabel" = "Strona internetowa";
+"SettingsQuitLabel" = "Wyjdź";
+"SettingsThemeLabel" = "Wygląd";
+"SettingsEfficiencyLabel" = "Oszczędzanie energii";
+"SettingsCheckUpdatesLabel" = "Sprawdź aktualizacje";
+"SettingsNewUpdateLabel" = "Zainstaluj nową aktualizację";
+"SettingsDisplayLabel" = "Wyświetlacz";
+"SettingsDisplayPercentLabel" = "Procent";
+"SettingsDisplayEstimateLabel" = "Czas";
+"SettingsDisplayNoneLabel" = "Pusty";
+"SettingsDisplayRemovedLabel" = "Ikona na pasku menu ukryta";
+"SettingsEnabledLabel" = "Włączone";
+"SettingsDisabledLabel" = "Wyłączone";
+
+"UpdateStatusCheckingLabel" = "Sprawdzanie aktualizacji...";
+"UpdateStatusIdleLabel" = "Ostatnio sprawdzane: %@"; // Ostatnio sprawdzane: 4 godziny temu
+"UpdateStatusEmptyLabel" = "Brak dostępnych aktualizacji";
+"UpdateStatusNewLabel" = "Dostępna nowa aktualizacja!";

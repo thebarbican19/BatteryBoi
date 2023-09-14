@@ -1,0 +1,81 @@
+"AlertSomePercentTitle" = "%d%% ostáva"; // 90% Remaining
+"AlertOnePercentTitle" = "Váš Mac sa čoskoro vypne";
+"AlertChargingTitle" = "Nabíjanie...";
+"AlertChargingStoppedTitle" = "Nabíjačka odstránená";
+"AlertChargingCompleteTitle" = "Nabíjanie dokončené";
+"AlertDeviceConnectedTitle" = "'%@' pripojené"; // 'Joe's Headphones' Connected
+"AlertDeviceDisconnectedTitle" = "'%@' odpojené"; // 'Joe's Headphones' Disconnected
+"AlertDeviceUnknownTitle" = "Neznáme zariadenie";
+"AlertDeviceCalculatingTitle" = "Prebieha výpočet...";
+
+"AlertEstimateSummary" = "%@ do vybitia"; // 1 hour, 32 minutes until empty
+"AlertPercentSummary" = "Čas pripojiť kábel!";
+"AlertStartedChargeSummary" = "Plne nabité o %@."; // Fully charged at 2:32pm
+"AlertChargedSummary" = "Batéria je plne nabitá.";
+
+"TimestampHourFullLabel_Plural" = "%d hodín";
+"TimestampHourFullLabel_Single" = "%d hodina";
+"TimestampMinuteFullLabel_Plural" = "%d minút";
+"TimestampMinuteFullLabel_Single" = "%d minúta";
+"TimestampMinuteDaysLabel_Plural" = "%d dní";
+"TimestampMinuteDaysLabel_Single" = "%d deň";
+"TimestampHourAbbriviatedLabel" = "h";
+"TimestampMinuteAbbriviatedLabel" = "m";
+"TimestampDayAbbriviatedLabel" = "d";
+"TimestampNeverLabel" = "Nikdy";
+"TimestampNowLabel" = "Pred chvíľou";
+
+"SettingsWebsiteLabel" = "Webová stránka";
+"SettingsQuitLabel" = "Ukončiť";
+"SettingsPinnedLabel" = "Pripnúť na obrazovku";
+"SettingsEightyLabel" = "Nabiť do 80%";
+"SettingsRateLabel" = "Ohodnotiť BatteryBoi";
+"SettingsEfficiencyLabel" = "Nízky výkon";
+"SettingsCheckUpdatesLabel" = "Vyhľadať aktualizácie";
+"SettingsNewUpdateLabel" = "Nainštalovať novú aktualizáciu";
+"SettingsDisplayLabel" = "Zobraziť";
+"SettingsDisplayCycleLabel" = "Počet cyklov";
+"SettingsDisplayPercentLabel" = "Percento";
+"SettingsDisplayEstimateLabel" = "​Čas";
+"SettingsDisplayNoneLabel" = "Prázdne";
+"SettingsEnabledLabel" = "Zapnuté";
+"SettingsDisabledLabel" = "Vypnuté";
+
+"SettingsAboutLabel" = "O aplikácii";
+"SettingsCustomizationLabel" = "Prispôsobenie";
+"SettingsSoundEffectsLabel" = "Zvukové efekty";
+"SettingsTriggersLabel" = "Príkazy";
+"SettingsNotificationsLabel" = "Hlásenia";
+"SettingsPrereleasesLabel" = "Beta verzie";
+
+"SettingsCustomizationMenuLabel" = "Ikona v lište";
+"SettingsCustomizationThemeDarkLabel" = "Tmavý";
+"SettingsCustomizationThemeLightLabel" = "Svetlý";
+"SettingsCustomizationThemeSystemLabel" = "Systém";
+"SettingsCustomizationThemeTitle" = "Vzhľad";
+
+"UpdateStatusCheckingLabel" = "Vyhľadávam aktualizácie...";
+"UpdateStatusIdleLabel" = "Posledná kontrola: %@"; // Last Checked: 4 hours ago
+"UpdateStatusEmptyLabel" = "Žiadne dostupné aktualizácie";
+"UpdateStatusNewLabel" = "Dostupná nová aktualizácia!";
+
+"AboutTitle" = "BatteryBoi, zadarmo, navždy, pre každého...";
+"AboutBodyOne" = "V rušnom prostredí aplikácií, kde peňaženky často plačú nad opakujúcimi sa mesačnými platbami... BatteryBoi je 100% navždy zadarmo a open-source!";
+"AboutBodyTwo" = "Vytvorenie tejto aplikácie, ktorá vyzerá takto dobre, znamená veľa dní práce, potenia krvi a niekedy aj sĺz. Preto prosím ľudí a firmy, ktoré si to môžu dovoliť, aby zvážili príspevok.";
+"AboutBodyThree" = "Vďaka Vašim príspevkom bude aplikácia fungovať a aktualizácie/opravy pribúdať.";
+"AboutBodyFooter" = "Ďakujem - Joe (autor BatteryBoi)";
+"AboutGithubAction" = "GitHub";
+"AboutDonateAction" = "Prispieť";
+"AboutShareAction" = "Zdieľať";
+
+"BluetoothDeviceHeadphonesLabel" = "Slúchadlá";
+"BluetoothDeviceMouseLabel" = "Myš";
+"BluetoothDeviceGamepadLabel" = "Herný ovládač";
+"BluetoothDeviceSpeakerLabel" = "Reproduktor";
+"BluetoothDeviceKeyboardLabel" = "Klávesnica";
+"BluetoothDeviceOtherLabel" = "Iné";
+"BluetoothConnectLabel" = "Pripojiť";
+"BluetoothDisconnectLabel" = "Odpojiť";
+"BluetoothDistanceProximateLabel" = "Na stole";
+"BluetoothDistanceNearLabel" = "V tej istej miestnosti";
+"BluetoothDistanceFarLabel" = "V inej ríši";

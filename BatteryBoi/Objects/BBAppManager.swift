@@ -9,6 +9,7 @@ import Foundation
 import EnalogSwift
 import Combine
 import Sparkle
+import SwiftUI
 
 class AppManager:ObservableObject {
     static var shared = AppManager()
@@ -16,6 +17,8 @@ class AppManager:ObservableObject {
     @Published var counter = 0
     @Published var device:BluetoothObject? = nil
     @Published var alert:ModalAlertTypes? = nil
+    @Published var menu:SystemMenuView = .devices
+    @Published var profile:SystemProfileObject? = nil
 
     private var updates = Set<AnyCancellable>()
     private var timer: AnyCancellable?
@@ -37,7 +40,15 @@ class AppManager:ObservableObject {
             self.counter += 1
             
         }
+           
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            if self.appDistribution() == .direct {
+                self.profile = self.appProfile(force: false)
                 
+            }
+            
+        }
+        
         self.timer?.store(in: &updates)
     
     }
@@ -46,6 +57,28 @@ class AppManager:ObservableObject {
         self.timer?.cancel()
         self.updates.forEach { $0.cancel() }
  
+    }
+
+    public func appToggleMenu(_ animate:Bool) {
+        if animate {
+            withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.7, blendDuration: 1.0)) {
+                switch self.menu {
+                    case .devices : self.menu = .settings
+                    default : self.menu = .devices
+                    
+                }
+            }
+            
+        }
+        else {
+            switch self.menu {
+                case .devices : self.menu = .settings
+                default : self.menu = .devices
+                
+            }
+            
+        }
+        
     }
     
     public func appTimer(_ multiple: Int) -> AnyPublisher<Int, Never> {
@@ -158,6 +191,91 @@ class AppManager:ObservableObject {
 
         return .unknown
       
+    }
+    
+    private func appProfile(force:Bool = false) -> SystemProfileObject? {
+        if let payload = UserDefaults.main.object(forKey: SystemDefaultsKeys.profilePayload.rawValue) as? String {
+
+            if let object =  try? JSONDecoder().decode([SystemProfileObject].self, from: Data(payload.utf8)) {
+                return object.first
+                
+            }
+            
+        }
+        else {
+            if let script = Bundle.main.path(forResource: "BBProfileScript", ofType: "py") {
+                let process = Process()
+                process.executableURL = URL(fileURLWithPath: "/usr/bin/python3")
+                process.arguments = [script]
+                
+                let pipe = Pipe()
+                process.standardOutput = pipe
+                
+                do {
+                    try process.run()
+                    process.waitUntilExit()
+                    
+                    let data = pipe.fileHandleForReading.readDataToEndOfFile()
+                    
+                    if let output = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) {
+                                                
+                        UserDefaults.save(.profilePayload, value: output)
+                        UserDefaults.save(.profileChecked, value: Date())
+                        
+                        if let object = try? JSONDecoder().decode([SystemProfileObject].self, from: Data(output.utf8)) {
+                            if let id = object.first?.id, let display = object.first?.display {
+                                let first = SystemProfileObject(id: id, display: display)
+                            
+                                if let channel = Bundle.main.infoDictionary?["SD_SLACK_CHANNEL"] as? String  {
+                                    EnalogManager.main.ingest(SystemEvents.userProfile, description: "Profile Found: \(display)", metadata: object, channel:.init(.slack, id: channel))
+                                    
+                                }
+                                
+                                return first
+                                
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                }
+                catch {
+                    print("Profile Error: ", error)
+                    
+                }
+                
+            }
+            
+        }
+            
+        return nil
+        
+    }
+    
+    public func appDistribution() -> SystemDistribution {
+        let task = Process()
+        task.launchPath = "/usr/bin/codesign"
+        task.arguments = ["-dv", "--verbose=4", Bundle.main.bundlePath]
+
+        let outputPipe = Pipe()
+        task.standardOutput = outputPipe
+        task.launch()
+        task.waitUntilExit()
+
+        let data = outputPipe.fileHandleForReading.readDataToEndOfFile()
+        
+        if let output = String(data: data, encoding: .utf8) {
+            if output.contains("Authority=Apple Mac OS Application Signing") {
+                return .appstore
+
+            }
+            
+            
+        }
+            
+        return .direct
+            
     }
         
 }

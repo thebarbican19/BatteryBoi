@@ -9,6 +9,25 @@ import SwiftUI
 import EnalogSwift
 import Sparkle
 import Combine
+ 
+public enum SystemDistribution {
+    case direct
+    case appstore
+    
+}
+
+public struct SystemProfileObject:Codable {
+    var id:String
+    var display:String
+    
+}
+
+public enum SystemMenuView:String {
+    case settings
+    case stats
+    case devices
+    
+}
 
 public struct SystemAppUsage {
     var day:Int
@@ -77,6 +96,7 @@ enum SystemEvents:String {
     case userInstalled = "user.installed"
     case userUpdated = "user.updated"
     case userActive = "user.active"
+    case userProfile = "user.profile.detected"
     case userTerminated = "user.quit"
     case userClicked = "user.cta"
     case userPreferences = "user.preferences"
@@ -95,6 +115,7 @@ enum SystemDefaultsKeys: String {
     case enabledSoundEffects = "sd_settings_sfx"
     case enabledChargeEighty = "sd_charge_eighty"
     case enabledProgressState = "sd_progress_state"
+    case enabledPinned = "sd_pinned_mode"
 
     case batteryUntilFull = "sd_charge_full"
     case batteryLastCharged = "sd_charge_last"
@@ -107,6 +128,9 @@ enum SystemDefaultsKeys: String {
     
     case usageDay = "sd_usage_days"
     case usageTimestamp = "sd_usage_date"
+    
+    case profileChecked = "sd_profile_checked"
+    case profilePayload = "sd_profile_payload"
 
     var name:String {
         switch self {
@@ -120,6 +144,7 @@ enum SystemDefaultsKeys: String {
             case .enabledSoundEffects:return "SFX"
             case .enabledChargeEighty:return "Show complete at 80%"
             case .enabledProgressState:return "Show Progress"
+            case .enabledPinned:return "Pinned"
 
             case .batteryUntilFull:return "Seconds until Charged"
             case .batteryLastCharged:return "Seconds until Charged"
@@ -133,6 +158,9 @@ enum SystemDefaultsKeys: String {
             case .usageDay:return "sd_usage_days"
             case .usageTimestamp:return "sd_usage_timestamp"
             
+            case .profileChecked:return "Profile Validated"
+            case .profilePayload:return "Profile Payload"
+
         }
         
     }
@@ -180,7 +208,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
         }
         
         if let channel = Bundle.main.infoDictionary?["SD_SLACK_CHANNEL"] as? String  {
-            #if DEBUG
+            #if !DEBUG
                 EnalogManager.main.user(AppManager.shared.appIdentifyer)
                 EnalogManager.main.crash(SystemEvents.fatalError, channel: .init(.slack, id:channel))
                 EnalogManager.main.ingest(SystemEvents.userLaunched, description: "Launched BatteryBoi")
@@ -194,7 +222,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
             _ = SettingsManager.shared.enabledDisplay()
             
             print("\n\nApp Installed: \(AppManager.shared.appInstalled)\n\n")
-            print("\n\nApp Usage (Days): \(AppManager.shared.appUsage?.day)\n\n")
+            print("App Usage (Days): \(AppManager.shared.appUsage?.day ?? 0)\n\n")
 
             UpdateManager.shared.updateCheck()
             
@@ -225,6 +253,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
         
         NSAppleEventManager.shared().setEventHandler(self, andSelector: #selector(applicationHandleURLEvent(event:reply:)), forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
 
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(applicationDidWakeNotification(_:)), name: NSWorkspace.didWakeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationFocusDidMove(notification:)), name: NSWindow.didMoveNotification, object:nil)
         
     }
@@ -236,6 +265,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
                 button.addSubview(self.hosting)
                 button.action = #selector(applicationStatusBarButtonClicked(sender:))
                 button.target = self
+                
+                SettingsManager.shared.enabledPinned = .disabled
                 
             }
             
@@ -262,7 +293,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
             
         }
         else {
-            WindowManager.shared.windowClose()
+            WindowManager.shared.windowSetState(.dismissed)
             
         }
                 
@@ -277,9 +308,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
     
     @objc func applicationHandleURLEvent(event: NSAppleEventDescriptor, reply: NSAppleEventDescriptor) {
         
-        if let path = event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))?.stringValue?.components(separatedBy: "://").last {
-            
-        }
+//        if let path = event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))?.stringValue?.components(separatedBy: "://").last {
+//            
+//        }
         
     }
 
@@ -297,6 +328,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
             }
 
         }
+        
+    }
+    
+    @objc private func applicationDidWakeNotification(_ notification: Notification) {
+        BatteryManager.shared.powerForceRefresh()
         
     }
     

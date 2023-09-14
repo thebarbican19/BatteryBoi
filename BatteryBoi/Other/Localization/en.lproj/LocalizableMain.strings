@@ -3,8 +3,8 @@
 "AlertChargingTitle" = "Charging...";
 "AlertChargingStoppedTitle" = "Charger Removed";
 "AlertChargingCompleteTitle" = "Charging Complete";
-"AlertDeviceConnectedTitle" = "'%@' Connected"; //'Joe's Headphones' Connected
-"AlertDeviceDisconnectedTitle" = "'%@' Disconnected"; //'Joe's Headphones' Disconnected
+"AlertDeviceConnectedTitle" = "Connected"; //'Joe's Headphones' Connected
+"AlertDeviceDisconnectedTitle" = "Disconnected"; //'Joe's Headphones' Disconnected
 "AlertDeviceUnknownTitle" = "Unknown";
 "AlertDeviceCalculatingTitle" = "Calculating...";
 
@@ -27,30 +27,19 @@
 
 "SettingsWebsiteLabel" = "Support Development";
 "SettingsQuitLabel" = "Quit";
+"SettingsPinnedLabel" = "Pin to Screen";
+"SettingsEightyLabel" = "Charge to 80%";
+"SettingsRateLabel" = "Rate BatteryBoi";
 "SettingsEfficiencyLabel" = "Low Power";
 "SettingsCheckUpdatesLabel" = "Check for Updates";
 "SettingsNewUpdateLabel" = "Install New Update";
 "SettingsDisplayLabel" = "Display";
+"SettingsDisplayCycleLabel" = "Cycle Count";
 "SettingsDisplayPercentLabel" = "Percentage";
 "SettingsDisplayEstimateLabel" = "Time";
 "SettingsDisplayNoneLabel" = "Empty";
 "SettingsEnabledLabel" = "Enabled";
 "SettingsDisabledLabel" = "Disabled";
-
-"UpdateStatusCheckingLabel" = "Checking for Updates...";
-"UpdateStatusIdleLabel" = "Last Checked: %@"; // Last Checked: 4 hours ago
-"UpdateStatusEmptyLabel" = "No Updates Available";
-"UpdateStatusNewLabel" = "New Update Available!"; 
-
-//NEW
-"AboutTitle" = "BatteryBoi, Free, Forever, for Everyone...";
-"AboutBodyOne" = "In the bustling app-scape where wallets often weep at reoccurring subscriptions. BatteryBoi is 100% free & Open-Source, forever!";
-"AboutBodyTwo" = "Crafting this app that looks this good is many days of work, blood sweat, and sometimes tears. That's why I am asking for people & businesses who can afford it to please consider donating.";
-"AboutBodyThree" = "Donations will keep the lights on and the updates/fixes flowing.";
-"AboutBodyFooter" = "Thank you - Joe (Founder of BatteryBoi)";
-"AboutGithubAction" = "GitHub";
-"AboutDonateAction" = "Donate";
-"AboutShareAction" = "Share";
 
 "SettingsAboutLabel" = "About";
 "SettingsCustomizationLabel" = "Customisation";
@@ -64,3 +53,39 @@
 "SettingsCustomizationThemeLightLabel" = "Light";
 "SettingsCustomizationThemeSystemLabel" = "System";
 "SettingsCustomizationThemeTitle" = "Appearance";
+
+"UpdateStatusCheckingLabel" = "Checking for Updates...";
+"UpdateStatusIdleLabel" = "Last Checked: %@"; // Last Checked: 4 hours ago
+"UpdateStatusEmptyLabel" = "No Updates Available";
+"UpdateStatusNewLabel" = "New Update Available!"; 
+
+"AboutTitle" = "BatteryBoi, Free, Forever, for Everyone...";
+"AboutBodyOne" = "In the bustling app-scape where wallets often weep at reoccurring subscriptions. BatteryBoi is 100% free & Open-Source, forever!";
+"AboutBodyTwo" = "Crafting this app that looks this good is many days of work, blood sweat, and sometimes tears. That's why I am asking for people & businesses who can afford it to please consider donating.";
+"AboutBodyThree" = "Donations will keep the lights on and the updates/fixes flowing.";
+"AboutBodyFooter" = "Thank you - Joe (Founder of BatteryBoi)";
+"AboutGithubAction" = "GitHub";
+"AboutDonateAction" = "Donate";
+"AboutShareAction" = "Share";
+
+"BluetoothDeviceHeadphonesLabel" = "Headphones";
+"BluetoothDeviceMouseLabel" = "Mouse";
+"BluetoothDeviceGamepadLabel" = "Gaming Controller";
+"BluetoothDeviceSpeakerLabel" = "Speaker";
+"BluetoothDeviceKeyboardLabel" = "Keyboard";
+"BluetoothDeviceOtherLabel" = "Other";
+"BluetoothConnectLabel" = "Connect";
+"BluetoothDisconnectLabel" = "Disconnect";
+"BluetoothDisconnectedLabel" = "Not Paired";
+"BluetoothDistanceProximateLabel" = "On the Desk/Table";
+"BluetoothDistanceNearLabel" = "In the same Room";
+"BluetoothDistanceFarLabel" = "In another Realm";
+"BluetoothInvalidLabel" = "Not Available";
+
+"OnboardingNotificationsTitle" = "";
+"OnboardingNotificationsBody" = "";
+"OnboardingInsightsTitle" = "";
+"OnboardingInsightsBody" = "";
+"OnboardingBluetoothTitle" = "";
+"OnboardingBluetoothBody" = "";
+

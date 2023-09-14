@@ -1,42 +1,46 @@
-// Translation Provided by Desmoed Richtofen (https://github.com/Shane1119)
-
-"AlertSomePercentTitle" = "剩餘電量 %d%%"; // 90% Remaining 
-"AlertOnePercentTitle" = "您的Mac即將關閉"; 
-"AlertChargingTitle" = "正在充電..."; 
-"AlertChargingStoppedTitle" = "充電結束"; 
-"AlertChargingCompleteTitle" = "電量已滿"; 
-
-"AlertDeviceConnectedTitle" = "'%@' 已連線"; //'Joe's Headphones' Connected 
-"AlertDeviceDisconnectedTitle" = "'%@' 已斷開"; //'Joe's Headphones' Disconnected 
-"AlertDeviceUnknownTitle" = "未知裝置"; 
+"AlertSomePercentTitle" = "剩餘電量 %d%%"; // 90% Remaining
+"AlertOnePercentTitle" = "您的Mac即將關閉";
+"AlertChargingTitle" = "正在充電...";
+"AlertChargingStoppedTitle" = "充電結束";
+"AlertChargingCompleteTitle" = "電量已滿";
+"AlertDeviceConnectedTitle" = "'%@' 已連線"; // 'Joe's Headphones' Connected
+"AlertDeviceDisconnectedTitle" = "'%@' 已斷開"; // 'Joe's Headphones' Disconnected
+"AlertDeviceUnknownTitle" = "未知裝置";
 "AlertDeviceCalculatingTitle" = "正在計算...";
-"AlertEstimateSummary" = "剩餘可用 %@"; // 1 hour, 32 minutes until empty 
-"AlertPercentSummary" = "請連接電源!"; 
-"AlertStartedChargeSummary" = "已於 %@ 充滿."; // Fully charged at 2:32pm 
+
+"AlertEstimateSummary" = "剩餘可用 %@"; // 1 hour, 32 minutes until empty
+"AlertPercentSummary" = "請連接電源!";
+"AlertStartedChargeSummary" = "已於 %@ 充滿."; // Fully charged at 2:32pm
 "AlertChargedSummary" = "您的Mac電量已滿.";
 
-"TimestampHourFullLabel_Plural" = "%d 時"; 
-"TimestampHourFullLabel_Single" = "%d 時"; 
-"TimestampMinuteFullLabel_Plural" = "%d 分"; 
-"TimestampMinuteFullLabel_Single" = "%d 分"; 
-"TimestampMinuteDaysLabel_Plural" = "%d 日"; 
-"TimestampHourAbbriviatedLabel" = "h"; 
-"TimestampMinuteAbbriviatedLabel" = "m"; 
-"TimestampDayAbbriviatedLabel" = "d"; 
-"TimestampNeverLabel" = "從不"; 
+"TimestampHourFullLabel_Plural" = "%d 時";
+"TimestampHourFullLabel_Single" = "%d 時";
+"TimestampMinuteFullLabel_Plural" = "%d 分";
+"TimestampMinuteFullLabel_Single" = "%d 分";
+"TimestampMinuteDaysLabel_Plural" = "%d 日";
+"TimestampMinuteDaysLabel_Single" = "%d 天";
+"TimestampHourAbbriviatedLabel" = "時";
+"TimestampMinuteAbbriviatedLabel" = "分";
+"TimestampDayAbbriviatedLabel" = "天";
+"TimestampNeverLabel" = "從不";
 "TimestampNowLabel" = "剛剛";
 
-"SettingsWebsiteLabel" = "主頁"; 
-"SettingsQuitLabel" = "退出"; 
-"SettingsThemeLabel" = "外觀"; 
-"SettingsEfficiencyLabel" = "低能耗模式"; 
-"SettingsCheckUpdatesLabel" = "檢查更新"; 
-"SettingsNewUpdateLabel" = "安裝更新"; 
-"SettingsDisplayLabel" = "顯示設定"; 
-"SettingsDisplayPercentLabel" = "百分比"; 
-"SettingsDisplayEstimateLabel" = "可用時間"; 
-"SettingsDisplayNoneLabel" = "無"; 
-"SettingsDisplayRemovedLabel" = "在工具列隱藏圖示";
+"SettingsWebsiteLabel" = "主頁";
+"SettingsQuitLabel" = "退出";
+"SettingsPinnedLabel" = "固定顯示";
+"SettingsEightyLabel" = "已充電至80%";
+"SettingsRateLabel" = "爲BatteryBoi評分";
+"SettingsEfficiencyLabel" = "低能耗模式";
+"SettingsCheckUpdatesLabel" = "檢查更新";
+"SettingsNewUpdateLabel" = "安裝更新";
+"SettingsDisplayLabel" = "顯示設定";
+"SettingsDisplayCycleLabel" = "電池循環";
+"SettingsDisplayPercentLabel" = "百分比";
+"SettingsDisplayEstimateLabel" = "可用時間";
+"SettingsDisplayNoneLabel" = "無";
+"SettingsEnabledLabel" = "啓用";
+"SettingsDisabledLabel" = "禁用";
+
 "SettingsAboutLabel" = "關於";
 "SettingsCustomizationLabel" = "客製化";
 "SettingsSoundEffectsLabel" = "音效設定";
@@ -44,18 +48,15 @@
 "SettingsNotificationsLabel" = "通知設定";
 "SettingsPrereleasesLabel" = "測試版本";
 
-"SettingsEnabledLabel" = "啓用"; 
-"SettingsDisabledLabel" = "禁用";
-"UpdateStatusCheckingLabel" = "正在檢查更新";
-
 "SettingsCustomizationMenuLabel" = "工具列圖示";
 "SettingsCustomizationThemeDarkLabel" = "暗色";
 "SettingsCustomizationThemeLightLabel" = "亮色";
 "SettingsCustomizationThemeSystemLabel" = "自動";
 "SettingsCustomizationThemeTitle" = "外觀設定";
 
-"UpdateStatusIdleLabel" = "上次檢查: %@"; // Last Checked: 4 hours ago 
-"UpdateStatusEmptyLabel" = "暫無更新"; 
+"UpdateStatusCheckingLabel" = "正在檢查更新";
+"UpdateStatusIdleLabel" = "上次檢查: %@"; // Last Checked: 4 hours ago
+"UpdateStatusEmptyLabel" = "暫無更新";
 "UpdateStatusNewLabel" = "更新可用";
 
 "AboutTitle" = "BatteryBoi, 無常, 無限, 無邊...";
@@ -63,6 +64,18 @@
 "AboutBodyTwo" = "創造出這個小東西讓我好幾天沒合眼, 真的超累. 這就是為什麼我會希望一些個人或者商戶能夠稍稍捐贈一下我, 十分感謝.";
 "AboutBodyThree" = "您的捐贈會幫助本程式的後續維護和更新, 以及我讓每天多喝上一小杯咖啡.";
 "AboutBodyFooter" = "謝謝 - Joe (BatteryBoi 開發者)";
-"AboutGithubAction" = "GitHub";
+"AboutGithubAction" = "Github";
 "AboutDonateAction" = "捐贈";
 "AboutShareAction" = "分享";
+
+"BluetoothDeviceHeadphonesLabel" = "耳機";
+"BluetoothDeviceMouseLabel" = "滑鼠";
+"BluetoothDeviceGamepadLabel" = "手把";
+"BluetoothDeviceSpeakerLabel" = "喇叭";
+"BluetoothDeviceKeyboardLabel" = "鍵盤";
+"BluetoothDeviceOtherLabel" = "其他裝置";
+"BluetoothConnectLabel" = "已連線";
+"BluetoothDisconnectLabel" = "已斷開";
+"BluetoothDistanceProximateLabel" = "在桌上";
+"BluetoothDistanceNearLabel" = "在同一房間";
+"BluetoothDistanceFarLabel" = "在其他地方";

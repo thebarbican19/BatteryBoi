@@ -36,6 +36,55 @@ enum SettingsSoundEffects:String {
 
 }
 
+enum SettingsPinned:String {
+    case enabled
+    case disabled
+    
+    var subtitle:String {
+        switch self {
+            case .enabled : "SettingsEnabledLabel".localise()
+            default : "SettingsDisabledLabel".localise()
+            
+        }
+        
+    }
+    
+    var icon:String {
+        switch self {
+            case .enabled : "AudioIcon"
+            default : "MuteIcon"
+            
+        }
+        
+    }
+
+}
+
+enum SettingsCharged:String {
+    case enabled
+    case disabled
+    
+    var subtitle:String {
+        switch self {
+            case .enabled : "SettingsEnabledLabel".localise()
+            default : "SettingsDisabledLabel".localise()
+            
+        }
+        
+    }
+    
+    var icon:String {
+        switch self {
+            case .enabled : "AudioIcon"
+            default : "MuteIcon"
+            
+        }
+        
+    }
+
+}
+
+
 enum SettingsBeta:String {
     case enabled
     case disabled
@@ -64,6 +113,7 @@ enum SettingsDisplayType:String {
     case countdown
     case empty
     case percent
+    case cycle
     case hidden
     
     var type:String {
@@ -71,6 +121,7 @@ enum SettingsDisplayType:String {
             case .countdown : return "SettingsDisplayEstimateLabel".localise()
             case .percent : return "SettingsDisplayPercentLabel".localise()
             case .empty : return "SettingsDisplayNoneLabel".localise()
+            case .cycle : return "SettingsDisplayCycleLabel".localise()
             case .hidden : return "Hidden"
 
         }
@@ -81,6 +132,7 @@ enum SettingsDisplayType:String {
         switch self {
             case .countdown : return "TimeIcon"
             case .percent : return "PercentIcon"
+            case .cycle : return "CycleIcon"
             case .empty : return "EmptyIcon"
             case .hidden : return "EmptyIcon"
 
@@ -91,21 +143,26 @@ enum SettingsDisplayType:String {
 }
 
 struct SettingsActionObject:Hashable {
-    var type:SettingsActionTypes
+    var type:SettingsActionType
     var title:String
 
-    init(_ type:SettingsActionTypes) {
+    init(_ type:SettingsActionType) {
         switch type {
             case .appWebsite : self.title = "SettingsWebsiteLabel".localise()
             case .appQuit : self.title = "SettingsQuitLabel".localise()
+            case .appDevices : self.title = "SettingsDevicesLabel".localise()
+            case .appSettings : self.title = "SettingsSettingsLabel".localise()
             case .appEfficencyMode : self.title = "SettingsEfficiencyLabel".localise()
             case .appBeta : self.title = "SettingsPrereleasesLabel".localise()
+            case .appRate : self.title = "SettingsRateLabel".localise()
             case .appUpdateCheck : self.title = "SettingsCheckUpdatesLabel".localise()
             case .appInstallUpdate : self.title = "SettingsNewUpdateLabel".localise()
+            case .appPinned : self.title = "SettingsPinnedLabel".localise()
             case .customiseTheme : self.title = "SettingsThemeLabel".localise()
             case .customiseDisplay : self.title = "SettingsDisplayLabel".localise()
             case .customiseNotifications : self.title = "SettingsDisplayPercentLabel".localise()
             case .customiseSoundEffects : self.title = "SettingsSoundEffectsLabel".localise()
+            case .customiseCharge : self.title = "SettingsEightyLabel".localise()
             
         }
         
@@ -115,10 +172,14 @@ struct SettingsActionObject:Hashable {
     
 }
 
-enum SettingsActionTypes {
+enum SettingsActionType {
     case appWebsite
     case appQuit
+    case appDevices
+    case appSettings
+    case appPinned
     case appUpdateCheck
+    case appRate
     case appEfficencyMode
     case appInstallUpdate
     case appBeta
@@ -126,6 +187,7 @@ enum SettingsActionTypes {
     case customiseDisplay
     case customiseTheme
     case customiseNotifications
+    case customiseCharge
 
     var icon:String {
         switch self {
@@ -135,10 +197,15 @@ enum SettingsActionTypes {
             case .appWebsite : return "WebsiteIcon"
             case .appBeta : return "WebsiteIcon"
             case .appQuit : return "WebsiteIcon"
+            case .appDevices : return "WebsiteIcon"
+            case .appSettings : return "WebsiteIcon"
+            case .appPinned : return "WebsiteIcon"
+            case .appRate : return "WebsiteIcon"
             case .customiseDisplay : return "PercentIcon"
             case .customiseTheme : return "PercentIcon"
             case .customiseNotifications : return "PercentIcon"
             case .customiseSoundEffects : return "PercentIcon"
+            case .customiseCharge : return "PercentIcon"
 
         }
         
@@ -207,6 +274,8 @@ class SettingsManager:ObservableObject {
     @Published var display:SettingsDisplayType = .countdown
     @Published var sfx:SettingsSoundEffects = .enabled
     @Published var theme:SettingsTheme = .dark
+    @Published var pinned:SettingsPinned = .disabled
+    @Published var charge:SettingsCharged = .disabled
 
     private var updates = Set<AnyCancellable>()
 
@@ -215,12 +284,16 @@ class SettingsManager:ObservableObject {
         self.display = self.enabledDisplay(false)
         self.theme = self.enabledTheme
         self.sfx = self.enabledSoundEffects
+        self.pinned = self.enabledPinned
+        self.charge = self.enabledChargeEighty
 
         UserDefaults.changed.receive(on: DispatchQueue.main).sink { key in
             switch key {
                 case .enabledDisplay : self.display = self.enabledDisplay(false)
                 case .enabledTheme : self.theme = self.enabledTheme
                 case .enabledSoundEffects : self.sfx = self.enabledSoundEffects
+                case .enabledPinned : self.pinned = self.enabledPinned
+                case .enabledChargeEighty : self.charge = self.enabledChargeEighty
                 default : break
                 
             }
@@ -303,11 +376,12 @@ class SettingsManager:ObservableObject {
             switch output {
                 case .countdown : output = .percent
                 case .percent : output = .empty
-                case .empty : output = .hidden
+                case .empty : output = .cycle
+                case .cycle : output = .hidden
                 default : output = .countdown
                 
             }
-            
+                        
             UserDefaults.save(.enabledDisplay, value: output.rawValue)
             
         }
@@ -398,21 +472,19 @@ class SettingsManager:ObservableObject {
         
     }
     
-    public var enabledChargeEighty:Bool {
+    public var enabledChargeEighty:SettingsCharged {
         get {
-            if UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledChargeEighty.rawValue) == nil {
-                return false
+            if let key = UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledChargeEighty.rawValue) as? String {
+                return SettingsCharged(rawValue: key) ?? .disabled
                 
             }
-            else {
-                return UserDefaults.main.bool(forKey: SystemDefaultsKeys.enabledChargeEighty.rawValue)
-                
-            }
-        
+            
+            return .disabled
+            
         }
         
         set {
-            UserDefaults.save(.enabledChargeEighty, value: newValue)
+            UserDefaults.save(.enabledChargeEighty, value: newValue.rawValue)
             
         }
         
@@ -420,19 +492,37 @@ class SettingsManager:ObservableObject {
     
     public var enabledProgressBar:Bool {
         get {
-            if UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledChargeEighty.rawValue) == nil {
+            if UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledProgressState.rawValue) == nil {
                 return false
                 
             }
             else {
-                return UserDefaults.main.bool(forKey: SystemDefaultsKeys.enabledChargeEighty.rawValue)
+                return UserDefaults.main.bool(forKey: SystemDefaultsKeys.enabledProgressState.rawValue)
                 
             }
         
         }
         
         set {
-            UserDefaults.save(.enabledChargeEighty, value: newValue)
+            UserDefaults.save(.enabledProgressState, value: newValue)
+            
+        }
+        
+    }
+    
+    public var enabledPinned:SettingsPinned {
+        get {
+            if let key = UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledPinned.rawValue) as? String {
+                return SettingsPinned(rawValue: key) ?? .disabled
+                
+            }
+            
+            return .disabled
+            
+        }
+        
+        set {
+            UserDefaults.save(.enabledPinned, value: newValue.rawValue)
             
         }
         
@@ -498,8 +588,18 @@ class SettingsManager:ObservableObject {
             }
 
         }
+        else if action.type == .appRate {
+            if AppManager.shared.appDistribution() == .direct {
+                if let url = URL(string: "https://www.producthunt.com/posts/batteryboi") {
+                    NSWorkspace.shared.open(url)
+                    
+                }
+                
+            }
+
+        }
         else if action.type == .appQuit {
-            WindowManager.shared.windowClose()
+            WindowManager.shared.state = .dismissed
             
             EnalogManager.main.ingest(SystemEvents.userUpdated, description: "User Quit")
 
@@ -547,6 +647,14 @@ class SettingsManager:ObservableObject {
         else if action.type == .appBeta {
             
         }
+        else if action.type == .appPinned {
+            switch self.enabledPinned {
+                case .enabled : self.enabledPinned = .disabled
+                case .disabled : self.enabledPinned = .enabled
+
+            }
+            
+        }
         else if action.type == .customiseDisplay {
             _ = self.enabledDisplay(true)
             
@@ -555,6 +663,14 @@ class SettingsManager:ObservableObject {
             switch self.enabledSoundEffects {
                 case .enabled : self.enabledSoundEffects = .disabled
                 case .disabled : self.enabledSoundEffects = .enabled
+
+            }
+            
+        }
+        else if action.type == .customiseCharge {
+            switch self.enabledChargeEighty {
+                case .enabled : self.enabledChargeEighty = .disabled
+                case .disabled : self.enabledChargeEighty = .enabled
 
             }
             
@@ -569,12 +685,25 @@ class SettingsManager:ObservableObject {
 //            output.append(.init(.appEfficencyMode))
 //            
 //        }
+        #if DEBUG
+            output.append(.init(.appPinned))
+
+        #endif
 
         output.append(.init(.customiseDisplay))
         output.append(.init(.customiseSoundEffects))
+        
+        #if DEBUG
+            output.append(.init(.customiseCharge))
+        #endif
 
-        output.append(.init(.appUpdateCheck))
+        if AppManager.shared.appDistribution() == .direct {
+            output.append(.init(.appUpdateCheck))
+            
+        }
+        
         output.append(.init(.appWebsite))
+        output.append(.init(.appRate))
 
         return output
         

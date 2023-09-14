@@ -1,0 +1,81 @@
+"AlertSomePercentTitle" = "Preostalo %d%%"; // 90% Remaining
+"AlertOnePercentTitle" = "Tvoj mac se bo kmalu ugasnil.";
+"AlertChargingTitle" = "Polnjenje...";
+"AlertChargingStoppedTitle" = "Napajalnik odstranjen";
+"AlertChargingCompleteTitle" = "Polnjenje končano";
+"AlertDeviceConnectedTitle" = "'%@' povezane"; // 'Joe's Headphones' Connected
+"AlertDeviceDisconnectedTitle" = "'%@' odvezane"; // 'Joe's Headphones' Disconnected
+"AlertDeviceUnknownTitle" = "Neznano";
+"AlertDeviceCalculatingTitle" = "Računanje...";
+
+"AlertEstimateSummary" = "%@ dokler se baterija ne sprazni"; // 1 hour, 32 minutes until empty
+"AlertPercentSummary" = "Čas je da vzameš kabel!";
+"AlertStartedChargeSummary" = "Napolnjeno ob %@."; // Fully charged at 2:32pm
+"AlertChargedSummary" = "Tvoja baterija je napolnjena.";
+
+"TimestampHourFullLabel_Plural" = "%d ur";
+"TimestampHourFullLabel_Single" = "%d ura";
+"TimestampMinuteFullLabel_Plural" = "%d minut";
+"TimestampMinuteFullLabel_Single" = "%d minuta";
+"TimestampMinuteDaysLabel_Plural" = "%d dni";
+"TimestampMinuteDaysLabel_Single" = "%d day";
+"TimestampHourAbbriviatedLabel" = "h";
+"TimestampMinuteAbbriviatedLabel" = "m";
+"TimestampDayAbbriviatedLabel" = "d";
+"TimestampNeverLabel" = "Nikoli";
+"TimestampNowLabel" = "Pred nekaj trenutki";
+
+"SettingsWebsiteLabel" = "Spletna stran";
+"SettingsQuitLabel" = "Izhod";
+"SettingsPinnedLabel" = "Pin to Screen";
+"SettingsEightyLabel" = "Charge to 80%";
+"SettingsRateLabel" = "Rate BatteryBoi";
+"SettingsEfficiencyLabel" = "Nizkoenergijski način";
+"SettingsCheckUpdatesLabel" = "Preveri posodobitve";
+"SettingsNewUpdateLabel" = "Namesti posodobitev";
+"SettingsDisplayLabel" = "Prikaz";
+"SettingsDisplayCycleLabel" = "Število ciklov";
+"SettingsDisplayPercentLabel" = "Procenti";
+"SettingsDisplayEstimateLabel" = "Čas";
+"SettingsDisplayNoneLabel" = "Prazno";
+"SettingsEnabledLabel" = "Omogočeno";
+"SettingsDisabledLabel" = "Onemogočeno";
+
+"SettingsAboutLabel" = "Več o";
+"SettingsCustomizationLabel" = "Prilagoditev";
+"SettingsSoundEffectsLabel" = "Zvočni učinki";
+"SettingsTriggersLabel" = "Komande";
+"SettingsNotificationsLabel" = "Obvestila";
+"SettingsPrereleasesLabel" = "Beta različice";
+
+"SettingsCustomizationMenuLabel" = "Menu Bar ikona";
+"SettingsCustomizationThemeDarkLabel" = "Temno";
+"SettingsCustomizationThemeLightLabel" = "Svetlo";
+"SettingsCustomizationThemeSystemLabel" = "Sistem";
+"SettingsCustomizationThemeTitle" = "Prikaz";
+
+"UpdateStatusCheckingLabel" = "Preverjanje posodobitev...";
+"UpdateStatusIdleLabel" = "Nazadnje preverjeno: %@"; // Last Checked: 4 hours ago
+"UpdateStatusEmptyLabel" = "Na voljo ni novejše različice";
+"UpdateStatusNewLabel" = "Na voljo nova različica!";
+
+"AboutTitle" = "BatteryBoi, Brezplačno, Za vedno, za vse...";
+"AboutBodyOne" = "V svetu, kjer aplikacije pogosto zahtevajo naročnine. BatteryBoi je 100% brezplačen in odprtokodni, za vedno!";
+"AboutBodyTwo" = "Ustvarjanje te aplikacije, ki izgleda tako dobro, je mnogo dni dela, krvnega znoja in včasih solz. Zato prosim ljudi in podjetja, ki si to lahko privoščijo, da razmislijo o doniranju.";
+"AboutBodyThree" = "Donacije bodo omogočile, da luči ostanejo prižgane in da bodo posodobitve tekle.";
+"AboutBodyFooter" = "Hvala - Joe (Ustanovitelj aplikacije BatteryBoi)";
+"AboutGithubAction" = "GitHub";
+"AboutDonateAction" = "Doniraj";
+"AboutShareAction" = "Deli";
+
+"BluetoothDeviceHeadphonesLabel" = "Slušalke";
+"BluetoothDeviceMouseLabel" = "Miška";
+"BluetoothDeviceGamepadLabel" = "Gaming kontroler";
+"BluetoothDeviceSpeakerLabel" = "Zvočnik";
+"BluetoothDeviceKeyboardLabel" = "Tipkovnica";
+"BluetoothDeviceOtherLabel" = "Drugo";
+"BluetoothConnectLabel" = "Poveži";
+"BluetoothDisconnectLabel" = "Odveži";
+"BluetoothDistanceProximateLabel" = "Na mizi";
+"BluetoothDistanceNearLabel" = "V istem prostoru";
+"BluetoothDistanceFarLabel" = "Ne tako blizu";

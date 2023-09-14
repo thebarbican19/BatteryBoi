@@ -1,17 +1,16 @@
-// Translation Provided by Soner Kalonya (https://github.com/kalonya)
-
-"AlertSomePercentTitle" = "Kalan %%d%"; // Kalan %90
+"AlertSomePercentTitle" = "Kalan %%d%"; // 90% Remaining
 "AlertOnePercentTitle" = "Mac'iniz Kapanmak Üzere";
 "AlertChargingTitle" = "Şarj oluyor...";
 "AlertChargingStoppedTitle" = "Şarj Aleti Çıkarıldı";
 "AlertChargingCompleteTitle" = "Şarj Tamamlandı";
-"AlertDeviceConnectedTitle" = "'%@' Bağlandı";  // 'Joe'nun Kulaklıkları' Bağlandı
-"AlertDeviceDisconnectedTitle" = "'%@' Bağlantısı Kesildi"; // 'Joe'nun Kulaklıkları' Bağlantısı Kesildi
+"AlertDeviceConnectedTitle" = "'%@' Bağlandı"; // 'Joe's Headphones' Connected
+"AlertDeviceDisconnectedTitle" = "'%@' Bağlantısı Kesildi"; // 'Joe's Headphones' Disconnected
 "AlertDeviceUnknownTitle" = "Bilinmeyen";
 "AlertDeviceCalculatingTitle" = "Hesaplanıyor...";
-"AlertEstimateSummary" = "%@ kaldı"; // 1 saat, 32 dakika kaldı
+
+"AlertEstimateSummary" = "%@ kaldı"; // 1 hour, 32 minutes until empty
 "AlertPercentSummary" = "Şarj kablosunu takma zamanı!";
-"AlertStartedChargeSummary" = "Saat %@' de tam şarj oldu."; // Saat 2:32'de tam şarj oldu
+"AlertStartedChargeSummary" = "Saat %@' de tam şarj oldu."; // Fully charged at 2:32pm
 "AlertChargedSummary" = "Piliniz tamamen şarj oldu.";
 
 "TimestampHourFullLabel_Plural" = "%d saat";
@@ -19,6 +18,7 @@
 "TimestampMinuteFullLabel_Plural" = "%d dakika";
 "TimestampMinuteFullLabel_Single" = "%d dakika";
 "TimestampMinuteDaysLabel_Plural" = "%d gün";
+"TimestampMinuteDaysLabel_Single" = "%d gün";
 "TimestampHourAbbriviatedLabel" = "s";
 "TimestampMinuteAbbriviatedLabel" = "d";
 "TimestampDayAbbriviatedLabel" = "g";
@@ -27,23 +27,26 @@
 
 "SettingsWebsiteLabel" = "Web Sitesi";
 "SettingsQuitLabel" = "Çıkış";
+"SettingsPinnedLabel" = "Ekrana Sabitle";
+"SettingsEightyLabel" = "Charge to 80%";
+"SettingsRateLabel" = "BatteryBoi'yi değerlendir";
 "SettingsEfficiencyLabel" = "Düşük Güç";
 "SettingsCheckUpdatesLabel" = "Güncellemeleri Kontrol Et";
 "SettingsNewUpdateLabel" = "Yeni Güncellemeyi Yükle";
+"SettingsDisplayLabel" = "Gösterge";
+"SettingsDisplayCycleLabel" = "Döngü Sayısı";
+"SettingsDisplayPercentLabel" = "Yüzde";
+"SettingsDisplayEstimateLabel" = "Süre";
+"SettingsDisplayNoneLabel" = "Boş";
+"SettingsEnabledLabel" = "Etkin";
+"SettingsDisabledLabel" = "Devre Dışı";
+
 "SettingsAboutLabel" = "Hakkında";
 "SettingsCustomizationLabel" = "Özelleştirme";
 "SettingsSoundEffectsLabel" = "Ses Efektleri";
 "SettingsTriggersLabel" = "Komutlar";
 "SettingsNotificationsLabel" = "Bildirimler";
 "SettingsPrereleasesLabel" = "Beta Sürümler";
-
-"SettingsDisplayLabel" = "Gösterge";
-"SettingsDisplayPercentLabel" = "Yüzde";
-"SettingsDisplayEstimateLabel" = "Süre";
-"SettingsDisplayNoneLabel" = "Boş";
-"SettingsDisplayRemovedLabel" = "Menü Çubuğu Simgesi Gizlendi";
-"SettingsEnabledLabel" = "Etkin";
-"SettingsDisabledLabel" = "Devre Dışı";
 
 "SettingsCustomizationMenuLabel" = "Menü Çubuğu Simgesi";
 "SettingsCustomizationThemeDarkLabel" = "Koyu";
@@ -52,7 +55,7 @@
 "SettingsCustomizationThemeTitle" = "Görünüm";
 
 "UpdateStatusCheckingLabel" = "Güncellemeler Kontrol Ediliyor...";
-"UpdateStatusIdleLabel" = "Son Kontrol: %@"; // Son Kontrol: 4 saat önce
+"UpdateStatusIdleLabel" = "Son Kontrol: %@"; // Last Checked: 4 hours ago
 "UpdateStatusEmptyLabel" = "İndirilebilir Güncelleme Yok";
 "UpdateStatusNewLabel" = "Yeni Güncelleme Mevcut!";
 
@@ -64,3 +67,15 @@
 "AboutGithubAction" = "GitHub";
 "AboutDonateAction" = "Bağış Yap";
 "AboutShareAction" = "Paylaş";
+
+"BluetoothDeviceHeadphonesLabel" = "Kulaklıklar";
+"BluetoothDeviceMouseLabel" = "Fare";
+"BluetoothDeviceGamepadLabel" = "Oyun Kontrol Cihazı";
+"BluetoothDeviceSpeakerLabel" = "Hoparlör";
+"BluetoothDeviceKeyboardLabel" = "Klavye";
+"BluetoothDeviceOtherLabel" = "Diğer";
+"BluetoothConnectLabel" = "Bağlan";
+"BluetoothDisconnectLabel" = "Bağlantıyı Kes";
+"BluetoothDistanceProximateLabel" = "Masanın Üzerinde";
+"BluetoothDistanceNearLabel" = "Aynı Odada";
+"BluetoothDistanceFarLabel" = "Başka bir Diyarda";
