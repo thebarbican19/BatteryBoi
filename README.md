@@ -7,6 +7,8 @@
 ![GitHub contributors](https://img.shields.io/github/contributors/thebarbican19/BatteryBoi)
 [![Swift Version](https://img.shields.io/badge/Swift-5.x-orange.svg)]()
 [![MacOS Version](https://img.shields.io/badge/Supported%20Version-v11.0,%20v12.0,%20v13.0,%20v14.0+-orange)]()
+[![Telegram](https://img.shields.io/badge/Discussion%20Group-Telegram-blue)](https://t.me/+RmAXB2JfyOQzMTk0)
+
 
 # BatteryBoi - A Battery Indicator to Rule Them All!
 **BatteryBoi** is a **replacement Battery Indicator for the MacOS Menu Bar**. <br><br>
@@ -19,7 +21,7 @@ However, because of popular demand, the scope of this project has expanded signi
 <br>
 
 ## Product Hunt Launch 🚀
-**BatteryBoi will be going live on [Product Hunt](https://www.producthunt.com/products/batteryboi)** on **5th September (TODAY!!)**. Please please help by upvoting and sharing the word before, during, and after! 
+**BatteryBoi will be went live on [Product Hunt](https://www.producthunt.com/products/batteryboi)** on **5th September**. There is still plenty of time to upvote, rate, and share!  
 
 <br><br>
 
@@ -64,7 +66,10 @@ However, because of popular demand, the scope of this project has expanded signi
 - 🇮🇹 [Italian](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/it.lproj/LocalizableMain.strings)
 
 <br>
-If you would like to help by verifying your native language, or if it is not yet on the list adding it please see Documentation in Issue https://github.com/thebarbican19/BatteryBoi/issues/12
+If you would like to help by verifying your native language, or if it is not yet on the list, add it! 
+<br><br>
+You can do this on our **[Crowdin Translation Page](https://crowdin.com/project/batteryboi/invite?h=c3bb7275e88e71954a50841b976b50a11834099)**
+
 
 
 
@@ -83,7 +88,7 @@ With continued support, I will be adding...
 - [x] **🏝️ A Dynamic Island-Style Modal with Sexy Indicator**
 - [ ] **☀️ Light Mode**
 - [x] **🔉 Sound Effects**
-- [ ] **🎨 Customisation View**
+- [ ] **🎨 Customisation View** Funding Goal: **$500**
     - [ ] **🔉 Sound Effects (Toggle)**
     - [ ] **⚙️Display (Toggle)**
     - [ ] **👁️Hide/Show Menu Bar Toggle**
@@ -98,7 +103,9 @@ With continued support, I will be adding...
     - [ ] **Add to Menu Bar**
 
 - [ ] **⌨️ Custom Keyboard Shortcuts**
-- [ ] **⌨️ Custom IF/THEN Triggers** (at 10%, lower the brightness to 0.3)
+- [ ] **⌨️ Custom IF/THEN Triggers** (at 10%, lower the brightness to 0.3) Funding Goal: **$1,000**
+- [ ] **📱 iOS/iPad App (Bidirectional Syncing of Battery Information)** Funding Goal: **$2,500**
+- [ ] **🧳 SMJobBless Helper Command Line**
 
 <br>Ideas are welcome. 
 
@@ -139,9 +146,9 @@ Here's a list of places BatteryBoi has been featured across the web and across t
 <br><br><br>
 
 ## Spare some change?
-In a world where almost every app has a recurring fee, **BatteryBoi is and will remain open-source and free for everybody!** But if you want to support future development and see some of the roadmap items implemented, then consider donating via our website [batteryboi.ovatar.io](https://batteryboi.ovatar.io/) or via  my [GitHub Sponsor page](https://github.com/sponsors/thebarbican19).
+In a world where almost every app has a recurring fee, **BatteryBoi is and will remain open-source and free for everybody!** But if you want to support future development and see some of the roadmap items implemented, then consider donating via our website [batteryboi.ovatar.io](https://batteryboi.ovatar.io?ref=github&modal=donate) or via  my [GitHub Sponsor page](https://github.com/sponsors/thebarbican19).
 <br><br>
-**Can't afford to pay?** Don't you stress about it! You can support the project simply by sharing it with whoever has a Mac, or even just by ⭐️ this project.
+**Can't afford to pay?** Don't you stress about it! You can support the project simply by sharing it with whoever has a Mac, rate/upvote the project on [Product Hunt](https://www.producthunt.com/posts/batteryboi-open-source), or Star this repo... Or all of them!
 <br><br>
 
 #### Thank you for your consideration.
