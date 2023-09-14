@@ -1,50 +1,52 @@
-// Translation Provided by Desmoed Richtofen (https://github.com/Shane1119)
-
-"AlertSomePercentTitle" = "剩余电量 %d%%"; // 90% Remaining 
-"AlertOnePercentTitle" = "您的Mac即将关机"; 
-"AlertChargingTitle" = "正在充电..."; 
-"AlertChargingStoppedTitle" = "充电结束"; 
-"AlertChargingCompleteTitle" = "电量已满"; 
-"AlertDeviceConnectedTitle" = "'%@' 已连接"; //'Joe's Headphones' Connected 
-"AlertDeviceDisconnectedTitle" = "'%@' 已断开"; //'Joe's Headphones' Disconnected 
-"AlertDeviceUnknownTitle" = "未知设备"; 
+"AlertSomePercentTitle" = "剩余电量 %d%%"; // 90% Remaining
+"AlertOnePercentTitle" = "您的Mac即将关机";
+"AlertChargingTitle" = "正在充电...";
+"AlertChargingStoppedTitle" = "充电结束";
+"AlertChargingCompleteTitle" = "电量已满";
+"AlertDeviceConnectedTitle" = "'%@' 已连接"; // 'Joe's Headphones' Connected
+"AlertDeviceDisconnectedTitle" = "'%@' 已断开"; // 'Joe's Headphones' Disconnected
+"AlertDeviceUnknownTitle" = "未知设备";
 "AlertDeviceCalculatingTitle" = "正在计算...";
 
-"AlertEstimateSummary" = "剩余可用 %@"; // 1 hour, 32 minutes until empty 
-"AlertPercentSummary" = "请连接电源!"; 
-"AlertStartedChargeSummary" = "已于 %@ 完成充电."; // Fully charged at 2:32pm 
+"AlertEstimateSummary" = "剩余可用 %@"; // 1 hour, 32 minutes until empty
+"AlertPercentSummary" = "请连接电源!";
+"AlertStartedChargeSummary" = "已于 %@ 完成充电."; // Fully charged at 2:32pm
 "AlertChargedSummary" = "您的Mac电量已满.";
 
-"TimestampHourFullLabel_Plural" = "%d 时"; 
-"TimestampHourFullLabel_Single" = "%d 时"; 
-"TimestampMinuteFullLabel_Plural" = "%d 分"; 
-"TimestampMinuteFullLabel_Single" = "%d 分"; 
-"TimestampMinuteDaysLabel_Plural" = "%d 日"; 
-"TimestampHourAbbriviatedLabel" = "h"; 
-"TimestampMinuteAbbriviatedLabel" = "m"; 
-"TimestampDayAbbriviatedLabel" = "d"; 
-"TimestampNeverLabel" = "从未"; 
+"TimestampHourFullLabel_Plural" = "%d 时";
+"TimestampHourFullLabel_Single" = "%d 时";
+"TimestampMinuteFullLabel_Plural" = "%d 分";
+"TimestampMinuteFullLabel_Single" = "%d 分";
+"TimestampMinuteDaysLabel_Plural" = "%d 日";
+"TimestampMinuteDaysLabel_Single" = "%d 天";
+"TimestampHourAbbriviatedLabel" = "时";
+"TimestampMinuteAbbriviatedLabel" = "分";
+"TimestampDayAbbriviatedLabel" = "天";
+"TimestampNeverLabel" = "从未";
 "TimestampNowLabel" = "刚刚";
 
-"SettingsWebsiteLabel" = "主页"; 
-"SettingsQuitLabel" = "退出"; 
-"SettingsThemeLabel" = "外观"; 
-"SettingsEfficiencyLabel" = "低能耗模式"; 
-"SettingsCheckUpdatesLabel" = "检查更新"; 
-"SettingsNewUpdateLabel" = "安装更新"; 
-"SettingsDisplayLabel" = "显示设置"; 
-"SettingsDisplayPercentLabel" = "百分比"; 
-"SettingsDisplayEstimateLabel" = "可用时间"; 
-"SettingsDisplayNoneLabel" = "无"; 
-"SettingsDisplayRemovedLabel" = "在工具栏隐藏图标";
+"SettingsWebsiteLabel" = "主页";
+"SettingsQuitLabel" = "退出";
+"SettingsPinnedLabel" = "置顶显示";
+"SettingsEightyLabel" = "充电至80%";
+"SettingsRateLabel" = "为BatteryBoi评分";
+"SettingsEfficiencyLabel" = "低能耗模式";
+"SettingsCheckUpdatesLabel" = "检查更新";
+"SettingsNewUpdateLabel" = "安装更新";
+"SettingsDisplayLabel" = "显示设置";
+"SettingsDisplayCycleLabel" = "电池循环";
+"SettingsDisplayPercentLabel" = "百分比";
+"SettingsDisplayEstimateLabel" = "可用时间";
+"SettingsDisplayNoneLabel" = "无";
+"SettingsEnabledLabel" = "启用";
+"SettingsDisabledLabel" = "禁用";
+
 "SettingsAboutLabel" = "关于";
 "SettingsCustomizationLabel" = "自定义";
 "SettingsSoundEffectsLabel" = "音效设置";
 "SettingsTriggersLabel" = "快捷设置";
 "SettingsNotificationsLabel" = "通知设置";
 "SettingsPrereleasesLabel" = "测试版本";
-"SettingsEnabledLabel" = "启用"; 
-"SettingsDisabledLabel" = "禁用";
 
 "SettingsCustomizationMenuLabel" = "菜单栏图标";
 "SettingsCustomizationThemeDarkLabel" = "暗色";
@@ -52,16 +54,29 @@
 "SettingsCustomizationThemeSystemLabel" = "自动";
 "SettingsCustomizationThemeTitle" = "外观设置";
 
-"UpdateStatusIdleLabel" = "上次检查: %@"; // Last Checked: 4 hours ago 
-"UpdateStatusEmptyLabel" = "暂无更新"; 
-"UpdateStatusNewLabel" = "更新可用";
 "UpdateStatusCheckingLabel" = "正在检查更新";
+"UpdateStatusIdleLabel" = "上次检查: %@"; // Last Checked: 4 hours ago
+"UpdateStatusEmptyLabel" = "暂无更新";
+"UpdateStatusNewLabel" = "更新可用";
 
 "AboutTitle" = "BatteryBoi, 无偿, 无限, 无边...";
 "AboutBodyOne" = "在使用万千程序的过程中, 钱包常常因为扣款而啜泣. 不过BatteryBoi 会向你保证永久免费, 永久开源!";
 "AboutBodyTwo" = "创造出这个小东西让我好几天没合眼, 直接能把我累趴的. 这就是为甚我会希望一些个人或者商户能够稍稍捐赠一下我, 十分感谢.";
 "AboutBodyThree" = "您的捐赠会帮助本程序的后续维护和更新, 以及我每天让我多喝上一小杯咖啡.";
 "AboutBodyFooter" = "谢谢 - Joe (BatteryBoi 开发者)";
-"AboutGithubAction" = "GitHub";
+"AboutGithubAction" = "Github";
 "AboutDonateAction" = "捐赠";
 "AboutShareAction" = "分享";
+
+"BluetoothDeviceHeadphonesLabel" = "耳机";
+"BluetoothDeviceMouseLabel" = "鼠标";
+"BluetoothDeviceGamepadLabel" = "控制器";
+"BluetoothDeviceSpeakerLabel" = "扬声器";
+"BluetoothDeviceKeyboardLabel" = "键盘";
+"BluetoothDeviceOtherLabel" = "其他设备";
+"BluetoothConnectLabel" = "已连接";
+"BluetoothDisconnectLabel" = "已断开";
+"BluetoothDistanceProximateLabel" = "在桌子上";
+"BluetoothDistanceNearLabel" = "在当前房间";
+"BluetoothDistanceFarLabel" = "在其他地方";
+

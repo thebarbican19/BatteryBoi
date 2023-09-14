@@ -40,7 +40,29 @@
 "SettingsEnabledLabel" = "有効";
 "SettingsDisabledLabel" = "無効";
 
+"SettingsAboutLabel" = "情報";
+"SettingsCustomizationLabel" = "カスタマイズ";
+"SettingsSoundEffectsLabel" = "サウンドエフェクト";
+"SettingsTriggersLabel" = "コマンド";
+"SettingsNotificationsLabel" = "通知";
+"SettingsPrereleasesLabel" = "ベータリリース";
+
+"SettingsCustomizationMenuLabel" = "メニューバーアイコン";
+"SettingsCustomizationThemeDarkLabel" = "ダーク";
+"SettingsCustomizationThemeLightLabel" = "ライト";
+"SettingsCustomizationThemeSystemLabel" = "システム";
+"SettingsCustomizationThemeTitle" = "外観";
+
 "UpdateStatusCheckingLabel" = "アップデートを確認...";
 "UpdateStatusIdleLabel" = "最後に確認した時刻: %@"; // 最後に確認した時刻: 4時間前
 "UpdateStatusEmptyLabel" = "利用可能なアップデートはありません";
 "UpdateStatusNewLabel" = "新しいアップデートが利用可能です！";
+
+"AboutTitle" = "BatteryBoi、無料、いつまでも、誰にでも...";
+"AboutBodyOne" = "アプリの喧騒に揉まれ、繰り返すサブスクリプションに財布が泣いている中、BatteryBoiはいつまでも100%無料＆オープンソースです！";
+"AboutBodyTwo" = "このアプリをここまで仕上げるために、多くの日々を費やし、血と汗と、時には涙を流してきました。だから、皆さんや企業の方々には余裕があれば寄付をお願いしているのです。";
+"AboutBodyThree" = "寄付によって、明かりは灯ったままになり、アップデートや修正を続けることができるでしょう。";
+"AboutBodyFooter" = "ありがとう - Joe（BatteryBoiの創設者）";
+"AboutGithubAction" = "GitHub";
+"AboutDonateAction" = "寄付";
+"AboutShareAction" = "共有";

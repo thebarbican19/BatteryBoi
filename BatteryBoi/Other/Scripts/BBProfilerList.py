@@ -15,6 +15,14 @@ def get_bluetooth_info_from_system_profiler():
     # Extracting connected devices
     connected_devices = bluetooth_info.get('device_connected', [])
     
+    # Including RSSI if available
+    for device in connected_devices:
+        if 'RSSI' in device:
+            try:
+                device['device_rssi'] = int(device['RSSI'])
+            except (ValueError, TypeError):
+                print("Failed to parse RSSI")
+    
     return connected_devices
 
 if __name__ == '__main__':

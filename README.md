@@ -7,6 +7,8 @@
 ![GitHub contributors](https://img.shields.io/github/contributors/thebarbican19/BatteryBoi)
 [![Swift Version](https://img.shields.io/badge/Swift-5.x-orange.svg)]()
 [![MacOS Version](https://img.shields.io/badge/Supported%20Version-v11.0,%20v12.0,%20v13.0,%20v14.0+-orange)]()
+[![Telegram](https://img.shields.io/badge/Discussion%20Group-Telegram-blue)](https://t.me/+RmAXB2JfyOQzMTk0)
+
 
 # BatteryBoi - A Battery Indicator to Rule Them All!
 **BatteryBoi** is a **replacement Battery Indicator for the MacOS Menu Bar**. <br><br>

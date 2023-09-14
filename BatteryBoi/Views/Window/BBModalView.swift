@@ -55,7 +55,7 @@ enum ModalAnimationTypes:Int {
             case .begin : return .init(width: 40, height: 40)
             case .pinhole : return .init(width: 120, height: 120)
             case .reveal : return .init(width: 400, height: 120)
-            case .detailed : return .init(width: 410, height: 210)
+            case .detailed : return .init(width: 410, height: 220)
             case .stats : return .init(width: 410, height: 260)
             case .settings : return .init(width: 410, height: 390)
             case .dismiss : return .init(width: 120, height: 120)
@@ -76,6 +76,7 @@ enum ModalAnimationTypes:Int {
             case .dismiss : return 0.05
 
         }
+        
     }
     
     func automatic(_ modal:ModalAlertTypes) -> Bool {
@@ -176,7 +177,8 @@ enum ModalAlertTypes:Int {
     case userLaunched
     case deviceConnected
     case deviceRemoved
-    
+    case deviceDistance
+
     var sfx:SystemSoundEffects? {
         switch self {
             case .chargingBegan : return .high
@@ -190,6 +192,7 @@ enum ModalAlertTypes:Int {
             case .userInitiated : return nil
             case .deviceRemoved : return .low
             case .deviceConnected : return .high
+            case .deviceDistance : return .low
 
         }
         
@@ -210,19 +213,162 @@ enum ModalAlertTypes:Int {
 
 }
 
-struct ModalIcon: View {
+struct ModalMenuView: View {
+    @EnvironmentObject var manager:AppManager
+    @EnvironmentObject var updates:UpdateManager
+    @EnvironmentObject var settings:SettingsManager
+    @EnvironmentObject var bluetooth:BluetoothManager
+
+    @State var update:Bool = false
+    @State var hover:Bool = false
+    @State var scroll:CGPoint = .zero
+    @State var size:CGSize = .zero
+
     var body: some View {
-        VStack {
-            Image("ChargingIcon")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 28, height: 28)
-                .foregroundColor(Color.white)
-                .offset(y:1)
+        ZStack {
+            GeometryReader { geo in
+                HStack(spacing: 0) {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(alignment: .bottom, spacing: 8) {
+                            ForEach(settings.menu, id: \.self) { item in
+                                if self.manager.menu == .settings {
+                                    SettingsItem(hover:$hover, item: item)
+                                    
+                                }
+                                
+                            }
+                            
+                            ForEach(bluetooth.list, id: \.address) { item in
+                                if self.manager.menu == .devices {
+                                    BluetoothItem(hover:$hover, item: item)
+                                    
+                                }
+                                
+                            }
+                            
+                            Spacer().frame(width: size.width)
+                            
+                        }
+                        .animation(Animation.bouncy, value: self.manager.menu)
+                        .background(GeometryReader { geometry in
+                            Color.clear.preference(key: SettingsScrollOffsetKey.self, value: geometry.frame(in: .named("scroll")).origin)
+                            
+                        })
+                        .onPreferenceChange(SettingsScrollOffsetKey.self) { value in
+                            if WindowManager.shared.state == .detailed {
+                                self.scroll = value
+                                
+                            }
+                            
+                        }
+                        
+                    }
+                    .coordinateSpace(name: "scroll")
+                    .mask(30, scroll: $scroll)
+                    .frame(width: geo.size.width)
+
+                    ZStack(alignment: .trailing) {
+                        HStack(spacing:8) {
+                            SettingsOverlayItem(.appDevices)
+                                .opacity(self.bluetooth.connected.count > 0 ? 1.0 : 0.0)
+                                .scaleEffect(self.bluetooth.connected.count > 0 ? 1.0 : 0.8)
+                            
+                            SettingsOverlayItem(.appQuit)
+                            
+                        }
+                        
+                    }
+                    .frame(height:60)
+                    .background(
+                        HStack(alignment: .center, spacing: 0) {
+                            LinearGradient(gradient: Gradient(colors: [Color("BatteryBackground").opacity(0.0), Color("BatteryBackground")]), startPoint: .leading, endPoint: .trailing)
+                                .frame(width: 30)
+
+                            Rectangle().fill(Color("BatteryBackground"))
+
+                        }
+                        .frame(width: size.width + 16)
+                        .offset(x:-8)
+                        
+                    )
+                    .overlay(
+                        GeometryReader { geo in
+                            Color.clear.onAppear() {
+                                self.size = geo.size
+                                
+                            }
+                            
+                        }
+                        
+                    )
+                    .offset(x:-(size.width))
+                    
+                }
+
+            }
             
         }
-        .padding(.leading, 6)
+        .padding(.horizontal, 14)
+        .frame(height: 86)
+        .onHover { hover in
+            withAnimation(Animation.easeOut.delay(self.hover ? 1.2 : 0.1)) {
+                self.hover = hover
+                
+            }
+            
+        }
+        .onAppear() {
+            self.update = self.updates.available != nil ? true : false
+            
+        }
+        .onChange(of: self.bluetooth.connected, perform: { newValue in
+            if newValue.count == 0 && self.manager.menu == .devices {
+                withAnimation(Animation.easeOut) {
+                    self.manager.menu = .settings
+
+                }
+                
+            }
+           
+        })
+        .onChange(of: self.updates.available, perform: { newValue in
+            withAnimation(Animation.easeOut.delay(0.1)) {
+                self.update = newValue != nil ? true : false
+                
+            }
+
+        })
+        
+    }
+    
+}
+
+struct ModalIcon: View {
+    @EnvironmentObject var manager:AppManager
+
+    @Namespace private var animation
+
+    var body: some View {
+        VStack {
+            ZStack {
+                if let icon = self.manager.device?.type.icon {
+                    Image(systemName: icon).resizable().aspectRatio(contentMode: .fit).matchedGeometryEffect(id: "icon", in: animation)
+
+                }
+                else {
+                    Image("ChargingIcon").resizable().aspectRatio(contentMode: .fit).matchedGeometryEffect(id: "icon", in: animation)
+                        
+                }
+                
+            }
+            .frame(width: 28, height: 28)
+            .foregroundColor(Color("BatterySubtitle"))
+            .offset(y:1)
+            
+        }
         .frame(width:50, height: 50)
+        .padding(.leading, 10)
+        .padding(.trailing, 4)
         .background(Color.clear)
         
     }
@@ -241,62 +387,7 @@ struct ModalStatsSubview: View {
     
 }
 
-struct ModalUpdatePrompt: View {
-    @EnvironmentObject var update:UpdateManager
-    @EnvironmentObject var notices:NoticeManager
 
-    var body: some View {
-        if self.update.available != nil || self.notices.notice != nil {
-            HStack(alignment: .top, spacing: 3) {
-                Circle()
-                    .fill(Color("BatteryEfficient"))
-                    .frame(width: 5, height: 5)
-                    .offset(y:5)
-                
-                if let notice = self.notices.notice {
-                    Text(notice.title)
-
-                }
-                else {
-                    Text("UpdateStatusNewLabel".localise())
-                    
-                }
-                
-            }
-            .padding(0)
-            .font(.system(size: 12, weight: .bold))
-            .foregroundColor(Color("BatteryEfficient"))
-            .lineLimit(2)
-            .padding(.top, 10)
-            .onHover { hover in
-                switch hover {
-                    case true : NSCursor.pointingHand.push()
-                    default : NSCursor.pop()
-                    
-                }
-                
-            }
-            .onTapGesture {
-                if let _ = self.notices.notice {
-                    NoticeManager.shared.noticeAction()
-                    
-                }
-                else {
-                    SettingsManager.shared.settingsAction(.init(.appInstallUpdate))
-
-                }
-                
-            }
-            
-        }
-        else {
-            EmptyView()
-            
-        }
-        
-    }
-    
-}
 
 struct ModalIndicator: View {
     @EnvironmentObject var battery:BatteryManager
@@ -307,7 +398,6 @@ struct ModalIndicator: View {
     @State private var icon:Bool
     @State private var title:String = ""
     @State private var subtitle:String = ""
-    @State private var details:Bool = false
 
     init(_ type:ModalAlertTypes) {
         self._type = State(initialValue: type)
@@ -319,8 +409,8 @@ struct ModalIndicator: View {
         VStack {
             HStack(alignment: .center) {
                 ModalIcon()
-                    .opacity(self.details ? 1.0 : 0.0)
-                    .scaleEffect(self.details ? 1.0 : 0.9)
+//                    .opacity(self.details ? 1.0 : 0.0)
+//                    .scaleEffect(self.details ? 1.0 : 0.9)
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(self.title)
@@ -330,28 +420,21 @@ struct ModalIndicator: View {
                     
                     ViewMarkdown($subtitle)
                     
-                    ModalUpdatePrompt()
-                    
                 }
                 .padding(0)
-                .opacity(self.details ? 1.0 : 0.0)
+//                .opacity(self.details ? 1.0 : 0.0)
                 
                 Spacer()
                 
-                RadialProgressContainer()
+                //RadialProgressContainer()
                 
             }
-            
-//            HStack {
-//                Text("Stats").foregroundColor(Color.white)
-//
-//            }
             
         }
         .padding(.vertical, 14)
         .padding(.trailing, 16)
         .padding(.leading, 18)
-        .frame(width: self.manager.state.size.width)
+        //.frame(width: self.manager.state.size.width)
         .onAppear() {
             self.title = self.stats.title
             self.subtitle = self.stats.subtitle
@@ -366,21 +449,51 @@ struct ModalIndicator: View {
 
         }
         .onChange(of: self.manager.state) { newValue in
-            if newValue == .reveal {
-                withAnimation(.interactiveSpring(response: 1.0, dampingFraction: 0.8, blendDuration: 0.2)) {
-                    self.icon = true
-                    
-                }
-                
-            }
-            
-            withAnimation(.easeIn(duration: newValue.content ? 0.4 : 0.1).delay(newValue.content ? 0.5 : 0.0)) {
-                self.details = newValue.content
-                
-            }
+//            if newValue == .reveal {
+//                withAnimation(.interactiveSpring(response: 1.0, dampingFraction: 0.8, blendDuration: 0.2)) {
+//                    self.icon = true
+//                    
+//                }
+//                
+//            }
             
         }
             
+    }
+    
+}
+
+struct ModalMask: View {
+    @State private var keyframe = Array<AnimationObject>()
+
+    init() {
+//        self._keyframe = State(initialValue: [
+//            .init(.init(opacity: 1.0, width: 40, height: 120, blur: 0), duration: 4.3, delay:4.0, easing: .bounce, label: "intro"),
+//            .init(.init(opacity: 1.0, width: 420, height: 120, blur: 0), duration: 3.8, delay:6.0, easing: .bounce, label: "next")])
+
+        
+//    case .initial : return .init(width: 240, height: 240)
+//    case .begin : return .init(width: 40, height: 40)
+//    case .pinhole : return .init(width: 120, height: 120)
+//    case .reveal : return .init(width: 400, height: 120)
+//    case .detailed : return .init(width: 410, height: 210)
+//    case .stats : return .init(width: 410, height: 260)
+//    case .settings : return .init(width: 410, height: 390)
+//    case .dismiss : return .init(width: 120, height: 120)
+    }
+    
+    var body: some View {
+        VStack {
+            RoundedRectangle(cornerRadius:12, style: .continuous)
+                .fill(Color("BatteryBackground"))
+                //.timeline($keyframe)
+//            RoundedRectangle(cornerRadius: self.window.state.radius, style: .continuous)
+//                .frame(width: self.window.state.size.width, height: self.window.state.size.height)
+         
+            Spacer()
+            
+        }
+        
     }
     
 }
@@ -392,6 +505,7 @@ struct ModalView: View {
     @State private var type:ModalAlertTypes
     @State private var final:ModalAnimationTypes
     @State private var scale:CGFloat = 0.0
+    @State private var keyframe = Array<AnimationObject>()
     
     @Binding var size:CGSize
 
@@ -399,20 +513,20 @@ struct ModalView: View {
         self._type = State(initialValue: type)
         self._final = State(initialValue: type == .userInitiated ? .detailed : .reveal)
         self._size = size
-        
+//        self._keyframe = State(initialValue: [
+//            .init(.init(opacity: 0.8, width: 120, height: 120, blur: 0.0), duration: 4),
+//            .init(.init(opacity: 1.0, width: 410, height: 120, blur: 0), duration: 0.3)]
+//        )
+//        
     }
     
     var body: some View {
         VStack() {
             GeometryReader { geometry in
                 VStack {
-                    switch window.state {
-                        case .settings : AboutContainer()
-                        default : ModalIndicator(self.type)
-                        
-                    }
+                    ModalIndicator(self.type)
                                         
-                    SettingsContainer()
+                    ModalMenuView()
                     
                 }
                 .clipped()
@@ -428,59 +542,57 @@ struct ModalView: View {
 
         }
         .background(
-            RoundedRectangle(cornerRadius: 2, style: .continuous).fill(Color("BatteryBackground"))
-                .opacity(self.window.state.opacity)
-                .onHover(perform: { hover in
-                    self.window.hover = hover ? 1 : 0
-                    
-                })
-            
+            ZStack {
+                RoundedRectangle(cornerRadius: 2, style: .continuous).fill(Color("BatteryBackground"))
+                    //.opacity(self.window.state.opacity)
+//                    .onHover(perform: { hover in
+//                        self.window.hover = hover ? 1 : 0
+//                        
+//                    })
+                
+            }
+            .opacity(window.opacity)
+
         )
         .mask(
-            VStack {
-                RoundedRectangle(cornerRadius: self.window.state.radius, style: .continuous).fill(Color("BatteryBackground"))
-                    .frame(width: self.window.state.size.width, height: self.window.state.size.height)
-             
-                Spacer()
-                
-            }
+            ModalMask()
  
         )
-        .scaleEffect(self.window.state.scale, anchor: .top)
-        .blur(radius: self.window.state.blur)
-        .onAppear() {
-            if self.manager.alert == nil {
-                withAnimation(Animation.easeOut(duration: self.window.state.duration).delay(0.2)) {
-                    self.window.state = .pinhole
-                    self.window.active = 0
-                    
-                }
-                
-            }
-            
-        }
-        .onChange(of: self.window.state) { newValue in
-            if let next = ModalAnimationTypes(rawValue: newValue.rawValue + 1) {
-                if next.automatic(type) == true {
-                    if next.bounce == 0 {
-                        withAnimation(Animation.easeIn(duration: next.duration).delay(self.window.state.duration + 12)) {
-                            self.window.state = next
-                            
-                        }
-                    }
-                    else {
-                        withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.7, blendDuration: next.bounce).delay(self.window.state.duration)) {
-                            self.window.state = next
-                            
-                        }
-                        
-                    }
-                    
-                }
-                
-            }
-            
-        }
+//        .scaleEffect(self.window.state.scale, anchor: .top)
+//        .blur(radius: self.window.state.blur)
+//        .onAppear() {
+//            if self.manager.alert == nil {
+//                withAnimation(Animation.easeOut(duration: self.window.state.duration).delay(0.2)) {
+//                    self.window.state = .pinhole
+//                    self.window.active = 0
+//                    
+//                }
+//                
+//            }
+//            
+//        }
+//        .onChange(of: self.window.state) { newValue in
+//            if let next = ModalAnimationTypes(rawValue: newValue.rawValue + 1) {
+//                if next.automatic(type) == true {
+//                    if next.bounce == 0 {
+//                        withAnimation(Animation.easeIn(duration: next.duration).delay(self.window.state.duration + 12)) {
+//                            self.window.state = next
+//                            
+//                        }
+//                    }
+//                    else {
+//                        withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.7, blendDuration: next.bounce).delay(self.window.state.duration)) {
+//                            self.window.state = next
+//                            
+//                        }
+//                        
+//                    }
+//                    
+//                }
+//                
+//            }
+//            
+//        }
         
     }
     
@@ -526,7 +638,8 @@ struct ModalContainer: View {
     
     var body: some View {
         VStack {
-            ModalAligment(self.type)
+            HUDView()
+            //ModalAligment(self.type)
           
         }
         .environmentObject(WindowManager.shared)
@@ -535,16 +648,9 @@ struct ModalContainer: View {
         .environmentObject(SettingsManager.shared)
         .environmentObject(UpdateManager.shared)
         .environmentObject(StatsManager.shared)
-        .environmentObject(NoticeManager.shared)
+        .environmentObject(BluetoothManager.shared)
 
     }
     
 }
 
-struct JModalView_Previews: PreviewProvider {
-    static var previews: some View {
-        ModalContainer(.userInitiated, device: nil)
-        
-    }
-    
-}

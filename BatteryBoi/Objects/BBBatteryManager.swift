@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import IOKit.ps
 import EnalogSwift
+import IOKit.pwr_mgt
 
 enum BatteryCondition: String {
     case optimal = "Normal"
@@ -18,12 +19,35 @@ enum BatteryCondition: String {
     
 }
 
+struct BatteryCycleObject {
+    var numerical:Int
+    var formatted:String
+    
+    init(_ count:Int) {
+        self.numerical = count
+        
+        if count > 999 {
+            let divisor = pow(10.0, Double(1))
+            let string = ((Double(count) / 1000.0) * divisor).rounded() / divisor
+
+            self.formatted = "\(string)k"
+            
+        }
+        else {
+            self.formatted = "\(Int(count))"
+
+        }
+        
+    }
+    
+}
+
 struct BatteryMetricsObject {
-    var cycles:Int
+    var cycles:BatteryCycleObject
     var heath:BatteryCondition
     
     init(cycles:String, health:String) {
-        self.cycles = Int(cycles) ?? 0
+        self.cycles = BatteryCycleObject(Int(cycles) ?? 0)
         self.heath = BatteryCondition(rawValue: health) ?? .optimal
         
     }
@@ -177,32 +201,72 @@ class BatteryManager:ObservableObject {
     @Published var rate:BatteryEstimateObject? = nil
     @Published var metrics:BatteryMetricsObject? = nil
 
+    private var counter:Int? = 0
     private var updates = Set<AnyCancellable>()
 
     init() {
+        Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { _ in
+            if self.counter == nil {
+                self.powerUpdaterFallback()
+
+            }
+            
+        }
+        
         AppManager.shared.appTimer(1).dropFirst(5).sink { _ in
             self.powerStatus(true)
+            self.counter = nil
             
         }.store(in: &updates)
         
         AppManager.shared.appTimer(6).sink { _ in
             self.remaining = self.powerRemaing
+            self.counter = nil
 
         }.store(in: &updates)
-
+        
         AppManager.shared.appTimer(60).sink { _ in
             self.saver = self.powerSaveModeStatus
             self.metrics = self.powerProfilerDetails
+            self.counter = nil
 
         }.store(in: &updates)
         
         self.powerStatus(true)
-                
-        
+    
     }
     
     deinit {
         self.updates.forEach { $0.cancel() }
+        
+    }
+    
+    public func powerForceRefresh() {
+        self.powerStatus(true)
+        
+        self.saver = self.powerSaveModeStatus
+        self.metrics = self.powerProfilerDetails
+        
+    }
+    
+    private func powerUpdaterFallback() {
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            if let counter = self.counter {
+                if counter.isMultiple(of: 1) {
+                    self.powerStatus(true)
+                    
+                }
+                
+                if counter.isMultiple(of: 6) {
+                    self.remaining = self.powerRemaing
+                    
+                }
+                
+            }
+            
+            self.counter = (self.counter ?? 0) + 1
+            
+        }
         
     }
     
@@ -438,5 +502,33 @@ class BatteryManager:ObservableObject {
         return nil
         
     }
+    
+//    func setSMCByte(key: String, value: UInt8) {
+//           do {
+//               try SMCKit.open()
+//           } catch {
+//               print(error)
+//               exit(EX_UNAVAILABLE)
+//           }
+//           let smcKey = SMCKit.getKey(key, type: DataTypes.UInt8)
+//           let bytes: SMCBytes = (value, UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+//           UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+//           UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+//           UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+//           UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+//           UInt8(0), UInt8(0))
+//           
+//           if(self.modifiedKeys[key] == nil){
+//               readSMCByte(key: key) { (originalValue) in
+//                   self.modifiedKeys[key] = originalValue
+//                   _ = try? SMCKit.writeData(smcKey, data: bytes)
+//               }
+//           }
+//           else{
+//               _ = try? SMCKit.writeData(smcKey, data: bytes)
+//           }
+//
+//           
+//       }
     
 }
