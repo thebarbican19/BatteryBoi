@@ -1,13 +1,13 @@
 
-"AlertSomePercentTitle" = "%d%% verbleiben"; // 90% Remaining
-"AlertOnePercentTitle" = "Ihr Mac wird gleich herunterfahren";
+"AlertSomePercentTitle" = "%d%% verbleibend"; // 90% Remaining
+"AlertOnePercentTitle" = "Dein Mac wird gleich herunterfahren";
 "AlertChargingTitle" = "Lädt...";
 "AlertChargingStoppedTitle" = "Ladegerät entfernt";
 "AlertChargingCompleteTitle" = "Ladevorgang abgeschlossen";
 "AlertDeviceConnectedTitle" = "'%@' verbunden"; // 'Joe's Headphones' Connected
 "AlertDeviceDisconnectedTitle" = "'%@' getrennt"; // 'Joe's Headphones' Disconnected
 "AlertDeviceUnknownTitle" = "Unbekannt";
-"AlertDeviceCalculatingTitle" = "Berechne...";
+"AlertDeviceCalculatingTitle" = "Berechnen...";
 
 "AlertEstimateSummary" = "**%@** bis leer"; // 1 hour, 32 minutes until empty
 "AlertPercentSummary" = "Zeit, das Kabel zu holen!";
@@ -24,7 +24,7 @@
 "TimestampMinuteAbbriviatedLabel" = "Min";
 "TimestampDayAbbriviatedLabel" = "Tg";
 "TimestampNeverLabel" = "Nie";
-"TimestampNowLabel" = "Eben gerade";
+"TimestampNowLabel" = "Gerade eben";
 
 "SettingsWebsiteLabel" = "Unterstütze die Entwicklung";
 "SettingsQuitLabel" = "Beenden";
@@ -61,9 +61,9 @@
 "UpdateStatusNewLabel" = "Neues Update verfügbar!";
 
 "AboutTitle" = "BatteryBoi, kostenlos, für immer, für alle...";
-"AboutBodyOne" = "In der hektischen App-Landschaft, wo Geldbeutel oft wegen wiederkehrenden Abonnements leiden, ist BatteryBoi 100% kostenlos & Open-Source, für immer!";
+"AboutBodyOne" = "In der hektischen App-Landschaft, wo Geldbeutel oft unter wiederkehrenden Abonnements leiden, ist BatteryBoi 100% kostenlos & Open-Source, für immer!";
 "AboutBodyTwo" = "Die Erstellung einer so gut aussehenden App ist das Ergebnis vieler Tage Arbeit, Blut, Schweiß und manchmal Tränen. Deshalb bitte ich Menschen und Unternehmen, die es sich leisten können, eine Spende in Erwägung zu ziehen.";
-"AboutBodyThree" = "Spenden halten die Lichter an und sorgen für kontinuierliche Updates und Fehlerbehebungen.";
+"AboutBodyThree" = "Spenden halten die App am Leben und sorgen für kontinuierliche Updates und Fehlerbehebungen.";
 "AboutBodyFooter" = "Danke - Joe (Gründer von BatteryBoi)";
 "AboutGithubAction" = "GitHub";
 "AboutDonateAction" = "Spenden";
@@ -75,7 +75,7 @@
 "BluetoothDeviceSpeakerLabel" = "Lautsprecher";
 "BluetoothDeviceKeyboardLabel" = "Tastatur";
 "BluetoothDeviceOtherLabel" = "Andere";
-"BluetoothConnectLabel" = "Verbinde";
+"BluetoothConnectLabel" = "Verbinden";
 "BluetoothDisconnectLabel" = "Trennen";
 "BluetoothDistanceProximateLabel" = "Auf dem Tisch";
 "BluetoothDistanceNearLabel" = "Im selben Raum";
