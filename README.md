@@ -68,8 +68,10 @@ However, because of popular demand, the scope of this project has expanded signi
 - 🇮🇹 [Italian](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/it.lproj/LocalizableMain.strings)
 
 <br>
-**If you would like to help by verifying your native language, or if it is not yet on the list, add it! **
-<br><br>
+
+**If you would like to help by verifying your native language, or if it is not yet on the list, add it!**
+
+You can do this on our [Crowdin Translation Page](https://crowdin.com/project/batteryboi?already_accepted=16003147)
 
 
 
