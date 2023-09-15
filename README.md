@@ -86,7 +86,7 @@ With continued support, I will be adding...
 - [x] **🚀 Login at Launch**
 - [x] **👴🏻 Support for macOS Monterey & Big Sur (v11)**
 - [ ] **🟡 System Colour Alerts & Charging Icon**
-- [x] **🪫 Low Power Mode Toggle** (Suggested by [@Crear12](https://github.com/Crear12))
+- [ ] **🪫 Low Power Mode Toggle** (Suggested by [@Crear12](https://github.com/Crear12))
 - [x] **🇲🇽 Multiple Language Support** (Helo Translate for your local language here https://github.com/thebarbican19/BatteryBoi/issues/12)
 - [x] **⬇️ Sparkle Intergration**
 - [x] **🚨 Improved Alerts**
@@ -104,12 +104,12 @@ With continued support, I will be adding...
 - [x] **⚙️ App Preferences**
 - [ ] **🎧 Bluetooth Device Support**
     - [ ] **Custom Notifications**
-    - [ ] **Quick View**
+    - [x] **Quick View**
     - [ ] **Add to Menu Bar**
 
 - [ ] **⌨️ Custom Keyboard Shortcuts**
-- [ ] **⌨️ Custom IF/THEN Triggers** (at 10%, lower the brightness to 0.3) Funding Goal: **$1,000**
-- [ ] **📱 iOS/iPad App (Bidirectional Syncing of Battery Information)** Funding Goal: **$2,500**
+- [ ] **⌨️ Custom IF/THEN Triggers** (at 10%, lower the brightness to 0.3) 
+- [ ] **📱 iOS/iPad App (Bidirectional Syncing of Battery Information)** 
 - [ ] **🧳 SMJobBless Helper Command Line**
 
 <br>Ideas are welcome. 
@@ -138,8 +138,11 @@ With continued support, I will be adding...
 **Q.** Can I revert back to the old MacOS Battery Indicator?<br>
 **A.** Yes! Go to **System Preferences** > **Control Center** > **Battery** > **Show in Menu Bar** and toggle it on. 
 <br><br>
-**Q.** Is there support for other devices?<br>
-**A.** Not yet, but the main feature in the pipeline is battery notifications and display information for all Bluetooth Devices that provide battery information. 
+**Q.** Is there support for 3rd Party Devices?<br>
+**A.** Devices that are connected (via Bluetooth) now show up with their battery level (if available) in BatteryBoi.
+<br><br>
+**Q.** Some Bluetooth devices don't show the Battery Level. Why?<br>
+**A.** BatteryBoi uses **System Information** to get this information, if it's not in here the device simply may not offer this information or it isn't supported.
 
 <br><br><br>
 
