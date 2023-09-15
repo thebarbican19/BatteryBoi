@@ -17,7 +17,7 @@
 The battery icon really needed an indicator for how much time is left in terms of minutes and hours. So as a fun evening project, I ([Mojito Joe](https://twitter.com/mistermeenr)) built it. 
 
 <br>
-However, because of popular demand, the scope of this project has expanded significantly to be a full-fledged, open-source, completely free battery app giving you beautiful notifications and insights into your battery, and even your connected devices (Bluetooth support coming very soon!).<br><br><br>
+However, because of popular demand, the scope of this project has expanded significantly to be a full-fledged, open-source, completely free battery app giving you beautiful notifications and insights into your battery, and even your connected Bluetooth devices<br><br><br>
 <br>
 
 ## Product Hunt Launch 🚀
