@@ -57,9 +57,6 @@ However, because of popular demand, the scope of this project has expanded signi
 - 🇭🇺 [Slovak](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [@Svec-Tomas](https://github.com/Svec-Tomas))
 
 
--  Slovenian drodmantras
--  Slovak Svec-Tomas
-
 
 #### Unverified/Auto-Translated
 - 🇩🇪 [German](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/de.lproj/LocalizableMain.strings)
