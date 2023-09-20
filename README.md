@@ -17,7 +17,7 @@
 The battery icon really needed an indicator for how much time is left in terms of minutes and hours. So as a fun evening project, I ([Mojito Joe](https://twitter.com/mistermeenr)) built it. 
 
 <br>
-However, because of popular demand, the scope of this project has expanded significantly to be a full-fledged, open-source, completely free battery app giving you beautiful notifications and insights into your battery, and even your connected devices (Bluetooth support coming very soon!).<br><br><br>
+However, because of popular demand, the scope of this project has expanded significantly to be a full-fledged, open-source, completely free battery app giving you beautiful notifications and insights into your battery, and even your connected Bluetooth devices<br><br><br>
 <br>
 
 ## Product Hunt Launch 🚀
@@ -53,6 +53,8 @@ However, because of popular demand, the scope of this project has expanded signi
 - 🇹🇷 [Turkish](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [Soner Kalonya @kalonya](https://github.com/kalonya))
 - 🇨🇳 [Chinese (Simplified)](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [Desmoed Richtofen @Shane1119](https://github.com/Shane1119))
 - 🇹🇼 [Chinese (Traditional)](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [Desmoed Richtofen @Shane1119](https://github.com/Shane1119))
+- 🇸🇰 [Slovenian](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [@drodmantras](https://github.com/drodmantras))
+- 🇸🇰 [Slovak](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [@Svec-Tomas](https://github.com/Svec-Tomas))
 
 
 
@@ -66,9 +68,10 @@ However, because of popular demand, the scope of this project has expanded signi
 - 🇮🇹 [Italian](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/it.lproj/LocalizableMain.strings)
 
 <br>
-If you would like to help by verifying your native language, or if it is not yet on the list, add it! 
-<br><br>
-You can do this on our **[Crowdin Translation Page](https://crowdin.com/project/batteryboi/invite?h=c3bb7275e88e71954a50841b976b50a11834099)**
+
+**If you would like to help by verifying your native language, or if it is not yet on the list, add it!**
+
+You can do this on our [Crowdin Translation Page](https://crowdin.com/project/batteryboi?already_accepted=16003147)
 
 
 
@@ -81,7 +84,7 @@ With continued support, I will be adding...
 - [x] **🚀 Login at Launch**
 - [x] **👴🏻 Support for macOS Monterey & Big Sur (v11)**
 - [ ] **🟡 System Colour Alerts & Charging Icon**
-- [x] **🪫 Low Power Mode Toggle** (Suggested by [@Crear12](https://github.com/Crear12))
+- [ ] **🪫 Low Power Mode Toggle** (Suggested by [@Crear12](https://github.com/Crear12))
 - [x] **🇲🇽 Multiple Language Support** (Helo Translate for your local language here https://github.com/thebarbican19/BatteryBoi/issues/12)
 - [x] **⬇️ Sparkle Intergration**
 - [x] **🚨 Improved Alerts**
@@ -99,12 +102,12 @@ With continued support, I will be adding...
 - [x] **⚙️ App Preferences**
 - [ ] **🎧 Bluetooth Device Support**
     - [ ] **Custom Notifications**
-    - [ ] **Quick View**
+    - [x] **Quick View**
     - [ ] **Add to Menu Bar**
 
 - [ ] **⌨️ Custom Keyboard Shortcuts**
-- [ ] **⌨️ Custom IF/THEN Triggers** (at 10%, lower the brightness to 0.3) Funding Goal: **$1,000**
-- [ ] **📱 iOS/iPad App (Bidirectional Syncing of Battery Information)** Funding Goal: **$2,500**
+- [ ] **⌨️ Custom IF/THEN Triggers** (at 10%, lower the brightness to 0.3) 
+- [ ] **📱 iOS/iPad App (Bidirectional Syncing of Battery Information)** 
 - [ ] **🧳 SMJobBless Helper Command Line**
 
 <br>Ideas are welcome. 
@@ -133,8 +136,11 @@ With continued support, I will be adding...
 **Q.** Can I revert back to the old MacOS Battery Indicator?<br>
 **A.** Yes! Go to **System Preferences** > **Control Center** > **Battery** > **Show in Menu Bar** and toggle it on. 
 <br><br>
-**Q.** Is there support for other devices?<br>
-**A.** Not yet, but the main feature in the pipeline is battery notifications and display information for all Bluetooth Devices that provide battery information. 
+**Q.** Is there support for 3rd Party Devices?<br>
+**A.** Devices that are connected (via Bluetooth) now show up with their battery level (if available) in BatteryBoi.
+<br><br>
+**Q.** Some Bluetooth devices don't show the Battery Level. Why?<br>
+**A.** BatteryBoi uses **System Information** to get this information, if it's not in here the device simply may not offer this information or it isn't supported.
 
 <br><br><br>
 
