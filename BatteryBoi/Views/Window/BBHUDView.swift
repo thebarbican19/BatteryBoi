@@ -7,6 +7,68 @@
 
 import SwiftUI
 
+enum HUDAlertTypes:Int {
+    case chargingComplete
+    case chargingBegan
+    case chargingStopped
+    case percentFive
+    case percentTen
+    case percentTwentyFive
+    case percentOne
+    case userInitiated
+    case userLaunched
+    case userEvent
+    case deviceOverheating
+    case deviceConnected
+    case deviceRemoved
+    case deviceDistance
+
+    var sfx:SystemSoundEffects? {
+        switch self {
+            case .chargingBegan : return .high
+            case .chargingComplete : return .high
+            case .chargingStopped : return .low
+            case .percentTwentyFive : return .low
+            case .percentTen : return .low
+            case .percentFive : return .low
+            case .percentOne : return .low
+            case .userLaunched : return nil
+            case .userInitiated : return nil
+            case .userEvent : return .low
+            case .deviceOverheating : return .low
+            case .deviceRemoved : return .low
+            case .deviceConnected : return .high
+            case .deviceDistance : return .low
+
+        }
+        
+    }
+    
+    var trigger:Bool {
+        switch self {
+            case .chargingBegan : return true
+            case .chargingComplete : return true
+            case .chargingStopped : return true
+            case .deviceRemoved : return true
+            case .deviceConnected : return true
+            default : return false
+            
+        }
+        
+    }
+    
+    var timeout:Bool {
+        switch self {
+            case .userLaunched : return false
+            case .userInitiated : return false
+            default : return true
+            
+        }
+        
+    }
+    
+}
+
 enum HUDProgressLayout {
     case center
     case trailing
@@ -34,16 +96,16 @@ enum HUDState:Equatable {
         if self == .revealed {
             return .init([
                 .init(0.6, delay: 0.2, easing: .bounce, width: 120, height: 120, blur: 0, radius: 66),
-                .init(2.9, easing: .bounce, width: 400, height: 120, blur: 0, radius: 66)], id: "initial")
+                .init(2.9, easing: .bounce, width: 430, height: 120, blur: 0, radius: 66)], id: "initial")
             
         }
         else if self == .detailed {
-            return .init([.init(0.0, easing: .bounce, width: 410, height: 220, radius: 42)], id:"expand_out")
+            return .init([.init(0.0, easing: .bounce, width: 440, height: 220, radius: 42)], id:"expand_out")
             
         }
         else if self == .dismissed {
             return .init([
-                .init(0.2, easing: .bounce, width: 400, height: 120, radius: 66),
+                .init(0.2, easing: .bounce, width: 430, height: 120, radius: 66),
                 .init(0.2, easing: .easeout, width: 120, height: 120, radius: 66),
                 .init(0.3, delay:1.0, easing: .bounce, width: 40, height: 40, opacity: 0, radius: 66)], id: "expand_close")
 
@@ -106,6 +168,43 @@ enum HUDState:Equatable {
 
 }
 
+struct HUDIcon: View {
+    @EnvironmentObject var stats:StatsManager
+
+    @Namespace private var animation
+
+    var body: some View {
+        VStack {
+            ZStack {
+                if stats.statsIcon.system == true {
+                    Image(systemName: stats.statsIcon.name)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit).matchedGeometryEffect(id: "icon", in: animation)
+
+                }
+                else {
+                    Image(stats.statsIcon.name)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit).matchedGeometryEffect(id: "icon", in: animation)
+                        
+                }
+                
+            }
+            .frame(width: 28, height: 28)
+            .foregroundColor(Color("BatterySubtitle"))
+            .offset(y:1)
+            
+        }
+        .frame(width:50, height: 50)
+        .padding(.leading, 10)
+        .padding(.trailing, 4)
+        .background(Color.clear)
+        
+    }
+    
+}
+
+
 struct HUDSummary: View {
     @EnvironmentObject var stats:StatsManager
     @EnvironmentObject var updates:UpdateManager
@@ -117,7 +216,7 @@ struct HUDSummary: View {
     
     var body: some View {
         HStack(alignment: .center) {
-            ModalIcon()
+            HUDIcon()
             
             VStack(alignment: .leading, spacing: 2) {
                 Text(self.title)
@@ -142,7 +241,7 @@ struct HUDSummary: View {
         .onAppear() {
             self.title = self.stats.title
             self.subtitle = self.stats.subtitle
-            self.visible == WindowManager.shared.state.visible
+            self.visible = WindowManager.shared.state.visible
 
         }
         .onChange(of: self.stats.title) { newValue in
@@ -243,7 +342,6 @@ struct HUDMaskView: View {
                 .frame(width: 20, height: 20)
             
         }
-        .opacity(window.opacity)
         .onAppear() {
             if let animation = window.state.mask {
                 self.timeline = animation
@@ -352,7 +450,7 @@ struct HUDView: View {
                     HUDContainer(animation: namespace, progress: $progress)
                         .matchedGeometryEffect(id: "hud", in: self.namespace)
                     
-                    ModalMenuView()
+                    NavigationContainer()
                                         
                 }
                 else {
@@ -369,8 +467,11 @@ struct HUDView: View {
             }
             
         }
-        .frame(width: 410, height: 240)
-        .background(Color("BatteryBackground"))
+        .frame(width: 440, height: 240)
+        .background(
+            Color("BatteryBackground").opacity(window.opacity)
+
+        )
         .timeline($timeline, state: $animation)
         .mask(
             HUDMaskView()
@@ -389,4 +490,29 @@ struct HUDView: View {
     
 }
 
+struct HUDParent: View {
+    @State var type:HUDAlertTypes
+    @State var device:BluetoothObject?
 
+    init(_ type: HUDAlertTypes, device:BluetoothObject?) {
+        self._type = State(initialValue: type)
+        self._device = State(initialValue: device)
+        
+    }
+    
+    var body: some View {
+        VStack {
+            HUDView()
+          
+        }
+        .environmentObject(WindowManager.shared)
+        .environmentObject(AppManager.shared)
+        .environmentObject(BatteryManager.shared)
+        .environmentObject(SettingsManager.shared)
+        .environmentObject(UpdateManager.shared)
+        .environmentObject(StatsManager.shared)
+        .environmentObject(BluetoothManager.shared)
+
+    }
+    
+}

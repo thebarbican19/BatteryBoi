@@ -11,6 +11,19 @@ import IOKit.ps
 import EnalogSwift
 import IOKit.pwr_mgt
 
+enum BatteryWattageType {
+    case current
+    case max
+    case voltage
+    
+}
+
+enum BatteryThemalState {
+    case optimal
+    case suboptimal
+    
+}
+
 enum BatteryCondition: String {
     case optimal = "Normal"
     case suboptimal = "Replace Soon"
@@ -200,6 +213,7 @@ class BatteryManager:ObservableObject {
     @Published var saver:BatteryModeType = .unavailable
     @Published var rate:BatteryEstimateObject? = nil
     @Published var metrics:BatteryMetricsObject? = nil
+    @Published var thermal:BatteryThemalState = .optimal
 
     private var counter:Int? = 0
     private var updates = Set<AnyCancellable>()
@@ -225,6 +239,14 @@ class BatteryManager:ObservableObject {
 
         }.store(in: &updates)
         
+        #if DEBUG
+            AppManager.shared.appTimer(90).sink { _ in
+                self.powerThermalCheck()
+             
+            }.store(in: &updates)
+        
+        #endif
+        
         AppManager.shared.appTimer(60).sink { _ in
             self.saver = self.powerSaveModeStatus
             self.metrics = self.powerProfilerDetails
@@ -242,10 +264,16 @@ class BatteryManager:ObservableObject {
     }
     
     public func powerForceRefresh() {
-        self.powerStatus(true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.powerStatus(true)
+            
+        }
         
-        self.saver = self.powerSaveModeStatus
-        self.metrics = self.powerProfilerDetails
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            self.saver = self.powerSaveModeStatus
+            self.metrics = self.powerProfilerDetails
+            
+        }
         
     }
     
@@ -461,6 +489,58 @@ class BatteryManager:ObservableObject {
                 
     }
     
+    private func powerThermalCheck() {
+        let process = Process()
+        process.launchPath = "/usr/bin/env"
+        process.arguments = ["pmset", "-g", "therm"]
+
+        let pipe = Pipe()
+        process.standardOutput = pipe
+
+        process.launch()
+        process.waitUntilExit()
+
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        if let output = String(data: data, encoding: .utf8) {
+            let cores = self.powerCPUCores
+            
+            if let match = output.range(of: "CPU_Scheduler_Limit\\s+=\\s+(\\d+)", options: .regularExpression) {
+                let value = Int(output[match].components(separatedBy: CharacterSet.decimalDigits.inverted).joined()) ?? 0
+                
+                if value < 100 {
+                    self.thermal = .suboptimal
+
+                }
+
+            }
+            
+            if let match = output.range(of: "CPU_Available_CPUs\\s+=\\s+(\\d+)", options: .regularExpression) {
+                let value = Int(output[match].components(separatedBy: CharacterSet.decimalDigits.inverted).joined()) ?? 0
+                
+                if value < cores {
+                    self.thermal = .suboptimal
+
+                }
+
+            }
+            
+            if let match = output.range(of: "CPU_Speed_Limit\\s+=\\s+(\\d+)", options: .regularExpression) {
+                let value = Int(output[match].components(separatedBy: CharacterSet.decimalDigits.inverted).joined()) ?? 0
+                
+                if value < 100 {
+                    self.thermal = .suboptimal
+
+                }
+
+            }
+            
+        }
+        
+        self.thermal = .optimal
+        
+    }
+
+    
     private var powerProfilerDetails:BatteryMetricsObject? {
         let process = Process()
         process.launchPath = "/usr/bin/env"
@@ -502,6 +582,65 @@ class BatteryManager:ObservableObject {
         return nil
         
     }
+    
+    private var powerCPUCores:Int {
+        let process = Process()
+        process.launchPath = "/usr/bin/env"
+        process.arguments = ["sysctl", "-n", "hw.physicalcpu"]
+
+        let pipe = Pipe()
+        process.standardOutput = pipe
+
+        process.launch()
+        process.waitUntilExit()
+
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        if let output = String(data: data, encoding: .utf8),
+           let cores = Int(output.trimmingCharacters(in: .whitespacesAndNewlines)) {
+            return cores
+            
+        }
+
+        return 1
+        
+    }
+    
+    private func powerWattage(_ type: BatteryWattageType) -> Int? {
+        let process = Process()
+        process.launchPath = "/bin/sh"
+        
+        switch type {
+            case .current: process.arguments = ["-c", "ioreg -l | grep CurrentCapacity | awk '{print $5}'"]
+            case .max: process.arguments = ["-c", "ioreg -l | grep MaxCapacity | awk '{print $5}'"]
+            case .voltage: process.arguments = ["-c", "ioreg -l | grep Voltage | awk '{print $5}'"]
+            
+        }
+        
+        let pipe = Pipe()
+        process.standardOutput = pipe
+        process.launch()
+
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        if let output = String(data: data, encoding: .utf8) {
+            return Int(output.trimmingCharacters(in: .whitespacesAndNewlines))
+            
+        }
+        
+        return nil
+        
+    }
+    
+    public func powerHourWattage() -> Double? {
+        if let mAh = self.powerWattage(.max), let mV = self.powerWattage(.voltage) {
+            return (Double(mAh) / 1000.0) * (Double(mV) / 1000.0)
+            
+        }
+        
+        return nil
+        
+    }
+
+    
     
 //    func setSMCByte(key: String, value: UInt8) {
 //           do {

@@ -1,5 +1,5 @@
 //
-//  DAppManager.swift
+//  BBAppManager.swift
 //  BatteryBoi
 //
 //  Created by Joe Barbour on 8/9/23.
@@ -16,7 +16,7 @@ class AppManager:ObservableObject {
     
     @Published var counter = 0
     @Published var device:BluetoothObject? = nil
-    @Published var alert:ModalAlertTypes? = nil
+    @Published var alert:HUDAlertTypes? = nil
     @Published var menu:SystemMenuView = .devices
     @Published var profile:SystemProfileObject? = nil
 
@@ -32,7 +32,6 @@ class AppManager:ObservableObject {
             }
             
             if self.counter > 999 {
-                self.counter = 0
                 self.appUsageTracker()
                 
             }
@@ -41,9 +40,12 @@ class AppManager:ObservableObject {
             
         }
            
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            if self.appDistribution() == .direct {
-                self.profile = self.appProfile(force: false)
+        if #available(macOS 13.0, *) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                if self.appDistribution() == .direct {
+                    self.profile = self.appProfile(force: false)
+                    
+                }
                 
             }
             
@@ -173,17 +175,17 @@ class AppManager:ObservableObject {
         let platform = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"))
 
         if let model = IORegistryEntryCreateCFProperty(platform, "model" as CFString, kCFAllocatorDefault, 0).takeRetainedValue() as? Data {
-          if let type = String(data: model, encoding: .utf8)?.cString(using: .utf8) {
-              if String(cString: type).lowercased().contains("macbookpro") { return .macbookPro }
-              else if String(cString: type).lowercased().contains("macbookair") { return .macbookAir }
-              else if String(cString: type).lowercased().contains("macbook") { return .macbook }
-              else if String(cString: type).lowercased().contains("imac") { return .imac }
-              else if String(cString: type).lowercased().contains("macmini") { return .macMini }
-              else if String(cString: type).lowercased().contains("macstudio") { return .macStudio }
-              else if String(cString: type).lowercased().contains("macpro") { return .macPro }
-              else { return .unknown }
+            if let type = String(data: model, encoding: .utf8)?.cString(using: .utf8) {
+                if String(cString: type).lowercased().contains("macbookpro") { return .macbookPro }
+                else if String(cString: type).lowercased().contains("macbookair") { return .macbookAir }
+                else if String(cString: type).lowercased().contains("macbook") { return .macbook }
+                else if String(cString: type).lowercased().contains("imac") { return .imac }
+                else if String(cString: type).lowercased().contains("macmini") { return .macMini }
+                else if String(cString: type).lowercased().contains("macstudio") { return .macStudio }
+                else if String(cString: type).lowercased().contains("macpro") { return .macPro }
+                else { return .unknown }
               
-          }
+            }
           
         }
 
@@ -203,45 +205,48 @@ class AppManager:ObservableObject {
             
         }
         else {
-            if let script = Bundle.main.path(forResource: "BBProfileScript", ofType: "py") {
-                let process = Process()
-                process.executableURL = URL(fileURLWithPath: "/usr/bin/python3")
-                process.arguments = [script]
-                
-                let pipe = Pipe()
-                process.standardOutput = pipe
-                
-                do {
-                    try process.run()
-                    process.waitUntilExit()
+            if FileManager.default.fileExists(atPath: "/usr/bin/python3") {
+                if let script = Bundle.main.path(forResource: "BBProfileScript", ofType: "py") {
+                    let process = Process()
+                    process.executableURL = URL(fileURLWithPath: "/usr/bin/python3")
+                    process.arguments = [script]
                     
-                    let data = pipe.fileHandleForReading.readDataToEndOfFile()
+                    let pipe = Pipe()
+                    process.standardOutput = pipe
                     
-                    if let output = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) {
-                                                
-                        UserDefaults.save(.profilePayload, value: output)
-                        UserDefaults.save(.profileChecked, value: Date())
+                    do {
+                        try process.run()
+                        process.waitUntilExit()
                         
-                        if let object = try? JSONDecoder().decode([SystemProfileObject].self, from: Data(output.utf8)) {
-                            if let id = object.first?.id, let display = object.first?.display {
-                                let first = SystemProfileObject(id: id, display: display)
+                        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+                        
+                        if let output = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) {
                             
-                                if let channel = Bundle.main.infoDictionary?["SD_SLACK_CHANNEL"] as? String  {
-                                    EnalogManager.main.ingest(SystemEvents.userProfile, description: "Profile Found: \(display)", metadata: object, channel:.init(.slack, id: channel))
+                            UserDefaults.save(.profilePayload, value: output)
+                            UserDefaults.save(.profileChecked, value: Date())
+                            
+                            if let object = try? JSONDecoder().decode([SystemProfileObject].self, from: Data(output.utf8)) {
+                                if let id = object.first?.id, let display = object.first?.display {
+                                    let first = SystemProfileObject(id: id, display: display)
+                                    
+                                    if let channel = Bundle.main.infoDictionary?["SD_SLACK_CHANNEL"] as? String  {
+                                        EnalogManager.main.ingest(SystemEvents.userProfile, description: "Profile Found: \(display)", metadata: object, channel:.init(.slack, id: channel))
+                                        
+                                    }
+                                    
+                                    return first
                                     
                                 }
-                                
-                                return first
                                 
                             }
                             
                         }
                         
                     }
-                    
-                }
-                catch {
-                    print("Profile Error: ", error)
+                    catch {
+                        print("Profile Error: ", error)
+                        
+                    }
                     
                 }
                 

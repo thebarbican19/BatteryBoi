@@ -30,7 +30,7 @@ class TriggerClass {
         
     }
     
-    public func triggerState(_ state:ModalAlertTypes, device:BluetoothObject) {
+    public func triggerState(_ state:HUDAlertTypes, device:BluetoothObject) {
         if state.trigger == false {
             fatalError("This is not a Trigger State")
             

@@ -1,20 +1,25 @@
-"AlertSomePercentTitle" = "%d%% Beschikbaar"; // 90% Remaining
+"AlertSomePercentTitle" = "%d%% resterend"; // 90% Remaining
 "AlertOnePercentTitle" = "Je Mac sluit zo dadelijk af";
 "AlertChargingTitle" = "Laden...";
 "AlertChargingStoppedTitle" = "Oplader Verwijderd";
 "AlertChargingCompleteTitle" = "Opladen Gereed";
+"AlertOverheatingTitle" = "Oververhitting";
+"AlertLimitedTitle" = "Niet genoeg batterij...";
 "AlertDeviceConnectedTitle" = "'%@' Verbonden"; // 'Joe's Headphones' Connected
 "AlertDeviceDisconnectedTitle" = "'%@' Ontkoppeld"; // 'Joe's Headphones' Disconnected
-"AlertDeviceUnknownTitle" = "Onbekend";
+"" = "Onbekend";
 "AlertDeviceCalculatingTitle" = "Aan het rekenen...";
 
 "AlertEstimateSummary" = "%@ totdat de batterij leeg is"; // 1 hour, 32 minutes until empty
 "AlertPercentSummary" = "Tijd om op te laden!";
 "AlertStartedChargeSummary" = "Volledig opgeladen om %@."; // Fully charged at 2:32pm
 "AlertChargedSummary" = "De batterij is volledig opgeladen.";
+"AlertOverheatingSummary" = "Hoge temperaturen kunnen je batterij sneller leegmaken en langdurige schade veroorzaken.";
+"AlertLimitedSummary" = "Je batterij is is waarschijnlijk onvoldoende opgeladen voor taak '%@'";
 
-"TimestampHourFullLabel_Plural" = "%d uren";
+"TimestampHourFullAlertDeviceUnknownTitleLabel_Plural" = "%d uren";
 "TimestampHourFullLabel_Single" = "%d uur";
+"TimestampHourFullLabel_Plural" = "%d uren";
 "TimestampMinuteFullLabel_Plural" = "%d minuten";
 "TimestampMinuteFullLabel_Single" = "%d minuut";
 "TimestampMinuteDaysLabel_Plural" = "%d dagen";
@@ -38,6 +43,7 @@
 "SettingsDisplayPercentLabel" = "Percentage";
 "SettingsDisplayEstimateLabel" = "Tijd";
 "SettingsDisplayNoneLabel" = "Leeg";
+"SettingsDisplayHiddenLabel" = "Verborgen";
 "SettingsEnabledLabel" = "Ingeschakeld";
 "SettingsDisabledLabel" = "Uitgeschakeld";
 
@@ -76,6 +82,15 @@
 "BluetoothDeviceOtherLabel" = "Anders";
 "BluetoothConnectLabel" = "Verbinden";
 "BluetoothDisconnectLabel" = "Loskoppelen";
+"BluetoothDisconnectedLabel" = "Niet gekoppeld";
 "BluetoothDistanceProximateLabel" = "Op het bureau/tafel";
 "BluetoothDistanceNearLabel" = "In dezelfde ruimte";
 "BluetoothDistanceFarLabel" = "In een ander gedeelte";
+"BluetoothInvalidLabel" = "Geen informatie over accu";
+
+"OnboardingNotificationsTitle" = "";
+"OnboardingNotificationsBody" = "";
+"OnboardingInsightsTitle" = "";
+"OnboardingInsightsBody" = "";
+"OnboardingBluetoothTitle" = "";
+"OnboardingBluetoothBody" = "";

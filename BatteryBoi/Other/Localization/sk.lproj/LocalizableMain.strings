@@ -3,18 +3,23 @@
 "AlertChargingTitle" = "Nabíjanie...";
 "AlertChargingStoppedTitle" = "Nabíjačka odstránená";
 "AlertChargingCompleteTitle" = "Nabíjanie dokončené";
+"AlertOverheatingTitle" = "Prehrievanie";
+"AlertLimitedTitle" = "Nedostatočná batéria...";
 "AlertDeviceConnectedTitle" = "'%@' pripojené"; // 'Joe's Headphones' Connected
 "AlertDeviceDisconnectedTitle" = "'%@' odpojené"; // 'Joe's Headphones' Disconnected
-"AlertDeviceUnknownTitle" = "Neznáme zariadenie";
+"" = "Neznáme";
 "AlertDeviceCalculatingTitle" = "Prebieha výpočet...";
 
 "AlertEstimateSummary" = "%@ do vybitia"; // 1 hour, 32 minutes until empty
 "AlertPercentSummary" = "Čas pripojiť kábel!";
 "AlertStartedChargeSummary" = "Plne nabité o %@."; // Fully charged at 2:32pm
 "AlertChargedSummary" = "Batéria je plne nabitá.";
+"AlertOverheatingSummary" = "Vysoké teploty môžu batériu rýchlejšie vybiť a spôsobiť dlhodobé poškodenie.";
+"AlertLimitedSummary" = "Vaša batéria nemusí byť dostatočná pre udalosť '%@'.";
 
-"TimestampHourFullLabel_Plural" = "%d hodín";
+"TimestampHourFullAlertDeviceUnknownTitleLabel_Plural" = "%d hodín";
 "TimestampHourFullLabel_Single" = "%d hodina";
+"TimestampHourFullLabel_Plural" = "%d hodín";
 "TimestampMinuteFullLabel_Plural" = "%d minút";
 "TimestampMinuteFullLabel_Single" = "%d minúta";
 "TimestampMinuteDaysLabel_Plural" = "%d dní";
@@ -38,12 +43,13 @@
 "SettingsDisplayPercentLabel" = "Percento";
 "SettingsDisplayEstimateLabel" = "​Čas";
 "SettingsDisplayNoneLabel" = "Prázdne";
+"SettingsDisplayHiddenLabel" = "Skryté";
 "SettingsEnabledLabel" = "Zapnuté";
 "SettingsDisabledLabel" = "Vypnuté";
 
 "SettingsAboutLabel" = "O aplikácii";
 "SettingsCustomizationLabel" = "Prispôsobenie";
-"SettingsSoundEffectsLabel" = "Zvukové efekty";
+"SettingsSoundEffectsLabel" = "Zvuky";
 "SettingsTriggersLabel" = "Príkazy";
 "SettingsNotificationsLabel" = "Hlásenia";
 "SettingsPrereleasesLabel" = "Beta verzie";
@@ -76,6 +82,15 @@
 "BluetoothDeviceOtherLabel" = "Iné";
 "BluetoothConnectLabel" = "Pripojiť";
 "BluetoothDisconnectLabel" = "Odpojiť";
+"BluetoothDisconnectedLabel" = "Nespárované";
 "BluetoothDistanceProximateLabel" = "Na stole";
 "BluetoothDistanceNearLabel" = "V tej istej miestnosti";
 "BluetoothDistanceFarLabel" = "V inej ríši";
+"BluetoothInvalidLabel" = "Žiadne informácie o batérii";
+
+"OnboardingNotificationsTitle" = "";
+"OnboardingNotificationsBody" = "";
+"OnboardingInsightsTitle" = "";
+"OnboardingInsightsBody" = "";
+"OnboardingBluetoothTitle" = "";
+"OnboardingBluetoothBody" = "";

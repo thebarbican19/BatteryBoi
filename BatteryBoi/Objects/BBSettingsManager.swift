@@ -122,7 +122,7 @@ enum SettingsDisplayType:String {
             case .percent : return "SettingsDisplayPercentLabel".localise()
             case .empty : return "SettingsDisplayNoneLabel".localise()
             case .cycle : return "SettingsDisplayCycleLabel".localise()
-            case .hidden : return "Hidden"
+            case .hidden : return "SettingsDisplayHiddenLabel".localise()
 
         }
         
@@ -200,7 +200,7 @@ enum SettingsActionType {
             case .appDevices : return "WebsiteIcon"
             case .appSettings : return "WebsiteIcon"
             case .appPinned : return "WebsiteIcon"
-            case .appRate : return "WebsiteIcon"
+            case .appRate : return "RateIcon"
             case .customiseDisplay : return "PercentIcon"
             case .customiseTheme : return "PercentIcon"
             case .customiseNotifications : return "PercentIcon"

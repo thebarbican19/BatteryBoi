@@ -15,11 +15,12 @@
 		D83DD3FC2A9E691400FCC534 /* BBIOREGList.py in Resources */ = {isa = PBXBuildFile; fileRef = D83DD3FB2A9E691300FCC534 /* BBIOREGList.py */; };
 		D84F4E182A85A66900668582 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = D84F4E172A85A66900668582 /* Sparkle */; };
 		D84F4E1B2A85A6A800668582 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = D84F4E1A2A85A6A800668582 /* KeyboardShortcuts */; };
-		D84F4E212A85E77E00668582 /* BBModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D84F4E202A85E77E00668582 /* BBModalView.swift */; };
 		D84F4E2B2A86E9E800668582 /* LocalizableMain.strings in Resources */ = {isa = PBXBuildFile; fileRef = D84F4E2D2A86E9E800668582 /* LocalizableMain.strings */; };
 		D851F7FF2AB0FC20003FCA79 /* BBHUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D851F7FE2AB0FC20003FCA79 /* BBHUDView.swift */; };
 		D851F8022AB152B7003FCA79 /* BBUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D851F8012AB152B7003FCA79 /* BBUpdateView.swift */; };
 		D851F8062AB214E8003FCA79 /* BBDataObject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D851F8042AB214E8003FCA79 /* BBDataObject.xcdatamodeld */; };
+		D851F8082AB8F49C003FCA79 /* BBEventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D851F8072AB8F49B003FCA79 /* BBEventManager.swift */; };
+		D851F80A2ABA29A0003FCA79 /* BBNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D851F8092ABA299F003FCA79 /* BBNavigationView.swift */; };
 		D891134D2AAC34DC00B5E4F5 /* BBAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891134C2AAC34DC00B5E4F5 /* BBAnimationManager.swift */; };
 		D89CCFEE2A9FF97900D9531A /* BBAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89CCFED2A9FF97900D9531A /* BBAboutView.swift */; };
 		D8CDA7FD2AA249F800FAD41E /* highnote.wav in Resources */ = {isa = PBXBuildFile; fileRef = D8CDA7FB2AA249F800FAD41E /* highnote.wav */; };
@@ -70,12 +71,13 @@
 		D83DD4012A9FAB0C00FCC534 /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/LocalizableMain.strings"; sourceTree = "<group>"; };
 		D83DD4022A9FABF900FCC534 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/LocalizableMain.strings"; sourceTree = "<group>"; };
 		D83DD4032A9FAC0400FCC534 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/LocalizableMain.strings"; sourceTree = "<group>"; };
-		D84F4E202A85E77E00668582 /* BBModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBModalView.swift; sourceTree = "<group>"; };
 		D84F4E2C2A86E9E800668582 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
 		D851F7FE2AB0FC20003FCA79 /* BBHUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBHUDView.swift; sourceTree = "<group>"; };
 		D851F8002AB126AA003FCA79 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
 		D851F8012AB152B7003FCA79 /* BBUpdateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBUpdateView.swift; sourceTree = "<group>"; };
 		D851F8052AB214E8003FCA79 /* BBDataObject.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BBDataObject.xcdatamodel; sourceTree = "<group>"; };
+		D851F8072AB8F49B003FCA79 /* BBEventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBEventManager.swift; sourceTree = "<group>"; };
+		D851F8092ABA299F003FCA79 /* BBNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBNavigationView.swift; sourceTree = "<group>"; };
 		D864D09E2AAF9C1E00842526 /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
 		D864D09F2AAF9C8500842526 /* sl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sl; path = sl.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
 		D891134C2AAC34DC00B5E4F5 /* BBAnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBAnimationManager.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				D8DFD5922A956D2C00732635 /* BBBluetoothManager.swift */,
 				D8CDA7FF2AA250B500FAD41E /* BBTriggerManager.swift */,
 				D891134C2AAC34DC00B5E4F5 /* BBAnimationManager.swift */,
+				D851F8072AB8F49B003FCA79 /* BBEventManager.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -241,7 +244,6 @@
 		D8D9E5BC2A8064B400E295FA /* Window */ = {
 			isa = PBXGroup;
 			children = (
-				D84F4E202A85E77E00668582 /* BBModalView.swift */,
 				D851F7FE2AB0FC20003FCA79 /* BBHUDView.swift */,
 			);
 			path = Window;
@@ -256,6 +258,7 @@
 				D83CD7442AA8F693004223D7 /* BBBluetoothView.swift */,
 				D89CCFED2A9FF97900D9531A /* BBAboutView.swift */,
 				D851F8012AB152B7003FCA79 /* BBUpdateView.swift */,
+				D851F8092ABA299F003FCA79 /* BBNavigationView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -378,10 +381,11 @@
 				D89CCFEE2A9FF97900D9531A /* BBAboutView.swift in Sources */,
 				D83DD3FA2A9D62AF00FCC534 /* BBStatsManager.swift in Sources */,
 				D8DFD5842A8C26F300732635 /* BBSettingsView.swift in Sources */,
+				D851F8082AB8F49C003FCA79 /* BBEventManager.swift in Sources */,
 				D891134D2AAC34DC00B5E4F5 /* BBAnimationManager.swift in Sources */,
+				D851F80A2ABA29A0003FCA79 /* BBNavigationView.swift in Sources */,
 				D8D9E5B32A7DFF3E00E295FA /* BBMenuView.swift in Sources */,
 				D8D9E5B72A7F397300E295FA /* BBWindowManager.swift in Sources */,
-				D84F4E212A85E77E00668582 /* BBModalView.swift in Sources */,
 				D851F7FF2AB0FC20003FCA79 /* BBHUDView.swift in Sources */,
 				D8DFD5932A956D2C00732635 /* BBBluetoothManager.swift in Sources */,
 				D8D9E5B52A7F383600E295FA /* BBSettingsManager.swift in Sources */,
@@ -555,7 +559,7 @@
 				CODE_SIGN_ENTITLEMENTS = BatteryBoi/BatteryBoi.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_ASSET_PATHS = "\"BatteryBoi/Preview Content\"";
 				DEVELOPMENT_TEAM = QYKKXLKZD6;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -565,13 +569,14 @@
 				INFOPLIST_KEY_CFBundleDisplayName = BatteryBoi;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "We need access to Bluetooth to show the Battery Status for your Connected Devices.";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "We check your calendar to ensure your battery lasts for your conference calls.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Ovatar Ltd";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.2.3;
+				MARKETING_VERSION = 2.4.1;
 				OLDER_MACOS = "";
 				OTHER_SWIFT_FLAGS = "-DMACOS_13_AND_ABOVE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ovatar.batteryapp;
@@ -590,7 +595,7 @@
 				CODE_SIGN_ENTITLEMENTS = BatteryBoi/BatteryBoi.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 18;
+				CURRENT_PROJECT_VERSION = 27;
 				DEVELOPMENT_ASSET_PATHS = "\"BatteryBoi/Preview Content\"";
 				DEVELOPMENT_TEAM = QYKKXLKZD6;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -600,13 +605,14 @@
 				INFOPLIST_KEY_CFBundleDisplayName = BatteryBoi;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "We need access to Bluetooth to show the Battery Status for your Connected Devices.";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "We check your calendar to ensure your battery lasts for your conference calls.";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Ovatar Ltd";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 2.2.3;
+				MARKETING_VERSION = 2.4.1;
 				OLDER_MACOS = "";
 				OTHER_SWIFT_FLAGS = "-DMACOS_13_AND_ABOVE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ovatar.batteryapp;

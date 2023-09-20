@@ -59,13 +59,12 @@ class WindowManager: ObservableObject {
     private var triggered:Int = 0;
     private var screen:CGSize {
         if let display = CGMainDisplayID() as CGDirectDisplayID? {
-            return .init(width: CGFloat(CGDisplayPixelsWide(display)) + CGFloat(40.0), height:CGFloat(CGDisplayPixelsHigh(display)))
+            return .init(width: CGFloat(CGDisplayPixelsWide(display)), height:CGFloat(CGDisplayPixelsHigh(display)))
 
         }
         
     }
     
-    @Published public var active: Int = 0
     @Published public var hover: Bool = false
     @Published public var state: HUDState = .hidden
     @Published public var position: WindowPosition = .topMiddle
@@ -107,41 +106,80 @@ class WindowManager: ObservableObject {
             
         }.store(in: &updates)
         
-        #if DEBUG
-            BluetoothManager.shared.$connected.removeDuplicates().dropFirst(1).receive(on: DispatchQueue.main).sink() { items in
-                if let latest = items.sorted(by: { $0.updated > $1.updated }).first {
-                    if latest.updated.now == true {
-                        switch latest.connected {
-                            case .connected : self.windowOpen(.deviceConnected, device: latest)
-                            default : self.windowOpen(.deviceRemoved, device: latest)
+        BatteryManager.shared.$thermal.dropFirst().removeDuplicates().sink { state in
+            if state == .suboptimal {
+                self.windowOpen(.deviceOverheating, device: nil)
+
+            }
+            
+        }.store(in: &updates)
+
+//        BluetoothManager.shared.$connected.removeDuplicates().dropFirst(1).receive(on: DispatchQueue.main).sink() { items in
+//            if let latest = items.sorted(by: { $0.updated > $1.updated }).first {
+//                if latest.updated.now == true {
+//                    switch latest.connected {
+//                        case .connected : self.windowOpen(.deviceConnected, device: latest)
+//                        default : break //self.windowOpen(.deviceRemoved, device: latest)
+//
+//                    }
+//
+//                }
+//
+//            }
+//
+//        }.store(in: &updates)
+
+        AppManager.shared.appTimer(60).dropFirst().receive(on: DispatchQueue.main).sink { _ in
+            let connected = BluetoothManager.shared.list.filter({ $0.connected == .connected })
+
+            for device in connected {
+                switch device.battery.general {
+                    case 25 : self.windowOpen(.percentTwentyFive, device: device)
+                    case 10 : self.windowOpen(.percentTen, device: device)
+                    case 5 : self.windowOpen(.percentFive, device: device)
+                    case 1 : self.windowOpen(.percentOne, device: device)
+                    default : break
+                    
+                }
+
+            }
+
+        }.store(in: &updates)
+        
+        AppManager.shared.$alert.removeDuplicates().delay(for: .seconds(5.0), scheduler: RunLoop.main).sink { type in
+            if AppManager.shared.alert?.timeout == true && self.state == .revealed {
+                self.windowSetState(.dismissed)
+                
+            }
+
+        }.store(in: &updates)
+
+        AppManager.shared.$alert.removeDuplicates().delay(for: .seconds(10.0), scheduler: RunLoop.main).sink { type in
+            if AppManager.shared.alert?.timeout == false && self.state == .revealed {
+                self.windowSetState(.dismissed)
+                
+            }
+
+        }.store(in: &updates)
+        
+        AppManager.shared.appTimer(30).dropFirst().sink { _ in
+            if BatteryManager.shared.charging.state == .battery {
+                if let now = EventManager.shared.events.sorted(by: { $0.start > $1.start }).first {
+                    if let minutes = Calendar.current.dateComponents([.minute], from: Date(), to: now.start).minute {                        
+                        switch minutes {
+                            case 2 : self.windowOpen(.userEvent, device: nil)
+                            default : break
 
                         }
-
+ 
                     }
-
+                    
                 }
-
-            }.store(in: &updates)
-
-            AppManager.shared.appTimer(60).dropFirst().receive(on: DispatchQueue.main).sink { _ in
-                let connected = BluetoothManager.shared.list.filter({ $0.connected == .connected })
-
-                for device in connected {
-                    switch device.battery.general {
-                        case 25 : self.windowOpen(.percentTwentyFive, device: device)
-                        case 10 : self.windowOpen(.percentTen, device: device)
-                        case 5 : self.windowOpen(.percentFive, device: device)
-                        case 1 : self.windowOpen(.percentOne, device: device)
-                        default : break
-                        
-                    }
-
-                }
-
-            }.store(in: &updates)
-
-        #endif
-        
+         
+            }
+            
+        }.store(in: &updates)
+                
         SettingsManager.shared.$pinned.sink { pinned in
             if pinned == .enabled {
                 withAnimation(Animation.easeOut) {
@@ -155,7 +193,7 @@ class WindowManager: ObservableObject {
 
         NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseUp, .rightMouseUp]) { event in
             if NSRunningApplication.current == NSWorkspace.shared.frontmostApplication {
-                if self.state == .revealed {
+                if self.state == .revealed || self.state == .progress {
                     self.windowSetState(.detailed)
                     
                 }
@@ -191,13 +229,20 @@ class WindowManager: ObservableObject {
                     self.windowSetState(.revealed)
                     
                 }
-
+                
+            }
+            else if state == .revealed && AppManager.shared.alert?.timeout == false {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.windowSetState(.detailed)
+                    
+                }
+                
             }
             
+
         }.store(in: &updates)
         
         self.position = self.windowLastPosition
-        
         
     }
     
@@ -212,7 +257,7 @@ class WindowManager: ObservableObject {
         
     }
     
-    public func windowIsVisible(_ type:ModalAlertTypes) -> Bool {
+    public func windowIsVisible(_ type:HUDAlertTypes) -> Bool {
         if let window = self.windowExists(type) {
             if CGFloat(window.alphaValue) > 0.5 {
                 return true
@@ -225,16 +270,14 @@ class WindowManager: ObservableObject {
         
     }
     
-    public func windowOpen(_ type:ModalAlertTypes, device:BluetoothObject?) {
+    public func windowOpen(_ type:HUDAlertTypes, device:BluetoothObject?) {
         if let window = self.windowExists(type) {
-            window.contentView = WindowHostingView(rootView: ModalContainer(type, device: device))
+            window.contentView = WindowHostingView(rootView: HUDParent(type, device: device))
             
             DispatchQueue.main.async {
                 if window.canBecomeKeyWindow {
                     window.makeKeyAndOrderFront(nil)
                     window.alphaValue = 1.0
-                    
-                    self.windowSetState(.progress)
                     
                     if AppManager.shared.alert == nil {
                         if let sfx = type.sfx {
@@ -252,6 +295,8 @@ class WindowManager: ObservableObject {
                     AppManager.shared.device = device
                     AppManager.shared.alert = type
                     
+                    self.windowSetState(.progress)
+
                 }
                 
             }
@@ -276,7 +321,7 @@ class WindowManager: ObservableObject {
         
     }
     
-    private func windowDefault(_ type:ModalAlertTypes) -> NSWindow? {
+    private func windowDefault(_ type:HUDAlertTypes) -> NSWindow? {
         var window:NSWindow?
         window = NSWindow()
         window?.styleMask = [.borderless, .miniaturizable]
@@ -298,7 +343,7 @@ class WindowManager: ObservableObject {
         
     }
     
-    private func windowExists(_ type: ModalAlertTypes) -> NSWindow? {
+    private func windowExists(_ type: HUDAlertTypes) -> NSWindow? {
         if let window = NSApplication.shared.windows.filter({$0.title == "modalwindow"}).first {
             return window
             
@@ -426,12 +471,15 @@ class WindowHostingView<Content>: NSHostingView<Content> where Content: View {
         
         if SettingsManager.shared.enabledPinned == .enabled {
             withAnimation(Animation.easeOut) {
-                if event.deltaY < 0 && WindowManager.shared.opacity > 0.4 {
-                    WindowManager.shared.opacity += (event.deltaY / 100)
-                    
-                }
-                else if event.deltaY > 0 && WindowManager.shared.opacity < 1.0 {
-                    WindowManager.shared.opacity += (event.deltaY / 100)
+                if WindowManager.shared.state == .revealed {
+                    if event.deltaY < 0 && WindowManager.shared.opacity > 0.4 {
+                        WindowManager.shared.opacity += (event.deltaY / 100)
+                        
+                    }
+                    else if event.deltaY > 0 && WindowManager.shared.opacity < 1.0 {
+                        WindowManager.shared.opacity += (event.deltaY / 100)
+                        
+                    }
                     
                 }
                 

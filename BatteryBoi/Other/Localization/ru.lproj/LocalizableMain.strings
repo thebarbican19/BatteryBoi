@@ -1,21 +1,29 @@
-// Translation Provided by Alexey Petraky (https://github.com/ko-oler)
-
-"AlertSomePercentTitle" = "%d%% Осталось"; // 90% Осталось
+"AlertSomePercentTitle" = "%d%% Осталось"; // 90% Remaining
 "AlertOnePercentTitle" = "Ваш Mac скоро выключится";
 "AlertChargingTitle" = "Зарядка..";
 "AlertChargingStoppedTitle" = "Зарядное устройство удалено";
 "AlertChargingCompleteTitle" = "Зарядка завершена";
-"AlertDeviceConnectedTitle" = "'%@' Подключено"; // Наушники Джо подключены
-"AlertDeviceDisconnectedTitle" = "'%@' Отключено"; //Наушники Джо отключены
-"AlertDeviceUnknownTitle" = "Неизвестно"; "AlertDeviceCalculatingTitle" = "Подсчет...";
-"AlertEstimateSummary" = "Заряда хватит на %@"; // Заряда хватит на 1 час 32 минуты
-"AlertPercentSummary" = "Пора искать зарядное устройство!"; "AlertStartedChargeSummary" = "Батарея будет заряжена к %@."; // Батарея будет заряжена к 14:32
-"AlertChargedSummary" = "Батарея полностью заряжена."; "TimestampHourFullLabel_Plural" = "%d часа(ов)";
+"AlertOverheatingTitle" = "Перегрев";
+"AlertLimitedTitle" = "Недостаточно батареи...";
+"AlertDeviceConnectedTitle" = "'%@' Подключено"; // 'Joe's Headphones' Connected
+"AlertDeviceDisconnectedTitle" = "'%@' Отключено"; // 'Joe's Headphones' Disconnected
+"" = "Неизвестно";
+"AlertDeviceCalculatingTitle" = "Идёт рассчёт...";
 
+"AlertEstimateSummary" = "Заряда хватит на %@"; // 1 hour, 32 minutes until empty
+"AlertPercentSummary" = "Пора искать зарядное устройство!";
+"AlertStartedChargeSummary" = "Батарея будет заряжена к **%@**."; // Fully charged at 2:32pm
+"AlertChargedSummary" = "Батарея полностью заряжена.";
+"AlertOverheatingSummary" = "Высокая температура может быстрее истощать аккумулятор и вызывать его деградацию в долгосрочной перспективе.";
+"AlertLimitedSummary" = "Ваш заряд батареи может быть недостаточным для события '%@'.";
+
+"TimestampHourFullAlertDeviceUnknownTitleLabel_Plural" = "%d часа(ов)";
 "TimestampHourFullLabel_Single" = "%d час";
+"TimestampHourFullLabel_Plural" = "%d часа(ов)";
 "TimestampMinuteFullLabel_Plural" = "%d минут(ы)";
 "TimestampMinuteFullLabel_Single" = "%d минута";
 "TimestampMinuteDaysLabel_Plural" = "%d дней";
+"TimestampMinuteDaysLabel_Single" = "%d день";
 "TimestampHourAbbriviatedLabel" = "ч";
 "TimestampMinuteAbbriviatedLabel" = "м";
 "TimestampDayAbbriviatedLabel" = "д";
@@ -24,19 +32,21 @@
 
 "SettingsWebsiteLabel" = "Сайт";
 "SettingsQuitLabel" = "Выйти";
-"SettingsThemeLabel" = "Внешний вид";
+"SettingsPinnedLabel" = "Закрепить на экране";
+"SettingsEightyLabel" = "Зарядка до 80%";
+"SettingsRateLabel" = "Оценить BatteryBoi";
 "SettingsEfficiencyLabel" = "Режим энергосбережения";
 "SettingsCheckUpdatesLabel" = "Проверить";
 "SettingsNewUpdateLabel" = "Установить новое обновление";
-
 "SettingsDisplayLabel" = "Отображение";
+"SettingsDisplayCycleLabel" = "Количество циклов зарядки";
 "SettingsDisplayPercentLabel" = "Процент";
 "SettingsDisplayEstimateLabel" = "Время";
 "SettingsDisplayNoneLabel" = "Пусто";
-"SettingsDisplayRemovedLabel" = "Скрыть иконку в строке меню";
-
+"SettingsDisplayHiddenLabel" = "Скрыть";
 "SettingsEnabledLabel" = "Включено";
 "SettingsDisabledLabel" = "Выключено";
+
 "SettingsAboutLabel" = "О приложении";
 "SettingsCustomizationLabel" = "Кастомизация";
 "SettingsSoundEffectsLabel" = "Звуковые эффекты";
@@ -51,8 +61,8 @@
 "SettingsCustomizationThemeTitle" = "Вид";
 
 "UpdateStatusCheckingLabel" = "Проверка на наличие новых обновлений...";
-"UpdateStatusIdleLabel" = "Последняя проверка: %@"; // Последняя проверка: 4 часа назад
-"UpdateStatusEmptyLabel" = "Обновлений нет"; 
+"UpdateStatusIdleLabel" = "Последняя проверка: %@"; // Last Checked: 4 hours ago
+"UpdateStatusEmptyLabel" = "Обновлений нет";
 "UpdateStatusNewLabel" = "Доступно обновление!";
 
 "AboutTitle" = "BatteryBoi, Бесплатный, Навсегда, для Всех...";
@@ -63,3 +73,24 @@
 "AboutGithubAction" = "GitHub";
 "AboutDonateAction" = "Пожертвовать";
 "AboutShareAction" = "Поделиться";
+
+"BluetoothDeviceHeadphonesLabel" = "Наушники";
+"BluetoothDeviceMouseLabel" = "Мышь";
+"BluetoothDeviceGamepadLabel" = "Игровой контроллер";
+"BluetoothDeviceSpeakerLabel" = "Динамик";
+"BluetoothDeviceKeyboardLabel" = "Клавиатура";
+"BluetoothDeviceOtherLabel" = "Другое";
+"BluetoothConnectLabel" = "Подключить";
+"BluetoothDisconnectLabel" = "Отключить";
+"BluetoothDisconnectedLabel" = "Не сопряжён";
+"BluetoothDistanceProximateLabel" = "На рабочем столе/столе";
+"BluetoothDistanceNearLabel" = "В той же комнате";
+"BluetoothDistanceFarLabel" = "В другом пространстве";
+"BluetoothInvalidLabel" = "Нет информации о батареи";
+
+"OnboardingNotificationsTitle" = "";
+"OnboardingNotificationsBody" = "";
+"OnboardingInsightsTitle" = "";
+"OnboardingInsightsBody" = "";
+"OnboardingBluetoothTitle" = "";
+"OnboardingBluetoothBody" = "";

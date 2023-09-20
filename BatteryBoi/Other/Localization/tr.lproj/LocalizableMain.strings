@@ -3,18 +3,23 @@
 "AlertChargingTitle" = "Şarj oluyor...";
 "AlertChargingStoppedTitle" = "Şarj Aleti Çıkarıldı";
 "AlertChargingCompleteTitle" = "Şarj Tamamlandı";
+"AlertOverheatingTitle" = "Aşırı Isınma";
+"AlertLimitedTitle" = "Yetersiz Batarya...";
 "AlertDeviceConnectedTitle" = "'%@' Bağlandı"; // 'Joe's Headphones' Connected
 "AlertDeviceDisconnectedTitle" = "'%@' Bağlantısı Kesildi"; // 'Joe's Headphones' Disconnected
-"AlertDeviceUnknownTitle" = "Bilinmeyen";
+"" = "Bilinmiyor";
 "AlertDeviceCalculatingTitle" = "Hesaplanıyor...";
 
 "AlertEstimateSummary" = "%@ kaldı"; // 1 hour, 32 minutes until empty
 "AlertPercentSummary" = "Şarj kablosunu takma zamanı!";
 "AlertStartedChargeSummary" = "Saat %@' de tam şarj oldu."; // Fully charged at 2:32pm
 "AlertChargedSummary" = "Piliniz tamamen şarj oldu.";
+"AlertOverheatingSummary" = "Yüksek sıcaklıklar bataryanızı daha hızlı tüketebilir ve uzun vadede zarar verebilir.";
+"AlertLimitedSummary" = "Bataryanız '%@' etkinliği için yetersiz olabilir.";
 
-"TimestampHourFullLabel_Plural" = "%d saat";
+"TimestampHourFullAlertDeviceUnknownTitleLabel_Plural" = "%d saat";
 "TimestampHourFullLabel_Single" = "%d saat";
+"TimestampHourFullLabel_Plural" = "%d saat";
 "TimestampMinuteFullLabel_Plural" = "%d dakika";
 "TimestampMinuteFullLabel_Single" = "%d dakika";
 "TimestampMinuteDaysLabel_Plural" = "%d gün";
@@ -28,7 +33,7 @@
 "SettingsWebsiteLabel" = "Web Sitesi";
 "SettingsQuitLabel" = "Çıkış";
 "SettingsPinnedLabel" = "Ekrana Sabitle";
-"SettingsEightyLabel" = "Charge to 80%";
+"SettingsEightyLabel" = "%80'e kadar şarj et";
 "SettingsRateLabel" = "BatteryBoi'yi değerlendir";
 "SettingsEfficiencyLabel" = "Düşük Güç";
 "SettingsCheckUpdatesLabel" = "Güncellemeleri Kontrol Et";
@@ -38,6 +43,7 @@
 "SettingsDisplayPercentLabel" = "Yüzde";
 "SettingsDisplayEstimateLabel" = "Süre";
 "SettingsDisplayNoneLabel" = "Boş";
+"SettingsDisplayHiddenLabel" = "Gizli";
 "SettingsEnabledLabel" = "Etkin";
 "SettingsDisabledLabel" = "Devre Dışı";
 
@@ -76,6 +82,15 @@
 "BluetoothDeviceOtherLabel" = "Diğer";
 "BluetoothConnectLabel" = "Bağlan";
 "BluetoothDisconnectLabel" = "Bağlantıyı Kes";
+"BluetoothDisconnectedLabel" = "Eşleştirilemedi";
 "BluetoothDistanceProximateLabel" = "Masanın Üzerinde";
 "BluetoothDistanceNearLabel" = "Aynı Odada";
 "BluetoothDistanceFarLabel" = "Başka bir Diyarda";
+"BluetoothInvalidLabel" = "Pil Bilgisi Yok";
+
+"OnboardingNotificationsTitle" = "";
+"OnboardingNotificationsBody" = "";
+"OnboardingInsightsTitle" = "";
+"OnboardingInsightsBody" = "";
+"OnboardingBluetoothTitle" = "";
+"OnboardingBluetoothBody" = "";

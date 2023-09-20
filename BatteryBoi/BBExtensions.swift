@@ -66,22 +66,35 @@ struct ViewMarkdown: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            ForEach(0..<components.count, id: \.self) { number in
-                if number.isMultiple(of: 2) {
-                    Text(components[number])
-                        .font(.system(size: 12, weight: .regular))
-                        .foregroundColor(Color("BatterySubtitle"))
-                } 
-                else {
-                    Text(components[number])
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundColor(Color("BatteryTitle").opacity(0.9))
+            if components.count == 1 {
+                Text(components[0])
+                    .font(.system(size: 12, weight: .regular))
+                    .foregroundColor(Color("BatterySubtitle"))
+                    .lineLimit(3)
+
+            }
+            else {
+                ForEach(0..<components.count, id: \.self) { number in
+                    if number.isMultiple(of: 2) {
+                        Text(components[number])
+                            .font(.system(size: 12, weight: .regular))
+                            .foregroundColor(Color("BatterySubtitle"))
+                            .lineLimit(1)
+
+                    }
+                    else {
+                        Text(components[number])
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(Color("BatteryTitle").opacity(0.9))
+                            .lineLimit(1)
+
+                    }
+                    
                 }
                 
             }
             
         }
-        .lineLimit(1)
         .onChange(of: self.text) { newValue in
             self.components = newValue.components(separatedBy: "**")
 

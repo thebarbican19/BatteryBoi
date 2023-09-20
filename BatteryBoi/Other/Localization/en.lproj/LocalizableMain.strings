@@ -3,18 +3,23 @@
 "AlertChargingTitle" = "Charging...";
 "AlertChargingStoppedTitle" = "Charger Removed";
 "AlertChargingCompleteTitle" = "Charging Complete";
+"AlertOverheatingTitle" = "Overheating";
+"AlertLimitedTitle" = "Not Enough Battery...";
 "AlertDeviceConnectedTitle" = "Connected"; //'Joe's Headphones' Connected
 "AlertDeviceDisconnectedTitle" = "Disconnected"; //'Joe's Headphones' Disconnected
-"AlertDeviceUnknownTitle" = "Unknown";
+"" = "Unknown";
 "AlertDeviceCalculatingTitle" = "Calculating...";
 
 "AlertEstimateSummary" = "**%@** until empty"; // 1 hour, 32 minutes until empty
 "AlertPercentSummary" = "Time to grab the cable!";
 "AlertStartedChargeSummary" = "Fully charged at **%@**."; // Fully charged at 2:32pm
 "AlertChargedSummary" = "Your battery is fully charged.";
+"AlertOverheatingSummary" = "High temperatures can deplete your battery more quickly and cause long-term damage.";
+"AlertLimitedSummary" = "Your battery might be insufficient for the event '%@'.";
 
-"TimestampHourFullLabel_Plural" = "%d hours";
+"TimestampHourFullAlertDeviceUnknownTitleLabel_Plural" = "%d hours";
 "TimestampHourFullLabel_Single" = "%d hour";
+"TimestampHourFullLabel_Plural" = "%d hours";
 "TimestampMinuteFullLabel_Plural" = "%d minutes";
 "TimestampMinuteFullLabel_Single" = "%d minute";
 "TimestampMinuteDaysLabel_Plural" = "%d days";
@@ -38,6 +43,7 @@
 "SettingsDisplayPercentLabel" = "Percentage";
 "SettingsDisplayEstimateLabel" = "Time";
 "SettingsDisplayNoneLabel" = "Empty";
+"SettingsDisplayHiddenLabel" = "Hidden";
 "SettingsEnabledLabel" = "Enabled";
 "SettingsDisabledLabel" = "Disabled";
 
@@ -80,7 +86,7 @@
 "BluetoothDistanceProximateLabel" = "On the Desk/Table";
 "BluetoothDistanceNearLabel" = "In the same Room";
 "BluetoothDistanceFarLabel" = "In another Realm";
-"BluetoothInvalidLabel" = "Not Available";
+"BluetoothInvalidLabel" = "No Battery Information";
 
 "OnboardingNotificationsTitle" = "";
 "OnboardingNotificationsBody" = "";

@@ -2,18 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>EN_API_KEY</key>
-	<string>$(SD_ENALOG_KEY)</string>
-	<key>EN_PROJECT_NAME</key>
-	<string>BatteryBoi</string>
-	<key>MDItemKeywords</key>
-	<string>Battery,Power,BatteryBoi</string>
-	<key>SD_SLACK_CHANNEL</key>
-	<string>$(SD_SLACK_CHANNEL)</string>
-	<key>SUFeedURL</key>
-	<string>https://api.ovatar.io/version?id=com.ovatar.batteryapp&amp;beta=true</string>
-	<key>SUPublicEDKey</key>
-	<string>t1V9elylrpBkN0l4EkNxs7eEGVLF3Yd0P0sKDXqxfoA=</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -25,5 +13,19 @@
 			</array>
 		</dict>
 	</array>
+	<key>EN_API_KEY</key>
+	<string>$(SD_ENALOG_KEY)</string>
+	<key>EN_PROJECT_NAME</key>
+	<string>BatteryBoi</string>
+	<key>MDItemKeywords</key>
+	<string>Battery,Power,BatteryBoi</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>We check your calendar to ensure your battery lasts for your conference calls.</string>
+	<key>SD_SLACK_CHANNEL</key>
+	<string>$(SD_SLACK_CHANNEL)</string>
+	<key>SUFeedURL</key>
+	<string>https://api.ovatar.io/version?id=com.ovatar.batteryapp&amp;beta=true</string>
+	<key>SUPublicEDKey</key>
+	<string>t1V9elylrpBkN0l4EkNxs7eEGVLF3Yd0P0sKDXqxfoA=</string>
 </dict>
 </plist>

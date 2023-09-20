@@ -9,7 +9,8 @@ import SwiftUI
 import EnalogSwift
 import Sparkle
 import Combine
- 
+import Foundation
+
 public enum SystemDistribution {
     case direct
     case appstore
@@ -60,15 +61,22 @@ enum SystemDeviceTypes:String,Codable {
     case unknown
     
     var name:String {
-        switch self {
-            case .macbook: return "Macbook"
-            case .macbookPro: return "Macbook Pro"
-            case .macbookAir: return "Macbook Air"
-            case .imac: return "iMac"
-            case .macMini: return "Mac Mini"
-            case .macPro: return "Mac Pro"
-            case .macStudio: return "Mac Pro"
-            case .unknown: return "Unknown"
+        if let name = Host.current().localizedName {
+            return name
+            
+        }
+        else {
+            switch self {
+                case .macbook: return "Macbook"
+                case .macbookPro: return "Macbook Pro"
+                case .macbookAir: return "Macbook Air"
+                case .imac: return "iMac"
+                case .macMini: return "Mac Mini"
+                case .macPro: return "Mac Pro"
+                case .macStudio: return "Mac Pro"
+                case .unknown: return "AlertDeviceUnknownTitle".localise()
+                
+            }
             
         }
         
@@ -84,6 +92,18 @@ enum SystemDeviceTypes:String,Codable {
             case .macPro: return false
             case .macStudio: return false
             case .unknown: return false
+            
+        }
+        
+    }
+    
+    var icon:String {
+        switch self {
+            case .imac: return "desktopcomputer"
+            case .macMini: return "macmini"
+            case .macPro: return "macpro.gen3"
+            case .macStudio: return "macstudio"
+            default : return "laptopcomputer"
             
         }
         
@@ -129,8 +149,8 @@ enum SystemDefaultsKeys: String {
     case usageDay = "sd_usage_days"
     case usageTimestamp = "sd_usage_date"
     
-    case profileChecked = "sd_profile_checked"
-    case profilePayload = "sd_profile_payload"
+    case profileChecked = "sd_profiles_checked"
+    case profilePayload = "sd_profiles_payload"
 
     var name:String {
         switch self {
@@ -221,16 +241,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
             _ = SettingsManager.shared.enabledTheme
             _ = SettingsManager.shared.enabledDisplay()
             
+            _ = EventManager.shared
+            
             print("\n\nApp Installed: \(AppManager.shared.appInstalled)\n\n")
             print("App Usage (Days): \(AppManager.shared.appUsage?.day ?? 0)\n\n")
 
             UpdateManager.shared.updateCheck()
             
-            switch BatteryManager.shared.charging.state {
-                case .battery : WindowManager.shared.windowOpen(.userLaunched, device: nil)
-                case .charging : WindowManager.shared.windowOpen(.chargingBegan, device: nil)
-                
-            }
+            WindowManager.shared.windowOpen(.userLaunched, device: nil)
             
             SettingsManager.shared.$display.sink { type in
                 switch type {
@@ -254,6 +272,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
         NSAppleEventManager.shared().setEventHandler(self, andSelector: #selector(applicationHandleURLEvent(event:reply:)), forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
 
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(applicationDidWakeNotification(_:)), name: NSWorkspace.didWakeNotification, object: nil)
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(applicationDidSleepNotification(_:)), name: NSWorkspace.screensDidSleepNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationFocusDidMove(notification:)), name: NSWindow.didMoveNotification, object:nil)
         
     }
@@ -283,14 +302,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
     
     @objc func applicationStatusBarButtonClicked(sender: NSStatusBarButton) {
         if WindowManager.shared.windowIsVisible(.userInitiated) == false {
-            #if DEBUG
-                WindowManager.shared.windowOpen(.chargingBegan, device: nil)
+            WindowManager.shared.windowOpen(.userInitiated, device: nil)
 
-            #else
-                WindowManager.shared.windowOpen(.userInitiated, device: nil)
-
-            #endif
-            
         }
         else {
             WindowManager.shared.windowSetState(.dismissed)
@@ -333,6 +346,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
     
     @objc private func applicationDidWakeNotification(_ notification: Notification) {
         BatteryManager.shared.powerForceRefresh()
+        
+    }
+    
+    @objc private func applicationDidSleepNotification(_ notification: Notification) {
         
     }
     
