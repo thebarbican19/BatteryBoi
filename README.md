@@ -27,16 +27,14 @@ However, because of popular demand, the scope of this project has expanded signi
 
 ## How (to Install)
 
-#### Manual DMG Download
+#### Manual Download
 1. You can install the app by downloading the [latest released .DMG file](https://github.com/thebarbican19/BatteryBoi/releases/). This contains an executable version of the app - **you do not need to Xcode to run this.**
 2. Open/mount the DMG file and drag BatteryBoi into the Applications Folder. And that's it!
 3. You can hide the default battery icon by going to **System Preferences** > **Control Center** > **Battery** > **Show in Menu Bar**
 <br><br><br>
 
-#### Using Homebrew
-You can install BatteryBoi via Homebrew thanks to the contribution from [Marcus Kannicht](https://github.com/kannicht).
-
-`$ brew install batteryboi`
+#### Homebrew
+You can install BatteryBoi via Homebrew thanks to the contribution from [Marcus Kannicht](https://github.com/kannicht). `$ brew install batteryboi`
 
 <br><br><br>
 
