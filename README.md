@@ -85,7 +85,7 @@ With continued support, I will be adding...
 - [ ] **🟡 System Colour Alerts & Charging Icon**
 - [ ] **🪫 Low Power Mode Toggle** (Suggested by [@Crear12](https://github.com/Crear12))
 - [x] **🇲🇽 Multiple Language Support** (Helo Translate for your local language here https://github.com/thebarbican19/BatteryBoi/issues/12)
-- [x] **⬇️ Sparkle Intergration**
+- [x] **⬇️ Sparkle Integration**
 - [x] **🚨 Improved Alerts**
 - [x] **🏝️ A Dynamic Island-Style Modal with Sexy Indicator**
 - [ ] **☀️ Light Mode**
