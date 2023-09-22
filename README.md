@@ -7,7 +7,7 @@
 ![GitHub contributors](https://img.shields.io/github/contributors/thebarbican19/BatteryBoi)
 [![Swift Version](https://img.shields.io/badge/Swift-5.x-orange.svg)]()
 [![MacOS Version](https://img.shields.io/badge/Supported%20Version-v11.0,%20v12.0,%20v13.0,%20v14.0+-orange)]()
-[![Telegram](https://img.shields.io/badge/Discussion%20Group-Telegram-blue)](https://t.me/+RmAXB2JfyOQzMTk0)
+[![Twitter](https://img.shields.io/badge/Follow%20BatteryBoiApp-black)](https://twitter.com/batteryboiapp)
 
 
 # BatteryBoi - A Battery Indicator to Rule Them All!
@@ -55,13 +55,12 @@ However, because of popular demand, the scope of this project has expanded signi
 - 🇹🇼 [Chinese (Traditional)](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [Desmoed Richtofen @Shane1119](https://github.com/Shane1119))
 - 🇸🇰 [Slovenian](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [@drodmantras](https://github.com/drodmantras))
 - 🇸🇰 [Slovak](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [@Svec-Tomas](https://github.com/Svec-Tomas))
-
+- 🇻🇳 [Vietnamise](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/vi.lproj/LocalizableMain.strings) (Provided by [Hieu Huynh @hieuhc93](https://github.com/hieuhuynh93))
+- 🇪🇸 [Spanish](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/es.lproj/LocalizableMain.strings) (Provided by [@David C](https://github.com/DavidC))
+- 🇩🇪 [German](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/de.lproj/LocalizableMain.strings) (Verifyed by  [Hendrik Erz @nathanlesage C](https://github.com/nathanlesage))
 
 
 #### Unverified/Auto-Translated
-- 🇩🇪 [German](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/de.lproj/LocalizableMain.strings)
-- 🇪🇸 [Spanish (Traditional)](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/en.lproj/LocalizableMain.strings)
-- 🇲🇽 [Spanish (Latin America)](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/es-419.lproj/LocalizableMain.strings)
 - 🇫🇷 [French](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/fr.lproj/LocalizableMain.strings)
 - 🇵🇹 [Portuguese (Traditional)](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/pt-PT.lproj/LocalizableMain.strings)
 - 🇧🇷 [Portuguese (Brazil)](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/pt-BR.lproj/LocalizableMain.strings)
@@ -86,7 +85,7 @@ With continued support, I will be adding...
 - [ ] **🟡 System Colour Alerts & Charging Icon**
 - [ ] **🪫 Low Power Mode Toggle** (Suggested by [@Crear12](https://github.com/Crear12))
 - [x] **🇲🇽 Multiple Language Support** (Helo Translate for your local language here https://github.com/thebarbican19/BatteryBoi/issues/12)
-- [x] **⬇️ Sparkle Intergration**
+- [x] **⬇️ Sparkle Integration**
 - [x] **🚨 Improved Alerts**
 - [x] **🏝️ A Dynamic Island-Style Modal with Sexy Indicator**
 - [ ] **☀️ Light Mode**

@@ -2,14 +2,8 @@ import subprocess
 import json
 
 def identify_device_type(product_name):
-    if "Mouse" in product_name:
-        return "Mouse"
-    elif "Keyboard" in product_name:
-        return "Keyboard"
-    elif "Trackpad" in product_name:
-        return "Trackpad"
-    else:
-        return "Unknown"
+    product_names = "Keyboard Mouse Trackpad".split()
+    return product_name if product_name in product_names else "Unknown"
 
 def get_device_battery_info():
     try:
@@ -18,7 +12,7 @@ def get_device_battery_info():
             text=True
         )
     except subprocess.CalledProcessError as e:
-        print(f"An error occurred while running the ioreg command: {e}")
+        print(f"An error occurred while running the ioreg command: {e!r}")
         return None
 
     devices_list = []
