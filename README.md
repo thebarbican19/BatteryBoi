@@ -57,12 +57,12 @@ However, because of popular demand, the scope of this project has expanded signi
 - 🇸🇰 [Slovak](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [@Svec-Tomas](https://github.com/Svec-Tomas))
 - 🇻🇳 [Vietnamese](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/vi.lproj/LocalizableMain.strings) (Provided by [Hieu Huynh @hieuhuynh93](https://github.com/hieuhuynh93))
 - 🇪🇸 [Spanish](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/es.lproj/LocalizableMain.strings) (Provided by [@David C](https://github.com/DavidC))
-- 🇩🇪 [German](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/de.lproj/LocalizableMain.strings) (Verifyed by  [Hendrik Erz @nathanlesage](https://github.com/nathanlesage))
+- 🇩🇪 [German](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/de.lproj/LocalizableMain.strings) (Provided by  [Hendrik Erz @nathanlesage](https://github.com/nathanlesage))
 - 🇰🇷 [Korean](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/ko.lproj/LocalizableMain.strings) (Provided by  [YiGeon @YiGeon](https://github.com/YiGeon))
+- 🇫🇷 [French](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/ko.lproj/LocalizableMain.strings) (Provided by  [Ben Wayne](https://github.com/))
 
 
 #### Unverified/Auto-Translated
-- 🇫🇷 [French](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/fr.lproj/LocalizableMain.strings)
 - 🇵🇹 [Portuguese (Traditional)](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/pt-PT.lproj/LocalizableMain.strings)
 - 🇧🇷 [Portuguese (Brazil)](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/pt-BR.lproj/LocalizableMain.strings)
 - 🇮🇹 [Italian](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/it.lproj/LocalizableMain.strings)
