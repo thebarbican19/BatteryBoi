@@ -55,9 +55,10 @@ However, because of popular demand, the scope of this project has expanded signi
 - 🇹🇼 [Chinese (Traditional)](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [Desmoed Richtofen @Shane1119](https://github.com/Shane1119))
 - 🇸🇰 [Slovenian](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [@drodmantras](https://github.com/drodmantras))
 - 🇸🇰 [Slovak](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [@Svec-Tomas](https://github.com/Svec-Tomas))
-- 🇻🇳 [Vietnamise](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/vi.lproj/LocalizableMain.strings) (Provided by [Hieu Huynh @hieuhc93](https://github.com/hieuhuynh93))
+- 🇻🇳 [Vietnamese](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/vi.lproj/LocalizableMain.strings) (Provided by [Hieu Huynh @hieuhuynh93](https://github.com/hieuhuynh93))
 - 🇪🇸 [Spanish](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/es.lproj/LocalizableMain.strings) (Provided by [@David C](https://github.com/DavidC))
-- 🇩🇪 [German](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/de.lproj/LocalizableMain.strings) (Verifyed by  [Hendrik Erz @nathanlesage C](https://github.com/nathanlesage))
+- 🇩🇪 [German](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/de.lproj/LocalizableMain.strings) (Verifyed by  [Hendrik Erz @nathanlesage](https://github.com/nathanlesage))
+- 🇰🇷 [Korean](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/ko.lproj/LocalizableMain.strings) (Provided by  [YiGeon @YiGeon](https://github.com/YiGeon))
 
 
 #### Unverified/Auto-Translated
