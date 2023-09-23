@@ -62,7 +62,7 @@ You can install BatteryBoi via Homebrew thanks to the contribution from [Marcus 
 - 🇸🇰 [Slovenian](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [@drodmantras](https://github.com/drodmantras))
 - 🇸🇰 [Slovak](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/tr.lproj/LocalizableMain.strings) (Provided by [@Svec-Tomas](https://github.com/Svec-Tomas))
 - 🇻🇳 [Vietnamese](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/vi.lproj/LocalizableMain.strings) (Provided by [Hieu Huynh @hieuhuynh93](https://github.com/hieuhuynh93))
-- 🇪🇸 [Spanish](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/es.lproj/LocalizableMain.strings) (Provided by [@David C](https://github.com/DavidC))
+- 🇪🇸 [Spanish](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/es.lproj/LocalizableMain.strings) (Provided by [@David C](https://github.com/davidcafor))
 - 🇩🇪 [German](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/de.lproj/LocalizableMain.strings) (Provided by  [Hendrik Erz @nathanlesage](https://github.com/nathanlesage))
 - 🇰🇷 [Korean](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/ko.lproj/LocalizableMain.strings) (Provided by  [YiGeon @YiGeon](https://github.com/YiGeon))
 - 🇫🇷 [French](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/ko.lproj/LocalizableMain.strings) (Provided by  [Ben Wayne](https://github.com/))
