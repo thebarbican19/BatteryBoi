@@ -44,8 +44,8 @@
 "SettingsDisplayEstimateLabel" = "Tempo";
 "SettingsDisplayNoneLabel" = "Vuoto";
 "SettingsDisplayHiddenLabel" = "Nascosto";
-"SettingsEnabledLabel" = "Abilitato";
-"SettingsDisabledLabel" = "Disabilitato";
+"SettingsEnabledLabel" = "Sì";
+"SettingsDisabledLabel" = "No";
 
 "SettingsAboutLabel" = "Informazioni";
 "SettingsCustomizationLabel" = "Personalizzazione";
