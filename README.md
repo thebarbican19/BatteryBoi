@@ -65,13 +65,14 @@ You can install BatteryBoi via Homebrew thanks to the contribution from [Marcus 
 - 🇪🇸 [Spanish](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/es.lproj/LocalizableMain.strings) (Provided by [@David C](https://github.com/davidcafor))
 - 🇩🇪 [German](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/de.lproj/LocalizableMain.strings) (Provided by  [Hendrik Erz @nathanlesage](https://github.com/nathanlesage))
 - 🇰🇷 [Korean](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/ko.lproj/LocalizableMain.strings) (Provided by  [YiGeon @YiGeon](https://github.com/YiGeon))
-- 🇫🇷 [French](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/ko.lproj/LocalizableMain.strings) (Provided by  [Ben Wayne](https://github.com/))
+- 🇫🇷 [French](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/fr.lproj/LocalizableMain.strings) (Provided by  [Ben Wayne](https://github.com/))
+- 🇮🇹 [Italian](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/it.lproj/LocalizableMain.strings) (Provided by  [Francesco @katullo11](https://github.com/katullo11))
+
 
 
 #### Unverified/Auto-Translated
 - 🇵🇹 [Portuguese (Traditional)](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/pt-PT.lproj/LocalizableMain.strings)
 - 🇧🇷 [Portuguese (Brazil)](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/pt-BR.lproj/LocalizableMain.strings)
-- 🇮🇹 [Italian](https://github.com/thebarbican19/BatteryBoi/tree/main/BatteryBoi/Other/Localization/it.lproj/LocalizableMain.strings)
 
 <br>
 
