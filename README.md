@@ -21,7 +21,10 @@ However, because of popular demand, the scope of this project has expanded signi
 <br>
 
 ## News! News! News! - Version 3.0 & the iOS App
-**After crossing 20k downloads, I am happy to launch not only some huge updates coming to Version 3.0, but also the release of the BatteryBoi iOS and iPadOS apps.** Plus much more, see the full post about it all [here](https://github.com/thebarbican19/BatteryBoi/discussions/62)
+After crossing 20k downloads, I am happy to launch not only some huge updates coming to Version 3.0, but also the release of the BatteryBoi iOS and iPadOS apps. Plus much more. 
+<br>
+
+**See the full post about it all [here](https://github.com/thebarbican19/BatteryBoi/discussions/62)**
 
 <br><br>
 
