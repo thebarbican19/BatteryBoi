@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ENV_ICLOUD_FILE</key>
+	<string>$(ENV_ICLOUD_FILE)</string>
+	<key>ENV_ICLOUD_ID</key>
+	<string>$(ENV_ICLOUD_ID)</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>bluetooth-central</string>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
+    <key>NSUserNotificationUsageDescription</key>
+    <string>Notifications are used to inform you when your any of your connected Devices need charging.</string>
+</dict>
+</plist>

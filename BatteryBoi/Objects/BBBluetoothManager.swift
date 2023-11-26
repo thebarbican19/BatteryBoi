@@ -7,305 +7,299 @@
 
 import Foundation
 import Combine
-import IOBluetooth
-import IOKit.ps
-import Cocoa
 import CoreBluetooth
 import EnalogSwift
 
-enum BluetoothConnectionState {
-    case connected
-    case disconnected
-    case failed
-    case unavailable
-    
-}
-
-enum BluetoothVendor: String {
-    case apple = "0x004C"
-    case samsung = "0x0050"
-    case microsoft = "0x0052"
-    case bose = "0x1001"
-    case sennheiser = "0x1002"
-    case sony = "0x1003"
-    case jbl = "0x1004"
-    case skullcandy = "0x1005"
-    case beats = "0x1006"
-    case jabra = "0x1007"
-    case audioTechnica = "0x1008"
-    case unknown = ""
-    
-}
-
-enum BluetoothScriptType:String {
-    case profiler = "BBProfilerList"
-    case oreg = "BBIOREGList"
-    
-}
-
-enum BluetoothDistanceType:Int {
-    case proximate
-    case near
-    case far
-    case unknown
-    
-}
-
-struct BluetoothDeviceObject {
-    var type:BluetoothDeviceType
-    var subtype:BluetoothDeviceSubtype?
-    var vendor:BluetoothVendor?
-    var icon:String
-    
-    init(_ type:String, subtype:String? = nil, vendor:String? = nil) {
-        self.type = BluetoothDeviceType(rawValue: type.lowercased()) ?? .other
-        self.subtype = BluetoothDeviceSubtype(rawValue: subtype ?? "")
-        self.vendor = BluetoothVendor(rawValue: vendor ?? "")
-        
-        if let subtype = self.subtype {
-            self.icon = subtype.icon
-            
-        }
-        else {
-            self.icon = self.type.icon
-            
-        }
-        
-    }
-    
-}
-
-enum BluetoothDeviceSubtype: String {
-    case airpodsMax = "0x200A"
-    case airpodsProVersionOne = "0x200E"
-    case airpodsVersionTwo = "0x200F"
-    case airpodsVersionOne = "0x2002"
-    case unknown = ""
-    
-    var icon:String {
-        switch self {
-            case .airpodsMax : return "headphones"
-            case .airpodsProVersionOne : return "airpods.gen3"
-            default : return "airpods"
-            
-        }
-        
-    }
-    
-}
-
-enum BluetoothDeviceType:String,Decodable {
-    case mouse = "mouse"
-    case headphones = "headphones"
-    case gamepad = "gamepad"
-    case speaker = "speaker"
-    case keyboard = "keyboard"
-    case other = "other"
-    
-    var name:String {
-        switch self {
-            case .mouse:return "BluetoothDeviceMouseLabel".localise()
-            case .headphones:return "BluetoothDeviceHeadphonesLabel".localise()
-            case .gamepad:return "BluetoothDeviceGamepadLabel".localise()
-            case .speaker:return "BluetoothDeviceSpeakerLabel".localise()
-            case .keyboard:return "BluetoothDeviceKeyboardLabel".localise()
-            case .other:return "BluetoothDeviceOtherLabel".localise()
-            
-        }
-        
-    }
-    
-    var icon:String {
-        switch self {
-            case .mouse:return "magicmouse.fill"
-            case .headphones:return "headphones"
-            case .gamepad:return "gamecontroller.fill"
-            case .speaker:return "hifispeaker.2.fill"
-            case .keyboard:return "keyboard.fill"
-            case .other:return ""
-            
-        }
-        
-    }
-    
-}
-
-struct BluetoothBatteryObject:Decodable,Equatable {
-    var general:Double?
-    var left:Double?
-    var right:Double?
-    var percent:Double?
-
-    public init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-
-        self.general = nil
-        self.left = nil
-        self.right = nil
-        self.percent = nil
-
-        if let percent = try? values.decode(String.self, forKey: .general) {
-            let stripped = percent.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
-            
-            self.general = Double(stripped)
-            
-        }
-        
-        if let percent = try? values.decode(String.self, forKey: .right) {
-            let stripped = percent.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
-            
-            self.right = Double(stripped)
-
-        }
-        
-        if let percent = try? values.decode(String.self, forKey: .left) {
-            let stripped = percent.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
-            
-            self.left = Double(stripped)
-            
-        }
-        
-        if self.left == nil && self.right == nil && self.general == nil {
-            self.percent = nil
-            
-        }
-        else if let min = [self.right, self.left, self.general].compactMap({ $0 }).min() {
-            self.percent = min
-            
-        }
-            
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case right = "device_batteryLevelRight"
-        case left = "device_batteryLevelLeft"
-        case enclosure = "device_batteryLevel"
-        case general = "device_batteryLevelMain"
-        
-    }
-    
-}
-
-struct BluetoothObject:Decodable,Equatable {
-    static func == (lhs: BluetoothObject, rhs: BluetoothObject) -> Bool {
-        return lhs.address == rhs.address && lhs.connected == rhs.connected && lhs.distance == rhs.distance
-        
-    }
-    
-    let address: String
-    let firmware: String?
-    var battery:BluetoothBatteryObject
-    let type:BluetoothDeviceObject
-    var distance:BluetoothDistanceType
-
-    var updated:Date
-    var device: String?
-    var connected: BluetoothState
-    
-    public init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-                
-        self.battery = try! BluetoothBatteryObject(from: decoder)
-        self.address = try! values.decode(String.self, forKey: .address).lowercased().replacingOccurrences(of: ":", with: "-")
-        self.firmware = try? values.decode(String.self, forKey: .firmware)
-        self.connected = .disconnected
-        self.device = nil
-        self.updated = Date.distantPast
-        
-        if let distance = try? values.decode(String.self, forKey: .rssi) {
-            if let value = Double(distance) {
-                if value >= -50 && value <= -20 {
-                    self.distance = .proximate
-
-                } 
-                else if value >= -70 && value < -50 {
-                    self.distance = .near
-
-                }
-                else {
-                    self.distance = .far
-
-                }
-                
-            }
-            else {
-                self.distance = .unknown
-
-            }
-
-        }
-        else {
-            self.distance = .unknown
-
-        }
-        
-        if let type = try? values.decode(String.self, forKey: .type) {
-            let subtype = try? values.decode(String.self, forKey: .product)
-            let vendor = try? values.decode(String.self, forKey: .product)
-
-            self.type = BluetoothDeviceObject(type, subtype:subtype, vendor: vendor)
-
-        }
-        else {
-            self.type = BluetoothDeviceObject("")
-            
-        }
-        
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case address = "device_address"
-        case firmware = "device_firmwareVersion"
-        case type = "device_minorType"
-        case vendor = "device_vendorID"
-        case product = "device_productID"
-        case rssi = "device_rssi"
-
-    }
-    
-}
-
-typealias BluetoothObjectContainer = [String: BluetoothObject]
-
-enum BluetoothState:Int {
-    case connected = 1
-    case disconnected = 0
-        
-    var status:String {
-        switch self {
-            case .connected : return "Connected"
-            case .disconnected : return "Not Connected"
-            
-        }
-        
-    }
-    
-    var boolean:Bool {
-        switch self {
-            case .connected : return true
-            case .disconnected : return false
-            
-        }
-        
-    }
-    
-}
-
-class BluetoothManager:ObservableObject {
-    static var shared = BluetoothManager()
-    
+class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBPeripheralDelegate {
+    @Published var state:BluetoothPermissionState = .checking
     @Published var list = Array<BluetoothObject>()
     @Published var connected = Array<BluetoothObject>()
     @Published var icons = Array<String>()
+    @Published var active:CBPeripheral? = nil
 
+    private var manager: CBCentralManager!
     private var updates = Set<AnyCancellable>()
+    
+    static var shared = BluetoothManager()
+    
+    override init() {
+        super.init()
         
-    init() {
-        AppManager.shared.appTimer(15).dropFirst(1).receive(on: DispatchQueue.main).sink { _ in
-            self.bluetoothList(.oreg)
-            self.bluetoothList(.profiler)
+        self.manager = CBCentralManager(delegate: self, queue: nil)
+        
+        self.bluetoothAuthorization()
 
+        $active.removeDuplicates().receive(on: DispatchQueue.main).sink { active in
+            if self.state == .allowed {
+                if let active = active {
+                    self.bluetoothUpdateStatePeripheral(.connect, peripheral: active)
+                    
+                }
+                else {
+                    self.manager.scanForPeripherals(withServices: nil, options: nil)
+
+                }
+            
+            }
+            
         }.store(in: &updates)
+
+        $state.removeDuplicates().delay(for: .seconds(2.0), scheduler: RunLoop.main).receive(on: DispatchQueue.main).sink { state in
+            print("Authorization State: " ,state)
+            if state == .allowed {
+                self.manager.scanForPeripherals(withServices: nil, options: nil)
+
+            }
+            
+        }.store(in: &updates)
+        
+    }
+    
+    public func bluetoothAuthorization(_ force:Bool = false) {
+        if force == true {
+            if self.manager.state == .unauthorized {
+                self.manager.scanForPeripherals(withServices: nil, options: nil)
+
+            }
+            else if self.manager.state == .unauthorized {
+                
+            }
+            
+        }
+        
+        switch CBCentralManager.authorization {
+            case .allowedAlways : self.state = .allowed
+            case .notDetermined : self.state = .undetermined
+            default : self.state = .denied
+
+        }
+        
+    }
+    
+    public func bluetoothStopScanning() {
+        self.manager.stopScan()
+        
+    }
+
+    public func bluetoothUpdateStatePeripheral(_ transition:BluetoothPeripheralTransition, peripheral: CBPeripheral) {
+        if transition == .connect {
+            if peripheral != self.active {
+                self.active = peripheral
+                
+                self.manager.stopScan()
+                self.manager.connect(self.active!, options: nil)
+                
+            }
+            
+        }
+        else if transition == .disconnect {
+            self.manager.stopScan()
+            self.manager.cancelPeripheralConnection(peripheral)
+            
+        }
+        else {
+            self.manager.stopScan()
+            self.manager.cancelPeripheralConnection(peripheral)
+            self.manager.scanForPeripherals(withServices: nil, options: nil)
+
+        }
+        
+    }
+
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        if self.state == .allowed {
+            self.manager.scanForPeripherals(withServices: nil, options: nil)
+
+        }
+        
+    }
+
+    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+                
+        let distance:BluetoothDistanceObject = .init(Double(truncating: RSSI))
+        
+        if distance.state == .proximate {
+            if let _ = peripheral.name {
+                self.active = peripheral
+                
+            }
+
+        }
+        
+        if let _ = self.active {
+            self.manager.stopScan()
+            self.manager.connect(self.active!, options: nil)
+    
+        }
+        
+    }
+
+    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {        
+        peripheral.delegate = self
+        peripheral.discoverServices(BluetoothUUID.allCases.map({ $0.uuid }))
+        
+    }
+
+    func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+        print("Filed to Connect to \(peripheral.name)")
+        self.active = nil
+        
+    }
+
+    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        self.active = nil
+        
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        if let error = error {
+            print("Error discovering services: \(error.localizedDescription)")
+            
+        }
+        else {
+            if let services = peripheral.services {
+                for service in services {
+                    print("Characteristics UUID" ,service.uuid)
+                    
+                    peripheral.discoverCharacteristics(nil, for: service)
+
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+        if let error = error {
+            print("Error discovering characteristics: \(error.localizedDescription)")
+
+        }
+        else {
+            if let characteristics = service.characteristics {
+                print("Discovering Peripheral - " ,peripheral.name)
+                
+                var name:String? = peripheral.name
+                var vendor:String? = nil
+                var serial:String? = nil
+
+                for characteristic in characteristics {
+                    print("characteristic" ,characteristic.uuid)
+                    if characteristic.uuid == BluetoothUUID.battery.uuid {
+                        
+                    }
+                    
+                    if characteristic.uuid == BluetoothUUID.vendor.uuid {
+                        if let data = characteristic.value, let string = String(data: data, encoding: .utf8) {
+                            print("Vendor Name:", string)
+                            vendor = string
+                            
+                        }
+                        
+                    }
+                    
+                    if characteristic.uuid == BluetoothUUID.name.uuid {
+                        if let data = characteristic.value, let string = String(data: data, encoding: .utf8) {
+                            name = string
+                            
+                        }
+
+                    }
+                    
+                    if characteristic.uuid == BluetoothUUID.serial.uuid {
+                        if let data = characteristic.value, let string = String(data: data, encoding: .utf8) {
+                            serial = string
+                            
+                        }
+                        
+                    }
+                    
+                    if let name = name {
+                        if AppManager.shared.list.first(where: { $0.id == peripheral.identifier }) == nil {
+                            AppManager.shared.list.append(.init(id:peripheral.identifier, name: name, profile: .init(serial: serial, hardware: ""), connectivity: .bluetooth, synced: false, favourite: false, order: 0))
+
+                        }
+
+                    }
+
+//                    if characteristic.uuid == BluetoothUUID.nearby.uuid {
+//                        print("FOUND NEARBY FOR \(peripheral.name)")
+//                        
+//                    }
+//                    
+//                    if characteristic.uuid == BluetoothUUID.continuity.uuid {
+//                        print("FOUND CONTINUITY FOR \(peripheral.name)")
+//                        
+//                    }
+                    
+                    switch characteristic.uuid {
+                        case CBUUID(string: "110D"): print("TYPE: HEADPHONES")
+                        case CBUUID(string: "1812"): print("TYPE: MOUSE")
+                        case CBUUID(string: "110A"): print("TYPE: SPEAKERS")
+                        default : print("UNKNOWN")
+                        
+                    }
+                    
+                    peripheral.readValue(for: characteristic)
+                    
+                    if characteristic.properties.contains(.notify) {
+                        peripheral.setNotifyValue(true, for: characteristic)
+                        
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+
+    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        
+        if characteristic.uuid == BluetoothUUID.battery.uuid {
+            if let batteryData = characteristic.value?.first {
+                print("Battery Level: \(batteryData)%")
+                
+            }
+          
+        }
+        else if characteristic.uuid == BluetoothUUID.continuity.uuid {
+            print("Continuity Found")
+
+            if let data = characteristic.value, let string = String(data: data, encoding: .utf8) {
+                print("Continuity:",string)
+                
+            }
+            
+        }
+        else if characteristic.uuid == BluetoothUUID.nearby.uuid {
+            print("Nearby Found")
+
+            if let data = characteristic.value, let string = String(data: data, encoding: .utf8) {
+                print("Nearby:",string)
+                
+            }
+            
+        }
+        
+//        if let match = BluetoothManager.shared.list.first(where: { $0.device == peripheral.name }) {
+//            print("Match: " ,match)
+//            
+//        }
+        
+        //self.active = nil
+        
+    }
+    
+    /*
+    init() {
+//        AppManager.shared.appTimer(15).dropFirst(1).receive(on: DispatchQueue.main).sink { _ in
+//            self.bluetoothList(.oreg)
+//            self.bluetoothList(.profiler)
+//
+//        }.store(in: &updates)
         
         AppManager.shared.$device.receive(on: DispatchQueue.global()).sink { device in
             if let device = device {
@@ -318,27 +312,42 @@ class BluetoothManager:ObservableObject {
             
         }.store(in: &updates)
         
-        $list.receive(on: DispatchQueue.main).sink { list in
-            self.connected = list.filter({ $0.connected == .connected })
-            self.icons = self.connected.map({ $0.type.icon })
-            
-            for device in list {
-                print("\n\(device.device ?? "") (\(device.address)) - \(device.connected.status)")
+        #if DEBUG
+            CentralManager.shared.$active.receive(on: DispatchQueue.global()).sink { device in
+                if device == nil {
+                    CentralManager.shared.startScanning()
 
-            }
-                                    
-        }.store(in: &updates)
+                }
+                
+            }.store(in: &updates)
+
+        #endif
+        
+//        $list.receive(on: DispatchQueue.main).sink { list in
+//            self.connected = list.filter({ $0.connected == .connected })
+//            self.icons = self.connected.map({ $0.type.icon })
+//            
+//            CentralManager.shared.startScanning()
+//            
+//            for device in list {
+//                print("\n\(device.device ?? "") (\(device.address)) - \(device.connected.status)")
+//
+//            }
+//                                    
+//        }.store(in: &updates)
         
         DispatchQueue.main.async {
-            self.bluetoothList(.oreg, initialize: true)
-            self.bluetoothList(.profiler)
-
+//            self.bluetoothList(.oreg, initialize: true)
+//            self.bluetoothList(.profiler)
+            
             switch self.list.filter({ $0.connected == .connected }).count {
                 case 0 : AppManager.shared.menu = .settings
                 default : AppManager.shared.menu = .devices
                 
             }
             
+            CentralManager.shared.startScanning()
+
         }
         
     }
@@ -393,124 +402,94 @@ class BluetoothManager:ObservableObject {
         
     }
         
-    private func bluetoothList(_ type:BluetoothScriptType, initialize:Bool = false) {
-        if FileManager.default.fileExists(atPath: "/usr/bin/python3") {
-            if let script = Bundle.main.path(forResource: type.rawValue, ofType: "py") {
-                let process = Process()
-                process.executableURL = URL(fileURLWithPath: "/usr/bin/python3")
-                process.arguments = [script]
-                
-                let pipe = Pipe()
-                process.standardOutput = pipe
-                
-                do {
-                    try process.run()
-                    process.waitUntilExit()
-                    
-                    let data = pipe.fileHandleForReading.readDataToEndOfFile()
-                    
-                    if let output = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) {
-                        if let stripped = output.data(using: .utf8) {
-                            do {
-                                let object = try JSONDecoder().decode([BluetoothObjectContainer].self, from: stripped)
-                                let values = object.flatMap { $0.values }
-                                
-                                for item in IOBluetoothDevice.pairedDevices() {
-                                    if let device = item as? IOBluetoothDevice {
-                                        if let index = values.firstIndex(where: {$0.address == device.addressString }) {
-                                            let status:BluetoothState = device.isConnected() ? .connected : .disconnected
-                                            
-                                            var updated = values[index]
-                                            updated.device = device.name
-                                            
-                                            if status != updated.connected {
-                                                updated.connected = status
-                                                updated.updated = Date()
-                                                
-                                            }
-                                            
-                                            if let index = self.list.firstIndex(where: {$0.address == device.addressString }) {
-                                                if self.list[index].battery.general != nil && updated.battery.general == nil  {
-                                                    updated.battery.general = self.list[index].battery.general
-                                                    updated.updated = Date()
-                                                    
-                                                }
-                                                
-                                                if self.list[index].battery.left != nil && updated.battery.left == nil  {
-                                                    updated.battery.left = self.list[index].battery.left
-                                                    updated.updated = Date()
-                                                    
-                                                }
-                                                
-                                                if self.list[index].battery.right != nil && updated.battery.right == nil  {
-                                                    updated.battery.right = self.list[index].battery.right
-                                                    updated.updated = Date()
-                                                    
-                                                }
-                                                
-                                                if self.list[index].battery.percent != nil && updated.battery.percent == nil  {
-                                                    updated.battery.percent = self.list[index].battery.percent
-                                                    updated.updated = Date()
-                                                    
-                                                }
-                                                
-                                                if self.list[index].distance != updated.distance {
-                                                    updated.distance = self.list[index].distance
-                                                    updated.updated = Date()
-                                                    
-                                                }
-                                                
-                                                self.list[index] = updated
-                                                
-                                            }
-                                            else {
-                                                if updated.type.type != .other {
-                                                    self.list.append(updated)
-                                                    
-                                                }
-                                                
-                                                device.register(forDisconnectNotification: self, selector: #selector(self.bluetoothDeviceUpdated))
-                                                
-                                            }
-                                            
-                                        }
-                                        
-                                    }
-                                    
-                                }
-                                
-                                if initialize == true {
-                                    IOBluetoothDevice.register(forConnectNotifications: self, selector: #selector(self.bluetoothDeviceUpdated))
-                                    
-                                }
-                                
-                            }
-                            catch {
-                                print("Failed to convert output data to object - \(error)")
-                                
-                            }
-                            
-                        }
-                        
-                    }
-                    
-                    
-                }
-                catch {
-                    print("Error running Python script: \(error)")
-                    
-                }
-                
-            }
-            else {
-                EnalogManager.main.ingest(SystemEvents.fatalError, description: "Python Library not Found")
-                
-            }
-            
-        }
-                
-    }
-    
+//    private func bluetoothList(_ type:BluetoothScriptType, initialize:Bool = false) {
+//        if let response = ProcessManager.shared.processWithScript(type.rawValue) {
+//            if let stripped = response.data(using: .utf8) {
+//                do {
+//                    let object = try JSONDecoder().decode([BluetoothObjectContainer].self, from: stripped)
+//                    let values = object.flatMap { $0.values }
+//                    
+//                    for item in IOBluetoothDevice.pairedDevices() {
+//                        if let device = item as? IOBluetoothDevice {
+//                            if let index = values.firstIndex(where: {$0.address == device.addressString }) {
+//                                let status:BluetoothState = device.isConnected() ? .connected : .disconnected
+//                                
+//                                var updated = values[index]
+//                                updated.device = device.name
+//                                
+//                                if status != updated.connected {
+//                                    updated.connected = status
+//                                    updated.updated = Date()
+//                                    
+//                                }
+//                                
+//                                if let index = self.list.firstIndex(where: {$0.address == device.addressString }) {
+//                                    if self.list[index].battery.general != nil && updated.battery.general == nil  {
+//                                        updated.battery.general = self.list[index].battery.general
+//                                        updated.updated = Date()
+//                                        
+//                                    }
+//                                    
+//                                    if self.list[index].battery.left != nil && updated.battery.left == nil  {
+//                                        updated.battery.left = self.list[index].battery.left
+//                                        updated.updated = Date()
+//                                        
+//                                    }
+//                                    
+//                                    if self.list[index].battery.right != nil && updated.battery.right == nil  {
+//                                        updated.battery.right = self.list[index].battery.right
+//                                        updated.updated = Date()
+//                                        
+//                                    }
+//                                    
+//                                    if self.list[index].battery.percent != nil && updated.battery.percent == nil  {
+//                                        updated.battery.percent = self.list[index].battery.percent
+//                                        updated.updated = Date()
+//                                        
+//                                    }
+//                                    
+//                                    if self.list[index].distance != updated.distance {
+//                                        updated.distance = self.list[index].distance
+//                                        updated.updated = Date()
+//                                        
+//                                    }
+//                                    
+//                                    self.list[index] = updated
+//                                    
+//                                }
+//                                else {
+//                                    if updated.type.type != .other {
+//                                        self.list.append(updated)
+//                                        
+//                                    }
+//                                    
+//                                    device.register(forDisconnectNotification: self, selector: #selector(self.bluetoothDeviceUpdated))
+//                                    
+//                                }
+//                                
+//                            }
+//                            
+//                        }
+//                        
+//                    }
+//                    
+//                    if initialize == true {
+//                        IOBluetoothDevice.register(forConnectNotifications: self, selector: #selector(self.bluetoothDeviceUpdated))
+//                        
+//                    }
+//                    
+//                }
+//                catch {
+//                    print("Failed to convert output data to object - \(error)")
+//                    
+//                }
+//                
+//            }
+//            
+//        }
+//                
+//    }
+
     @objc private func bluetoothDeviceUpdated() {
         for item in IOBluetoothDevice.pairedDevices() {
             if let device = item as? IOBluetoothDevice {
@@ -536,5 +515,6 @@ class BluetoothManager:ObservableObject {
         }
                 
     }
-
+     */
+    
 }

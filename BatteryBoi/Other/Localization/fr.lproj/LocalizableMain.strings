@@ -1,23 +1,29 @@
-"AlertSomePercentTitle" = "%d%% restants"; // 90% restants
+"AlertSomePercentTitle" = "%d%% restants"; // 90% Remaining
 "AlertOnePercentTitle" = "Votre Mac est sur le point de s'éteindre";
 "AlertChargingTitle" = "En charge...";
 "AlertChargingStoppedTitle" = "Chargeur retiré";
 "AlertChargingCompleteTitle" = "Charge complète";
-"AlertDeviceConnectedTitle" = "'%@' connecté"; // 'Écouteurs de Joe' connectés
-"AlertDeviceDisconnectedTitle" = "'%@' déconnecté"; // 'Écouteurs de Joe' déconnectés
-"AlertDeviceUnknownTitle" = "Inconnu";
+"AlertOverheatingTitle" = "Surchauffe";
+"AlertLimitedTitle" = "Batterie insuffisante...";
+"AlertDeviceConnectedTitle" = "'%@' connecté"; // 'Joe's Headphones' Connected
+"AlertDeviceDisconnectedTitle" = "'%@' déconnecté"; // 'Joe's Headphones' Disconnected
+"" = "Inconnu";
 "AlertDeviceCalculatingTitle" = "Calcul en cours...";
 
-"AlertEstimateSummary" = "**%@** jusqu'à épuisement"; // 1 heure, 32 minutes jusqu'à épuisement
+"AlertEstimateSummary" = "**%@** jusqu'à épuisement"; // 1 hour, 32 minutes until empty
 "AlertPercentSummary" = "Il est temps de prendre le câble!";
-"AlertStartedChargeSummary" = "Complètement chargé à **%@**."; // Complètement chargé à 14h32
+"AlertStartedChargeSummary" = "Complètement chargé à **%@**."; // Fully charged at 2:32pm
 "AlertChargedSummary" = "Votre batterie est complètement chargée.";
+"AlertOverheatingSummary" = "Des températures élevées peuvent réduire votre batterie plus rapidement et causer des dégâts à long terme.";
+"AlertLimitedSummary" = "Votre batterie est peut-être insuffisante pour l'événement '%@'.";
 
-"TimestampHourFullLabel_Plural" = "%d heures"; 
+"TimestampHourFullAlertDeviceUnknownTitleLabel_Plural" = "%d heures";
 "TimestampHourFullLabel_Single" = "%d heure";
+"TimestampHourFullLabel_Plural" = "%d heures";
 "TimestampMinuteFullLabel_Plural" = "%d minutes";
-"TimestampMinuteFullLabel_Single" = "%d minute";
+"TimestampMinuteFullLabel_Single" = "%d minute";
 "TimestampMinuteDaysLabel_Plural" = "%d jours";
+"TimestampMinuteDaysLabel_Single" = "%d jour";
 "TimestampHourAbbriviatedLabel" = "h";
 "TimestampMinuteAbbriviatedLabel" = "m";
 "TimestampDayAbbriviatedLabel" = "j";
@@ -26,17 +32,21 @@
 
 "SettingsWebsiteLabel" = "Site web";
 "SettingsQuitLabel" = "Quitter";
-"SettingsThemeLabel" = "Apparence";
+"SettingsPinnedLabel" = "Épingler à l'écran";
+"SettingsEightyLabel" = "Charger à 80%";
+"SettingsRateLabel" = "Évaluer BatteryBoi";
 "SettingsEfficiencyLabel" = "Économie d'énergie";
 "SettingsCheckUpdatesLabel" = "Vérifier les mises à jour";
 "SettingsNewUpdateLabel" = "Installer la nouvelle mise à jour";
 "SettingsDisplayLabel" = "Affichage";
+"SettingsDisplayCycleLabel" = "Nombre de cycles";
 "SettingsDisplayPercentLabel" = "Pourcentage";
 "SettingsDisplayEstimateLabel" = "Temps";
 "SettingsDisplayNoneLabel" = "Vide";
-"SettingsDisplayRemovedLabel" = "Icône de la barre de menu masquée";
+"SettingsDisplayHiddenLabel" = "Masqué";
 "SettingsEnabledLabel" = "Activé";
 "SettingsDisabledLabel" = "Désactivé";
+
 "SettingsAboutLabel" = "À propos";
 "SettingsCustomizationLabel" = "Personnalisation";
 "SettingsSoundEffectsLabel" = "Effets sonores";
@@ -51,7 +61,7 @@
 "SettingsCustomizationThemeTitle" = "Apparence";
 
 "UpdateStatusCheckingLabel" = "Recherche de mises à jour...";
-"UpdateStatusIdleLabel" = "Dernière vérification : %@"; // Dernière vérification : il y a 4 heures
+"UpdateStatusIdleLabel" = "Dernière vérification : %@"; // Last Checked: 4 hours ago
 "UpdateStatusEmptyLabel" = "Pas de mises à jour disponibles";
 "UpdateStatusNewLabel" = "Nouvelle mise à jour disponible !";
 
@@ -63,3 +73,24 @@
 "AboutGithubAction" = "GitHub";
 "AboutDonateAction" = "Faire un don";
 "AboutShareAction" = "Partager";
+
+"BluetoothDeviceHeadphonesLabel" = "Écouteurs";
+"BluetoothDeviceMouseLabel" = "Souris";
+"BluetoothDeviceGamepadLabel" = "Manette de jeu";
+"BluetoothDeviceSpeakerLabel" = "Haut-parleur";
+"BluetoothDeviceKeyboardLabel" = "Clavier";
+"BluetoothDeviceOtherLabel" = "Autre";
+"BluetoothConnectLabel" = "Connexion";
+"BluetoothDisconnectLabel" = "Déconnexion";
+"BluetoothDisconnectedLabel" = "Non appairé";
+"BluetoothDistanceProximateLabel" = "Sur le Bureau/Table";
+"BluetoothDistanceNearLabel" = "Dans la même pièce";
+"BluetoothDistanceFarLabel" = "Dans un autre domaine";
+"BluetoothInvalidLabel" = "Aucune information sur la batterie";
+
+"OnboardingNotificationsTitle" = "";
+"OnboardingNotificationsBody" = "";
+"OnboardingInsightsTitle" = "";
+"OnboardingInsightsBody" = "";
+"OnboardingBluetoothTitle" = "";
+"OnboardingBluetoothBody" = "";

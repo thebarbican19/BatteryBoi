@@ -8,17 +8,24 @@
 import Foundation
 import EnalogSwift
 import Combine
-import Sparkle
 import SwiftUI
+import CoreData
+import CloudKit
 
 class AppManager:ObservableObject {
     static var shared = AppManager()
     
     @Published var counter = 0
-    @Published var device:BluetoothObject? = nil
-    @Published var alert:HUDAlertTypes? = nil
-    @Published var menu:SystemMenuView = .devices
-    @Published var profile:SystemProfileObject? = nil
+    @Published var list = Array<SystemDeviceObject>()
+    @Published var device:SystemDeviceObject? = nil
+    @Published var polled:Date? = nil
+    
+    #if os(macOS)
+        @Published var menu:SystemMenuView = .devices
+        @Published var profile:SystemProfileObject? = nil
+        @Published var alert:HUDAlertTypes? = nil
+    
+    #endif
 
     private var updates = Set<AnyCancellable>()
     private var timer: AnyCancellable?
@@ -40,18 +47,36 @@ class AppManager:ObservableObject {
             
         }
            
-        if #available(macOS 13.0, *) {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                if self.appDistribution() == .direct {
-                    self.profile = self.appProfile(force: false)
+        #if os(macOS)
+            if #available(macOS 13.0, *) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    if self.appDistribution() == .direct {
+                        self.profile = self.appProfile(force: false)
+                        
+                    }
                     
                 }
                 
             }
+        
+        #endif
+                
+        self.timer?.store(in: &updates)
+        
+        $list.removeDuplicates().sink { item in
+
+        }.store(in: &updates)
+
+        $polled.removeDuplicates().sink { timestamp in
+            //!! check for changes to polling
+
+        }.store(in: &updates)
+        
+        DispatchQueue.global().async {
+            self.appStoreDevice()
+            self.appListDevices()
             
         }
-        
-        self.timer?.store(in: &updates)
     
     }
     
@@ -60,26 +85,192 @@ class AppManager:ObservableObject {
         self.updates.forEach { $0.cancel() }
  
     }
-
-    public func appToggleMenu(_ animate:Bool) {
-        if animate {
-            withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.7, blendDuration: 1.0)) {
-                switch self.menu {
-                    case .devices : self.menu = .settings
-                    default : self.menu = .devices
+    
+    public func appStoreDevice(_ device:BluetoothObject? = nil, favourite:Bool? = nil, hidden:Bool? = nil, notifications:Bool? = nil) {
+        if let context = self.appStorageContext() {
+            context.performAndWait {
+                var predicates = Array<NSPredicate>()
+                
+                if let address = device?.address {
+                    predicates.append(NSPredicate(format: "address == %@", address))
                     
                 }
-            }
-            
-        }
-        else {
-            switch self.menu {
-                case .devices : self.menu = .settings
-                default : self.menu = .devices
+                
+                if let id = device?.id {
+                    predicates.append(NSPredicate(format: "id == %@", id as CVarArg))
+                    
+                }
+                
+                let fetch = Devices.fetchRequest() as NSFetchRequest<Devices>
+                fetch.includesPendingChanges = true
+                fetch.predicate = NSCompoundPredicate(type: .or, subpredicates: predicates)
+                
+                do {
+                    var store:Devices?
+                    if let existing = try context.fetch(fetch).first {
+                        store = existing
+                        store?.refreshed_on = Date()
+                        
+                        if let notifications = notifications {
+                            store?.notifications = notifications
+
+                        }
+                        
+                        if let device = device?.name {
+                            store?.name = device
+                            
+                        }
+
+                        if let hidden = hidden {
+                            store?.hidden = hidden
+                            
+                        }
+                        
+                        if let favourite = favourite {
+                            store?.favourite = favourite
+                            
+                        }
+                        
+                    }
+                    else {
+                        store = Devices(context: context) as Devices
+                        store?.added_on = Date()
+                        store?.refreshed_on = Date()
+                        store?.notifications = true
+                        
+                        if let device = device {
+                            store?.address = device.address
+                            store?.id = device.id
+                            store?.name = device.name
+                            store?.vendor = device.vendor
+                            store?.type = "TBA"
+                            store?.primary = false
+
+                        }
+                        else {
+                            store?.id = UUID.device()
+                            store?.subtype = AppManager.shared.appDeviceType.name(false)
+                            store?.type = AppManager.shared.appDeviceType.category.rawValue
+                            store?.name = AppManager.shared.appDeviceType.name(true)
+                            store?.primary = true
+                            store?.vendor = "Apple Inc"
+                            store?.product = AppManager.shared.appDeviceType.name(false)
+                            store?.serial = "TBA"
+                            store?.address = ""
+                            
+                        }
+                        
+                    }
+                    
+                    if store?.name != nil {
+                        print("Saving" ,store)
+                        
+                        try context.save()
+
+                    }
+                    
+                }
+                catch {
+                    
+                }
                 
             }
             
         }
+        
+    }
+    
+    public func appStoreEvent(_ state:StatsStateType, device:BluetoothObject?, notification:StatsActivityNotificationType = .background) {
+        if let context = self.appStorageContext() {
+            context.performAndWait {
+                let expiry = Date().addingTimeInterval(-2 * 60)
+                var charge:Int64 = 100
+                var mode:BatteryModeType = .normal
+                if let percent = device {
+                    //charge = Int64(percent.battery.percent ?? 100)
+                    mode = .normal
+                    
+                }
+                else {
+                    charge = Int64(BatteryManager.shared.percentage)
+                    mode = BatteryManager.shared.saver
+
+                }
+                
+                if let device = self.appDevice(device, context: context), let id = device.id {
+                    let fetch = Events.fetchRequest() as NSFetchRequest<Events>
+                    fetch.includesPendingChanges = true
+                    fetch.predicate = NSPredicate(format: "SELF.state == %@ && SELF.device.id == %@ && SELF.charge == %d &&  SELF.timestamp > %@" ,state.rawValue, id as CVarArg ,charge ,expiry as NSDate)
+                    
+                    do {
+                        if try context.fetch(fetch).first == nil {
+                            let store = Events(context: context) as Events
+                            store.timestamp = Date()
+                            store.state = state.rawValue
+                            store.charge = charge
+                            store.notify = notification.rawValue
+                            store.device = device
+                            store.reporter = self.appDevice(nil, context: context)
+                            store.mode = mode.rawValue
+                            
+                            print("store" ,store)
+                            
+                            try context.save()
+                            
+                        }
+                        
+                    }
+                    catch {
+                        print("Error" ,error)
+                        
+                    }
+                    
+                }
+                else {
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+  
+    public func appWattageStore() {
+        #if os(macOS)
+            if let context = self.appStorageContext() {
+                context.performAndWait {
+                    let calendar = Calendar.current
+                    let components = calendar.dateComponents([.year, .month, .day, .hour], from: Date())
+                    
+                    if let hour = calendar.date(from: components) {
+                        let fetch = Wattage.fetchRequest() as NSFetchRequest<Wattage>
+                        fetch.includesPendingChanges = true
+                        fetch.predicate = NSPredicate(format: "timestamp == %@" ,hour as CVarArg)
+                        
+                        do {
+                            if try context.fetch(fetch).first == nil {
+                                let store = Wattage(context: context) as Wattage
+                                store.timestamp = Date()
+                                store.device = self.appDevice(nil, context: context)
+                                store.wattage = BatteryManager.shared.powerHourWattage() ?? 0.0
+                                
+                                try context.save()
+                                
+                            }
+                            
+                        }
+                        catch {
+                            
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+        
+        #endif
         
     }
     
@@ -161,7 +352,14 @@ class AppManager:ObservableObject {
             
         }
         else {
-            let id = "\(Locale.current.regionCode?.uppercased() ?? "US")-\(UUID().uuidString)"
+            var id = "US-\(UUID().uuidString)"
+            #if os(macOS)
+                id = "\(Locale.current.regionCode?.uppercased() ?? "US")-\(UUID().uuidString)"
+            
+            #elseif os(iOS)
+                id = "\(Locale.current.region?.identifier.uppercased() ?? "US")-\(UUID().uuidString)"
+
+            #endif
             
             UserDefaults.save(.versionIdenfiyer, value: id)
 
@@ -171,116 +369,196 @@ class AppManager:ObservableObject {
         
     }
     
-    public var appDeviceType:SystemDeviceTypes {
-        let platform = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"))
+    
+    private func appDevice(_ device:BluetoothObject? ,context:NSManagedObjectContext) -> Devices? {
+        let fetch = Devices.fetchRequest() as NSFetchRequest<Devices>
+        fetch.includesPendingChanges = true
+        fetch.fetchLimit = 1
+        
+        if let id = device?.id {
+            fetch.predicate = NSPredicate(format: "device.id == %@", id as CVarArg)
+            
+        }
+        else if let id = UUID.device() {
+            fetch.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+            
+        }
+        
+        if fetch.predicate != nil {
+            if let device = try? context.fetch(fetch).first {
+                return device
+                
+            }
+            
+        }
+        
+        return nil
+        
+    }
+    
+    private func appListDevices() {
+        if let context = self.appStorageContext() {
+            let fetch: NSFetchRequest<Devices> = Devices.fetchRequest()
+            
+            do {
+                let list = try context.fetch(fetch)
+                //let mapped = list.compactMap({ SystemDeviceObject($0) })
 
-        if let model = IORegistryEntryCreateCFProperty(platform, "model" as CFString, kCFAllocatorDefault, 0).takeRetainedValue() as? Data {
-            if let type = String(data: model, encoding: .utf8)?.cString(using: .utf8) {
-                if String(cString: type).lowercased().contains("macbookpro") { return .macbookPro }
-                else if String(cString: type).lowercased().contains("macbookair") { return .macbookAir }
-                else if String(cString: type).lowercased().contains("macbook") { return .macbook }
-                else if String(cString: type).lowercased().contains("imac") { return .imac }
-                else if String(cString: type).lowercased().contains("macmini") { return .macMini }
-                else if String(cString: type).lowercased().contains("macstudio") { return .macStudio }
-                else if String(cString: type).lowercased().contains("macpro") { return .macPro }
-                else { return .unknown }
+//                DispatchQueue.main.async {
+//                    self.list = mapped
+//                    
+//                }
+
+//                print("trained" ,mapped)
+                
+            }
+            catch {
+                print("Error fetching Trained records: \(error)")
+                
+            }
+            
+        }
+        
+    }
+    
+    private func appStorageContext() -> NSManagedObjectContext? {
+        if let container = CloudManager.container.container {
+            let context = container.newBackgroundContext()
+            context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+            
+            return context
+            
+        }
+        
+        return nil
+        
+    }
+
+    
+    public var appDeviceType:SystemDeviceTypes {
+        #if os(macOS)
+            let platform = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"))
+
+            if let model = IORegistryEntryCreateCFProperty(platform, "model" as CFString, kCFAllocatorDefault, 0).takeRetainedValue() as? Data {
+                if let type = String(data: model, encoding: .utf8)?.cString(using: .utf8) {
+                    if String(cString: type).lowercased().contains("macbookpro") { return .macbookPro }
+                    else if String(cString: type).lowercased().contains("macbookair") { return .macbookAir }
+                    else if String(cString: type).lowercased().contains("macbook") { return .macbook }
+                    else if String(cString: type).lowercased().contains("imac") { return .imac }
+                    else if String(cString: type).lowercased().contains("macmini") { return .macMini }
+                    else if String(cString: type).lowercased().contains("macstudio") { return .macStudio }
+                    else if String(cString: type).lowercased().contains("macpro") { return .macPro }
+                    else { return .unknown }
+                  
+                }
               
             }
-          
-        }
 
-        IOObjectRelease(platform)
+            IOObjectRelease(platform)
+        
+        #elseif os(iOS)
+            switch UIDevice.current.userInterfaceIdiom {
+                case .phone:return .iphone
+                case .pad:return .ipad
+                default:return .unknown
+                
+            }
+        
+        #endif
 
         return .unknown
       
     }
     
-    private func appProfile(force:Bool = false) -> SystemProfileObject? {
-        if let payload = UserDefaults.main.object(forKey: SystemDefaultsKeys.profilePayload.rawValue) as? String {
+    public func appDistribution() -> SystemDistribution {
+        #if os(macOS)
+            if let response = ProcessManager.shared.processWithArguments("/usr/bin/codesign", arguments:["-dv", "--verbose=4", Bundle.main.bundlePath], whitespace: false) {
+                if response.contains("Authority=Apple Mac OS Application Signing") {
+                    return .appstore
 
-            if let object =  try? JSONDecoder().decode([SystemProfileObject].self, from: Data(payload.utf8)) {
-                return object.first
+                }
                 
             }
             
-        }
-        else {
-            if FileManager.default.fileExists(atPath: "/usr/bin/python3") {
-                if let script = Bundle.main.path(forResource: "BBProfileScript", ofType: "py") {
-                    let process = Process()
-                    process.executableURL = URL(fileURLWithPath: "/usr/bin/python3")
-                    process.arguments = [script]
-                    
-                    let pipe = Pipe()
-                    process.standardOutput = pipe
-                    
-                    do {
-                        try process.run()
-                        process.waitUntilExit()
-                        
-                        let data = pipe.fileHandleForReading.readDataToEndOfFile()
-                        
-                        if let output = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) {
-                            
-                            UserDefaults.save(.profilePayload, value: output)
-                            UserDefaults.save(.profileChecked, value: Date())
-                            
-                            if let object = try? JSONDecoder().decode([SystemProfileObject].self, from: Data(output.utf8)) {
-                                if let id = object.first?.id, let display = object.first?.display {
-                                    let first = SystemProfileObject(id: id, display: display)
-                                    
-                                    if let channel = Bundle.main.infoDictionary?["SD_SLACK_CHANNEL"] as? String  {
-                                        EnalogManager.main.ingest(SystemEvents.userProfile, description: "Profile Found: \(display)", metadata: object, channel:.init(.slack, id: channel))
-                                        
-                                    }
-                                    
-                                    return first
-                                    
-                                }
-                                
-                            }
-                            
-                        }
+            return .direct
+        
+        #elseif os(iOS)
+            if Bundle.main.appStoreReceiptURL == nil {
+                return .direct
+
+            }
+            else {
+                return .appstore
+
+            }
+        
+        #endif
+            
+    }
+    
+    #if os(macOS)
+        public func appToggleMenu(_ animate:Bool) {
+            if animate {
+                withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.7, blendDuration: 1.0)) {
+                    switch self.menu {
+                        case .devices : self.menu = .settings
+                        default : self.menu = .devices
                         
                     }
-                    catch {
-                        print("Profile Error: ", error)
-                        
-                    }
+                }
+                
+            }
+            else {
+                switch self.menu {
+                    case .devices : self.menu = .settings
+                    default : self.menu = .devices
                     
                 }
                 
             }
             
         }
-            
-        return nil
-        
-    }
+
+    #endif
     
-    public func appDistribution() -> SystemDistribution {
-        let task = Process()
-        task.launchPath = "/usr/bin/codesign"
-        task.arguments = ["-dv", "--verbose=4", Bundle.main.bundlePath]
+    #if os(macOS)
+        private func appProfile(force:Bool = false) -> SystemProfileObject? {
+            if let payload = UserDefaults.main.object(forKey: SystemDefaultsKeys.profilePayload.rawValue) as? String {
 
-        let outputPipe = Pipe()
-        task.standardOutput = outputPipe
-        task.launch()
-        task.waitUntilExit()
-
-        let data = outputPipe.fileHandleForReading.readDataToEndOfFile()
-        
-        if let output = String(data: data, encoding: .utf8) {
-            if output.contains("Authority=Apple Mac OS Application Signing") {
-                return .appstore
-
+                if let object =  try? JSONDecoder().decode([SystemProfileObject].self, from: Data(payload.utf8)) {
+                    return object.first
+                    
+                }
+                
             }
-            
+            else {
+                if let response = ProcessManager.shared.processWithScript("BBProfileScript") {
+                    UserDefaults.save(.profilePayload, value: response)
+                    UserDefaults.save(.profileChecked, value: Date())
+                    
+                    if let object = try? JSONDecoder().decode([SystemProfileObject].self, from: Data(response.utf8)) {
+                        if let id = object.first?.id, let display = object.first?.display {
+                            let first = SystemProfileObject(id: id, display: display)
+                            
+                            if let channel = Bundle.main.infoDictionary?["SD_SLACK_CHANNEL"] as? String  {
+                                EnalogManager.main.ingest(SystemEvents.userProfile, description: "Profile Found: \(display)", metadata: object, channel:.init(.slack, id: channel))
+                                
+                            }
+                            
+                            return first
+                            
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+                
+            return nil
             
         }
+    
+    #endif
             
-        return .direct
-            
-    }
-        
 }

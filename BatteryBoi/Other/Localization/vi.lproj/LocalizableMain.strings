@@ -1,0 +1,96 @@
+"AlertSomePercentTitle" = "%d%% còn lại"; // 90% Remaining
+"AlertOnePercentTitle" = "Thiết bị Mac của bạn sắp tắt nguồn";
+"AlertChargingTitle" = "Đang sạc...";
+"AlertChargingStoppedTitle" = "Đã rút sạc";
+"AlertChargingCompleteTitle" = "Đã sạc xong";
+"AlertOverheatingTitle" = "Quá nhiệt";
+"AlertLimitedTitle" = "Không đủ pin...";
+"AlertDeviceConnectedTitle" = "Đã kết nối"; // 'Joe's Headphones' Connected
+"AlertDeviceDisconnectedTitle" = "Đã ngắt kết nối"; // 'Joe's Headphones' Disconnected
+"" = "Không rõ";
+"AlertDeviceCalculatingTitle" = "Đang tính toán...";
+
+"AlertEstimateSummary" = "**%@** cho đến khi cạn"; // 1 hour, 32 minutes until empty
+"AlertPercentSummary" = "Đã đến lúc lấy cáp!";
+"AlertStartedChargeSummary" = "Sạc đầy vào lúc **%@**."; // Fully charged at 2:32pm
+"AlertChargedSummary" = "Pin của bạn đã được sạc đầy.";
+"AlertOverheatingSummary" = "Nhiệt độ cao có thể làm pin cạn kiệt nhanh hơn và lâu dài có thể gây hư hỏng.";
+"AlertLimitedSummary" = "Pin của bạn có thể không đủ cho sự kiện '%@'.";
+
+"TimestampHourFullAlertDeviceUnknownTitleLabel_Plural" = "%d giờ";
+"TimestampHourFullLabel_Single" = "%d giờ";
+"TimestampHourFullLabel_Plural" = "%d giờ";
+"TimestampMinuteFullLabel_Plural" = "%d phút";
+"TimestampMinuteFullLabel_Single" = "%d phút";
+"TimestampMinuteDaysLabel_Plural" = "%d ngày";
+"TimestampMinuteDaysLabel_Single" = "%d ngày";
+"TimestampHourAbbriviatedLabel" = "g";
+"TimestampMinuteAbbriviatedLabel" = "p";
+"TimestampDayAbbriviatedLabel" = "n";
+"TimestampNeverLabel" = "Chưa bao giờ";
+"TimestampNowLabel" = "Một vài phút trước";
+
+"SettingsWebsiteLabel" = "Hỗ trợ người phát triển";
+"SettingsQuitLabel" = "Thoát";
+"SettingsPinnedLabel" = "Ghim vào màn hình";
+"SettingsEightyLabel" = "Sạc đến 80%";
+"SettingsRateLabel" = "Đánh giá BatteryBoi";
+"SettingsEfficiencyLabel" = "Nguồn điện thấp";
+"SettingsCheckUpdatesLabel" = "Kiểm tra cập nhật mới";
+"SettingsNewUpdateLabel" = "Cài đặt bản cập nhật mới";
+"SettingsDisplayLabel" = "Hiển thị";
+"SettingsDisplayCycleLabel" = "Chu kỳ sạc";
+"SettingsDisplayPercentLabel" = "Tỉ lệ phần trăm";
+"SettingsDisplayEstimateLabel" = "Thời gian";
+"SettingsDisplayNoneLabel" = "Trống";
+"SettingsDisplayHiddenLabel" = "Ẩn";
+"SettingsEnabledLabel" = "Đã bật";
+"SettingsDisabledLabel" = "Đã vô hiệu hoá";
+
+"SettingsAboutLabel" = "Giới thiệu";
+"SettingsCustomizationLabel" = "Tùy chỉnh";
+"SettingsSoundEffectsLabel" = "Hiệu ứng âm thanh";
+"SettingsTriggersLabel" = "Lệnh";
+"SettingsNotificationsLabel" = "Thông báo";
+"SettingsPrereleasesLabel" = "Bản phát hành Beta";
+
+"SettingsCustomizationMenuLabel" = "Biểu tượng thanh menu";
+"SettingsCustomizationThemeDarkLabel" = "Tối";
+"SettingsCustomizationThemeLightLabel" = "Sáng";
+"SettingsCustomizationThemeSystemLabel" = "Hệ thống";
+"SettingsCustomizationThemeTitle" = "Giao diện";
+
+"UpdateStatusCheckingLabel" = "Đang kiểm tra cập nhật...";
+"UpdateStatusIdleLabel" = "Lần kiểm tra cuối cùng: %@"; // Last Checked: 4 hours ago
+"UpdateStatusEmptyLabel" = "Không có bản cập nhật mới nào";
+"UpdateStatusNewLabel" = "Đã có phiên bản mới!";
+
+"AboutTitle" = "BatteryBoi, Miễn phí, Mãi mãi, dành cho Mọi người...";
+"AboutBodyOne" = "Trong khung cảnh nhiều ứng dụng được phát hành, bạn phải trả nhiều tiền cho việc đăng kí hàng tháng. BatteryBoi là mã nguồn mở và miễn phí 100%, mãi mãi!";
+"AboutBodyTwo" = "Để tạo ra ứng dụng có vẻ đẹp như thế này phải mất nhiều ngày làm việc, đổ mồ hôi và đôi khi là cả nước mắt. Đó là lý do tại sao tôi yêu cầu những người và doanh nghiệp có đủ khả năng chi trả hãy cân nhắc quyên góp.";
+"AboutBodyThree" = "Các khoản quyên góp sẽ giúp đèn luôn sáng và các bản cập nhật/sửa lỗi luôn được cập nhật.";
+"AboutBodyFooter" = "Cảm ơn bạn rất nhiều - Joe (Người sáng lập BatteryBoi)";
+"AboutGithubAction" = "GitHub";
+"AboutDonateAction" = "Quyên góp";
+"AboutShareAction" = "Chia sẻ";
+
+"BluetoothDeviceHeadphonesLabel" = "Tai nghe";
+"BluetoothDeviceMouseLabel" = "Chuột";
+"BluetoothDeviceGamepadLabel" = "Tay Cầm Chơi Game";
+"BluetoothDeviceSpeakerLabel" = "Loa";
+"BluetoothDeviceKeyboardLabel" = "Bàn phím";
+"BluetoothDeviceOtherLabel" = "Khác";
+"BluetoothConnectLabel" = "Kết nối";
+"BluetoothDisconnectLabel" = "Ngắt kết nối";
+"BluetoothDisconnectedLabel" = "Không được ghép nối";
+"BluetoothDistanceProximateLabel" = "Trên bàn";
+"BluetoothDistanceNearLabel" = "Trong cùng một phòng";
+"BluetoothDistanceFarLabel" = "Ở một cõi khác";
+"BluetoothInvalidLabel" = "Không có thông tin về pin";
+
+"OnboardingNotificationsTitle" = "";
+"OnboardingNotificationsBody" = "";
+"OnboardingInsightsTitle" = "";
+"OnboardingInsightsBody" = "";
+"OnboardingBluetoothTitle" = "";
+"OnboardingBluetoothBody" = "";

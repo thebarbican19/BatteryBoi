@@ -116,7 +116,7 @@ struct BluetoothItem: View {
                     
                 }
                 else {
-                    Text(AppManager.shared.appDeviceType.name)
+                    Text(AppManager.shared.appDeviceType.name(true))
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(self.style == .light ? Color("BatteryButton") : Color("BatteryTitle"))
                         .padding(0)
@@ -142,7 +142,7 @@ struct BluetoothItem: View {
         )
         .onTapGesture {
             withAnimation(Animation.easeOut) {
-                self.manager.device = item
+                //self.manager.device = item
                 
             }
             
@@ -155,29 +155,29 @@ struct BluetoothItem: View {
             }
             
         }
-        .onChange(of: manager.device) { newValue in
-            withAnimation(Animation.easeOut) {
-                if newValue == item {
-                    self.style = .light
-                    
-                }
-                else {
-                    self.style = .dark
-                    
-                }
-                
-            }
-            
-        }
+//        .onChange(of: manager.device) { newValue in
+//            withAnimation(Animation.easeOut) {
+//                if newValue == item {
+//                    self.style = .light
+//                    
+//                }
+//                else {
+//                    self.style = .dark
+//                    
+//                }
+//                
+//            }
+//            
+//        }
         .onAppear() {
-            if AppManager.shared.device == item {
-                self.style = .light
-                
-            }
-            else {
-                self.style = .dark
-
-            }
+//            if AppManager.shared.device == item {
+//                self.style = .light
+//                
+//            }
+//            else {
+//                self.style = .dark
+//
+//            }
             
         }
         

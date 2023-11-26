@@ -106,28 +106,28 @@ class WindowManager: ObservableObject {
             
         }.store(in: &updates)
         
-        BatteryManager.shared.$thermal.dropFirst().removeDuplicates().sink { state in
-            if state == .suboptimal {
-                self.windowOpen(.deviceOverheating, device: nil)
-
-            }
-            
-        }.store(in: &updates)
-
-//        BluetoothManager.shared.$connected.removeDuplicates().dropFirst(1).receive(on: DispatchQueue.main).sink() { items in
-//            if let latest = items.sorted(by: { $0.updated > $1.updated }).first {
-//                if latest.updated.now == true {
-//                    switch latest.connected {
-//                        case .connected : self.windowOpen(.deviceConnected, device: latest)
-//                        default : break //self.windowOpen(.deviceRemoved, device: latest)
-//
-//                    }
-//
-//                }
+//        BatteryManager.shared.$thermal.dropFirst().removeDuplicates().sink { state in
+//            if state == .suboptimal {
+//                self.windowOpen(.deviceOverheating, device: nil)
 //
 //            }
-//
+//            
 //        }.store(in: &updates)
+
+        BluetoothManager.shared.$connected.removeDuplicates().dropFirst(1).receive(on: DispatchQueue.main).sink() { items in
+            if let latest = items.sorted(by: { $0.updated > $1.updated }).first {
+                if latest.updated.now == true {
+                    switch latest.connected {
+                        case .connected : self.windowOpen(.deviceConnected, device: latest)
+                        default : self.windowOpen(.deviceRemoved, device: latest)
+
+                    }
+
+                }
+
+            }
+
+        }.store(in: &updates)
 
         AppManager.shared.appTimer(60).dropFirst().receive(on: DispatchQueue.main).sink { _ in
             let connected = BluetoothManager.shared.list.filter({ $0.connected == .connected })
@@ -162,23 +162,23 @@ class WindowManager: ObservableObject {
 
         }.store(in: &updates)
         
-        AppManager.shared.appTimer(30).dropFirst().sink { _ in
-            if BatteryManager.shared.charging.state == .battery {
-                if let now = EventManager.shared.events.sorted(by: { $0.start > $1.start }).first {
-                    if let minutes = Calendar.current.dateComponents([.minute], from: Date(), to: now.start).minute {                        
-                        switch minutes {
-                            case 2 : self.windowOpen(.userEvent, device: nil)
-                            default : break
-
-                        }
- 
-                    }
-                    
-                }
-         
-            }
-            
-        }.store(in: &updates)
+//        AppManager.shared.appTimer(30).dropFirst().sink { _ in
+//            if BatteryManager.shared.charging.state == .battery {
+//                if let now = EventManager.shared.events.sorted(by: { $0.start > $1.start }).first {
+//                    if let minutes = Calendar.current.dateComponents([.minute], from: Date(), to: now.start).minute {                        
+//                        switch minutes {
+//                            case 2 : self.windowOpen(.userEvent, device: nil)
+//                            default : break
+//
+//                        }
+// 
+//                    }
+//                    
+//                }
+//         
+//            }
+//            
+//        }.store(in: &updates)
                 
         SettingsManager.shared.$pinned.sink { pinned in
             if pinned == .enabled {
@@ -292,7 +292,7 @@ class WindowManager: ObservableObject {
 
                     }
                     
-                    AppManager.shared.device = device
+                    //AppManager.shared.device = device
                     AppManager.shared.alert = type
                     
                     self.windowSetState(.progress)

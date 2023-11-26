@@ -13,16 +13,18 @@
 			</array>
 		</dict>
 	</array>
+	<key>ENV_ICLOUD_FILE</key>
+	<string>$(ENV_ICLOUD_FILE)</string>
+	<key>ENV_ICLOUD_ID</key>
+	<string>$(ENV_ICLOUD_ID)</string>
+	<key>ENV_SLACK_CHANNEL</key>
+	<string>$(ENV_SLACK_CHANNEL)</string>
 	<key>EN_API_KEY</key>
 	<string>$(SD_ENALOG_KEY)</string>
 	<key>EN_PROJECT_NAME</key>
 	<string>BatteryBoi</string>
-	<key>MDItemKeywords</key>
-	<string>Battery,Power,BatteryBoi</string>
-	<key>NSCalendarsFullAccessUsageDescription</key>
-	<string>We check your calendar to ensure your battery lasts for your conference calls.</string>
-	<key>SD_SLACK_CHANNEL</key>
-	<string>$(SD_SLACK_CHANNEL)</string>
+    <key>NSUserNotificationUsageDescription</key>
+    <string>Notifications are used to inform you when your any of your connected Devices need charging.</string>
 	<key>SUFeedURL</key>
 	<string>https://api.ovatar.io/version?id=com.ovatar.batteryapp&amp;beta=true</string>
 	<key>SUPublicEDKey</key>

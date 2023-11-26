@@ -1,30 +1,34 @@
-
 "AlertSomePercentTitle" = "%d%% verbleiben"; // 90% Remaining
 "AlertOnePercentTitle" = "Ihr Mac wird gleich herunterfahren";
 "AlertChargingTitle" = "Lädt...";
 "AlertChargingStoppedTitle" = "Ladegerät entfernt";
 "AlertChargingCompleteTitle" = "Ladevorgang abgeschlossen";
+"AlertOverheatingTitle" = "Überhitzt";
+"AlertLimitedTitle" = "Unzureichende Akkuladung …";
 "AlertDeviceConnectedTitle" = "'%@' verbunden"; // 'Joe's Headphones' Connected
 "AlertDeviceDisconnectedTitle" = "'%@' getrennt"; // 'Joe's Headphones' Disconnected
-"AlertDeviceUnknownTitle" = "Unbekannt";
+"" = "Unbekannt";
 "AlertDeviceCalculatingTitle" = "Berechne...";
 
 "AlertEstimateSummary" = "**%@** bis leer"; // 1 hour, 32 minutes until empty
 "AlertPercentSummary" = "Zeit, das Kabel zu holen!";
-"AlertStartedChargeSummary" = "Vollständig geladen um **%@**."; // Vollständig geladen um 14:32 Uhr
-"AlertChargedSummary" = "Dein Akku ist vollständig geladen.";
+"AlertStartedChargeSummary" = "Vollständig geladen um **%@**."; // Fully charged at 2:32pm
+"AlertChargedSummary" = "Ihr Akku ist vollständig geladen.";
+"AlertOverheatingSummary" = "Hohe Temperaturen reduzieren die Akkukapazität und können langfristigen Schaden verursachen.";
+"AlertLimitedSummary" = "Akkuladung für Termin '%@' möglicherweise zu gering.";
 
-"TimestampHourFullLabel_Plural" = "%d Stunden";
+"TimestampHourFullAlertDeviceUnknownTitleLabel_Plural" = "%d Stunden";
 "TimestampHourFullLabel_Single" = "%d Stunde";
+"TimestampHourFullLabel_Plural" = "%d Stunden";
 "TimestampMinuteFullLabel_Plural" = "%d Minuten";
 "TimestampMinuteFullLabel_Single" = "%d Minute";
 "TimestampMinuteDaysLabel_Plural" = "%d Tage";
 "TimestampMinuteDaysLabel_Single" = "%d Tag";
-"TimestampHourAbbriviatedLabel" = "Std";
-"TimestampMinuteAbbriviatedLabel" = "Min";
-"TimestampDayAbbriviatedLabel" = "Tg";
+"TimestampHourAbbriviatedLabel" = "h";
+"TimestampMinuteAbbriviatedLabel" = "min";
+"TimestampDayAbbriviatedLabel" = "d";
 "TimestampNeverLabel" = "Nie";
-"TimestampNowLabel" = "Eben gerade";
+"TimestampNowLabel" = "Vor einigen Augenblicken";
 
 "SettingsWebsiteLabel" = "Unterstütze die Entwicklung";
 "SettingsQuitLabel" = "Beenden";
@@ -39,6 +43,7 @@
 "SettingsDisplayPercentLabel" = "Prozentsatz";
 "SettingsDisplayEstimateLabel" = "Zeit";
 "SettingsDisplayNoneLabel" = "Leer";
+"SettingsDisplayHiddenLabel" = "Ausgeblendet";
 "SettingsEnabledLabel" = "Aktiviert";
 "SettingsDisabledLabel" = "Deaktiviert";
 
@@ -77,6 +82,15 @@
 "BluetoothDeviceOtherLabel" = "Andere";
 "BluetoothConnectLabel" = "Verbinde";
 "BluetoothDisconnectLabel" = "Trennen";
+"BluetoothDisconnectedLabel" = "Nicht verbunden";
 "BluetoothDistanceProximateLabel" = "Auf dem Tisch";
 "BluetoothDistanceNearLabel" = "Im selben Raum";
 "BluetoothDistanceFarLabel" = "In einem anderen Reich";
+"BluetoothInvalidLabel" = "Keine Akku-Informationen";
+
+"OnboardingNotificationsTitle" = "";
+"OnboardingNotificationsBody" = "";
+"OnboardingInsightsTitle" = "";
+"OnboardingInsightsBody" = "";
+"OnboardingBluetoothTitle" = "";
+"OnboardingBluetoothBody" = "";

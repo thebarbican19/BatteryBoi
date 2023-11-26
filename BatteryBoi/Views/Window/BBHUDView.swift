@@ -218,14 +218,14 @@ struct HUDSummary: View {
         HStack(alignment: .center) {
             HUDIcon()
             
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 2) {  
                 Text(self.title)
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(.white)
                     .lineLimit(2)
                 
                 ViewMarkdown($subtitle)
-                
+                                
                 if self.updates.available != nil {
                     UpdatePromptView()
                     

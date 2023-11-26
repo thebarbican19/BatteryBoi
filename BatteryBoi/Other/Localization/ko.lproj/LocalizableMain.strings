@@ -1,0 +1,96 @@
+"AlertSomePercentTitle" = "%d%% 남음"; // 90% Remaining
+"AlertOnePercentTitle" = "Mac의 전원이 곧 꺼집니다";
+"AlertChargingTitle" = "충전중...";
+"AlertChargingStoppedTitle" = "충전기가 제가됨";
+"AlertChargingCompleteTitle" = "충전 완료";
+"AlertOverheatingTitle" = "과열됨";
+"AlertLimitedTitle" = "배터리가 부족합니다...";
+"AlertDeviceConnectedTitle" = "연결됨"; // 'Joe's Headphones' Connected
+"AlertDeviceDisconnectedTitle" = "연결 해제됨"; // 'Joe's Headphones' Disconnected
+"" = "알 수 없음";
+"AlertDeviceCalculatingTitle" = "계산중...";
+
+"AlertEstimateSummary" = "**%@** 사용 가능"; // 1 hour, 32 minutes until empty
+"AlertPercentSummary" = "케이블에 연결해주세요!";
+"AlertStartedChargeSummary" = "**%@**에 충전 완료 됨."; // Fully charged at 2:32pm
+"AlertChargedSummary" = "배터리 충전이 완료된 상태 입니다.";
+"AlertOverheatingSummary" = "온도가 높으면 배터리가 더 빨리 소모되고 장기적인 손상이 발생할 수 있습니다.";
+"AlertLimitedSummary" = "'%@'을 수행하기에 배터리가 부족할 수 있습니다.";
+
+"TimestampHourFullAlertDeviceUnknownTitleLabel_Plural" = "%d시간";
+"TimestampHourFullLabel_Single" = "%d시간";
+"TimestampHourFullLabel_Plural" = "%d시간";
+"TimestampMinuteFullLabel_Plural" = "%d분";
+"TimestampMinuteFullLabel_Single" = "%d분";
+"TimestampMinuteDaysLabel_Plural" = "%d일";
+"TimestampMinuteDaysLabel_Single" = "%d일";
+"TimestampHourAbbriviatedLabel" = "시";
+"TimestampMinuteAbbriviatedLabel" = "분";
+"TimestampDayAbbriviatedLabel" = "일";
+"TimestampNeverLabel" = "없음";
+"TimestampNowLabel" = "몇 분 전";
+
+"SettingsWebsiteLabel" = "개발자 지원하기";
+"SettingsQuitLabel" = "종료";
+"SettingsPinnedLabel" = "화면에 고정";
+"SettingsEightyLabel" = "80%까지 충전";
+"SettingsRateLabel" = "BatteryBoi 평가하기";
+"SettingsEfficiencyLabel" = "저전력";
+"SettingsCheckUpdatesLabel" = "업데이트 확인";
+"SettingsNewUpdateLabel" = "새 버전 설치하기";
+"SettingsDisplayLabel" = "표시";
+"SettingsDisplayCycleLabel" = "사이클 수";
+"SettingsDisplayPercentLabel" = "퍼센트";
+"SettingsDisplayEstimateLabel" = "사용 가능 시간";
+"SettingsDisplayNoneLabel" = "비우기";
+"SettingsDisplayHiddenLabel" = "숨김";
+"SettingsEnabledLabel" = "켜짐";
+"SettingsDisabledLabel" = "꺼짐";
+
+"SettingsAboutLabel" = "정보";
+"SettingsCustomizationLabel" = "사용자 정의";
+"SettingsSoundEffectsLabel" = "효과음";
+"SettingsTriggersLabel" = "커맨드";
+"SettingsNotificationsLabel" = "알림";
+"SettingsPrereleasesLabel" = "베타 버전";
+
+"SettingsCustomizationMenuLabel" = "메뉴 막대 아이콘";
+"SettingsCustomizationThemeDarkLabel" = "어두운 테마";
+"SettingsCustomizationThemeLightLabel" = "밝은 테마";
+"SettingsCustomizationThemeSystemLabel" = "시스템";
+"SettingsCustomizationThemeTitle" = "모양";
+
+"UpdateStatusCheckingLabel" = "업데이트를 확인하는 중...";
+"UpdateStatusIdleLabel" = "마지막 확인: %@"; // Last Checked: 4 hours ago
+"UpdateStatusEmptyLabel" = "새 업데이트가 없습니다";
+"UpdateStatusNewLabel" = "새 업데이트 다운로드 가능";
+
+"AboutTitle" = "BatteryBoi는 평생, 모두에게 무료입니다.";
+"AboutBodyOne" = "구독 지출이 반복되는 환경 속에서. BatteryBoi는 평생 100% 무료이며 오픈 소스입니다!";
+"AboutBodyTwo" = "좋은 앱을 만들기 위해서는 오랜 시간의 노력과, 피와 땀, 때때로 눈물이 필요합니다. 여유가 있는 분들 혹은 기업들은 후원을 부탁합니다.";
+"AboutBodyThree" = "후원은 저희가 계속 일을 하고, 업데이트 밎 수정을 할 수 있게 해줍니다.";
+"AboutBodyFooter" = "감사합니다 - Joe (BatteryBoi 설립자)";
+"AboutGithubAction" = "GitHub";
+"AboutDonateAction" = "후원하기";
+"AboutShareAction" = "공유";
+
+"BluetoothDeviceHeadphonesLabel" = "헤드폰";
+"BluetoothDeviceMouseLabel" = "마우스";
+"BluetoothDeviceGamepadLabel" = "게임 컨트롤러";
+"BluetoothDeviceSpeakerLabel" = "스피커";
+"BluetoothDeviceKeyboardLabel" = "키보드";
+"BluetoothDeviceOtherLabel" = "기타";
+"BluetoothConnectLabel" = "연결";
+"BluetoothDisconnectLabel" = "연결 해제";
+"BluetoothDisconnectedLabel" = "페어링되지 않음";
+"BluetoothDistanceProximateLabel" = "책상 위";
+"BluetoothDistanceNearLabel" = "같은 방";
+"BluetoothDistanceFarLabel" = "다른 공간";
+"BluetoothInvalidLabel" = "배터리 정보 없음";
+
+"OnboardingNotificationsTitle" = "";
+"OnboardingNotificationsBody" = "";
+"OnboardingInsightsTitle" = "";
+"OnboardingInsightsBody" = "";
+"OnboardingBluetoothTitle" = "";
+"OnboardingBluetoothBody" = "";

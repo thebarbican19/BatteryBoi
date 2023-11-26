@@ -121,18 +121,41 @@ struct ViewTextStyle: ViewModifier {
     
 }
 
+extension TimeInterval {
+    var boottime:Date {
+        let currentTime = Date()
+        var bootTime = currentTime
+        
+        var currentTimeSpec = timespec()
+        if clock_gettime(CLOCK_MONOTONIC_RAW, &currentTimeSpec) == 0 {
+            let uptimeSinceBoot = Double(currentTimeSpec.tv_sec) + Double(currentTimeSpec.tv_nsec) / 1_000_000_000.0
+            bootTime = currentTime.addingTimeInterval(-uptimeSinceBoot)
+            
+        }
+
+        let advertisementDate = bootTime.addingTimeInterval(self)
+        
+        return advertisementDate
+        
+    }
+    
+}
+
 extension String {
     public func append(_ string:String, seporator:String) -> String {
         return "\(self)\(seporator)\(string)"
         
     }
     
-    public func width(_ font: NSFont) -> CGFloat {
-        let attribute = NSAttributedString(string: self, attributes: [NSAttributedString.Key.font: font])
-        
-        return attribute.size().width
-        
-    }
+    #if os(macOS)
+        public func width(_ font: NSFont) -> CGFloat {
+            let attribute = NSAttributedString(string: self, attributes: [NSAttributedString.Key.font: font])
+            
+            return attribute.size().width
+            
+        }
+    
+    #endif
     
     public func localise(_ params: [CVarArg]? = nil, comment:String? = nil) -> String {
         var key = self
@@ -173,6 +196,34 @@ extension Array<String> {
 
     }
     
+}
+
+extension UUID {
+    static func device() -> UUID? {
+        #if os(macOS)
+            let expert = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"))
+            
+            if expert != 0 {
+                let serial = IORegistryEntryCreateCFProperty(expert, "IOPlatformUUID" as CFString, kCFAllocatorDefault, 0).takeRetainedValue() as? String
+                IOObjectRelease(expert)
+                
+                if let uuid = serial {
+                    return UUID(uuidString: uuid)
+                    
+                }
+                
+            }
+        
+            return nil
+        
+        #elseif os(iOS)
+            return UIDevice.current.identifierForVendor
+
+        #endif
+        
+    }
+
+
 }
 
 extension Date {
@@ -322,13 +373,16 @@ extension CodingUserInfoKey {
 
 }
 
-extension NSWindow: SystemMainWindow {
-    var canBecomeKeyWindow: Bool {
-        return true
+#if os(macOS)
+    extension NSWindow: SystemMainWindow {
+        var canBecomeKeyWindow: Bool {
+            return true
+            
+        }
         
     }
-    
-}
+
+#endif
 
 protocol SystemMainWindow {
     var canBecomeKeyWindow: Bool { get }

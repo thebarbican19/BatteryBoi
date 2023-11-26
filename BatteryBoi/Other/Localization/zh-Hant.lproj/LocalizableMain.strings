@@ -3,18 +3,23 @@
 "AlertChargingTitle" = "正在充電...";
 "AlertChargingStoppedTitle" = "充電結束";
 "AlertChargingCompleteTitle" = "電量已滿";
+"AlertOverheatingTitle" = "裝置過熱";
+"AlertLimitedTitle" = "電量不足...";
 "AlertDeviceConnectedTitle" = "'%@' 已連線"; // 'Joe's Headphones' Connected
 "AlertDeviceDisconnectedTitle" = "'%@' 已斷開"; // 'Joe's Headphones' Disconnected
-"AlertDeviceUnknownTitle" = "未知裝置";
+"" = "未知";
 "AlertDeviceCalculatingTitle" = "正在計算...";
 
 "AlertEstimateSummary" = "剩餘可用 %@"; // 1 hour, 32 minutes until empty
 "AlertPercentSummary" = "請連接電源!";
 "AlertStartedChargeSummary" = "已於 %@ 充滿."; // Fully charged at 2:32pm
 "AlertChargedSummary" = "您的Mac電量已滿.";
+"AlertOverheatingSummary" = "高溫會更快的損耗您的電池並造成永久損傷";
+"AlertLimitedSummary" = "你那點電量可能沒辦法完成: '%@'";
 
-"TimestampHourFullLabel_Plural" = "%d 時";
+"TimestampHourFullAlertDeviceUnknownTitleLabel_Plural" = "%d 時";
 "TimestampHourFullLabel_Single" = "%d 時";
+"TimestampHourFullLabel_Plural" = "%d 時";
 "TimestampMinuteFullLabel_Plural" = "%d 分";
 "TimestampMinuteFullLabel_Single" = "%d 分";
 "TimestampMinuteDaysLabel_Plural" = "%d 日";
@@ -38,6 +43,7 @@
 "SettingsDisplayPercentLabel" = "百分比";
 "SettingsDisplayEstimateLabel" = "可用時間";
 "SettingsDisplayNoneLabel" = "無";
+"SettingsDisplayHiddenLabel" = "隱藏";
 "SettingsEnabledLabel" = "啓用";
 "SettingsDisabledLabel" = "禁用";
 
@@ -76,6 +82,15 @@
 "BluetoothDeviceOtherLabel" = "其他裝置";
 "BluetoothConnectLabel" = "已連線";
 "BluetoothDisconnectLabel" = "已斷開";
+"BluetoothDisconnectedLabel" = "未配對";
 "BluetoothDistanceProximateLabel" = "在桌上";
 "BluetoothDistanceNearLabel" = "在同一房間";
 "BluetoothDistanceFarLabel" = "在其他地方";
+"BluetoothInvalidLabel" = "無電池資訊";
+
+"OnboardingNotificationsTitle" = "";
+"OnboardingNotificationsBody" = "";
+"OnboardingInsightsTitle" = "";
+"OnboardingInsightsBody" = "";
+"OnboardingBluetoothTitle" = "";
+"OnboardingBluetoothBody" = "";

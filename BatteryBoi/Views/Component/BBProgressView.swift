@@ -219,15 +219,15 @@ struct RadialProgressContainer: View {
         .onAppear() {
             withAnimation(Animation.easeOut(duration: self.animate ? 1.2 : 0.0)) {
                 if let device = manager.device {
-                    if let percent = device.battery.percent {
-                        self.progress = percent / 100
-                        self.percent = Int(percent)
-
-                    }
-                    else {
-                        self.progress = 0.0
-                        self.percent = nil
-                    }
+//                    if let percent = device.battery.percent {
+//                        self.progress = percent / 100
+//                        self.percent = Int(percent)
+//
+//                    }
+//                    else {
+//                        self.progress = 0.0
+//                        self.percent = nil
+//                    }
                     
                 }
                 else {
@@ -240,41 +240,41 @@ struct RadialProgressContainer: View {
             
         }
         .onChange(of: self.battery.percentage) { newValue in
-            if let percent = self.manager.device?.battery.percent {
-                self.progress = percent / 100
-                self.percent = Int(percent)
-
-            }
-            else {
-                self.percent = Int(self.battery.percentage)
-                self.progress = self.battery.percentage / 100
-
-            }
+//            if let percent = self.manager.device?.battery.percent {
+//                self.progress = percent / 100
+//                self.percent = Int(percent)
+//
+//            }
+//            else {
+//                self.percent = Int(self.battery.percentage)
+//                self.progress = self.battery.percentage / 100
+//
+//            }
 
         }
-        .onChange(of: self.manager.device) { device in
-            withAnimation(Animation.easeOut(duration: 0.4)) {
-                if let device = manager.device {
-                    if let percent = device.battery.percent {
-                        self.progress = percent / 100
-                        self.percent = Int(percent)
-
-                    }
-                    else {
-                        self.progress = 0.0
-                        self.percent = nil
-                    }
-                    
-                }
-                else {
-                    self.progress = self.battery.percentage / 100
-                    self.percent = Int(self.battery.percentage)
-
-                }
-            
-            }
-            
-        }
+//        .onChange(of: self.manager.device) { device in
+//            withAnimation(Animation.easeOut(duration: 0.4)) {
+//                if let device = manager.device {
+//                    if let percent = device.battery.percent {
+//                        self.progress = percent / 100
+//                        self.percent = Int(percent)
+//
+//                    }
+//                    else {
+//                        self.progress = 0.0
+//                        self.percent = nil
+//                    }
+//                    
+//                }
+//                else {
+//                    self.progress = self.battery.percentage / 100
+//                    self.percent = Int(self.battery.percentage)
+//
+//                }
+//            
+//            }
+//            
+//        }
 
     }
     
