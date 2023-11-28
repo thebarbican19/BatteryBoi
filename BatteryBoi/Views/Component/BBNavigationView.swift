@@ -40,22 +40,22 @@ struct NavigationContainer: View {
                                 
                             }
                             
-                            ForEach(bluetooth.list, id: \.address) { item in
-                                if self.manager.menu == .devices {
-                                    BluetoothItem(item, hover:$hover)
-                                    
-                                }
-                                
-                            }
+//                            ForEach(bluetooth.list, id: \.address) { item in
+//                                if self.manager.menu == .devices {
+//                                    BluetoothItem(item, hover:$hover)
+//                                    
+//                                }
+//                                
+//                            }
                             
-                            if self.bluetooth.connected.count > 0 {
-                                Spacer().frame(width: size.width)
-
-                            }
-                            else {
-                                Spacer().frame(width: (size.width / 2))
-
-                            }
+//                            if self.bluetooth.connected.count > 0 {
+//                                Spacer().frame(width: size.width)
+//
+//                            }
+//                            else {
+//                                Spacer().frame(width: (size.width / 2))
+//
+//                            }
                             
                         }
                         .animation(Animation.bouncy, value: self.manager.menu)
@@ -78,9 +78,9 @@ struct NavigationContainer: View {
 
                     ZStack(alignment: .trailing) {
                         HStack(spacing:8) {
-                            SettingsOverlayItem(.appDevices)
-                                .opacity(self.bluetooth.connected.count > 0 ? 1.0 : 0.0)
-                                .scaleEffect(self.bluetooth.connected.count > 0 ? 1.0 : 0.8)
+//                            SettingsOverlayItem(.appDevices)
+//                                .opacity(self.bluetooth.connected.count > 0 ? 1.0 : 0.0)
+//                                .scaleEffect(self.bluetooth.connected.count > 0 ? 1.0 : 0.8)
                             
                             SettingsOverlayItem(.appQuit)
                             
@@ -97,7 +97,7 @@ struct NavigationContainer: View {
 
                         }
                         .frame(width: size.width + 16)
-                        .offset(x:self.bluetooth.connected.count > 0 ? -8.0 : 48.0)
+                        //.offset(x:self.bluetooth.connected.count > 0 ? -8.0 : 48.0)
                         
                     )
                     .overlay(
@@ -130,16 +130,16 @@ struct NavigationContainer: View {
             self.update = self.updates.available != nil ? true : false
             
         }
-        .onChange(of: self.bluetooth.connected, perform: { newValue in
-            if newValue.count == 0 && self.manager.menu == .devices {
-                withAnimation(Animation.easeOut) {
-                    self.manager.menu = .settings
-
-                }
-                
-            }
-           
-        })
+//        .onChange(of: self.bluetooth.connected, perform: { newValue in
+//            if newValue.count == 0 && self.manager.menu == .devices {
+//                withAnimation(Animation.easeOut) {
+//                    self.manager.menu = .settings
+//
+//                }
+//                
+//            }
+//           
+//        })
         .onChange(of: self.updates.available, perform: { newValue in
             withAnimation(Animation.easeOut.delay(0.1)) {
                 self.update = newValue != nil ? true : false

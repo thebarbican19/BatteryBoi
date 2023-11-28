@@ -12,10 +12,7 @@ import EnalogSwift
 
 class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     @Published var state:BluetoothPermissionState = .checking
-    @Published var list = Array<BluetoothObject>()
-    @Published var connected = Array<BluetoothObject>()
-    @Published var icons = Array<String>()
-    @Published var active:CBPeripheral? = nil
+    @Published var broadcasting:[CBPeripheral] = []
 
     private var manager: CBCentralManager!
     private var updates = Set<AnyCancellable>()
@@ -27,19 +24,16 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
         
         self.manager = CBCentralManager(delegate: self, queue: nil)
         
-        self.bluetoothAuthorization()
-
-        $active.removeDuplicates().receive(on: DispatchQueue.main).sink { active in
-            if self.state == .allowed {
-                if let active = active {
-                    self.bluetoothUpdateStatePeripheral(.connect, peripheral: active)
+        $broadcasting.removeDuplicates().sink { items in
+            print("items" ,items)
+            if let recognized = items.first(where: { $0.name != nil && $0.state != .connecting }) {
+                if recognized.name!.contains("AirPods") {
+                    print("Connecting to Airpods" ,recognized)
                     
                 }
-                else {
-                    self.manager.scanForPeripherals(withServices: nil, options: nil)
+                
+                self.manager.connect(recognized, options: nil)
 
-                }
-            
             }
             
         }.store(in: &updates)
@@ -52,7 +46,9 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
             }
             
         }.store(in: &updates)
-        
+
+        self.bluetoothAuthorization()
+
     }
     
     public func bluetoothAuthorization(_ force:Bool = false) {
@@ -81,31 +77,6 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
         
     }
 
-    public func bluetoothUpdateStatePeripheral(_ transition:BluetoothPeripheralTransition, peripheral: CBPeripheral) {
-        if transition == .connect {
-            if peripheral != self.active {
-                self.active = peripheral
-                
-                self.manager.stopScan()
-                self.manager.connect(self.active!, options: nil)
-                
-            }
-            
-        }
-        else if transition == .disconnect {
-            self.manager.stopScan()
-            self.manager.cancelPeripheralConnection(peripheral)
-            
-        }
-        else {
-            self.manager.stopScan()
-            self.manager.cancelPeripheralConnection(peripheral)
-            self.manager.scanForPeripherals(withServices: nil, options: nil)
-
-        }
-        
-    }
-
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         if self.state == .allowed {
             self.manager.scanForPeripherals(withServices: nil, options: nil)
@@ -116,20 +87,19 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
 
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
                 
-        let distance:BluetoothDistanceObject = .init(Double(truncating: RSSI))
+        let distance:SystemDeviceDistanceObject = .init(Double(truncating: RSSI))
         
-        if distance.state == .proximate {
-            if let _ = peripheral.name {
-                self.active = peripheral
-                
-            }
+        if var device = AppManager.shared.list.first(where: { $0.id == peripheral.identifier }) {
+            device.distance = distance
 
         }
         
-        if let _ = self.active {
-            self.manager.stopScan()
-            self.manager.connect(self.active!, options: nil)
-    
+        if distance.state == .proximate {
+            if self.broadcasting.filter({ $0.name == peripheral.name }).isEmpty {
+                self.broadcasting.append(peripheral)
+                
+            }
+
         }
         
     }
@@ -141,13 +111,19 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
     }
 
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-        print("Filed to Connect to \(peripheral.name)")
-        self.active = nil
+        print("Could not Connect to \(peripheral.name ?? "No Name")" ,error)
+//        if let index = self.broadcasting.firstIndex(where: { $0.name == peripheral.name }) {
+//            self.broadcasting.remove(at: index)
+//            
+//        }
         
     }
 
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        self.active = nil
+//        if let index = self.broadcasting.firstIndex(where: { $0.name == peripheral.name }) {
+//            self.broadcasting.remove(at: index)
+//            
+//        }
         
     }
     
@@ -179,11 +155,10 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
         else {
             if let characteristics = service.characteristics {
                 print("Discovering Peripheral - " ,peripheral.name)
-                
                 var name:String? = peripheral.name
                 var vendor:String? = nil
                 var serial:String? = nil
-
+                
                 for characteristic in characteristics {
                     print("characteristic" ,characteristic.uuid)
                     if characteristic.uuid == BluetoothUUID.battery.uuid {
@@ -216,10 +191,10 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
                     }
                     
                     if let name = name {
-                        if AppManager.shared.list.first(where: { $0.id == peripheral.identifier }) == nil {
-                            AppManager.shared.list.append(.init(id:peripheral.identifier, name: name, profile: .init(serial: serial, hardware: ""), connectivity: .bluetooth, synced: false, favourite: false, order: 0))
-
-                        }
+                        let profile:SystemDeviceProfileObject = .init(serial: serial, vendor: vendor)
+                        let device:SystemDeviceObject = .init(peripheral.identifier, name: name, profile: profile)
+                        
+                        AppManager.shared.appUpdateList(device)
 
                     }
 
@@ -258,28 +233,46 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
 
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         
-        if characteristic.uuid == BluetoothUUID.battery.uuid {
-            if let batteryData = characteristic.value?.first {
-                print("Battery Level: \(batteryData)%")
-                
-            }
-          
-        }
-        else if characteristic.uuid == BluetoothUUID.continuity.uuid {
-            print("Continuity Found")
+        if broadcasting.contains(peripheral) {
+            print("Updating \(peripheral.name)")
+            
+            if characteristic.uuid == BluetoothUUID.battery.uuid {
+                if let value = characteristic.value?.first.map(Int.init) {
+                    AppManager.shared.appStoreEvent(.depleted, peripheral: peripheral, battery: value)
 
-            if let data = characteristic.value, let string = String(data: data, encoding: .utf8) {
-                print("Continuity:",string)
+                }
                 
             }
             
-        }
-        else if characteristic.uuid == BluetoothUUID.nearby.uuid {
-            print("Nearby Found")
-
-            if let data = characteristic.value, let string = String(data: data, encoding: .utf8) {
-                print("Nearby:",string)
+            if characteristic.uuid == BluetoothUUID.continuity.uuid {
+                print("Continuity Found")
+                print("characteristic.value" ,characteristic.value?.first)
                 
+                if let data = characteristic.value, let string = String(data: data, encoding: .utf8) {
+                    print("Continuity:",string)
+                    
+                }
+                
+            }
+            
+            if characteristic.uuid == BluetoothUUID.nearby.uuid {
+                print("Nearby Found")
+                
+                if let data = characteristic.value, let string = String(data: data, encoding: .utf8) {
+                    print("Nearby:",string)
+                    
+                }
+                
+            }
+            
+            if characteristic.uuid == BluetoothUUID.findmy.uuid {
+                print("Found My Found")
+
+            }
+            
+            if characteristic.uuid == BluetoothUUID.headset.uuid {
+                print("headsetFound")
+
             }
             
         }
@@ -288,8 +281,6 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
 //            print("Match: " ,match)
 //            
 //        }
-        
-        //self.active = nil
         
     }
     

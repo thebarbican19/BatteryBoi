@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/*
 struct BluetoothIcon: View {
     @State private var item:BluetoothObject?
     @State private var icon:String
@@ -61,6 +62,7 @@ struct BluetoothIcon: View {
     }
     
 }
+*/
 
 struct BluetoothItem: View {
     @EnvironmentObject var manager:AppManager
@@ -68,12 +70,12 @@ struct BluetoothItem: View {
 
     @Binding var hover:Bool
 
-    @State var item:BluetoothObject?
+    @State var item:SystemDeviceObject?
     @State var style:RadialStyle = .light
 
     @Namespace private var animation
     
-    init(_ item:BluetoothObject?, hover:Binding<Bool>) {
+    init(_ item:SystemDeviceObject?, hover:Binding<Bool>) {
         self._item = State(initialValue: item)
         self._hover = hover
         
@@ -81,32 +83,32 @@ struct BluetoothItem: View {
 
     var body: some View {
         HStack(alignment: .center) {
-            BluetoothIcon(item, style: $style, animation: animation)
+            //BluetoothIcon(item, style: $style, animation: animation)
 
             VStack(alignment: .leading) {
                 if let item = self.item {
-                    Text(item.device ?? item.type.type.rawValue)
+                    Text(item.name ?? item.profile?.vendor ?? "Unknown")
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(self.style == .light ? Color("BatteryButton") : Color("BatteryTitle"))
                         .padding(0)
                     
                     HStack {
                         if self.hover == true {
-                            if item.connected == .disconnected {
-                                Text("BluetoothDisconnectedLabel".localise())
-                        
-                            }
-                            else {
-                                if let percent = item.battery.percent {
-                                    Text("AlertSomePercentTitle".localise([Int(percent)]))
-                                    
-                                }
-                                else {
-                                    Text("BluetoothInvalidLabel".localise())
-                                        
-                                }
-                                
-                            }
+//                            if item.connected == .disconnected {
+//                                Text("BluetoothDisconnectedLabel".localise())
+//                        
+//                            }
+//                            else {
+//                                if let percent = item.battery.percent {
+//                                    Text("AlertSomePercentTitle".localise([Int(percent)]))
+//                                    
+//                                }
+//                                else {
+//                                    Text("BluetoothInvalidLabel".localise())
+//                                        
+//                                }
+//                                
+//                            }
                             
                         }
                         

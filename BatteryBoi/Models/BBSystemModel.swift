@@ -10,6 +10,7 @@ import AVFoundation
 import Foundation
 import CloudKit
 import CoreData
+import CoreBluetooth
 
 #if os(macOS)
     import AppKit
@@ -166,35 +167,158 @@ enum SystemDeviceTypes:String,Codable {
     
 }
 
-struct SystemDeviceProfileObject {
+struct SystemDeviceProfileObject:Hashable,Equatable {
+    static func == (lhs: SystemDeviceProfileObject, rhs: SystemDeviceProfileObject) -> Bool {
+        lhs.serial == rhs.serial
+        
+    }
+    
     var serial:String?
     var hardware:String?
+    var vendor:String?
     
 }
 
-enum SystemConnectivityType {
+enum SystemConnectivityType:String {
     case bluetooth
     case system
     
 }
 
-struct SystemDeviceObject:Equatable {
+struct SystemEventObject:Identifiable,Hashable {
+    static func == (lhs: SystemEventObject, rhs: SystemEventObject) -> Bool {
+        lhs.id == rhs.id
+
+    }
+    
+    var id:UUID
+    var created:Date = Date()
+    var state:StatsStateType?
+    var battery:Int
+    
+    init?(_ event:Events?) {
+        if let id = event?.id, let state = StatsStateType(rawValue: event?.state ?? ""), let timestamp = event?.timestamp {
+            self.id = id
+            self.state = state
+            self.created = timestamp
+            self.battery = Int(event?.charge ?? 100)
+            
+        }
+        else {
+            return nil
+            
+        }
+        
+    }
+
+}
+
+struct SystemDeviceObject:Hashable,Equatable,Identifiable {
     static func == (lhs: SystemDeviceObject, rhs: SystemDeviceObject) -> Bool {
-        lhs.id == rhs.id && lhs.synced == rhs.synced && lhs.favourite == rhs.favourite
+        lhs.id == rhs.id && lhs.name == rhs.name
         
     }
     
-    var id:UUID? = nil
+    var id:UUID
     var address: String?
     var name:String
-    var profile:SystemDeviceProfileObject
-    var connectivity:SystemConnectivityType
-    var synced:Bool
-    var favourite:Bool
-    var order:Int
+    var profile:SystemDeviceProfileObject?
+    var connectivity:SystemConnectivityType = .system
+    var polled:Date? = nil
+    var synced:Bool = true
+    var favourite:Bool = false
+    var notifications:Bool = true
+    var order:Int = 1
+    var distance:SystemDeviceDistanceObject? = nil
+    var events:[SystemEventObject] = []
+    
+    init?(_ device:Devices) {
+        if let id = device.id, let name = device.name, let events = device.events?.allObjects {
+            self.id = id
+            self.name = name
+            self.profile = .init(serial:device.serial, vendor: device.vendor)
+            self.synced = true
+            self.favourite = device.favourite
+            self.notifications = device.notifications
+            self.order = Int(device.order)
+            self.distance = nil
+            self.events = events.compactMap({ SystemEventObject.init($0 as? Events) }).sorted(by: { $0.created > $1.created })
+            self.polled = self.events.first?.created ?? nil
+            
+            if UUID.device() == id {
+                self.connectivity = .system
 
+            }
+            else {
+                self.connectivity = .bluetooth
+
+            }
+
+            print("\(name) has \(events.count) events")
+            print("\(name) set events \(self.events.count)")
+
+        }
+        else {
+            return nil
+            
+        }
+ 
+    }
+    
+    init(_ id:UUID, name:String, profile:SystemDeviceProfileObject, connectivity:SystemConnectivityType = .bluetooth, synced:Bool = false, distance:SystemDeviceDistanceObject? = nil) {
+        self.id = id
+        self.name = name
+        self.address = ""
+        self.profile = profile
+        self.connectivity = connectivity
+        self.synced = synced
+        self.order = 0
+        self.favourite = false
+        self.notifications = true
+        self.polled = nil
+        self.distance = distance
+        
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        
+    }
     
 }
+
+enum SystemDeviceDistanceType:Int {
+    case proximate
+    case near
+    case far
+    case unknown
+    
+}
+
+struct SystemDeviceDistanceObject:Equatable {
+    var value:Double
+    var state:SystemDeviceDistanceType
+    
+    init(_ value: Double) {
+        if value >= -50 && value <= -20 {
+            self.state = .proximate
+
+        }
+        else if value >= -70 && value < -50 {
+            self.state = .near
+
+        }
+        else {
+            self.state = .far
+
+        }
+            
+        self.value = value
+        
+    }
+    
+}
+
 
 enum SystemEvents:String {
     case fatalError = "fatal.error"

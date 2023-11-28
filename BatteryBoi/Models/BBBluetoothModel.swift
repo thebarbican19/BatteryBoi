@@ -29,15 +29,13 @@ enum BluetoothUUID:String,CaseIterable {
     case logs = "00001831-0000-1000-8000-00805F9B34FB"
     case headset = "00001108-0000-1000-8000-00805f9b34fb"
     case name = "00002a00-0000-1000-8000-00805f9b34fb" // Added Device Name
-    case continuity = "D0611E78-BBB4-4591-A5F8-487910AE4366"
-    case nearby = "AF0BADB1-5B99-43CD-917A-A77BC549E3CC"
+    case continuity = "d0611e78-bbb4-4591-a5f8-487910ae4366"
+    case nearby = "9fa480e0-4967-4542-9390-d343dc5d04ae"
+    case findmy = "6aa50003-6352-4d57-a7b4-003a416fbb0b"
 
     public var uuid:CBUUID {
-        if self != .continuity && self != .nearby {
-            if let short = self.rawValue.components(separatedBy: "-").first?.suffix(4) {
-                return CBUUID(string: String(short))
-                
-            }
+        if let short = self.rawValue.components(separatedBy: "-").first?.suffix(4) {
+            return CBUUID(string: String(short))
             
         }
         
@@ -55,43 +53,8 @@ enum BluetoothConnectionState {
     
 }
 
-enum BluetoothPeripheralTransition {
-    case connect
-    case reset
-    case disconnect
-    
-}
 
-enum BluetoothDistanceType:Int {
-    case proximate
-    case near
-    case far
-    case unknown
-    
-}
 
-struct BluetoothDistanceObject:Equatable {
-    var value:Double
-    var state:BluetoothDistanceType
-    
-    init(_ value: Double) {
-        if value >= -50 && value <= -20 {
-            self.state = .proximate
-
-        }
-        else if value >= -70 && value < -50 {
-            self.state = .near
-
-        }
-        else {
-            self.state = .far
-
-        }
-            
-        self.value = value
-        
-    }
-}
 
 //struct BluetoothDeviceObject {
 //    var type:BluetoothDeviceType
@@ -228,37 +191,6 @@ struct BluetoothBatteryObject:Decodable,Equatable {
     
 }
 
-struct BluetoothObject:Equatable {
-    static func == (lhs: BluetoothObject, rhs: BluetoothObject) -> Bool {
-        return lhs.address == rhs.address && lhs.connected == rhs.connected
-        
-    }
-    
-    var id:UUID? = nil
-    var address: String?
-    var firmware: String?
-    var serial: String?
-    var vendor: String?
-    //var battery:BluetoothBatteryObject
-    //var type:BluetoothDeviceObject
-//    var distance:BluetoothDistanceObject
-    var connected: BluetoothState
-    var peripheral:CBPeripheral? = nil
-    var name: String?
-
-    init(_ peripheral:CBPeripheral, name:String, firmware:String?, vendor:String?, serial:String?) {
-        self.id = peripheral.identifier
-        self.name = name
-        self.firmware = firmware
-        self.vendor = vendor
-        self.serial = serial
-        self.peripheral = peripheral
-        self.connected = .connected
-        self.address = nil
-        
-    }
-    
-}
 //struct BluetoothObject:Decodable,Equatable {
 //    static func == (lhs: BluetoothObject, rhs: BluetoothObject) -> Bool {
 //        return lhs.address == rhs.address && lhs.connected == rhs.connected && lhs.distance == rhs.distance
@@ -321,29 +253,29 @@ struct BluetoothObject:Equatable {
 //    }
 //    
 //}
-
-typealias BluetoothObjectContainer = [String: BluetoothObject]
-
-enum BluetoothState:Int {
-    case connected = 1
-    case disconnected = 0
-        
-    var status:String {
-        switch self {
-            case .connected : return "Connected"
-            case .disconnected : return "Not Connected"
-            
-        }
-        
-    }
-    
-    var boolean:Bool {
-        switch self {
-            case .connected : return true
-            case .disconnected : return false
-            
-        }
-        
-    }
-    
-}
+//
+//typealias BluetoothObjectContainer = [String: BluetoothObject]
+//
+//enum BluetoothState:Int {
+//    case connected = 1
+//    case disconnected = 0
+//        
+//    var status:String {
+//        switch self {
+//            case .connected : return "Connected"
+//            case .disconnected : return "Not Connected"
+//            
+//        }
+//        
+//    }
+//    
+//    var boolean:Bool {
+//        switch self {
+//            case .connected : return true
+//            case .disconnected : return false
+//            
+//        }
+//        
+//    }
+//    
+//}

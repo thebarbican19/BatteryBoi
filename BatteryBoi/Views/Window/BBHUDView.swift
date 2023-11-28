@@ -492,9 +492,9 @@ struct HUDView: View {
 
 struct HUDParent: View {
     @State var type:HUDAlertTypes
-    @State var device:BluetoothObject?
+    @State var device:SystemDeviceObject?
 
-    init(_ type: HUDAlertTypes, device:BluetoothObject?) {
+    init(_ type: HUDAlertTypes, device:SystemDeviceObject?) {
         self._type = State(initialValue: type)
         self._device = State(initialValue: device)
         

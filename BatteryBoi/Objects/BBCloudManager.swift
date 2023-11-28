@@ -11,48 +11,6 @@ import CoreData
 import UserNotifications
 import Combine
 
-#if os(iOS)
-    import ActivityKit
-    import UIKit
-
-#endif
-
-#if os(iOS)
-    struct CloudNotifyAttributes:ActivityAttributes {
-        let device:String
-
-        public struct ContentState:Hashable,Codable {
-            var battery:Int
-            var charging:Bool
-            
-        }
-
-    }
-
-#endif
-
-enum CloudNotificationType:String {
-    case alert
-    case background
-    case none
-    
-}
-
-enum CloudState:String {
-    case unknown
-    case enabled
-    case blocked
-    case disabled
-    
-}
-
-struct CloudContainerObject {
-    var container:NSPersistentCloudKitContainer?
-    var directory:URL?
-    var parent:URL?
-
-}
-
 class CloudManager:ObservableObject {
     @Published var state:CloudState = .unknown
     @Published var id:String? = nil
@@ -149,12 +107,15 @@ class CloudManager:ObservableObject {
         
         $state.removeDuplicates().delay(for: .seconds(0.2), scheduler: RunLoop.main).sink { state in
             if state == .enabled {
-                self.cloudSubscriptionsSetup()
-                
+                self.cloudSubscriptionsSetup(.device)
+                self.cloudSubscriptionsSetup(.events)
+
             }
             
         }.store(in: &updates)
-                
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(cloudContextDidChange(notification:)), name: .NSManagedObjectContextObjectsDidChange, object: nil)
+
     }
     
     public func cloudAllowNotifications() {
@@ -214,11 +175,11 @@ class CloudManager:ObservableObject {
         
     }
     
-    private func cloudSubscriptionsSetup() {
+    private func cloudSubscriptionsSetup(_ type:CloudSubscriptionsType) {
         if let id = Bundle.main.infoDictionary?["ENV_ICLOUD_ID"] as? String  {
             //let predicate = NSPredicate(format: "NOTIFY == %@", ActivityNotificationType.background.rawValue)
             let predicate = NSPredicate(value: true)
-            let subscription = CKQuerySubscription(recordType: "CD_Events", predicate: predicate, subscriptionID: "event_notify", options: .firesOnRecordCreation)
+            let subscription = CKQuerySubscription(recordType: type.record, predicate: predicate, subscriptionID: type.identifyer, options:type.options)
             
             let info = CKSubscription.NotificationInfo()
             info.shouldSendContentAvailable = true
@@ -234,6 +195,20 @@ class CloudManager:ObservableObject {
                 else {
                     print("Subscription saved successfully!")
                     
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    @objc func cloudContextDidChange(notification: Notification) {
+        if let userInfo = notification.userInfo {
+            if userInfo[NSInsertedObjectsKey] != nil || userInfo[NSUpdatedObjectsKey] != nil || userInfo[NSDeletedObjectsKey] != nil {
+                DispatchQueue.main.async {
+                    //AppManager.shared.updated = Date()
+
                 }
                 
             }

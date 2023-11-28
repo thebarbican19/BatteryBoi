@@ -248,6 +248,11 @@ extension Date {
             
         }
         
+        if let minutes = components.minute, minutes > 1 {
+            return "TimestampMinuteFullLabel".localise([minutes])
+            
+        }
+        
         return "TimestampNowLabel".localise()
             
     }

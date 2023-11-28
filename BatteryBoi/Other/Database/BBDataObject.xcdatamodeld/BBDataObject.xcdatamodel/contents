@@ -23,6 +23,7 @@
     </entity>
     <entity name="Events" representedClassName="Events" syncable="YES" codeGenerationType="class">
         <attribute name="charge" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="mode" optional="YES" attributeType="String"/>
         <attribute name="notify" optional="YES" attributeType="String"/>
         <attribute name="state" optional="YES" attributeType="String"/>

@@ -111,13 +111,13 @@ struct RadialProgressMiniContainer: View {
     @EnvironmentObject var bluetooth:BluetoothManager
     @EnvironmentObject var battery:BatteryManager
 
-    @State private var device:BluetoothObject?
+    @State private var device:SystemDeviceObject?
     @State private var progress: Double = 0.0
     @State private var percent: Int = 100
     
     @Binding private var style:RadialStyle
 
-    init(_ device:BluetoothObject?, style:Binding<RadialStyle>) {
+    init(_ device:SystemDeviceObject?, style:Binding<RadialStyle>) {
         self._device = State(initialValue: device)
         self._style = style
         
@@ -140,11 +140,11 @@ struct RadialProgressMiniContainer: View {
         .frame(width: 28, height: 28)
         .onAppear() {
             if let device = self.device {
-                if let percent = device.battery.percent {
-                    self.progress = percent / 100
-                    self.percent = Int(percent)
-                    
-                }
+//                if let percent = device.battery {
+//                    self.progress = percent / 100
+//                    self.percent = Int(percent)
+//                    
+//                }
                 
             }
             else {
@@ -154,22 +154,22 @@ struct RadialProgressMiniContainer: View {
             }
             
         }
-        .onChange(of: self.bluetooth.list.first(where: { $0.address == device?.address })) { device in
-            if let battery = device?.battery {
-                if let percent = battery.percent {
-                    self.progress = percent / 100
-                    self.percent = Int(percent)
-                    
-                }
-                
-            }
-            else {
-                self.percent = Int(self.battery.percentage)
-                self.progress = self.battery.percentage / 100
-                
-            }
-            
-        }
+//        .onChange(of: self.manager.list.first(where: { $0.address == device?.address })) { device in
+//            if let battery = device?.battery {
+//                if let percent = battery.percent {
+//                    self.progress = percent / 100
+//                    self.percent = Int(percent)
+//                    
+//                }
+//                
+//            }
+//            else {
+//                self.percent = Int(self.battery.percentage)
+//                self.progress = self.battery.percentage / 100
+//                
+//            }
+//            
+//        }
         
     }
     

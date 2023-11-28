@@ -561,8 +561,8 @@
             filePath = "BatteryBoi (iOS)/BatteryBoi__iOS_App.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
             landmarkName = "AppDelegate"
             landmarkType = "3">
          </BreakpointContent>
@@ -577,8 +577,8 @@
             filePath = "BatteryBoi (iOS)/BatteryBoi__iOS_App.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
             landmarkName = "AppDelegate"
             landmarkType = "3">
          </BreakpointContent>
@@ -593,8 +593,8 @@
             filePath = "BatteryBoi (iOS)/BatteryBoi__iOS_App.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
             landmarkName = "AppDelegate"
             landmarkType = "3">
          </BreakpointContent>
@@ -609,8 +609,8 @@
             filePath = "BatteryBoi (iOS)/BatteryBoi__iOS_App.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
             landmarkName = "AppDelegate"
             landmarkType = "3">
          </BreakpointContent>
@@ -625,13 +625,13 @@
             filePath = "BatteryBoi/Objects/BBCloudManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
             landmarkName = "cloudNotification(_:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "97AF8DA3-ABB6-4A63-AF97-79956E62567D - 72ff7ba50b134b19"
+                  uuid = "97AF8DA3-ABB6-4A63-AF97-79956E62567D - 72ff7ba50b134cf0"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -641,27 +641,27 @@
                   urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBCloudManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "184"
-                  endingLineNumber = "184"
-                  offsetFromSymbolStart = "64">
+                  startingLineNumber = "193"
+                  endingLineNumber = "193"
+                  offsetFromSymbolStart = "120">
                </Location>
                <Location
-                  uuid = "97AF8DA3-ABB6-4A63-AF97-79956E62567D - c1a8db47f5d47338"
+                  uuid = "97AF8DA3-ABB6-4A63-AF97-79956E62567D - f89899b4f1698b9d"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BatteryBoi.CloudManager.cloudNotification(__C.CKQueryNotification) -&gt; ()"
-                  moduleName = "BatteryBoi"
+                  symbolName = "closure #1 (__C.UNNotificationSettings) -&gt; () in closure #1 @Sendable (Swift.Optional&lt;__C.CKRecordID&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in BatteryBoi__iOS_.CloudManager.cloudOwnerInformation() -&gt; ()"
+                  moduleName = "BatteryBoi (iOS)"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBCloudManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "185"
-                  endingLineNumber = "185"
-                  offsetFromSymbolStart = "319">
+                  startingLineNumber = "194"
+                  endingLineNumber = "194"
+                  offsetFromSymbolStart = "224">
                </Location>
                <Location
-                  uuid = "97AF8DA3-ABB6-4A63-AF97-79956E62567D - 26b080080b5a9868"
+                  uuid = "97AF8DA3-ABB6-4A63-AF97-79956E62567D - 26b080080b5a8590"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -671,151 +671,39 @@
                   urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBCloudManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "185"
-                  endingLineNumber = "185"
+                  startingLineNumber = "145"
+                  endingLineNumber = "145"
                   offsetFromSymbolStart = "300">
                </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "EA9C3E0E-5B6C-4DB0-B37D-218FE7D10380"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BatteryBoi/Objects/BBBluetoothManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "177"
-            endingLineNumber = "177"
-            landmarkName = "peripheral(_:didDiscoverCharacteristicsFor:error:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "24558EC2-4026-4EE7-83D6-F1BDCCAC7F0E"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BatteryBoi/Objects/BBBluetoothManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "peripheral(_:didDiscoverServices:)"
-            landmarkType = "7">
-            <Locations>
                <Location
-                  uuid = "24558EC2-4026-4EE7-83D6-F1BDCCAC7F0E - ddd84b603a2b0f9a"
+                  uuid = "97AF8DA3-ABB6-4A63-AF97-79956E62567D - 26b080080b5a856f"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "BatteryBoi.BluetoothManager.peripheral(_: __C.CBPeripheral, didDiscoverServices: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  symbolName = "BatteryBoi__iOS_.CloudManager.cloudNotification(__C.CKQueryNotification) -&gt; ()"
+                  moduleName = "BatteryBoi (iOS)"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBCloudManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "146"
+                  endingLineNumber = "146"
+                  offsetFromSymbolStart = "300">
+               </Location>
+               <Location
+                  uuid = "97AF8DA3-ABB6-4A63-AF97-79956E62567D - c1a8db47f5d46e3f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BatteryBoi.CloudManager.cloudNotification(__C.CKQueryNotification) -&gt; ()"
                   moduleName = "BatteryBoi"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBCloudManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "157"
-                  endingLineNumber = "157"
-                  offsetFromSymbolStart = "1653">
-               </Location>
-               <Location
-                  uuid = "24558EC2-4026-4EE7-83D6-F1BDCCAC7F0E - 1bf84b4df04d51a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BatteryBoi__iOS_.BluetoothManager.peripheral(_: __C.CBPeripheral, didDiscoverServices: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
-                  moduleName = "BatteryBoi (iOS)"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "158"
-                  endingLineNumber = "158"
-                  offsetFromSymbolStart = "1644">
-               </Location>
-               <Location
-                  uuid = "24558EC2-4026-4EE7-83D6-F1BDCCAC7F0E - 1bf84b4df04d51a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BatteryBoi__iOS_.BluetoothManager.peripheral(_: __C.CBPeripheral, didDiscoverServices: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
-                  moduleName = "BatteryBoi (iOS)"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "158"
-                  endingLineNumber = "158"
-                  offsetFromSymbolStart = "824">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "BC2E42E0-608E-41F4-B24A-F93736E23C58"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BatteryBoi/Objects/BBBluetoothManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
-            landmarkName = "centralManager(_:didDisconnectPeripheral:error:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "BC2E42E0-608E-41F4-B24A-F93736E23C58 - ddd84b603a2b0cc0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BatteryBoi.BluetoothManager.peripheral(_: __C.CBPeripheral, didDiscoverServices: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
-                  moduleName = "BatteryBoi"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "151"
-                  endingLineNumber = "151"
-                  offsetFromSymbolStart = "1619">
-               </Location>
-               <Location
-                  uuid = "BC2E42E0-608E-41F4-B24A-F93736E23C58 - 1bf84b4df04d602"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BatteryBoi__iOS_.BluetoothManager.peripheral(_: __C.CBPeripheral, didDiscoverServices: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
-                  moduleName = "BatteryBoi (iOS)"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "150"
-                  endingLineNumber = "150"
-                  offsetFromSymbolStart = "1588">
-               </Location>
-               <Location
-                  uuid = "BC2E42E0-608E-41F4-B24A-F93736E23C58 - c868aa9f84ef909a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BatteryBoi__iOS_.BluetoothManager.centralManager(_: __C.CBCentralManager, didDisconnectPeripheral: __C.CBPeripheral, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
-                  moduleName = "BatteryBoi (iOS)"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "150"
-                  endingLineNumber = "150"
-                  offsetFromSymbolStart = "48">
+                  startingLineNumber = "146"
+                  endingLineNumber = "146"
+                  offsetFromSymbolStart = "319">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -830,13 +718,43 @@
             filePath = "BatteryBoi/Objects/BBBluetoothManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
             landmarkName = "bluetoothAuthorization(_:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "16DF8047-E7DA-49E6-BC24-A12A749AE1F5 - 6ea7a033082b62fc"
+                  uuid = "16DF8047-E7DA-49E6-BC24-A12A749AE1F5 - a51721ef8807a8c3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BatteryBoi__iOS_.BluetoothManager.bluetoothAuthorization(Swift.Bool) -&gt; ()"
+                  moduleName = "BatteryBoi (iOS)"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "720">
+               </Location>
+               <Location
+                  uuid = "16DF8047-E7DA-49E6-BC24-A12A749AE1F5 - a51721ef8807a8c3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BatteryBoi__iOS_.BluetoothManager.bluetoothAuthorization(Swift.Bool) -&gt; ()"
+                  moduleName = "BatteryBoi (iOS)"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "364">
+               </Location>
+               <Location
+                  uuid = "16DF8047-E7DA-49E6-BC24-A12A749AE1F5 - 6ea7a033082b6143"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -846,39 +764,9 @@
                   urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "62"
-                  endingLineNumber = "62"
-                  offsetFromSymbolStart = "844">
-               </Location>
-               <Location
-                  uuid = "16DF8047-E7DA-49E6-BC24-A12A749AE1F5 - a51721ef8807ab7c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BatteryBoi__iOS_.BluetoothManager.bluetoothAuthorization(Swift.Bool) -&gt; ()"
-                  moduleName = "BatteryBoi (iOS)"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "62"
-                  endingLineNumber = "62"
-                  offsetFromSymbolStart = "912">
-               </Location>
-               <Location
-                  uuid = "16DF8047-E7DA-49E6-BC24-A12A749AE1F5 - a51721ef8807ab5f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BatteryBoi__iOS_.BluetoothManager.bluetoothAuthorization(Swift.Bool) -&gt; ()"
-                  moduleName = "BatteryBoi (iOS)"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "61"
-                  endingLineNumber = "61"
-                  offsetFromSymbolStart = "364">
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "292">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -886,17 +774,395 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "287DA5DE-B9BE-4D88-8EBD-CD0BA4D1AC9B"
+            uuid = "0195761F-EBB3-4E33-814F-E421FB2A44F3"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BatteryBoi/Objects/BBBluetoothManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "260"
+            endingLineNumber = "260"
+            landmarkName = "peripheral(_:didUpdateValueFor:error:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "0195761F-EBB3-4E33-814F-E421FB2A44F3 - f801f0e809709030"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BatteryBoi__iOS_.BluetoothManager.peripheral(_: __C.CBPeripheral, didUpdateValueFor: __C.CBCharacteristic, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi (iOS)"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "256"
+                  endingLineNumber = "256"
+                  offsetFromSymbolStart = "3828">
+               </Location>
+               <Location
+                  uuid = "0195761F-EBB3-4E33-814F-E421FB2A44F3 - f801f0e809709030"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BatteryBoi__iOS_.BluetoothManager.peripheral(_: __C.CBPeripheral, didUpdateValueFor: __C.CBCharacteristic, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi (iOS)"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "256"
+                  endingLineNumber = "256"
+                  offsetFromSymbolStart = "3284">
+               </Location>
+               <Location
+                  uuid = "0195761F-EBB3-4E33-814F-E421FB2A44F3 - f801f0e809709030"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BatteryBoi__iOS_.BluetoothManager.peripheral(_: __C.CBPeripheral, didUpdateValueFor: __C.CBCharacteristic, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi (iOS)"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "256"
+                  endingLineNumber = "256"
+                  offsetFromSymbolStart = "3500">
+               </Location>
+               <Location
+                  uuid = "0195761F-EBB3-4E33-814F-E421FB2A44F3 - f801f0e809709f5d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BatteryBoi__iOS_.BluetoothManager.peripheral(_: __C.CBPeripheral, didUpdateValueFor: __C.CBCharacteristic, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi (iOS)"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "261"
+                  endingLineNumber = "261"
+                  offsetFromSymbolStart = "3284">
+               </Location>
+               <Location
+                  uuid = "0195761F-EBB3-4E33-814F-E421FB2A44F3 - f801f0e809709f5d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BatteryBoi__iOS_.BluetoothManager.peripheral(_: __C.CBPeripheral, didUpdateValueFor: __C.CBCharacteristic, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi (iOS)"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "261"
+                  endingLineNumber = "261"
+                  offsetFromSymbolStart = "3500">
+               </Location>
+               <Location
+                  uuid = "0195761F-EBB3-4E33-814F-E421FB2A44F3 - abc1c9303929ef71"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BatteryBoi.BluetoothManager.peripheral(_: __C.CBPeripheral, didUpdateValueFor: __C.CBCharacteristic, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "261"
+                  endingLineNumber = "261"
+                  offsetFromSymbolStart = "4177">
+               </Location>
+               <Location
+                  uuid = "0195761F-EBB3-4E33-814F-E421FB2A44F3 - abc1c9303929ef71"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BatteryBoi.BluetoothManager.peripheral(_: __C.CBPeripheral, didUpdateValueFor: __C.CBCharacteristic, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "261"
+                  endingLineNumber = "261"
+                  offsetFromSymbolStart = "4464">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B5CC26C9-90B2-452D-A1EC-AD3A294A3E83"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BatteryBoi/Objects/BBBluetoothManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "198"
+            endingLineNumber = "198"
+            landmarkName = "peripheral(_:didDiscoverCharacteristicsFor:error:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9CD7138F-D1AD-4AC1-B488-D2F797F72A2D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BatteryBoi/Objects/BBCloudManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
+            landmarkName = "cloudSubscriptionsSetup(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "9CD7138F-D1AD-4AC1-B488-D2F797F72A2D - 563ef91d1e4e7e7b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable (Swift.Optional&lt;__C.CKSubscription&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in BatteryBoi__iOS_.CloudManager.cloudSubscriptionsSetup() -&gt; ()"
+                  moduleName = "BatteryBoi (iOS)"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBCloudManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "195"
+                  endingLineNumber = "195"
+                  offsetFromSymbolStart = "156">
+               </Location>
+               <Location
+                  uuid = "9CD7138F-D1AD-4AC1-B488-D2F797F72A2D - b55f3b16398bf862"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable (Swift.Optional&lt;__C.CKSubscription&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in BatteryBoi__iOS_.CloudManager.cloudSubscriptionsSetup(BatteryBoi__iOS_.CloudSubscriptionsType) -&gt; ()"
+                  moduleName = "BatteryBoi (iOS)"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBCloudManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "196"
+                  endingLineNumber = "196"
+                  offsetFromSymbolStart = "156">
+               </Location>
+               <Location
+                  uuid = "9CD7138F-D1AD-4AC1-B488-D2F797F72A2D - dcf670ce54e5ca09"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable (Swift.Optional&lt;__C.CKSubscription&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in BatteryBoi.CloudManager.cloudSubscriptionsSetup(BatteryBoi.CloudSubscriptionsType) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBCloudManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "196"
+                  endingLineNumber = "196"
+                  offsetFromSymbolStart = "148">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F74EE873-51D8-42B3-B5AF-27B7AB68D6F0"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BatteryBoi/Objects/BBAppManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "400"
-            endingLineNumber = "400"
-            landmarkName = "appListDevices()"
+            startingLineNumber = "464"
+            endingLineNumber = "464"
+            landmarkName = "appStoreDevice(_:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F74EE873-51D8-42B3-B5AF-27B7AB68D6F0 - 1b4dcdf7624fc7a9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in BatteryBoi__iOS_.AppManager.appStoreDevice(Swift.Optional&lt;BatteryBoi__iOS_.SystemDeviceObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi (iOS)"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBAppManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "464"
+                  endingLineNumber = "464"
+                  offsetFromSymbolStart = "5132">
+               </Location>
+               <Location
+                  uuid = "F74EE873-51D8-42B3-B5AF-27B7AB68D6F0 - 725b420c27b925e7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in BatteryBoi.AppManager.appStoreDevice(Swift.Optional&lt;BatteryBoi.SystemDeviceObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBAppManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "464"
+                  endingLineNumber = "464"
+                  offsetFromSymbolStart = "5939">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "293E61A9-9A3E-4463-8FAB-12B88F05B272"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BatteryBoi/Objects/BBAppManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "453"
+            endingLineNumber = "453"
+            landmarkName = "appStoreDevice(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "293E61A9-9A3E-4463-8FAB-12B88F05B272 - 1b4dcdf7624fc03c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in BatteryBoi__iOS_.AppManager.appStoreDevice(Swift.Optional&lt;BatteryBoi__iOS_.SystemDeviceObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi (iOS)"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBAppManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "453"
+                  endingLineNumber = "453"
+                  offsetFromSymbolStart = "4120">
+               </Location>
+               <Location
+                  uuid = "293E61A9-9A3E-4463-8FAB-12B88F05B272 - 725b420c27b92272"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in BatteryBoi.AppManager.appStoreDevice(Swift.Optional&lt;BatteryBoi.SystemDeviceObject&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBAppManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "453"
+                  endingLineNumber = "453"
+                  offsetFromSymbolStart = "4678">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7D13995B-C8DB-4912-A383-F160279EF899"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BatteryBoi/Objects/BBBluetoothManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "peripheral(_:didDiscoverServices:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "7D13995B-C8DB-4912-A383-F160279EF899 - 1bf84b4df04d872"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BatteryBoi__iOS_.BluetoothManager.peripheral(_: __C.CBPeripheral, didDiscoverServices: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi (iOS)"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "134"
+                  endingLineNumber = "134"
+                  offsetFromSymbolStart = "824">
+               </Location>
+               <Location
+                  uuid = "7D13995B-C8DB-4912-A383-F160279EF899 - ddd84b603a2b0291"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BatteryBoi.BluetoothManager.peripheral(_: __C.CBPeripheral, didDiscoverServices: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "134"
+                  endingLineNumber = "134"
+                  offsetFromSymbolStart = "855">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "379D53FD-01E8-4764-8DC2-8605F7267EB1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BatteryBoi/Objects/BBBluetoothManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "init()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "379D53FD-01E8-4764-8DC2-8605F7267EB1 - 3f64e57e5caf493f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Array&lt;__C.CBPeripheral&gt;) -&gt; () in BatteryBoi__iOS_.BluetoothManager.init() -&gt; BatteryBoi__iOS_.BluetoothManager"
+                  moduleName = "BatteryBoi (iOS)"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "1012">
+               </Location>
+               <Location
+                  uuid = "379D53FD-01E8-4764-8DC2-8605F7267EB1 - 9d351c1cb4a88045"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Array&lt;__C.CBPeripheral&gt;) -&gt; () in BatteryBoi.BluetoothManager.init() -&gt; BatteryBoi.BluetoothManager"
+                  moduleName = "BatteryBoi"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi/Objects/BBBluetoothManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "1090">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

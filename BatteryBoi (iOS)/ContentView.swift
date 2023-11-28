@@ -24,31 +24,67 @@ struct UpdatesView: View {
 
             Text("Devices: \(manager.list.count)")
 
-            Text("Polled: \(manager.polled?.description ?? "Never")")
+            Text("Polled: \(manager.updated?.formatted ?? "Never")")
 
         }
         .padding()
         .font(.caption)
         
         VStack {
-            Text("Devices").font(.title)
             
             ScrollView {
-                LazyVGrid(columns: layout, alignment: .leading, spacing:10) {
-                    ForEach(manager.list, id: \.name) { device in
-                        HStack {
-                            Text(device.name)
-                            
-                            if let id = device.id {
-                                Text(id.uuidString)
+                Text("Broadcasting").font(.title)
 
-                            }
+                LazyVGrid(columns: layout, alignment: .leading, spacing:10) {
+                    ForEach(bluetooth.broadcasting, id: \.self) { device in
+                        HStack {
+                            Text(device.name ?? "No Name")
+                            
+                            Text("State: \(device.state.rawValue)")
 
                         }
-                        .background(.gray)
                         
                     }
+                    
+                }
+                
+                Text("Devices").font(.title)
+                
+                LazyVGrid(columns: layout, alignment: .leading, spacing:10) {
+                    ForEach(manager.list, id: \.self) { device in
+                        if device.name.isEmpty && device.id.uuidString.isEmpty {
+                            Rectangle()
+                            
+                        }
+                        else {
+                            HStack {
+                                Text("(\(device.connectivity.rawValue))")
 
+                                Text(device.name)
+                                                                
+                                Text(device.polled?.formatted ?? "Never")
+                                
+                                Text("Events: \(device.events.count)")
+                                
+                            }
+                            .background(.gray)
+                            
+                            ForEach(device.events.prefix(5), id: \.self) { event in
+                                HStack {
+                                    Text("Charge: \(event.battery)")
+                                    
+                                    Text("Timestamp: \(event.created.formatted)")
+
+                                }
+                                .background(.gray.opacity(0.2))
+                                .padding(.leading, 30)
+                                
+                            }
+                            
+                        }
+                        
+                    }
+                    
                 }
                 
             }

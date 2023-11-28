@@ -76,8 +76,8 @@ class StatsManager:ObservableObject {
            
             DispatchQueue.global(qos: .background).async {
                 switch BatteryManager.shared.charging.state {
-                    case .battery : AppManager.shared.appStoreEvent(.disconnected, device: nil, notification: .background)
-                    case .charging : AppManager.shared.appStoreEvent(.connected, device: nil, notification: .background)
+                    case .battery : AppManager.shared.appStoreEvent(.disconnected, peripheral: nil)
+                    case .charging : AppManager.shared.appStoreEvent(.connected, peripheral: nil)
 
                 }
 
@@ -96,8 +96,8 @@ class StatsManager:ObservableObject {
             
             DispatchQueue.global(qos: .background).async {
                 switch newValue.state {
-                    case .battery : AppManager.shared.appStoreEvent(.disconnected, device: nil, notification: .background)
-                    case .charging : AppManager.shared.appStoreEvent(.connected, device: nil, notification: .background)
+                    case .battery : AppManager.shared.appStoreEvent(.disconnected, peripheral: nil)
+                    case .charging : AppManager.shared.appStoreEvent(.connected, peripheral: nil)
 
                 }
 

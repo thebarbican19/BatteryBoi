@@ -195,7 +195,7 @@ struct SettingsOverlayItem: View {
             )
             .onAppear() {
                 self.index = 0
-                self.timeline = self.bluetooth.connected.map({ $0.type.icon })
+                //self.timeline = self.bluetooth.connected.map({ $0.type.icon })
                 
                 if self.item == .appQuit {
                     self.icon = "power"
@@ -223,13 +223,13 @@ struct SettingsOverlayItem: View {
                 }
                 
             }
-            .onChange(of: self.bluetooth.connected) { newValue in
-                if item == .appDevices {
-                    self.timeline = newValue.map({ $0.type.icon })
-                    
-                }
-                
-            }
+//            .onChange(of: self.bluetooth.connected) { newValue in
+//                if item == .appDevices {
+//                    self.timeline = newValue.map({ $0.type.icon })
+//                    
+//                }
+//                
+//            }
             .onReceive(timer) { _ in
                 if item == .appDevices {
                     switch self.timeline.index(self.index) {

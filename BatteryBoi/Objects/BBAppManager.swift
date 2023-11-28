@@ -11,6 +11,7 @@ import Combine
 import SwiftUI
 import CoreData
 import CloudKit
+import CoreBluetooth
 
 class AppManager:ObservableObject {
     static var shared = AppManager()
@@ -18,8 +19,8 @@ class AppManager:ObservableObject {
     @Published var counter = 0
     @Published var list = Array<SystemDeviceObject>()
     @Published var device:SystemDeviceObject? = nil
-    @Published var polled:Date? = nil
-    
+    @Published var updated:Date? = nil
+        
     #if os(macOS)
         @Published var menu:SystemMenuView = .devices
         @Published var profile:SystemProfileObject? = nil
@@ -63,21 +64,31 @@ class AppManager:ObservableObject {
                 
         self.timer?.store(in: &updates)
         
-        $list.removeDuplicates().sink { item in
-
-        }.store(in: &updates)
-
-        $polled.removeDuplicates().sink { timestamp in
-            //!! check for changes to polling
+        $updated.receive(on: DispatchQueue.global()).debounce(for: .seconds(5), scheduler: RunLoop.main).sink { _ in
+            self.appListDevices()
 
         }.store(in: &updates)
         
-        DispatchQueue.global().async {
-            self.appStoreDevice()
+        $list.removeDuplicates().receive(on: DispatchQueue.global()).sink { items in
+            for item in items  {
+                print("List Devices \(item.name) - \(item.synced)")
+
+            }
+            
+            for item in items.filter({ $0.synced == false }) {
+                self.appStoreDevice(item)
+               
+            }
+            
             self.appListDevices()
+
+        }.store(in: &updates)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.appStoreDevice()
             
         }
-    
+        
     }
     
     deinit {
@@ -86,147 +97,105 @@ class AppManager:ObservableObject {
  
     }
     
-    public func appStoreDevice(_ device:BluetoothObject? = nil, favourite:Bool? = nil, hidden:Bool? = nil, notifications:Bool? = nil) {
-        if let context = self.appStorageContext() {
-            context.performAndWait {
-                var predicates = Array<NSPredicate>()
-                
-                if let address = device?.address {
-                    predicates.append(NSPredicate(format: "address == %@", address))
-                    
-                }
-                
-                if let id = device?.id {
-                    predicates.append(NSPredicate(format: "id == %@", id as CVarArg))
-                    
-                }
-                
-                let fetch = Devices.fetchRequest() as NSFetchRequest<Devices>
-                fetch.includesPendingChanges = true
-                fetch.predicate = NSCompoundPredicate(type: .or, subpredicates: predicates)
-                
-                do {
-                    var store:Devices?
-                    if let existing = try context.fetch(fetch).first {
-                        store = existing
-                        store?.refreshed_on = Date()
-                        
-                        if let notifications = notifications {
-                            store?.notifications = notifications
-
-                        }
-                        
-                        if let device = device?.name {
-                            store?.name = device
-                            
-                        }
-
-                        if let hidden = hidden {
-                            store?.hidden = hidden
-                            
-                        }
-                        
-                        if let favourite = favourite {
-                            store?.favourite = favourite
-                            
-                        }
-                        
-                    }
-                    else {
-                        store = Devices(context: context) as Devices
-                        store?.added_on = Date()
-                        store?.refreshed_on = Date()
-                        store?.notifications = true
-                        
-                        if let device = device {
-                            store?.address = device.address
-                            store?.id = device.id
-                            store?.name = device.name
-                            store?.vendor = device.vendor
-                            store?.type = "TBA"
-                            store?.primary = false
-
-                        }
-                        else {
-                            store?.id = UUID.device()
-                            store?.subtype = AppManager.shared.appDeviceType.name(false)
-                            store?.type = AppManager.shared.appDeviceType.category.rawValue
-                            store?.name = AppManager.shared.appDeviceType.name(true)
-                            store?.primary = true
-                            store?.vendor = "Apple Inc"
-                            store?.product = AppManager.shared.appDeviceType.name(false)
-                            store?.serial = "TBA"
-                            store?.address = ""
-                            
-                        }
-                        
-                    }
-                    
-                    if store?.name != nil {
-                        print("Saving" ,store)
-                        
-                        try context.save()
-
-                    }
-                    
-                }
-                catch {
-                    
-                }
-                
-            }
+    public func appUpdateList(_ device:SystemDeviceObject) {
+        if self.list.contains(device) == false {
+            self.list.append(device)
             
         }
         
     }
-    
-    public func appStoreEvent(_ state:StatsStateType, device:BluetoothObject?, notification:StatsActivityNotificationType = .background) {
+        
+    public func appStoreEvent(_ state:StatsStateType, peripheral:CBPeripheral?, battery:Int? = nil) {
         if let context = self.appStorageContext() {
             context.performAndWait {
-                let expiry = Date().addingTimeInterval(-2 * 60)
-                var charge:Int64 = 100
-                var mode:BatteryModeType = .normal
-                if let percent = device {
-                    //charge = Int64(percent.battery.percent ?? 100)
-                    mode = .normal
-                    
-                }
-                else {
-                    charge = Int64(BatteryManager.shared.percentage)
-                    mode = BatteryManager.shared.saver
-
-                }
-                
-                if let device = self.appDevice(device, context: context), let id = device.id {
-                    let fetch = Events.fetchRequest() as NSFetchRequest<Events>
-                    fetch.includesPendingChanges = true
-                    fetch.predicate = NSPredicate(format: "SELF.state == %@ && SELF.device.id == %@ && SELF.charge == %d &&  SELF.timestamp > %@" ,state.rawValue, id as CVarArg ,charge ,expiry as NSDate)
-                    
-                    do {
-                        if try context.fetch(fetch).first == nil {
-                            let store = Events(context: context) as Events
-                            store.timestamp = Date()
-                            store.state = state.rawValue
-                            store.charge = charge
-                            store.notify = notification.rawValue
-                            store.device = device
-                            store.reporter = self.appDevice(nil, context: context)
-                            store.mode = mode.rawValue
+                if let peripheral = peripheral {
+                    if let device = self.appDevice(peripheral, context: context), let battery = battery, let name = device.name {
+                        let fetch = Events.fetchRequest() as NSFetchRequest<Events>
+                        fetch.includesPendingChanges = true
+                        fetch.predicate = NSPredicate(format: "SELF.state == %@ && SELF.device.name == %@ && SELF.charge == %d" ,state.rawValue, name ,Int64(battery))
+                        
+                        do {
+                            if try context.fetch(fetch).first == nil {
+                                let store = Events(context: context) as Events
+                                store.id = UUID()
+                                store.timestamp = Date()
+                                store.state = state.rawValue
+                                store.charge = Int64(battery)
+                                store.device = device
+                                store.reporter = self.appDevice(peripheral, context: context)
+                                store.mode = BatteryModeType.normal.rawValue
+                                      
+                                if let last = self.appLatestEvent(state, device: peripheral, context: context) {
+                                    switch last.charge {
+                                        case 25 : store.notify = StatsActivityNotificationType.alert.rawValue
+                                        case 15 : store.notify = StatsActivityNotificationType.alert.rawValue
+                                        case 10 : store.notify = StatsActivityNotificationType.alert.rawValue
+                                        case 5 : store.notify = StatsActivityNotificationType.alert.rawValue
+                                        case 1 : store.notify = StatsActivityNotificationType.alert.rawValue
+                                        case store.charge : store.notify = StatsActivityNotificationType.background.rawValue
+                                        default : store.notify = StatsActivityNotificationType.none.rawValue
+                                        
+                                    }
+                                    
+                                }
+                                
+                                try context.save()
+                                
+                            }
                             
-                            print("store" ,store)
-                            
-                            try context.save()
+                        }
+                        catch {
+                            print("Error" ,error)
                             
                         }
                         
                     }
-                    catch {
-                        print("Error" ,error)
-                        
-                    }
                     
                 }
                 else {
+                    if let device = self.appDevice(nil, context: context) {
+                        let battery = Int64(BatteryManager.shared.percentage)
+
+                        let fetch = Events.fetchRequest() as NSFetchRequest<Events>
+                        fetch.includesPendingChanges = true
+                        fetch.predicate = NSPredicate(format: "SELF.state == %@ && SELF.device.id == %@ && SELF.charge == %d" ,state.rawValue, device.id! as CVarArg ,Int64(battery))
+                        
+                        do {
+                            if try context.fetch(fetch).first == nil && battery >= 0 {
+                                let store = Events(context: context) as Events
+                                store.id = UUID()
+                                store.timestamp = Date()
+                                store.state = state.rawValue
+                                store.charge = Int64(battery)
+                                store.device = device
+                                store.reporter = self.appDevice(nil, context: context)
+                                store.mode = BatteryManager.shared.saver.rawValue
+                                
+                                if let last = self.appLatestEvent(state, device: peripheral, context: context) {
+                                    switch last.charge {
+                                        case 25 : store.notify = StatsActivityNotificationType.alert.rawValue
+                                        case 15 : store.notify = StatsActivityNotificationType.alert.rawValue
+                                        case 10 : store.notify = StatsActivityNotificationType.alert.rawValue
+                                        case 5 : store.notify = StatsActivityNotificationType.alert.rawValue
+                                        case 1 : store.notify = StatsActivityNotificationType.alert.rawValue
+                                        case store.charge : store.notify = StatsActivityNotificationType.background.rawValue
+                                        default : store.notify = StatsActivityNotificationType.none.rawValue
+                                        
+                                    }
+
+                                }
+                                
+                                try context.save()
+                                
+                            }
+                            
+                        }
+                        catch {
+                            print("Error" ,error)
+                            
+                        }
+                        
+                    }
                     
                 }
                 
@@ -368,22 +337,181 @@ class AppManager:ObservableObject {
         }
         
     }
+        
+    private func appListDevices() {
+        if let context = self.appStorageContext() {
+            let fetch: NSFetchRequest<Devices> = Devices.fetchRequest()
+            fetch.predicate = NSPredicate(format: "name != %@", "")
+            
+            do {
+                let list = try context.fetch(fetch)
+                let mapped:[SystemDeviceObject] = list.compactMap({ .init($0) })
+
+                DispatchQueue.main.async {
+                    self.list = mapped
+                    
+                }
+
+                print("trained" ,mapped)
+                
+            }
+            catch {
+                print("Error fetching Trained records: \(error)")
+                
+            }
+            
+        }
+        
+    }
+
+    private func appLatestEvent(_ state:StatsStateType, device:CBPeripheral?, context:NSManagedObjectContext) -> Events? {
+        var predicates = Array<NSPredicate>()
+        
+        if let name = device?.name {
+            predicates.append(NSPredicate(format: "SELF.device.name == %@", name))
+            predicates.append(NSPredicate(format: "state == %@", state.rawValue))
+
+        }
+        else if let id = UUID.device() {
+            predicates.append(NSPredicate(format: "SELF.device.id == %@", id as CVarArg))
+            predicates.append(NSPredicate(format: "state == %@", state.rawValue))
+
+        }
+        
+        let fetch = Events.fetchRequest() as NSFetchRequest<Events>
+        fetch.includesPendingChanges = true
+        fetch.fetchLimit = 1
+        fetch.predicate = NSCompoundPredicate(type: .and, subpredicates: predicates)
+
+        if predicates.isEmpty == false {
+            if let existing = try? context.fetch(fetch).first {
+                return existing
+                
+            }
+                    
+        }
+        
+        return nil
+                
+    }
     
+    private func appStoreDevice(_ device:SystemDeviceObject? = nil) {
+        if let context = self.appStorageContext() {
+            context.performAndWait {
+                var predicates = Array<NSPredicate>()
+                
+                if let device = device {
+                    predicates.append(NSPredicate(format: "name == %@", device.name))
+                    
+                }
+                else {
+                    if let id = UUID.device() {
+                        predicates.append(NSPredicate(format: "id == %@", id as CVarArg))
+                        
+                    }
+
+                }
+                
+                if predicates.isEmpty == false {
+                    let fetch = Devices.fetchRequest() as NSFetchRequest<Devices>
+                    fetch.includesPendingChanges = true
+                    fetch.predicate = NSCompoundPredicate(type: .or, subpredicates: predicates)
+                    fetch.fetchLimit = 1
+                    
+                    do {
+                        var store:Devices?
+                        if let existing = try context.fetch(fetch).first {
+                            store = existing
+                            store?.refreshed_on = Date()
+                            
+                            if let notifications = device?.notifications {
+                                store?.notifications = notifications
+                                
+                            }
+                            
+                            if let favourite = device?.favourite {
+                                store?.favourite = favourite
+                                
+                            }
+                            
+                            if device == nil {
+                                store?.id = UUID.device()
+
+                            }
+                            
+                        }
+                        else {
+                            store = Devices(context: context) as Devices
+                            store?.added_on = Date()
+                            store?.refreshed_on = Date()
+                            store?.notifications = true
+                            
+                            if let device = device {
+                                store?.address = device.address
+                                store?.id = device.id
+                                store?.name = device.name
+                                store?.vendor = device.profile?.hardware
+                                store?.type = "TBA"
+                                store?.primary = false
+                                
+                            }
+                            else {
+                                let type = AppManager.shared.appDeviceType
+                                
+                                store?.id = UUID.device()
+                                store?.subtype = type.name(false)
+                                store?.type = type.category.rawValue
+                                store?.name = type.name(true)
+                                store?.primary = true
+                                store?.vendor = "Apple Inc"
+                                store?.product = type.name(false)
+                                store?.serial = "TBA"
+                                store?.address = ""
+                                
+                            }
+                            
+                        }
+                        
+                        if store?.name != nil {
+                            print("Saving" ,store)
+                            
+                            try context.save()
+                            
+                        }
+                        
+                    }
+                    catch {
+                        
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
     
-    private func appDevice(_ device:BluetoothObject? ,context:NSManagedObjectContext) -> Devices? {
+    private func appDevice(_ device:CBPeripheral? ,context:NSManagedObjectContext) -> Devices? {
         let fetch = Devices.fetchRequest() as NSFetchRequest<Devices>
         fetch.includesPendingChanges = true
         fetch.fetchLimit = 1
         
-        if let id = device?.id {
-            fetch.predicate = NSPredicate(format: "device.id == %@", id as CVarArg)
+        if device != nil {
+            if let name = device?.name {
+                fetch.predicate = NSPredicate(format: "name == %@", name)
+                
+            }
             
         }
-        else if let id = UUID.device() {
-            fetch.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        else {
+            if let id = UUID.device() {
+                fetch.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+                
+            }
             
         }
-        
+       
         if fetch.predicate != nil {
             if let device = try? context.fetch(fetch).first {
                 return device
@@ -393,31 +521,6 @@ class AppManager:ObservableObject {
         }
         
         return nil
-        
-    }
-    
-    private func appListDevices() {
-        if let context = self.appStorageContext() {
-            let fetch: NSFetchRequest<Devices> = Devices.fetchRequest()
-            
-            do {
-                let list = try context.fetch(fetch)
-                //let mapped = list.compactMap({ SystemDeviceObject($0) })
-
-//                DispatchQueue.main.async {
-//                    self.list = mapped
-//                    
-//                }
-
-//                print("trained" ,mapped)
-                
-            }
-            catch {
-                print("Error fetching Trained records: \(error)")
-                
-            }
-            
-        }
         
     }
     

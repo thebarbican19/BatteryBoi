@@ -27,7 +27,7 @@ struct BatteryBoi__iOS_App: App {
 }
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-    static var shared = AppManager()
+    static var shared = AppDelegate()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.ovatar.batteryapp.refresh", using: nil) { task in
@@ -72,9 +72,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
-        if let notification = CKNotification(fromRemoteNotificationDictionary: userInfo) as? CKQueryNotification {
-            //CloudManager.shared.cloudNotification(notification)
-            AppManager.shared.polled = Date()
+        if let _ = CKNotification(fromRemoteNotificationDictionary: userInfo) as? CKQueryNotification {
+            //AppManager.shared.updated = Date()
             
             completionHandler(.newData)
             

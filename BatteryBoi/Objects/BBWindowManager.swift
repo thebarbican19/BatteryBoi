@@ -114,37 +114,37 @@ class WindowManager: ObservableObject {
 //            
 //        }.store(in: &updates)
 
-        BluetoothManager.shared.$connected.removeDuplicates().dropFirst(1).receive(on: DispatchQueue.main).sink() { items in
-            if let latest = items.sorted(by: { $0.updated > $1.updated }).first {
-                if latest.updated.now == true {
-                    switch latest.connected {
-                        case .connected : self.windowOpen(.deviceConnected, device: latest)
-                        default : self.windowOpen(.deviceRemoved, device: latest)
+//        BluetoothManager.shared.$connected.removeDuplicates().dropFirst(1).receive(on: DispatchQueue.main).sink() { items in
+//            if let latest = items.sorted(by: { $0.updated > $1.updated }).first {
+//                if latest.updated.now == true {
+//                    switch latest.connected {
+//                        case .connected : self.windowOpen(.deviceConnected, device: latest)
+//                        default : self.windowOpen(.deviceRemoved, device: latest)
+//
+//                    }
+//
+//                }
+//
+//            }
+//
+//        }.store(in: &updates)
 
-                    }
-
-                }
-
-            }
-
-        }.store(in: &updates)
-
-        AppManager.shared.appTimer(60).dropFirst().receive(on: DispatchQueue.main).sink { _ in
-            let connected = BluetoothManager.shared.list.filter({ $0.connected == .connected })
-
-            for device in connected {
-                switch device.battery.general {
-                    case 25 : self.windowOpen(.percentTwentyFive, device: device)
-                    case 10 : self.windowOpen(.percentTen, device: device)
-                    case 5 : self.windowOpen(.percentFive, device: device)
-                    case 1 : self.windowOpen(.percentOne, device: device)
-                    default : break
-                    
-                }
-
-            }
-
-        }.store(in: &updates)
+//        AppManager.shared.appTimer(60).dropFirst().receive(on: DispatchQueue.main).sink { _ in
+//            let connected = BluetoothManager.shared.list.filter({ $0.connected == .connected })
+//
+//            for device in connected {
+//                switch device.battery.general {
+//                    case 25 : self.windowOpen(.percentTwentyFive, device: device)
+//                    case 10 : self.windowOpen(.percentTen, device: device)
+//                    case 5 : self.windowOpen(.percentFive, device: device)
+//                    case 1 : self.windowOpen(.percentOne, device: device)
+//                    default : break
+//                    
+//                }
+//
+//            }
+//
+//        }.store(in: &updates)
         
         AppManager.shared.$alert.removeDuplicates().delay(for: .seconds(5.0), scheduler: RunLoop.main).sink { type in
             if AppManager.shared.alert?.timeout == true && self.state == .revealed {
@@ -270,7 +270,7 @@ class WindowManager: ObservableObject {
         
     }
     
-    public func windowOpen(_ type:HUDAlertTypes, device:BluetoothObject?) {
+    public func windowOpen(_ type:HUDAlertTypes, device:SystemDeviceObject?) {
         if let window = self.windowExists(type) {
             window.contentView = WindowHostingView(rootView: HUDParent(type, device: device))
             
@@ -287,10 +287,10 @@ class WindowManager: ObservableObject {
                         
                     }
                     
-                    if BluetoothManager.shared.connected.count > 0 {
-                        AppManager.shared.menu = .devices
-
-                    }
+//                    if BluetoothManager.shared.connected.count > 0 {
+//                        AppManager.shared.menu = .devices
+//
+//                    }
                     
                     //AppManager.shared.device = device
                     AppManager.shared.alert = type

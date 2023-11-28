@@ -22,8 +22,8 @@
 "TimestampHourFullLabel_Plural" = "%d hours";
 "TimestampMinuteFullLabel_Plural" = "%d minutes";
 "TimestampMinuteFullLabel_Single" = "%d minute";
-"TimestampMinuteDaysLabel_Plural" = "%d days";
-"TimestampMinuteDaysLabel_Single" = "%d day";
+"TimestampDaysFullLabel_Plural" = "%d days";
+"TimestampDaysFull_Single" = "%d day";
 "TimestampHourAbbriviatedLabel" = "h";
 "TimestampMinuteAbbriviatedLabel" = "m";
 "TimestampDayAbbriviatedLabel" = "d";
