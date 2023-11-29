@@ -28,6 +28,7 @@
         <attribute name="notify" optional="YES" attributeType="String"/>
         <attribute name="state" optional="YES" attributeType="String"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="version" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="device" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Devices" inverseName="events" inverseEntity="Devices"/>
         <relationship name="reporter" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Devices" inverseName="reporter" inverseEntity="Devices"/>
     </entity>

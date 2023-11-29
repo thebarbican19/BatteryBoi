@@ -268,8 +268,6 @@ class BatteryManager:ObservableObject {
 
         }.store(in: &updates)
         
-        self.powerStatus(true)
-    
         #if os(iOS)
             UIDevice.current.isBatteryMonitoringEnabled = true
 
@@ -278,6 +276,8 @@ class BatteryManager:ObservableObject {
         
         #endif
         
+        self.powerStatus(true)
+
     }
     
     deinit {

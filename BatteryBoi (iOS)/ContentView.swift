@@ -10,74 +10,76 @@ import Combine
 
 struct UpdatesView: View {
     @EnvironmentObject var manager:AppManager
-    @EnvironmentObject var bluetooth:BluetoothManager
-    @EnvironmentObject var icloud:CloudManager
+    @EnvironmentObject var onboarding:OnboardingManager
     @EnvironmentObject var battery:BatteryManager
+
+    @State var present:Bool = false
 
     let layout = [GridItem(.flexible(minimum: 180, maximum: .infinity))]
 
     var body: some View {
-        HStack {
-            Text("Bluetooth: \(bluetooth.state.rawValue)")
-            
-            Text("iCloud: \(icloud.state.rawValue)")
-
-            Text("Devices: \(manager.list.count)")
-
-            Text("Polled: \(manager.updated?.formatted ?? "Never")")
-
-        }
-        .padding()
-        .font(.caption)
-        
         VStack {
+            HStack {
+                Text("Onboarding: \(onboarding.state.present ? "!Present" : "Inactive")")
+                
+                Text("Devices: \(manager.list.count)")
+                
+                Text("Polled: \(manager.updated?.formatted ?? "Never")")
+                
+            }
+            .padding()
+            .font(.caption)
             
-            ScrollView {
-                Text("Broadcasting").font(.title)
-
-                LazyVGrid(columns: layout, alignment: .leading, spacing:10) {
-                    ForEach(bluetooth.broadcasting, id: \.self) { device in
-                        HStack {
-                            Text(device.name ?? "No Name")
+            /*
+            VStack {
+                ScrollView {
+                    Text("Broadcasting").font(.title)
+                    
+                    LazyVGrid(columns: layout, alignment: .leading, spacing:10) {
+                        ForEach(bluetooth.broadcasting, id: \.self) { device in
+                            HStack {
+                                Text(device.name ?? "No Name")
+                                
+                                Text("State: \(device.state.rawValue)")
+                                
+                            }
                             
-                            Text("State: \(device.state.rawValue)")
-
                         }
                         
                     }
                     
-                }
-                
-                Text("Devices").font(.title)
-                
-                LazyVGrid(columns: layout, alignment: .leading, spacing:10) {
-                    ForEach(manager.list, id: \.self) { device in
-                        if device.name.isEmpty && device.id.uuidString.isEmpty {
-                            Rectangle()
-                            
-                        }
-                        else {
-                            HStack {
-                                Text("(\(device.connectivity.rawValue))")
-
-                                Text(device.name)
-                                                                
-                                Text(device.polled?.formatted ?? "Never")
-                                
-                                Text("Events: \(device.events.count)")
+                    Text("Devices").font(.title)
+                    
+                    LazyVGrid(columns: layout, alignment: .leading, spacing:10) {
+                        ForEach(manager.list, id: \.self) { device in
+                            if device.name.isEmpty && device.id.uuidString.isEmpty {
+                                Rectangle()
                                 
                             }
-                            .background(.gray)
-                            
-                            ForEach(device.events.prefix(5), id: \.self) { event in
+                            else {
                                 HStack {
-                                    Text("Charge: \(event.battery)")
+                                    Text("(\(device.connectivity.rawValue))")
                                     
-                                    Text("Timestamp: \(event.created.formatted)")
-
+                                    Text(device.name)
+                                    
+                                    Text(device.polled?.formatted ?? "Never")
+                                    
+                                    Text("Events: \(device.events.count)")
+                                    
                                 }
-                                .background(.gray.opacity(0.2))
-                                .padding(.leading, 30)
+                                .background(.gray)
+                                
+                                ForEach(device.events.prefix(5), id: \.self) { event in
+                                    HStack {
+                                        Text("Charge: \(event.battery)")
+                                        
+                                        Text("Timestamp: \(event.created.formatted)")
+                                        
+                                    }
+                                    .background(.gray.opacity(0.2))
+                                    .padding(.leading, 30)
+                                    
+                                }
                                 
                             }
                             
@@ -88,20 +90,41 @@ struct UpdatesView: View {
                 }
                 
             }
+            */
+            
+            Spacer()
+            
+            HStack {
+                Text("Charge: \(battery.percentage)")
+                
+                Text("State: \(battery.charging.state.rawValue)")
+                
+            }
+            .padding()
+            .font(.caption)
             
         }
-        
-        Spacer()
-        
-        HStack {
-            Text("Charge: \(battery.percentage)")
-
-            Text("State: \(battery.charging.state.rawValue)")
+        .sheet(isPresented: $present) {
+            OnboardingContainer()
+                .presentationDragIndicator(onboarding.state.required ? .hidden : .visible)
+                .interactiveDismissDisabled(onboarding.state.required)
 
         }
-        .padding()
-        .font(.caption)
-        
+        .onAppear() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.present = self.onboarding.state.present
+                
+            }
+            
+        }
+        .onChange(of: self.onboarding.state, perform: { newValue in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.present = newValue.present
+                
+            }
+
+        })
+                  
     }
     
 }
@@ -110,6 +133,7 @@ struct ContentView: View {
     var body: some View {
         UpdatesView()
             .environmentObject(AppManager.shared)
+            .environmentObject(OnboardingManager.shared)
             .environmentObject(StatsManager.shared)
             .environmentObject(BluetoothManager.shared)
             .environmentObject(CloudManager.shared)

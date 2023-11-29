@@ -23,6 +23,9 @@ class CloudManager:ObservableObject {
         let object = "BBDataObject"
         let container = NSPersistentCloudKitContainer(name: object)
         
+        var directory: URL?
+        var subdirectory: URL?
+        
         guard let description = container.persistentStoreDescriptions.first else {
             fatalError("No Description found")
             
@@ -30,53 +33,44 @@ class CloudManager:ObservableObject {
         
         description.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.com.ovatar.batteryboi")
         description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
-        
-        var directory: URL?
-        var subdirectory: URL?
-        
+
         if let support = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last {
             let parent = support.appendingPathComponent("BatteryBoi")
-                        
+
             do {
                 try FileManager.default.createDirectory(at: parent, withIntermediateDirectories: true, attributes: nil)
                 
-                let file = parent.appendingPathComponent("\(object).sqlite")
-                directory = file
-                
-                print("\n\nSQL File: \(file.absoluteString)\n\n")
-                
-                container.viewContext.automaticallyMergesChangesFromParent = true
-                container.persistentStoreDescriptions = [NSPersistentStoreDescription(url: file)]
-                
                 subdirectory = parent
-                
-            }
+                directory = parent.appendingPathComponent("\(object).sqlite")
+
+                print("\n\nSQL File: \(directory?.absoluteString ?? "")\n\n")
+
+            } 
             catch {
                 print("Error creating or setting SQLite store URL: \(error)")
                 
             }
             
-        }
+        } 
         else {
             print("Error retrieving Application Support directory URL.")
             
         }
 
-        container.persistentStoreDescriptions = [description]
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            print("\n\nstoreDescription" ,storeDescription)
+        if let directory = directory {
+            container.persistentStoreDescriptions.append(NSPersistentStoreDescription(url: directory))
+            
+        }
+
+        container.loadPersistentStores { (storeDescription, error) in
+            print("\n\nstoreDescription", storeDescription)
             if let error = error {
                 fatalError("Unresolved error \(error)")
                 
             }
             
-            if let path = directory {
-                directory = storeDescription.url
-                print("directory" ,directory ?? "")
-            }
-            
-        })
-        
+        }
+
         container.viewContext.automaticallyMergesChangesFromParent = true
         
         return .init(container: container, directory: directory, parent: subdirectory)

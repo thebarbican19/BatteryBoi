@@ -75,6 +75,18 @@
 		D8DFD5842A8C26F300732635 /* BBSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DFD5832A8C26F300732635 /* BBSettingsView.swift */; };
 		D8DFD58E2A8D83B500732635 /* EnalogSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D8DFD58D2A8D83B500732635 /* EnalogSwift */; };
 		D8DFD5932A956D2C00732635 /* BBBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DFD5922A956D2C00732635 /* BBBluetoothManager.swift */; };
+		D8E619812B16702B0023D5E0 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = D8E619802B16702B0023D5E0 /* RevenueCat */; };
+		D8E619832B16702B0023D5E0 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = D8E619822B16702B0023D5E0 /* RevenueCatUI */; };
+		D8E619852B16704A0023D5E0 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = D8E619842B16704A0023D5E0 /* RevenueCat */; };
+		D8E619872B16704A0023D5E0 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = D8E619862B16704A0023D5E0 /* RevenueCatUI */; };
+		D8E6198A2B167C5C0023D5E0 /* BBOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E619892B167C5C0023D5E0 /* BBOnboardingView.swift */; };
+		D8E6198B2B167C5C0023D5E0 /* BBOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E619892B167C5C0023D5E0 /* BBOnboardingView.swift */; };
+		D8E6198D2B16F13D0023D5E0 /* BBOnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6198C2B16F13D0023D5E0 /* BBOnboardingManager.swift */; };
+		D8E6198E2B16F13D0023D5E0 /* BBOnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6198C2B16F13D0023D5E0 /* BBOnboardingManager.swift */; };
+		D8E619912B1707750023D5E0 /* BBOnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E619902B1707750023D5E0 /* BBOnboardingModel.swift */; };
+		D8E619922B1707750023D5E0 /* BBOnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E619902B1707750023D5E0 /* BBOnboardingModel.swift */; };
+		D8E619932B1707750023D5E0 /* BBOnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E619902B1707750023D5E0 /* BBOnboardingModel.swift */; };
+		D8E619942B17081F0023D5E0 /* BBCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2312B0D6ABF00D13DE6 /* BBCloudManager.swift */; };
 		D8F2671E2AB00558003A6420 /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F2671D2AB00557003A6420 /* SMC.swift */; };
 /* End PBXBuildFile section */
 
@@ -183,6 +195,9 @@
 		D8DFD5832A8C26F300732635 /* BBSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBSettingsView.swift; sourceTree = "<group>"; };
 		D8DFD5852A8D510200732635 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		D8DFD5922A956D2C00732635 /* BBBluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBBluetoothManager.swift; sourceTree = "<group>"; };
+		D8E619892B167C5C0023D5E0 /* BBOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBOnboardingView.swift; sourceTree = "<group>"; };
+		D8E6198C2B16F13D0023D5E0 /* BBOnboardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBOnboardingManager.swift; sourceTree = "<group>"; };
+		D8E619902B1707750023D5E0 /* BBOnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBOnboardingModel.swift; sourceTree = "<group>"; };
 		D8F2671D2AB00557003A6420 /* SMC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -191,7 +206,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8E619852B16704A0023D5E0 /* RevenueCat in Frameworks */,
 				D804F2262B0D63BD00D13DE6 /* EnalogSwift in Frameworks */,
+				D8E619872B16704A0023D5E0 /* RevenueCatUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,6 +227,8 @@
 			files = (
 				D84F4E182A85A66900668582 /* Sparkle in Frameworks */,
 				D8D9E5C62A81B27D00E295FA /* DynamicColor in Frameworks */,
+				D8E619832B16702B0023D5E0 /* RevenueCatUI in Frameworks */,
+				D8E619812B16702B0023D5E0 /* RevenueCat in Frameworks */,
 				D8D9E5C02A81565000E295FA /* FluidGradient in Frameworks */,
 				D8DFD58E2A8D83B500732635 /* EnalogSwift in Frameworks */,
 				D84F4E1B2A85A6A800668582 /* KeyboardShortcuts in Frameworks */,
@@ -241,6 +260,7 @@
 				D804F22E2B0D64DE00D13DE6 /* BBSettingsModel.swift */,
 				D804F2362B0D6F1500D13DE6 /* BBBluetoothModel.swift */,
 				D8598C962B156198006F36B2 /* BBCloudModel.swift */,
+				D8E619902B1707750023D5E0 /* BBOnboardingModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -386,6 +406,7 @@
 			isa = PBXGroup;
 			children = (
 				D8D9E5CA2A8403D300E295FA /* BBAppManager.swift */,
+				D8E6198C2B16F13D0023D5E0 /* BBOnboardingManager.swift */,
 				D8DFD5922A956D2C00732635 /* BBBluetoothManager.swift */,
 				D8D9E5AE2A7DF68C00E295FA /* BBBatteryManager.swift */,
 				D8228E382AC387010014DC85 /* BBProcessManager.swift */,
@@ -404,6 +425,7 @@
 			isa = PBXGroup;
 			children = (
 				D851F7FE2AB0FC20003FCA79 /* BBHUDView.swift */,
+				D8E619892B167C5C0023D5E0 /* BBOnboardingView.swift */,
 			);
 			path = Window;
 			sourceTree = "<group>";
@@ -452,6 +474,8 @@
 			name = "BatteryBoi (iOS)";
 			packageProductDependencies = (
 				D804F2252B0D63BD00D13DE6 /* EnalogSwift */,
+				D8E619842B16704A0023D5E0 /* RevenueCat */,
+				D8E619862B16704A0023D5E0 /* RevenueCatUI */,
 			);
 			productName = "BatteryBoi (iOS)";
 			productReference = D8228E0D2AC1EA790014DC85 /* BatteryBoi (iOS).app */;
@@ -494,6 +518,8 @@
 				D84F4E172A85A66900668582 /* Sparkle */,
 				D84F4E1A2A85A6A800668582 /* KeyboardShortcuts */,
 				D8DFD58D2A8D83B500732635 /* EnalogSwift */,
+				D8E619802B16702B0023D5E0 /* RevenueCat */,
+				D8E619822B16702B0023D5E0 /* RevenueCatUI */,
 			);
 			productName = BatteryBoi;
 			productReference = D8D9E59C2A7DE7AB00E295FA /* BatteryBoi.app */;
@@ -551,6 +577,7 @@
 				D84F4E162A85A66900668582 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				D84F4E192A85A6A800668582 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 				D8DFD58C2A8D83B500732635 /* XCRemoteSwiftPackageReference "EnalogSwift" */,
+				D8E6197F2B16702B0023D5E0 /* XCRemoteSwiftPackageReference "purchases-ios" */,
 			);
 			productRefGroup = D8D9E59D2A7DE7AB00E295FA /* Products */;
 			projectDirPath = "";
@@ -612,8 +639,11 @@
 				D804F2392B0D6F3800D13DE6 /* BBBluetoothManager.swift in Sources */,
 				D804F2302B0D650300D13DE6 /* BBSettingsModel.swift in Sources */,
 				D804F2332B0D6B3700D13DE6 /* BBCloudManager.swift in Sources */,
+				D8E619922B1707750023D5E0 /* BBOnboardingModel.swift in Sources */,
 				D804F22A2B0D641D00D13DE6 /* BBSystemModel.swift in Sources */,
+				D8E6198E2B16F13D0023D5E0 /* BBOnboardingManager.swift in Sources */,
 				D804F22C2B0D646600D13DE6 /* BBSettingsManager.swift in Sources */,
+				D8E6198B2B167C5C0023D5E0 /* BBOnboardingView.swift in Sources */,
 				D8598C982B1561B8006F36B2 /* BBCloudModel.swift in Sources */,
 				D804F2272B0D63CE00D13DE6 /* BBExtensions.swift in Sources */,
 				D804F2382B0D6F1F00D13DE6 /* BBBluetoothModel.swift in Sources */,
@@ -630,8 +660,10 @@
 			files = (
 				D8598C902B156085006F36B2 /* BBDataObject.xcdatamodeld in Sources */,
 				D8598C992B1561B8006F36B2 /* BBCloudModel.swift in Sources */,
+				D8E619932B1707750023D5E0 /* BBOnboardingModel.swift in Sources */,
 				D85DEE382B0C0EAE00E53109 /* BatteryBoy__Activity_Bundle.swift in Sources */,
 				D85DEE3A2B0C0EAE00E53109 /* BatteryBoy__Activity_.swift in Sources */,
+				D8E619942B17081F0023D5E0 /* BBCloudManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -641,6 +673,7 @@
 			files = (
 				D851F8062AB214E8003FCA79 /* BBDataObject.xcdatamodeld in Sources */,
 				D89CCFEE2A9FF97900D9531A /* BBAboutView.swift in Sources */,
+				D8E619912B1707750023D5E0 /* BBOnboardingModel.swift in Sources */,
 				D83DD3FA2A9D62AF00FCC534 /* BBStatsManager.swift in Sources */,
 				D8DFD5842A8C26F300732635 /* BBSettingsView.swift in Sources */,
 				D891134D2AAC34DC00B5E4F5 /* BBAnimationManager.swift in Sources */,
@@ -654,6 +687,7 @@
 				D83DD3F52A9908E600FCC534 /* BBUpdateManager.swift in Sources */,
 				D851F8022AB152B7003FCA79 /* BBUpdateView.swift in Sources */,
 				D8598C972B156199006F36B2 /* BBCloudModel.swift in Sources */,
+				D8E6198A2B167C5C0023D5E0 /* BBOnboardingView.swift in Sources */,
 				D8D9E5CB2A8403D300E295FA /* BBAppManager.swift in Sources */,
 				D804F2322B0D6ABF00D13DE6 /* BBCloudManager.swift in Sources */,
 				D8DFD5822A8BD7E800732635 /* BBProgressView.swift in Sources */,
@@ -665,6 +699,7 @@
 				D8F2671E2AB00558003A6420 /* SMC.swift in Sources */,
 				D83CD7452AA8F693004223D7 /* BBBluetoothView.swift in Sources */,
 				D804F22F2B0D64DE00D13DE6 /* BBSettingsModel.swift in Sources */,
+				D8E6198D2B16F13D0023D5E0 /* BBOnboardingManager.swift in Sources */,
 				D8D9E5B92A80646E00E295FA /* BBExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1136,6 +1171,14 @@
 				kind = branch;
 			};
 		};
+		D8E6197F2B16702B0023D5E0 /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.31.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1168,6 +1211,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D8DFD58C2A8D83B500732635 /* XCRemoteSwiftPackageReference "EnalogSwift" */;
 			productName = EnalogSwift;
+		};
+		D8E619802B16702B0023D5E0 /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D8E6197F2B16702B0023D5E0 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
+		};
+		D8E619822B16702B0023D5E0 /* RevenueCatUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D8E6197F2B16702B0023D5E0 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCatUI;
+		};
+		D8E619842B16704A0023D5E0 /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D8E6197F2B16702B0023D5E0 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
+		};
+		D8E619862B16704A0023D5E0 /* RevenueCatUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D8E6197F2B16702B0023D5E0 /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCatUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 

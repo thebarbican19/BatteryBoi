@@ -11,7 +11,7 @@ import CoreBluetooth
 import EnalogSwift
 
 class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBPeripheralDelegate {
-    @Published var state:BluetoothPermissionState = .checking
+    @Published var state:BluetoothPermissionState = .undetermined
     @Published var broadcasting:[CBPeripheral] = []
 
     private var manager: CBCentralManager!
@@ -38,15 +38,6 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
             
         }.store(in: &updates)
 
-        $state.removeDuplicates().delay(for: .seconds(2.0), scheduler: RunLoop.main).receive(on: DispatchQueue.main).sink { state in
-            print("Authorization State: " ,state)
-            if state == .allowed {
-                self.manager.scanForPeripherals(withServices: nil, options: nil)
-
-            }
-            
-        }.store(in: &updates)
-
         self.bluetoothAuthorization()
 
     }
@@ -57,17 +48,17 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
                 self.manager.scanForPeripherals(withServices: nil, options: nil)
 
             }
-            else if self.manager.state == .unauthorized {
-                
-            }
             
         }
         
-        switch CBCentralManager.authorization {
-            case .allowedAlways : self.state = .allowed
-            case .notDetermined : self.state = .undetermined
-            default : self.state = .denied
+        DispatchQueue.main.async {
+            switch CBCentralManager.authorization {
+                case .allowedAlways : self.state = .allowed
+                case .notDetermined : self.state = .undetermined
+                default : self.state = .denied
 
+            }
+            
         }
         
     }

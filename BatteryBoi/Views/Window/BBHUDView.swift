@@ -507,6 +507,7 @@ struct HUDParent: View {
         }
         .environmentObject(WindowManager.shared)
         .environmentObject(AppManager.shared)
+        .environmentObject(OnboardingManager.shared)
         .environmentObject(BatteryManager.shared)
         .environmentObject(SettingsManager.shared)
         .environmentObject(UpdateManager.shared)

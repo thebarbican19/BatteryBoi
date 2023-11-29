@@ -360,6 +360,8 @@ enum SystemDefaultsKeys: String {
     
     case profileChecked = "sd_profiles_checked"
     case profilePayload = "sd_profiles_payload"
+    
+    case onboardingIntro = "sd_onboarding_intro"
 
     var name:String {
         switch self {
@@ -389,6 +391,8 @@ enum SystemDefaultsKeys: String {
             
             case .profileChecked:return "Profile Validated"
             case .profilePayload:return "Profile Payload"
+
+            case .onboardingIntro:return "Onboarding Intro"
 
         }
         

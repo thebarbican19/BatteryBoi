@@ -162,6 +162,8 @@ class AppManager:ObservableObject {
                         
                         do {
                             if try context.fetch(fetch).first == nil && battery >= 0 {
+                                let os = ProcessInfo.processInfo.operatingSystemVersion
+                                
                                 let store = Events(context: context) as Events
                                 store.id = UUID()
                                 store.timestamp = Date()
@@ -170,6 +172,11 @@ class AppManager:ObservableObject {
                                 store.device = device
                                 store.reporter = self.appDevice(nil, context: context)
                                 store.mode = BatteryManager.shared.saver.rawValue
+                                
+                                if let version = Float("\(os.majorVersion).\(os.minorVersion).\(os.patchVersion)") {
+                                    store.version = version
+
+                                }
                                 
                                 if let last = self.appLatestEvent(state, device: peripheral, context: context) {
                                     switch last.charge {
