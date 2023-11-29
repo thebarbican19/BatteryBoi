@@ -12,7 +12,7 @@
 		<key>BatteryBoi (iOS).xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>7</integer>
+			<integer>8</integer>
 		</dict>
 		<key>BatteryBoi Legacy.xcscheme</key>
 		<dict>
@@ -36,7 +36,7 @@
 		<key>BatteryBoy (Activity)Extension.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>8</integer>
+			<integer>5</integer>
 		</dict>
 		<key>Example (Playground) 1.xcscheme</key>
 		<dict>

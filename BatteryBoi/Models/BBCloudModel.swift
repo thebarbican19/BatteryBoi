@@ -44,6 +44,13 @@ enum CloudState:String {
     
 }
 
+enum CloudSyncedState:String {
+    case syncing
+    case completed
+    case error
+    
+}
+
 struct CloudContainerObject {
     var container:NSPersistentCloudKitContainer?
     var directory:URL?

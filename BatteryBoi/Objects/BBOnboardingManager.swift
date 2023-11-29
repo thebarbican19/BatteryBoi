@@ -19,7 +19,7 @@ import Combine
 class OnboardingManager:ObservableObject {
     static var shared = OnboardingManager()
     
-    @Published var state:OnboardingViewType = .none
+    @Published var state:OnboardingViewType = .complete
     @Published var updated:Date? = nil
     
     private var updates = Set<AnyCancellable>()
@@ -70,7 +70,7 @@ class OnboardingManager:ObservableObject {
 
         }
         else {
-            self.state = .none
+            self.state = .complete
             self.updated = Date()
             
         }

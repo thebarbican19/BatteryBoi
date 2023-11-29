@@ -14,6 +14,7 @@ import Combine
 class CloudManager:ObservableObject {
     @Published var state:CloudState = .unknown
     @Published var id:String? = nil
+    @Published var syncing:CloudSyncedState = .syncing
 
     static var shared = CloudManager()
 
@@ -58,20 +59,34 @@ class CloudManager:ObservableObject {
         }
 
         if let directory = directory {
-            container.persistentStoreDescriptions.append(NSPersistentStoreDescription(url: directory))
-            
-        }
-
-        container.loadPersistentStores { (storeDescription, error) in
-            print("\n\nstoreDescription", storeDescription)
-            if let error = error {
-                fatalError("Unresolved error \(error)")
+            DispatchQueue.global(qos: .userInitiated).async {
+                container.persistentStoreDescriptions.append(NSPersistentStoreDescription(url: directory))
+                container.viewContext.automaticallyMergesChangesFromParent = true
+                container.loadPersistentStores { (storeDescription, error) in
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            CloudManager.shared.syncing = .error
+                            
+                        }
+                        
+                    }
+                    else {
+                        DispatchQueue.main.async {
+                            CloudManager.shared.syncing = .completed
+                            
+                        }
+                        
+                    }
+                    
+                }
                 
             }
+
+        }
+        else {
+            fatalError("Directory Not Found")
             
         }
-
-        container.viewContext.automaticallyMergesChangesFromParent = true
         
         return .init(container: container, directory: directory, parent: subdirectory)
         

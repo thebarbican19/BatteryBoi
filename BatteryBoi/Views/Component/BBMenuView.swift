@@ -378,6 +378,7 @@ struct MenuContainer: View {
             .environmentObject(BatteryManager.shared)
             .environmentObject(StatsManager.shared)
             .environmentObject(UpdateManager.shared)
+            .environmentObject(CloudManager.shared)
 
     }
     

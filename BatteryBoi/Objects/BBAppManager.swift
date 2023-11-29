@@ -533,10 +533,17 @@ class AppManager:ObservableObject {
     
     private func appStorageContext() -> NSManagedObjectContext? {
         if let container = CloudManager.container.container {
-            let context = container.newBackgroundContext()
-            context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-            
-            return context
+            if CloudManager.shared.syncing == .completed {
+                let context = container.newBackgroundContext()
+                context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+                
+                return context
+                
+            }
+            else {
+                print("Still Syncing: \(CloudManager.shared.syncing.rawValue)")
+                
+            }
             
         }
         

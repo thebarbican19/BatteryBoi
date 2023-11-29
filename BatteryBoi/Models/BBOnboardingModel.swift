@@ -12,7 +12,9 @@ public enum OnboardingViewType:String {
     case notifications
     case cloud
     case bluetooth
-    case none
+    case ios
+    case macos
+    case complete
     
     var present:Bool {
         switch self {
@@ -20,7 +22,9 @@ public enum OnboardingViewType:String {
             case .notifications : return true
             case .cloud : return true
             case .bluetooth : return true
-            case .none : return false
+            case .ios : return false
+            case .macos : return false
+            case .complete : return false
 
         }
         
@@ -32,7 +36,9 @@ public enum OnboardingViewType:String {
             case .notifications : return true
             case .cloud : return true
             case .bluetooth : return true
-            case .none : return false
+            case .ios : return false
+            case .macos : return false
+            case .complete : return false
 
         }
         

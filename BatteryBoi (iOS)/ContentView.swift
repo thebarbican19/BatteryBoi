@@ -12,6 +12,8 @@ struct UpdatesView: View {
     @EnvironmentObject var manager:AppManager
     @EnvironmentObject var onboarding:OnboardingManager
     @EnvironmentObject var battery:BatteryManager
+    @EnvironmentObject var bluetooth:BluetoothManager
+    @EnvironmentObject var cloud:CloudManager
 
     @State var present:Bool = false
 
@@ -20,7 +22,10 @@ struct UpdatesView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("Onboarding: \(onboarding.state.present ? "!Present" : "Inactive")")
+                Text("Onboarding: \(onboarding.state.rawValue)")
+                
+                Text("Cloud State: \(cloud.syncing.rawValue)")
+
                 
                 Text("Devices: \(manager.list.count)")
                 
@@ -30,7 +35,6 @@ struct UpdatesView: View {
             .padding()
             .font(.caption)
             
-            /*
             VStack {
                 ScrollView {
                     Text("Broadcasting").font(.title)
@@ -90,7 +94,6 @@ struct UpdatesView: View {
                 }
                 
             }
-            */
             
             Spacer()
             
