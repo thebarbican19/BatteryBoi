@@ -26,7 +26,6 @@ struct UpdatesView: View {
                 
                 Text("Cloud State: \(cloud.syncing.rawValue)")
 
-                
                 Text("Devices: \(manager.list.count)")
                 
                 Text("Polled: \(manager.updated?.formatted ?? "Never")")

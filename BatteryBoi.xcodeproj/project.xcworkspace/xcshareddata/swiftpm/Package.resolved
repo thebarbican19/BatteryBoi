@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "deviice",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/andrealufino/Deviice",
+      "state" : {
+        "revision" : "e9ae6fc86dfcdc23430e93fc0b92f7009408e6a4",
+        "version" : "2.1.2"
+      }
+    },
+    {
       "identity" : "dynamiccolor",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/yannickl/DynamicColor",

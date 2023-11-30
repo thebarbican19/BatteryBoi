@@ -38,7 +38,7 @@ class OnboardingManager:ObservableObject {
 
         }.store(in: &updates)
         
-        BluetoothManager.shared.$state.removeDuplicates().receive(on: DispatchQueue.main).sink { _ in
+        BluetoothManager.shared.$state.receive(on: DispatchQueue.main).sink { _ in
             self.onboardingSetup()
 
         }.store(in: &updates)
@@ -53,12 +53,12 @@ class OnboardingManager:ObservableObject {
             self.updated = Date()
 
         }
-        else if BluetoothManager.shared.state != .allowed {
+        else if BluetoothManager.shared.state != .allowed && BluetoothManager.shared.state != .unknown {
             self.state = .bluetooth
             self.updated = Date()
 
         }
-        else if CloudManager.shared.state != .enabled {
+        else if CloudManager.shared.state != .enabled && CloudManager.shared.state != .unknown {
             switch CloudManager.shared.state {
                 case .disabled : self.state = .cloud
                 case .blocked : self.state = .notifications

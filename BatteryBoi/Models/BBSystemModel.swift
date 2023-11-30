@@ -88,7 +88,22 @@ enum SystemDeviceTypes:String,Codable {
     case iphone
     case unknown
     
-    func name(_ alias:Bool = true) -> String {
+    func name(_ alias:Bool = true) -> String? {
+        var name:String? = nil
+        switch self {
+            case .macbook: name = "Macbook"
+            case .macbookPro: name = "Macbook Pro"
+            case .macbookAir: name = "Macbook Air"
+            case .imac: name = "iMac"
+            case .ipad: name = "iPad"
+            case .iphone: name = "iPhone"
+            case .macMini: name = "Mac Mini"
+            case .macPro: name = "Mac Pro"
+            case .macStudio: name = "Mac Pro"
+            case .unknown: name = "AlertDeviceUnknownTitle".localise()
+            
+        }
+        
         if alias == true {
             #if os(macOS)
                 if let name = Host.current().localizedName {
@@ -97,25 +112,20 @@ enum SystemDeviceTypes:String,Codable {
                 }
             
             #elseif os(iOS)
-                return UIDevice.current.name
+                if UIDevice.current.name != name {
+                    return UIDevice.current.name
+                    
+                }
+                else {
+                    return nil
+                    
+                }
             
             #endif
             
         }
         
-        switch self {
-            case .macbook: return "Macbook"
-            case .macbookPro: return "Macbook Pro"
-            case .macbookAir: return "Macbook Air"
-            case .imac: return "iMac"
-            case .ipad: return "iPad"
-            case .iphone: return "iPhone"
-            case .macMini: return "Mac Mini"
-            case .macPro: return "Mac Pro"
-            case .macStudio: return "Mac Pro"
-            case .unknown: return "AlertDeviceUnknownTitle".localise()
-            
-        }
+        return nil
         
     }
     
@@ -233,9 +243,9 @@ struct SystemDeviceObject:Hashable,Equatable,Identifiable {
     var events:[SystemEventObject] = []
     
     init?(_ device:Devices) {
-        if let id = device.id, let name = device.name, let events = device.events?.allObjects {
+        if let id = device.id, let events = device.events?.allObjects {
             self.id = id
-            self.name = name
+            self.name = device.name ?? device.match ?? "Shiittt"
             self.profile = .init(serial:device.serial, vendor: device.vendor)
             self.synced = true
             self.favourite = device.favourite

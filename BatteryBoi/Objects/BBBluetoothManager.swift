@@ -11,7 +11,7 @@ import CoreBluetooth
 import EnalogSwift
 
 class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBPeripheralDelegate {
-    @Published var state:BluetoothPermissionState = .undetermined
+    @Published var state:BluetoothPermissionState = .unknown
     @Published var broadcasting:[CBPeripheral] = []
 
     private var manager: CBCentralManager!
@@ -22,18 +22,18 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
     override init() {
         super.init()
         
-        self.manager = CBCentralManager(delegate: self, queue: nil)
+        if CBCentralManager.authorization == .allowedAlways {
+            self.manager = CBCentralManager(delegate: self, queue: nil)
+            
+        }
         
         $broadcasting.removeDuplicates().sink { items in
-            print("items" ,items)
-            if let recognized = items.first(where: { $0.name != nil && $0.state != .connecting }) {
-                if recognized.name!.contains("AirPods") {
-                    print("Connecting to Airpods" ,recognized)
+            if CBCentralManager.authorization == .allowedAlways {
+                for recognized in items.filter({ $0.name != nil && $0.state != .connecting }) {
+                    self.manager.connect(recognized, options: nil)
                     
                 }
                 
-                self.manager.connect(recognized, options: nil)
-
             }
             
         }.store(in: &updates)
@@ -44,7 +44,8 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
     
     public func bluetoothAuthorization(_ force:Bool = false) {
         if force == true {
-            if self.manager.state == .unauthorized {
+            if CBCentralManager.authorization == .notDetermined {
+                self.manager = CBCentralManager(delegate: self, queue: nil)
                 self.manager.scanForPeripherals(withServices: nil, options: nil)
 
             }
@@ -74,10 +75,19 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
 
         }
         
+        DispatchQueue.main.async {
+            switch CBCentralManager.authorization {
+                case .allowedAlways : self.state = .allowed
+                case .notDetermined : self.state = .undetermined
+                default : self.state = .denied
+
+            }
+
+        }
+        
     }
 
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-                
         let distance:SystemDeviceDistanceObject = .init(Double(truncating: RSSI))
         
         if var device = AppManager.shared.list.first(where: { $0.id == peripheral.identifier }) {
@@ -102,19 +112,18 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
     }
 
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-        print("Could not Connect to \(peripheral.name ?? "No Name")" ,error)
-//        if let index = self.broadcasting.firstIndex(where: { $0.name == peripheral.name }) {
-//            self.broadcasting.remove(at: index)
-//            
-//        }
+        if let index = self.broadcasting.firstIndex(where: { $0.name == peripheral.name }) {
+            self.broadcasting.remove(at: index)
+            
+        }
         
     }
 
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-//        if let index = self.broadcasting.firstIndex(where: { $0.name == peripheral.name }) {
-//            self.broadcasting.remove(at: index)
-//            
-//        }
+        if let index = self.broadcasting.firstIndex(where: { $0.name == peripheral.name }) {
+            self.broadcasting.remove(at: index)
+            
+        }
         
     }
     
@@ -125,6 +134,7 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
         }
         else {
             if let services = peripheral.services {
+                print("Found \(services.count) for ", peripheral)
                 for service in services {
                     print("Characteristics UUID" ,service.uuid)
                     
@@ -182,22 +192,32 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
                     }
                     
                     if let name = name {
+                        if name.contains("AirPods") {
+                            print("Connecting to Airpods" ,name)
+                            
+                        }
+                        
+                        
                         let profile:SystemDeviceProfileObject = .init(serial: serial, vendor: vendor)
                         let device:SystemDeviceObject = .init(peripheral.identifier, name: name, profile: profile)
                         
                         AppManager.shared.appUpdateList(device)
 
                     }
+                    else {
+                        print("could not update list with " ,peripheral)
+                        
+                    }
 
-//                    if characteristic.uuid == BluetoothUUID.nearby.uuid {
-//                        print("FOUND NEARBY FOR \(peripheral.name)")
-//                        
-//                    }
-//                    
-//                    if characteristic.uuid == BluetoothUUID.continuity.uuid {
-//                        print("FOUND CONTINUITY FOR \(peripheral.name)")
-//                        
-//                    }
+                    if characteristic.uuid == BluetoothUUID.nearby.uuid {
+                        print("FOUND NEARBY FOR \(peripheral.name)")
+                        
+                    }
+                    
+                    if characteristic.uuid == BluetoothUUID.continuity.uuid {
+                        print("FOUND CONTINUITY FOR \(peripheral.name)")
+                        
+                    }
                     
                     switch characteristic.uuid {
                         case CBUUID(string: "110D"): print("TYPE: HEADPHONES")
@@ -217,7 +237,10 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
                 }
                 
             }
-            
+            else {
+                print("No characteristics for " ,peripheral)
+                
+            }
         }
         
     }

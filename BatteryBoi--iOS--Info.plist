@@ -12,7 +12,11 @@
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
-    <key>NSUserNotificationUsageDescription</key>
-    <string>Notifications are used to inform you when your any of your connected Devices need charging.</string>
+	<key>NSUserNotificationUsageDescription</key>
+	<string>Notifications are used to inform you when your any of your connected Devices need charging.</string>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.ovatar.batteryapp.refresh</string>
+	</array>
 </dict>
 </plist>

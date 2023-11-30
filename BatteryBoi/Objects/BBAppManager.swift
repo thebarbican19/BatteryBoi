@@ -12,6 +12,7 @@ import SwiftUI
 import CoreData
 import CloudKit
 import CoreBluetooth
+import Deviice
 
 class AppManager:ObservableObject {
     static var shared = AppManager()
@@ -84,11 +85,14 @@ class AppManager:ObservableObject {
 
         }.store(in: &updates)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            self.appStoreDevice()
+        CloudManager.shared.$syncing.removeDuplicates().receive(on: DispatchQueue.main).sink { state in
+            if state == .completed {
+                self.appStoreDevice()
+                
+            }
             
-        }
-        
+        }.store(in: &updates)
+
     }
     
     deinit {
@@ -348,7 +352,7 @@ class AppManager:ObservableObject {
     private func appListDevices() {
         if let context = self.appStorageContext() {
             let fetch: NSFetchRequest<Devices> = Devices.fetchRequest()
-            fetch.predicate = NSPredicate(format: "name != %@", "")
+//            fetch.predicate = NSPredicate(format: "name != %@", "")
             
             do {
                 let list = try context.fetch(fetch)
@@ -405,15 +409,25 @@ class AppManager:ObservableObject {
     private func appStoreDevice(_ device:SystemDeviceObject? = nil) {
         if let context = self.appStorageContext() {
             context.performAndWait {
+                let type = AppManager.shared.appDeviceType
+
                 var predicates = Array<NSPredicate>()
-                
+                var name:String? = device?.name
+                                
                 if let device = device {
                     predicates.append(NSPredicate(format: "name == %@", device.name))
                     
                 }
                 else {
-                    if let id = UUID.device() {
-                        predicates.append(NSPredicate(format: "id == %@", id as CVarArg))
+                    name = type.name(true)
+
+                    if let match = self.appDeviceMatch() {
+                        predicates.append(NSPredicate(format: "match == %@", match))
+                        
+                    }
+                    
+                    if let name = name {
+                        predicates.append(NSPredicate(format: "name == %@", name))
                         
                     }
 
@@ -456,35 +470,30 @@ class AppManager:ObservableObject {
                             if let device = device {
                                 store?.address = device.address
                                 store?.id = device.id
-                                store?.name = device.name
+                                store?.name = name
                                 store?.vendor = device.profile?.hardware
                                 store?.type = "TBA"
                                 store?.primary = false
                                 
                             }
                             else {
-                                let type = AppManager.shared.appDeviceType
-                                
+                                store?.name = name
                                 store?.id = UUID.device()
                                 store?.subtype = type.name(false)
                                 store?.type = type.category.rawValue
-                                store?.name = type.name(true)
                                 store?.primary = true
                                 store?.vendor = "Apple Inc"
                                 store?.product = type.name(false)
-                                store?.serial = "TBA"
-                                store?.address = ""
+                                store?.serial = nil
+                                store?.address = nil
+                                store?.os = UIDevice.current.systemVersion
+                                store?.match = self.appDeviceMatch()
                                 
                             }
                             
                         }
-                        
-                        if store?.name != nil {
-                            print("Saving" ,store)
-                            
-                            try context.save()
-                            
-                        }
+                                                
+                        try context.save()
                         
                     }
                     catch {
@@ -531,7 +540,7 @@ class AppManager:ObservableObject {
         
     }
     
-    private func appStorageContext() -> NSManagedObjectContext? {
+    public func appStorageContext() -> NSManagedObjectContext? {
         if let container = CloudManager.container.container {
             if CloudManager.shared.syncing == .completed {
                 let context = container.newBackgroundContext()
@@ -585,6 +594,27 @@ class AppManager:ObservableObject {
 
         return .unknown
       
+    }
+    
+    private func appDeviceMatch() -> String? {
+        var parameters:[String] = []
+        
+        parameters.append(Device.init().osName)
+        parameters.append(Device.init().osVersion ?? "0.0.0")
+        parameters.append(Device.init().actualModel.marketingName)
+        parameters.append(TimeZone.current.abbreviation() ?? "GMT")
+
+        if parameters.isEmpty == false {
+            var output = parameters.joined(separator: "-")
+            output = output.lowercased()
+            output = output.replacingOccurrences(of: " ", with: "")
+            
+            return output
+            
+        }
+        
+        return nil
+
     }
     
     public func appDistribution() -> SystemDistribution {

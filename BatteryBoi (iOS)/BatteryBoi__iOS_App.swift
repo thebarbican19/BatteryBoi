@@ -28,11 +28,14 @@ struct BatteryBoi__iOS_App: App {
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     static var shared = AppDelegate()
+    
+    private var activity:Activity<CloudNotifyAttributes>?
+    private var state:Activity<CloudNotifyAttributes>?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.ovatar.batteryapp.refresh", using: nil) { task in
-            
-//            self.handleAppRefresh(task: task as! BGAppRefreshTask)
+            self.applicationHandleAppRefresh(task: task as! BGAppRefreshTask)
             
         }
         
@@ -40,27 +43,67 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
     }
     
-//    func handleAppRefresh(task: BGAppRefreshTask) {
-//        scheduleAppRefresh() // Schedule the next refresh.
-//
-//        task.expirationHandler = {
-//            // Clean up any unfinished task business by marking where you.
-//            // stopped or ending the task outright.
-//        }
-//
-//        // Check for updates from CloudKit
-//        checkForUpdatesInCloudKit { (result) in
-//            task.setTaskCompleted(success: result == .newData)
-//        }
-//
-//    }
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        self.applicationScheduleAppRefresh()
+        
+    }
+    
+    func applicationScheduleAppRefresh() {
+        let request = BGAppRefreshTaskRequest(identifier: "com.ovatar.batteryapp.refresh")
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 5 * 60)
+        
+        do {
+            try BGTaskScheduler.shared.submit(request)
+            
+        }
+        catch {
+            print("Could not schedule app refresh: \(error)")
+            
+        }
+        
+    }
+    
+    func applicationHandleAppRefresh(task: BGAppRefreshTask) {
+        self.applicationScheduleAppRefresh()
+        
+        task.expirationHandler = {
+            BluetoothManager.shared.bluetoothStopScanning()
+            
+        }
+        
+        self.applicationSendBackgroundEvent { success in
+            task.setTaskCompleted(success: success)
+            
+        }
+        
+        task.setTaskCompleted(success: true)
+        
+    }
+    
+    func applicationSendBackgroundEvent(completion: @escaping (Bool) -> Void) {
+        BatteryManager.shared.powerForceRefresh()
+        BluetoothManager.shared.bluetoothAuthorization()
+        
+        self.applicationFetchLatestEvent { event in
+            if let event = event {
+                completion(true)
+                
+            }
+            else {
+                completion(false)
+                
+            }
+            
+        }
+        
+    }
     
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         if let components = URLComponents(url: url, resolvingAgainstBaseURL: true) {
-           print("Components" ,components)
+            print("Components" ,components)
             
         }
-    
+        
         return true
         
     }
@@ -70,12 +113,67 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
     }
     
+    func applicationHandleActivity(_ event:Events?) {
+        do {
+            if let event = event, let timestamp = event.timestamp {
+                let stale:Date = Date(timeIntervalSinceNow: 60 * 20)
+                let attributes = CloudNotifyAttributes(device: event.device?.match ?? "Uknown")
+                let state = CloudNotifyAttributes.ContentState.init(battery: Int(event.charge), charging: false, timestamp: timestamp)
+                let content = ActivityContent(state: state, staleDate: stale, relevanceScore: 1.0 / Double(event.charge / 100))
+                
+                if self.activity == nil {
+                    self.activity = try Activity.request(attributes: attributes, content: content)
+
+                }
+                else {
+                    Task {
+                        await self.activity?.update(content)
+
+                    }
+                    
+                }
+                
+            }
+            else {
+                Task {
+                    await self.activity?.end(self.activity?.content, dismissalPolicy: .immediate)
+
+                }
+                
+            }
+        
+        }
+        catch {
+            
+        }
+    }
+    
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
         if let _ = CKNotification(fromRemoteNotificationDictionary: userInfo) as? CKQueryNotification {
-            //AppManager.shared.updated = Date()
+            AppManager.shared.updated = Date()
             
-            completionHandler(.newData)
+            let task = UIApplication.shared.beginBackgroundTask {
+                
+            }
+            
+            self.applicationFetchLatestEvent { event in
+                if let event = event {
+                    self.applicationHandleActivity(event)
+                    
+                    UIApplication.shared.endBackgroundTask(task)
+                    
+                    completionHandler(.newData)
+                    
+                }
+                else {
+                    self.applicationHandleActivity(nil)
+
+                    completionHandler(.noData)
+                    
+                }
+                
+            }
             
         }
         else {
@@ -84,75 +182,41 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         }
         
     }
-//    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-//        print("userinfo" ,userInfo)
-//        let attributes = EventsNotifyAttributes(device: "MYDEVICE")
-//        let state = EventsNotifyAttributes.ContentState.init(battery: 80, charging: true)
-//        let content = ActivityContent(state: state, staleDate: nil)
-//
-//        let activity = try? Activity.request(attributes: attributes, content: content)
-//
-//        completionHandler(.newData)
-//        
-////        if let notification = CKNotification(fromRemoteNotificationDictionary: userInfo) as? CKQueryNotification {
-//////            if let recordID = notification.recordID {
-//////                print("recordID" ,recordID)
-////
-////                        
-//////                        if record.recordType == "CD_Events" {
-//////                            let fetch: NSFetchRequest<Events> = Events.fetchRequest()
-//////                            fetch.predicate = NSPredicate(format: "id == %@", recordID)
-//////                            
-//////                            do {
-//////                                let results = try context.fetch(fetch).last
-//////
-//////                                let charge:Int = Int(results?.charge ?? 69)
-//////                                let attributes = EventsNotifyAttributes(device: "MYDEVICE")
-//////                                let state = EventsNotifyAttributes.ContentState.init(battery: charge, charging: true)
-//////                                let content = ActivityContent(state: state, staleDate: nil)
-//////                                
-//////                                do {
-//////                                    let activity = try Activity.request(attributes: attributes, content: content)
-//////                                    
-//////                                    print("Battery Activity started for \("Random Deice")")
-//////                                    
-//////                                }
-//////                                catch {
-//////                                    print("Failed to start battery activity: \(error)")
-//////                                    
-//////                                }
-//////                                
-//////                            }
-//////                            catch {
-//////                                
-//////                                
-//////                            }
-//////                            
-//////                        }
-////                                            
-////    
-////                    
-////                    
-//////                    }
-////            
-////            
-//////            let charge:Int = Int(results?.charge ?? 69)
-////         
-////
-//////                
-//////            }
-//////            else {
-//////               completionHandler(.noData)
-//////                
-//////            }
-////    
-////        }
-////        else {
-////           completionHandler(.noData)
-////           
-////       }
-//
-//   }
+    
+    func applicationFetchLatestEvent(completion: @escaping (Events?) -> Void) {
+        if let context = AppManager.shared.appStorageContext() {
+            let fetch: NSFetchRequest<Events> = Events.fetchRequest()
+            fetch.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
+            fetch.predicate = NSPredicate(format: "notify == %@", "background")
+            fetch.fetchLimit = 1
+            
+            do {
+                if let existing = try context.fetch(fetch).first {
+                    self.applicationHandleActivity(existing)
+
+                    completion(existing)
+                    
+                }
+                else {
+                    self.applicationHandleActivity(nil)
+
+                    completion(nil)
+                    
+                }
+                
+            }
+            catch {
+                completion(nil)
+                
+            }
+            
+        }
+        else {
+            completion(nil)
+            
+        }
         
+    }
+    
 }
 

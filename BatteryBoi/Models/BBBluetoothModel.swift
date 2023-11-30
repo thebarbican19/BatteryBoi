@@ -13,6 +13,7 @@ enum BluetoothPermissionState:String {
     case undetermined
     case denied
     case off
+    case unknown
     
 }
 

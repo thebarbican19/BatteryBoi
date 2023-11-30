@@ -22,6 +22,7 @@ import CoreData
         public struct ContentState:Hashable,Codable {
             var battery:Int
             var charging:Bool
+            var timestamp:Date
             
         }
 

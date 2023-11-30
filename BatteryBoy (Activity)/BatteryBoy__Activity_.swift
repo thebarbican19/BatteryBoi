@@ -12,25 +12,46 @@ import SwiftUI
 struct BatteryBoy__Activity_:Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: CloudNotifyAttributes.self) { context in
-            BatteryLiveActivity(context: context)
+            BatteryLiveActivity(context: context).background(Color("BatteryBackground"))
 
         }
         dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
-                    Text("Main")
-                    
+                    VStack {
+                        Text("Device: \(context.attributes.device)")
+                        
+                    }
+                    .font(.system(size: 11, weight: .medium))
+
+
+                }
+                
+                DynamicIslandExpandedRegion(.trailing) {
+                    VStack {
+                        Text("Timstamp: \(context.state.timestamp.formatted())")
+                        
+                    }
+                    .font(.system(size: 11, weight: .bold))
+
+
                 }
                 
             } compactLeading: {
                 Text("CL")
       
             } compactTrailing: {
-                Text("CT")
-                
-            } minimal: {
-                Text("-")
+                HStack(spacing: 0) {
+                    Text("\(context.state.battery)").foregroundColor(Color("BatteryTitle"))
                     
+                    Text("%").foregroundColor(Color("BatterySubtitle"))
+
+                }
+                .font(.system(size: 11, weight: .medium))
+
+            } minimal: {
+                Text("\(context.state.battery)%")
+
             }
 
         }
@@ -44,7 +65,9 @@ struct BatteryLiveActivity:View {
     
     var body: some View {
         Text("Charging: \(context.state.battery)")
-        
+        Text("Device: \(context.attributes.device)")
+
     }
+    
 }
 
