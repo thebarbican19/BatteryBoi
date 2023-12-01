@@ -268,6 +268,24 @@ class BatteryManager:ObservableObject {
 
         }.store(in: &updates)
         
+        $percentage.removeDuplicates().receive(on: DispatchQueue.global()).sink() { newValue in
+            switch BatteryManager.shared.charging.state {
+                case .battery : AppManager.shared.appStoreEvent(.disconnected, peripheral: nil)
+                case .charging : AppManager.shared.appStoreEvent(.charging, peripheral: nil)
+                
+            }
+
+        }.store(in: &updates)
+        
+        $charging.removeDuplicates().receive(on: DispatchQueue.global()).sink() { newValue in
+            switch newValue.state {
+                case .battery : AppManager.shared.appStoreEvent(.disconnected, peripheral: nil)
+                case .charging : AppManager.shared.appStoreEvent(.connected, peripheral: nil)
+
+            }
+
+        }.store(in: &updates)
+        
         #if os(iOS)
             UIDevice.current.isBatteryMonitoringEnabled = true
 

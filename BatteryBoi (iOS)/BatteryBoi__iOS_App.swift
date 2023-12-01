@@ -117,9 +117,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         do {
             if let event = event, let timestamp = event.timestamp {
                 let stale:Date = Date(timeIntervalSinceNow: 60 * 20)
-                let attributes = CloudNotifyAttributes(device: event.device?.match ?? "Uknown")
+                let attributes = CloudNotifyAttributes(device: event.device?.name ?? event.device?.match ?? "Uknown")
                 let state = CloudNotifyAttributes.ContentState.init(battery: Int(event.charge), charging: false, timestamp: timestamp)
-                let content = ActivityContent(state: state, staleDate: stale, relevanceScore: 1.0 / Double(event.charge / 100))
+                let content = ActivityContent(state: state, staleDate: stale)
                 
                 if self.activity == nil {
                     self.activity = try Activity.request(attributes: attributes, content: content)
@@ -186,8 +186,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func applicationFetchLatestEvent(completion: @escaping (Events?) -> Void) {
         if let context = AppManager.shared.appStorageContext() {
             let fetch: NSFetchRequest<Events> = Events.fetchRequest()
-            fetch.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
-            fetch.predicate = NSPredicate(format: "notify == %@", "background")
+            fetch.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
             fetch.fetchLimit = 1
             
             do {

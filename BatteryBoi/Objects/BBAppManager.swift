@@ -92,7 +92,7 @@ class AppManager:ObservableObject {
             }
             
         }.store(in: &updates)
-
+            
     }
     
     deinit {
@@ -112,40 +112,56 @@ class AppManager:ObservableObject {
     public func appStoreEvent(_ state:StatsStateType, peripheral:CBPeripheral?, battery:Int? = nil) {
         if let context = self.appStorageContext() {
             context.performAndWait {
+                var notify:StatsActivityNotificationType = .background
+                
+                let os = ProcessInfo.processInfo.operatingSystemVersion
+                let version = Float("\(os.majorVersion).\(os.minorVersion)")
+                
+                if let last = self.appLatestEvent(state, device: peripheral, context: context) {
+                    if let battery = battery {
+                        switch battery {
+                            case 25 : notify = .alert
+                            case 15 : notify = .alert
+                            case 10 : notify = .alert
+                            case 5 : notify = .alert
+                            case 1 : notify = .alert
+                            default :notify = .none
+
+                        }
+                        
+                        if battery != last.charge {
+                            notify = .background
+                            
+                        }
+
+                    }
+                    
+                    if let last = StatsStateType(rawValue: last.state ?? "") {
+                        if last != state {
+                            notify = .alert
+                            
+                        }
+                        
+                    }
+                    
+                }
+                
                 if let peripheral = peripheral {
-                    if let device = self.appDevice(peripheral, context: context), let battery = battery, let name = device.name {
-                        let fetch = Events.fetchRequest() as NSFetchRequest<Events>
-                        fetch.includesPendingChanges = true
-                        fetch.predicate = NSPredicate(format: "SELF.state == %@ && SELF.device.name == %@ && SELF.charge == %d" ,state.rawValue, name ,Int64(battery))
+                    if let device = self.appDevice(peripheral, context: context), let battery = battery {
                         
                         do {
-                            if try context.fetch(fetch).first == nil {
-                                let store = Events(context: context) as Events
-                                store.id = UUID()
-                                store.timestamp = Date()
-                                store.state = state.rawValue
-                                store.charge = Int64(battery)
-                                store.device = device
-                                store.reporter = self.appDevice(peripheral, context: context)
-                                store.mode = BatteryModeType.normal.rawValue
-                                      
-                                if let last = self.appLatestEvent(state, device: peripheral, context: context) {
-                                    switch last.charge {
-                                        case 25 : store.notify = StatsActivityNotificationType.alert.rawValue
-                                        case 15 : store.notify = StatsActivityNotificationType.alert.rawValue
-                                        case 10 : store.notify = StatsActivityNotificationType.alert.rawValue
-                                        case 5 : store.notify = StatsActivityNotificationType.alert.rawValue
-                                        case 1 : store.notify = StatsActivityNotificationType.alert.rawValue
-                                        case store.charge : store.notify = StatsActivityNotificationType.background.rawValue
-                                        default : store.notify = StatsActivityNotificationType.none.rawValue
-                                        
-                                    }
-                                    
-                                }
-                                
-                                try context.save()
-                                
-                            }
+                            let store = Events(context: context) as Events
+                            store.id = UUID()
+                            store.timestamp = Date()
+                            store.state = state.rawValue
+                            store.charge = Int64(battery)
+                            store.device = device
+                            store.reporter = self.appDevice(peripheral, context: context)
+                            store.mode = BatteryModeType.normal.rawValue
+                            store.notify = notify.rawValue
+                            store.version = version ?? 0.0
+
+                            try context.save()
                             
                         }
                         catch {
@@ -158,47 +174,19 @@ class AppManager:ObservableObject {
                 }
                 else {
                     if let device = self.appDevice(nil, context: context) {
-                        let battery = Int64(BatteryManager.shared.percentage)
-
-                        let fetch = Events.fetchRequest() as NSFetchRequest<Events>
-                        fetch.includesPendingChanges = true
-                        fetch.predicate = NSPredicate(format: "SELF.state == %@ && SELF.device.id == %@ && SELF.charge == %d" ,state.rawValue, device.id! as CVarArg ,Int64(battery))
-                        
                         do {
-                            if try context.fetch(fetch).first == nil && battery >= 0 {
-                                let os = ProcessInfo.processInfo.operatingSystemVersion
-                                
-                                let store = Events(context: context) as Events
-                                store.id = UUID()
-                                store.timestamp = Date()
-                                store.state = state.rawValue
-                                store.charge = Int64(battery)
-                                store.device = device
-                                store.reporter = self.appDevice(nil, context: context)
-                                store.mode = BatteryManager.shared.saver.rawValue
-                                
-                                if let version = Float("\(os.majorVersion).\(os.minorVersion).\(os.patchVersion)") {
-                                    store.version = version
-
-                                }
-                                
-                                if let last = self.appLatestEvent(state, device: peripheral, context: context) {
-                                    switch last.charge {
-                                        case 25 : store.notify = StatsActivityNotificationType.alert.rawValue
-                                        case 15 : store.notify = StatsActivityNotificationType.alert.rawValue
-                                        case 10 : store.notify = StatsActivityNotificationType.alert.rawValue
-                                        case 5 : store.notify = StatsActivityNotificationType.alert.rawValue
-                                        case 1 : store.notify = StatsActivityNotificationType.alert.rawValue
-                                        case store.charge : store.notify = StatsActivityNotificationType.background.rawValue
-                                        default : store.notify = StatsActivityNotificationType.none.rawValue
-                                        
-                                    }
-
-                                }
-                                
-                                try context.save()
-                                
-                            }
+                            let store = Events(context: context) as Events
+                            store.id = UUID()
+                            store.timestamp = Date()
+                            store.state = state.rawValue
+                            store.charge = Int64(BatteryManager.shared.percentage)
+                            store.device = device
+                            store.reporter = device
+                            store.mode = BatteryManager.shared.saver.rawValue
+                            store.version = version ?? 0.0
+                            store.notify = notify.rawValue
+                            
+                            try context.save()
                             
                         }
                         catch {
@@ -209,7 +197,7 @@ class AppManager:ObservableObject {
                     }
                     
                 }
-                
+    
             }
             
         }

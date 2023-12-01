@@ -9,10 +9,10 @@ import ActivityKit
 import WidgetKit
 import SwiftUI
 
-struct BatteryBoy__Activity_:Widget {
+struct WidgetDynamicIsland:Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: CloudNotifyAttributes.self) { context in
-            BatteryLiveActivity(context: context).background(Color("BatteryBackground"))
+            BatteryLiveActivity(context: context)
 
         }
         dynamicIsland: { context in

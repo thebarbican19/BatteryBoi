@@ -54,35 +54,33 @@ struct UpdatesView: View {
                     Text("Devices").font(.title)
                     
                     LazyVGrid(columns: layout, alignment: .leading, spacing:10) {
-                        ForEach(manager.list, id: \.self) { device in
-                            if device.name.isEmpty && device.id.uuidString.isEmpty {
-                                Rectangle()
+                        ForEach(manager.list.sorted(by: { $0.polled ?? Date.distantPast > $1.polled ?? Date.distantPast }), id: \.self) { device in
+                            HStack {
+                                Text("(\(device.connectivity.rawValue))")
+                                
+                                Text(device.name)
+                                
+                                Text(device.polled?.formatted ?? "Never")
+                                
+                                Text("Events: \(device.events.count)")
                                 
                             }
-                            else {
+                            .background(.gray)
+               
+                            ForEach(device.events.prefix(5), id: \.self) { event in
                                 HStack {
-                                    Text("(\(device.connectivity.rawValue))")
+                                    Text("Charge: \(event.battery)")
                                     
-                                    Text(device.name)
+                                    Text("Timestamp: \(event.created.formatted)")
                                     
-                                    Text(device.polled?.formatted ?? "Never")
-                                    
-                                    Text("Events: \(device.events.count)")
-                                    
-                                }
-                                .background(.gray)
-                                
-                                ForEach(device.events.prefix(5), id: \.self) { event in
-                                    HStack {
-                                        Text("Charge: \(event.battery)")
-                                        
-                                        Text("Timestamp: \(event.created.formatted)")
-                                        
+                                    if let state = event.state {
+                                        Text("State: \(state.rawValue)")
+
                                     }
-                                    .background(.gray.opacity(0.2))
-                                    .padding(.leading, 30)
                                     
                                 }
+                                .background(.gray.opacity(0.2))
+                                .padding(.leading, 30)
                                 
                             }
                             

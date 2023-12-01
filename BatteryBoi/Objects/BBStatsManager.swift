@@ -11,33 +11,6 @@ import Combine
 import CoreData
 import CloudKit
 
-enum StatsActivityNotificationType:String {
-    case alert
-    case background
-    case none
-    
-}
-
-struct StatsIcon {
-    var name:String
-    var system:Bool
-    
-}
-
-enum StatsStateType:String {
-    case charging
-    case depleted
-    case connected
-    case disconnected
-    
-}
-
-struct StatsDisplayObject {
-    var standard:String?
-    var overlay:String?
-    
-}
-
 class StatsManager:ObservableObject {
     static var shared = StatsManager()
     
@@ -73,15 +46,6 @@ class StatsManager:ObservableObject {
                self.subtitle = self.statsSubtitle
            
             #endif
-           
-            DispatchQueue.global(qos: .background).async {
-                switch BatteryManager.shared.charging.state {
-                    case .battery : AppManager.shared.appStoreEvent(.disconnected, peripheral: nil)
-                    case .charging : AppManager.shared.appStoreEvent(.connected, peripheral: nil)
-
-                }
-
-            }
 
        }.store(in: &updates)
             
@@ -93,17 +57,7 @@ class StatsManager:ObservableObject {
                 self.subtitle = self.statsSubtitle
         
             #endif
-            
-            DispatchQueue.global(qos: .background).async {
-                switch newValue.state {
-                    case .battery : AppManager.shared.appStoreEvent(.disconnected, peripheral: nil)
-                    case .charging : AppManager.shared.appStoreEvent(.connected, peripheral: nil)
-
-                }
-
-            }
-
-
+        
         }.store(in: &updates)
 
         #if os(macOS)
@@ -139,22 +93,6 @@ class StatsManager:ObservableObject {
         
         #endif
 
-//        BluetoothManager.shared.$connected.removeDuplicates().receive(on: DispatchQueue.main).sink() { newValue in
-//            self.overlay = self.statsOverlay
-//            self.title = self.statsTitle
-//            self.subtitle = self.statsSubtitle
-//            
-//            if let device = newValue.first(where: { $0.updated.now == true }) {
-//                DispatchQueue.global().async {
-//                    self.statsStoreDevice(device)
-//                    self.statsStoreEvent(.depleted, device: device, notification: .background)
-//
-//                }
-//
-//            }
-//            
-//        }.store(in: &updates)
-        
         #if os(macOS)
             AppManager.shared.$device.receive(on: DispatchQueue.main).sink() { newValue in
                 self.title = self.statsTitle
@@ -179,6 +117,22 @@ class StatsManager:ObservableObject {
     
     deinit {
         self.updates.forEach { $0.cancel() }
+        
+    }
+    
+    public func statsAverageChargePerVersion() {
+        
+    }
+    
+    public func statsAverageDepletionTime(_ device:SystemDeviceObject?) {
+        
+    }
+    
+    public func statsAverageChargeTime(_ device:SystemDeviceObject?) {
+        
+    }
+    
+    public func statsSystemDevicesTypes(){
         
     }
     

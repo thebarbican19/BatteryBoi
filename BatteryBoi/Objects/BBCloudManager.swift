@@ -212,7 +212,7 @@ class CloudManager:ObservableObject {
         if let userInfo = notification.userInfo {
             if userInfo[NSInsertedObjectsKey] != nil || userInfo[NSUpdatedObjectsKey] != nil || userInfo[NSDeletedObjectsKey] != nil {
                 DispatchQueue.main.async {
-                    AppManager.shared.updated = Date()
+                    //AppManager.shared.updated = Date()
 
                 }
                 

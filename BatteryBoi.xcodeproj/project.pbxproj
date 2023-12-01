@@ -47,7 +47,7 @@
 		D85DEE342B0C0EAE00E53109 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D89CFD3C2B0C08DC006342CD /* WidgetKit.framework */; };
 		D85DEE352B0C0EAE00E53109 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D89CFD3E2B0C08DC006342CD /* SwiftUI.framework */; };
 		D85DEE382B0C0EAE00E53109 /* BatteryBoy__Activity_Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85DEE372B0C0EAE00E53109 /* BatteryBoy__Activity_Bundle.swift */; };
-		D85DEE3A2B0C0EAE00E53109 /* BatteryBoy__Activity_.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85DEE392B0C0EAE00E53109 /* BatteryBoy__Activity_.swift */; };
+		D85DEE3A2B0C0EAE00E53109 /* BBDynamicIslandWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85DEE392B0C0EAE00E53109 /* BBDynamicIslandWidget.swift */; };
 		D85DEE402B0C0EB100E53109 /* BatteryBoy (Activity)Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D85DEE332B0C0EAE00E53109 /* BatteryBoy (Activity)Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D88C19B12AF1735B003C3A0C /* BBDataObject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D851F8042AB214E8003FCA79 /* BBDataObject.xcdatamodeld */; };
 		D88C19B22AF1736D003C3A0C /* highnote.wav in Resources */ = {isa = PBXBuildFile; fileRef = D8CDA7FB2AA249F800FAD41E /* highnote.wav */; };
@@ -77,6 +77,24 @@
 		D8E585D42B19145A002C11FF /* SystemAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8E585D32B19145A002C11FF /* SystemAssets.xcassets */; };
 		D8E585D52B191466002C11FF /* SystemAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8E585D32B19145A002C11FF /* SystemAssets.xcassets */; };
 		D8E585D62B191467002C11FF /* SystemAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8E585D32B19145A002C11FF /* SystemAssets.xcassets */; };
+		D8E585D82B194009002C11FF /* BBPurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E585D72B194009002C11FF /* BBPurchaseManager.swift */; };
+		D8E585DB2B1953F6002C11FF /* BBTimelineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E585D92B1953C5002C11FF /* BBTimelineManager.swift */; };
+		D8E585F72B195619002C11FF /* BBStandardWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E585F42B1955F7002C11FF /* BBStandardWidget.swift */; };
+		D8E585F82B1960BC002C11FF /* BBSystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2282B0D640A00D13DE6 /* BBSystemModel.swift */; };
+		D8E585FA2B1962AA002C11FF /* BBStatsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E585F92B1962AA002C11FF /* BBStatsModel.swift */; };
+		D8E585FB2B1962AD002C11FF /* BBStatsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E585F92B1962AA002C11FF /* BBStatsModel.swift */; };
+		D8E585FC2B1962AE002C11FF /* BBStatsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E585F92B1962AA002C11FF /* BBStatsModel.swift */; };
+		D8E585FE2B196384002C11FF /* BBSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F22E2B0D64DE00D13DE6 /* BBSettingsModel.swift */; };
+		D8E585FF2B19639C002C11FF /* BBExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5B82A80646E00E295FA /* BBExtensions.swift */; };
+		D8E586002B1963B6002C11FF /* BBSettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F22B2B0D646600D13DE6 /* BBSettingsManager.swift */; };
+		D8E586042B19646F002C11FF /* BBBluetoothModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2362B0D6F1500D13DE6 /* BBBluetoothModel.swift */; };
+		D8E586072B196510002C11FF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E586062B196510002C11FF /* CloudKit.framework */; };
+		D8E586092B196817002C11FF /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E586082B196817002C11FF /* UserNotifications.framework */; };
+		D8E5860A2B19681B002C11FF /* BBCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2312B0D6ABF00D13DE6 /* BBCloudManager.swift */; };
+		D8E5860B2B196871002C11FF /* BBAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5CA2A8403D300E295FA /* BBAppManager.swift */; };
+		D8E5860D2B196896002C11FF /* EnalogSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D8E5860C2B196896002C11FF /* EnalogSwift */; };
+		D8E5860F2B1968A1002C11FF /* Deviice in Frameworks */ = {isa = PBXBuildFile; productRef = D8E5860E2B1968A1002C11FF /* Deviice */; };
+		D8E586102B1968E1002C11FF /* BBBatteryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5AE2A7DF68C00E295FA /* BBBatteryManager.swift */; };
 		D8E619812B16702B0023D5E0 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = D8E619802B16702B0023D5E0 /* RevenueCat */; };
 		D8E619832B16702B0023D5E0 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = D8E619822B16702B0023D5E0 /* RevenueCatUI */; };
 		D8E619852B16704A0023D5E0 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = D8E619842B16704A0023D5E0 /* RevenueCat */; };
@@ -159,7 +177,7 @@
 		D8598C962B156198006F36B2 /* BBCloudModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBCloudModel.swift; sourceTree = "<group>"; };
 		D85DEE332B0C0EAE00E53109 /* BatteryBoy (Activity)Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "BatteryBoy (Activity)Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D85DEE372B0C0EAE00E53109 /* BatteryBoy__Activity_Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryBoy__Activity_Bundle.swift; sourceTree = "<group>"; };
-		D85DEE392B0C0EAE00E53109 /* BatteryBoy__Activity_.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryBoy__Activity_.swift; sourceTree = "<group>"; };
+		D85DEE392B0C0EAE00E53109 /* BBDynamicIslandWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBDynamicIslandWidget.swift; sourceTree = "<group>"; };
 		D85DEE3D2B0C0EB100E53109 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D864D09E2AAF9C1E00842526 /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
 		D864D09F2AAF9C8500842526 /* sl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sl; path = sl.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
@@ -196,6 +214,12 @@
 		D8E585CF2B190FEF002C11FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "BatteryBoi (iOS)/Assets.xcassets"; sourceTree = SOURCE_ROOT; };
 		D8E585D12B19101A002C11FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "BatteryBoy (Activity)/Assets.xcassets"; sourceTree = SOURCE_ROOT; };
 		D8E585D32B19145A002C11FF /* SystemAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SystemAssets.xcassets; sourceTree = "<group>"; };
+		D8E585D72B194009002C11FF /* BBPurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBPurchaseManager.swift; sourceTree = "<group>"; };
+		D8E585D92B1953C5002C11FF /* BBTimelineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBTimelineManager.swift; sourceTree = "<group>"; };
+		D8E585F42B1955F7002C11FF /* BBStandardWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBStandardWidget.swift; sourceTree = "<group>"; };
+		D8E585F92B1962AA002C11FF /* BBStatsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBStatsModel.swift; sourceTree = "<group>"; };
+		D8E586062B196510002C11FF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
+		D8E586082B196817002C11FF /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk/System/Library/Frameworks/UserNotifications.framework; sourceTree = DEVELOPER_DIR; };
 		D8E619892B167C5C0023D5E0 /* BBOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBOnboardingView.swift; sourceTree = "<group>"; };
 		D8E6198C2B16F13D0023D5E0 /* BBOnboardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBOnboardingManager.swift; sourceTree = "<group>"; };
 		D8E619902B1707750023D5E0 /* BBOnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBOnboardingModel.swift; sourceTree = "<group>"; };
@@ -218,6 +242,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8E5860F2B1968A1002C11FF /* Deviice in Frameworks */,
+				D8E5860D2B196896002C11FF /* EnalogSwift in Frameworks */,
+				D8E586092B196817002C11FF /* UserNotifications.framework in Frameworks */,
+				D8E586072B196510002C11FF /* CloudKit.framework in Frameworks */,
 				D85DEE352B0C0EAE00E53109 /* SwiftUI.framework in Frameworks */,
 				D85DEE342B0C0EAE00E53109 /* WidgetKit.framework in Frameworks */,
 			);
@@ -244,6 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				D804F22B2B0D646600D13DE6 /* BBSettingsManager.swift */,
+				D8E585D72B194009002C11FF /* BBPurchaseManager.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -263,6 +292,7 @@
 				D804F2362B0D6F1500D13DE6 /* BBBluetoothModel.swift */,
 				D8598C962B156198006F36B2 /* BBCloudModel.swift */,
 				D8E619902B1707750023D5E0 /* BBOnboardingModel.swift */,
+				D8E585F92B1962AA002C11FF /* BBStatsModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -312,7 +342,9 @@
 			isa = PBXGroup;
 			children = (
 				D85DEE372B0C0EAE00E53109 /* BatteryBoy__Activity_Bundle.swift */,
-				D85DEE392B0C0EAE00E53109 /* BatteryBoy__Activity_.swift */,
+				D8E585F32B1955C9002C11FF /* Components */,
+				D8E585F12B195546002C11FF /* Managers */,
+				D8E585F22B19555D002C11FF /* Widgets */,
 				D8E585CF2B190FEF002C11FF /* Assets.xcassets */,
 				D85DEE3D2B0C0EB100E53109 /* Info.plist */,
 			);
@@ -449,11 +481,37 @@
 		D8DFD5602A89C4BD00732635 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D8E586082B196817002C11FF /* UserNotifications.framework */,
+				D8E586062B196510002C11FF /* CloudKit.framework */,
 				D8DFD5852A8D510200732635 /* ServiceManagement.framework */,
 				D89CFD3C2B0C08DC006342CD /* WidgetKit.framework */,
 				D89CFD3E2B0C08DC006342CD /* SwiftUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D8E585F12B195546002C11FF /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				D8E585D92B1953C5002C11FF /* BBTimelineManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		D8E585F22B19555D002C11FF /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				D85DEE392B0C0EAE00E53109 /* BBDynamicIslandWidget.swift */,
+				D8E585F42B1955F7002C11FF /* BBStandardWidget.swift */,
+			);
+			path = Widgets;
+			sourceTree = "<group>";
+		};
+		D8E585F32B1955C9002C11FF /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -497,6 +555,10 @@
 			dependencies = (
 			);
 			name = "BatteryBoy (Activity)Extension";
+			packageProductDependencies = (
+				D8E5860C2B196896002C11FF /* EnalogSwift */,
+				D8E5860E2B1968A1002C11FF /* Deviice */,
+			);
 			productName = "BatteryBoy (Activity)Extension";
 			productReference = D85DEE332B0C0EAE00E53109 /* BatteryBoy (Activity)Extension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -639,6 +701,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8E585D82B194009002C11FF /* BBPurchaseManager.swift in Sources */,
 				D804F23B2B0D715E00D13DE6 /* BBAppManager.swift in Sources */,
 				D804F23A2B0D6FB500D13DE6 /* BBStatsManager.swift in Sources */,
 				D804F2392B0D6F3800D13DE6 /* BBBluetoothManager.swift in Sources */,
@@ -652,6 +715,7 @@
 				D8598C982B1561B8006F36B2 /* BBCloudModel.swift in Sources */,
 				D804F2272B0D63CE00D13DE6 /* BBExtensions.swift in Sources */,
 				D804F2382B0D6F1F00D13DE6 /* BBBluetoothModel.swift in Sources */,
+				D8E585FB2B1962AD002C11FF /* BBStatsModel.swift in Sources */,
 				D88C19B12AF1735B003C3A0C /* BBDataObject.xcdatamodeld in Sources */,
 				D8228E122AC1EA790014DC85 /* ContentView.swift in Sources */,
 				D8228E102AC1EA790014DC85 /* BatteryBoi__iOS_App.swift in Sources */,
@@ -663,11 +727,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8E585FE2B196384002C11FF /* BBSettingsModel.swift in Sources */,
+				D8E585FF2B19639C002C11FF /* BBExtensions.swift in Sources */,
+				D8E585F82B1960BC002C11FF /* BBSystemModel.swift in Sources */,
+				D8E586002B1963B6002C11FF /* BBSettingsManager.swift in Sources */,
 				D8598C902B156085006F36B2 /* BBDataObject.xcdatamodeld in Sources */,
 				D8598C992B1561B8006F36B2 /* BBCloudModel.swift in Sources */,
+				D8E585FC2B1962AE002C11FF /* BBStatsModel.swift in Sources */,
 				D8E619932B1707750023D5E0 /* BBOnboardingModel.swift in Sources */,
 				D85DEE382B0C0EAE00E53109 /* BatteryBoy__Activity_Bundle.swift in Sources */,
-				D85DEE3A2B0C0EAE00E53109 /* BatteryBoy__Activity_.swift in Sources */,
+				D8E5860B2B196871002C11FF /* BBAppManager.swift in Sources */,
+				D8E585DB2B1953F6002C11FF /* BBTimelineManager.swift in Sources */,
+				D8E586102B1968E1002C11FF /* BBBatteryManager.swift in Sources */,
+				D8E585F72B195619002C11FF /* BBStandardWidget.swift in Sources */,
+				D8E586042B19646F002C11FF /* BBBluetoothModel.swift in Sources */,
+				D85DEE3A2B0C0EAE00E53109 /* BBDynamicIslandWidget.swift in Sources */,
+				D8E5860A2B19681B002C11FF /* BBCloudManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -675,6 +750,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8E585FA2B1962AA002C11FF /* BBStatsModel.swift in Sources */,
 				D851F8062AB214E8003FCA79 /* BBDataObject.xcdatamodeld in Sources */,
 				D89CCFEE2A9FF97900D9531A /* BBAboutView.swift in Sources */,
 				D8E619912B1707750023D5E0 /* BBOnboardingModel.swift in Sources */,
@@ -853,9 +929,9 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "BatteryBoy (Activity)/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "BatteryBoy (Activity)";
+				INFOPLIST_KEY_CFBundleDisplayName = BatteryBoy;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -887,9 +963,9 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "BatteryBoy (Activity)/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "BatteryBoy (Activity)";
+				INFOPLIST_KEY_CFBundleDisplayName = BatteryBoy;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1231,6 +1307,16 @@
 			productName = EnalogSwift;
 		};
 		D8E464392B181C1700A18F76 /* Deviice */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D8E464382B181C1700A18F76 /* XCRemoteSwiftPackageReference "Deviice" */;
+			productName = Deviice;
+		};
+		D8E5860C2B196896002C11FF /* EnalogSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D8DFD58C2A8D83B500732635 /* XCRemoteSwiftPackageReference "EnalogSwift" */;
+			productName = EnalogSwift;
+		};
+		D8E5860E2B1968A1002C11FF /* Deviice */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D8E464382B181C1700A18F76 /* XCRemoteSwiftPackageReference "Deviice" */;
 			productName = Deviice;
