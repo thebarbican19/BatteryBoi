@@ -8,40 +8,57 @@
 import Foundation
 import WidgetKit
 import Intents
+import Combine
 
 struct WidgetDeviceObject:TimelineEntry {
     var date: Date
-    var device:String
+    var device:SystemDeviceObject?
+    
+    init(_ device: SystemDeviceObject? = nil) {
+        self.date = Date()
+        self.device = device
+        
+    }
     
 }
 
 struct WidgetProvider: TimelineProvider {
+    public var cancellable = Set<AnyCancellable>()
+
     func placeholder(in context: Context) -> WidgetDeviceObject {
-        WidgetDeviceObject(date: Date(), device: "😀")
+        WidgetDeviceObject(nil)
         
     }
 
     func getSnapshot(in context: Context, completion: @escaping (WidgetDeviceObject) -> ()) {
-        let entry = WidgetDeviceObject(date: Date(), device: "😀")
-        completion(entry)
+        self.widgetCreateEntry(context, completion: completion)
         
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<WidgetDeviceObject>) -> ()) {
         var entries: [WidgetDeviceObject] = []
-
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = WidgetDeviceObject(date: entryDate, device: "😀")
-            entries.append(entry)
-            
-        }
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
         
-        completion(timeline)
+        self.widgetCreateEntry(context) { device in
+            entries.append(device)
+            completion(Timeline(entries: entries, policy: .atEnd))
+
+        }
         
     }
+    
+    func widgetCreateEntry(_ context:Context, completion: @escaping (WidgetDeviceObject) -> ()) {
+        if let device = AppManager.shared.list.sorted(by: { $0.polled ?? Date.distantPast > $1.polled ?? Date.distantPast }).first {
+            completion(.init(device))
+
+        }
+        else {
+            completion(.init(nil))
+
+        }
+    
+        //.store(in: cancellable)
+
+    }
+    
     
 }

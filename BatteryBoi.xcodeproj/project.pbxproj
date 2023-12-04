@@ -25,7 +25,7 @@
 		D804F23B2B0D715E00D13DE6 /* BBAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5CA2A8403D300E295FA /* BBAppManager.swift */; };
 		D804F23C2B0DB09E00D13DE6 /* BBBatteryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5AE2A7DF68C00E295FA /* BBBatteryManager.swift */; };
 		D8228E102AC1EA790014DC85 /* BatteryBoi__iOS_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8228E0F2AC1EA790014DC85 /* BatteryBoi__iOS_App.swift */; };
-		D8228E122AC1EA790014DC85 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8228E112AC1EA790014DC85 /* ContentView.swift */; };
+		D8228E122AC1EA790014DC85 /* BBDebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8228E112AC1EA790014DC85 /* BBDebugView.swift */; };
 		D8228E392AC387020014DC85 /* BBProcessManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8228E382AC387010014DC85 /* BBProcessManager.swift */; };
 		D83CD7452AA8F693004223D7 /* BBBluetoothView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83CD7442AA8F693004223D7 /* BBBluetoothView.swift */; };
 		D83CD7472AAB9370004223D7 /* BBProfileScript.py in Resources */ = {isa = PBXBuildFile; fileRef = D83CD7462AAB9370004223D7 /* BBProfileScript.py */; };
@@ -151,7 +151,7 @@
 		D804F2362B0D6F1500D13DE6 /* BBBluetoothModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBBluetoothModel.swift; sourceTree = "<group>"; };
 		D8228E0D2AC1EA790014DC85 /* BatteryBoi (iOS).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BatteryBoi (iOS).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8228E0F2AC1EA790014DC85 /* BatteryBoi__iOS_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryBoi__iOS_App.swift; sourceTree = "<group>"; };
-		D8228E112AC1EA790014DC85 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D8228E112AC1EA790014DC85 /* BBDebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBDebugView.swift; sourceTree = "<group>"; };
 		D8228E382AC387010014DC85 /* BBProcessManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBProcessManager.swift; sourceTree = "<group>"; };
 		D8228E3A2AC3FD580014DC85 /* BatteryBoi (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BatteryBoi (iOS).entitlements"; sourceTree = "<group>"; };
 		D83CD7442AA8F693004223D7 /* BBBluetoothView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBBluetoothView.swift; sourceTree = "<group>"; };
@@ -305,7 +305,7 @@
 				D88C19B02AF16A48003C3A0C /* BatteryBoi--iOS--Info.plist */,
 				D8228E3A2AC3FD580014DC85 /* BatteryBoi (iOS).entitlements */,
 				D8228E0F2AC1EA790014DC85 /* BatteryBoi__iOS_App.swift */,
-				D8228E112AC1EA790014DC85 /* ContentView.swift */,
+				D8228E112AC1EA790014DC85 /* BBDebugView.swift */,
 				D8228E152AC1EA7F0014DC85 /* Preview Content */,
 			);
 			path = "BatteryBoi (iOS)";
@@ -644,6 +644,7 @@
 				D8DFD58C2A8D83B500732635 /* XCRemoteSwiftPackageReference "EnalogSwift" */,
 				D8E6197F2B16702B0023D5E0 /* XCRemoteSwiftPackageReference "purchases-ios" */,
 				D8E464382B181C1700A18F76 /* XCRemoteSwiftPackageReference "Deviice" */,
+				D8C784942B1A75A300EBD52A /* XCRemoteSwiftPackageReference "bclm" */,
 			);
 			productRefGroup = D8D9E59D2A7DE7AB00E295FA /* Products */;
 			projectDirPath = "";
@@ -717,7 +718,7 @@
 				D804F2382B0D6F1F00D13DE6 /* BBBluetoothModel.swift in Sources */,
 				D8E585FB2B1962AD002C11FF /* BBStatsModel.swift in Sources */,
 				D88C19B12AF1735B003C3A0C /* BBDataObject.xcdatamodeld in Sources */,
-				D8228E122AC1EA790014DC85 /* ContentView.swift in Sources */,
+				D8228E122AC1EA790014DC85 /* BBDebugView.swift in Sources */,
 				D8228E102AC1EA790014DC85 /* BatteryBoi__iOS_App.swift in Sources */,
 				D804F23C2B0DB09E00D13DE6 /* BBBatteryManager.swift in Sources */,
 			);
@@ -1231,6 +1232,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.0.0;
+			};
+		};
+		D8C784942B1A75A300EBD52A /* XCRemoteSwiftPackageReference "bclm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/zackelia/bclm.git";
+			requirement = {
+				branch = main;
+				kind = branch;
 			};
 		};
 		D8D9E5BE2A81565000E295FA /* XCRemoteSwiftPackageReference "FluidGradient" */ = {

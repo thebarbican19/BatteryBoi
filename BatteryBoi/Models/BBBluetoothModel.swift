@@ -8,6 +8,44 @@
 import Foundation
 import CoreBluetooth
 
+struct BluetoothBroadcastItem:Equatable,Hashable {
+    static func == (lhs: BluetoothBroadcastItem, rhs: BluetoothBroadcastItem) -> Bool {
+        lhs.peripheral == rhs.peripheral && lhs.state == rhs.state
+
+    }
+    
+    var peripheral:CBPeripheral
+    var state:BluetoothConnectionState
+    var id:UUID
+    var updated:Date
+    var characteristics = Array<String>()
+    var proximity:SystemDeviceDistanceType = .unknown
+    
+    init(_ peripheral:CBPeripheral, proximity:SystemDeviceDistanceType = .unknown, state:BluetoothConnectionState = .queued) {
+        self.peripheral = peripheral
+        self.state = state
+        self.id = peripheral.identifier
+        self.updated = Date()
+        self.proximity = proximity
+        
+        if peripheral.name == nil {
+            self.state = .unavailable
+            
+        }
+        else {
+            self.state = state
+
+        }
+        
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        
+    }
+    
+}
+
 enum BluetoothPermissionState:String {
     case allowed
     case undetermined
@@ -17,7 +55,7 @@ enum BluetoothPermissionState:String {
     
 }
 
-enum BluetoothUUID:String,CaseIterable {
+enum BluetoothUUID:String,Hashable,CaseIterable {
     case battery = "00002a19-0000-1000-8000-00805f9b34fb"
     case power = "0000180f-0000-1000-8000-00805f9b34fb"
     case appearance = "00002a01-0000-1000-8000-00805f9b34fb"
@@ -25,17 +63,49 @@ enum BluetoothUUID:String,CaseIterable {
     case vendor = "00002a29-0000-1000-8000-00805f9b34fb"
     case serial = "00002a25-0000-1000-8000-00805f9b34fb"
     case firmware = "00002a28-0000-1000-8000-00805f9b34fb"
+    case system = "00002a23-0000-1000-8000-00805f9b34fb"
     case info = "0000180A-0000-1000-8000-00805F9B34FB"
     case logs = "00001831-0000-1000-8000-00805F9B34FB"
     case headset = "00001108-0000-1000-8000-00805f9b34fb"
-    case name = "00002a00-0000-1000-8000-00805f9b34fb" // Added Device Name
     case continuity = "d0611e78-bbb4-4591-a5f8-487910ae4366"
     case nearby = "9fa480e0-4967-4542-9390-d343dc5d04ae"
     case findmy = "6aa50003-6352-4d57-a7b4-003a416fbb0b"
+    case audiosink = "0000110b-0000-1000-8000-00805f9b34fb"
+    case hid = "00001124-0000-1000-8000-00805f9b34fb"
+    case remote = "0000110c-0000-1000-8000-00805f9b34fb"
+    case handsfree = "0000111e-0000-1000-8000-00805f9b34fb"
+    
+    public var type:String {
+        switch self {
+            case .battery:return "Battery"
+            case .power:return "Power"
+            case .appearance:return "Apperance"
+            case .model:return "Model"
+            case .vendor:return "Vendor"
+            case .serial:return "Serial"
+            case .firmware:return "Firmware"
+            case .system:return "System Info"
+            case .info:return "General Info"
+            case .logs:return "Logs"
+            case .headset:return "Headset Info"
+            case .continuity:return "Continuity"
+            case .nearby:return "Nearby"
+            case .findmy:return "Find My Device"
+            case .audiosink:return "Audio Sink"
+            case .handsfree:return "Hands Free"
+            case .hid:return "Human Interface Device" // Mouse/Trackpad
+            case .remote:return "Remote"
 
-    public var uuid:CBUUID {
-        if let short = self.rawValue.components(separatedBy: "-").first?.suffix(4) {
-            return CBUUID(string: String(short))
+        }
+        
+    }
+
+    public var uuid:CBUUID? {
+        if self != .findmy && self != .nearby && self != .continuity {
+            if let short = self.rawValue.components(separatedBy: "-").first?.suffix(4) {
+                return CBUUID(string: String(short))
+                
+            }
             
         }
         
@@ -43,95 +113,20 @@ enum BluetoothUUID:String,CaseIterable {
 
     }
     
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self)
+        
+    }
+    
 }
 
-enum BluetoothConnectionState {
+enum BluetoothConnectionState:String {
+    case queued
     case connected
+    case pending
     case disconnected
     case failed
     case unavailable
-    
-}
-
-
-
-
-//struct BluetoothDeviceObject {
-//    var type:BluetoothDeviceType
-//    var subtype:BluetoothDeviceSubtype?
-//    var vendor:BluetoothVendor?
-//    var icon:String
-//    
-//    init(_ type:String, subtype:String? = nil, vendor:String? = nil) {
-//        self.type = BluetoothDeviceType(rawValue: type.lowercased()) ?? .other
-//        self.subtype = BluetoothDeviceSubtype(rawValue: subtype ?? "")
-//        self.vendor = BluetoothVendor(rawValue: vendor ?? "")
-//        
-//        if let subtype = self.subtype {
-//            self.icon = subtype.icon
-//            
-//        }
-//        else {
-//            self.icon = self.type.icon
-//            
-//        }
-//        
-//    }
-//    
-//}
-
-enum BluetoothDeviceSubtype: String {
-    case airpodsMax = "0x200A"
-    case airpodsProVersionOne = "0x200E"
-    case airpodsVersionTwo = "0x200F"
-    case airpodsVersionOne = "0x2002"
-    case unknown = ""
-    
-    var icon:String {
-        switch self {
-            case .airpodsMax : return "headphones"
-            case .airpodsProVersionOne : return "airpods.gen3"
-            default : return "airpods"
-            
-        }
-        
-    }
-    
-}
-
-enum BluetoothDeviceType:String,Decodable {
-    case mouse = "mouse"
-    case headphones = "headphones"
-    case gamepad = "gamepad"
-    case speaker = "speaker"
-    case keyboard = "keyboard"
-    case other = "other"
-    
-    var name:String {
-        switch self {
-            case .mouse:return "BluetoothDeviceMouseLabel".localise()
-            case .headphones:return "BluetoothDeviceHeadphonesLabel".localise()
-            case .gamepad:return "BluetoothDeviceGamepadLabel".localise()
-            case .speaker:return "BluetoothDeviceSpeakerLabel".localise()
-            case .keyboard:return "BluetoothDeviceKeyboardLabel".localise()
-            case .other:return "BluetoothDeviceOtherLabel".localise()
-            
-        }
-        
-    }
-    
-    var icon:String {
-        switch self {
-            case .mouse:return "magicmouse.fill"
-            case .headphones:return "headphones"
-            case .gamepad:return "gamecontroller.fill"
-            case .speaker:return "hifispeaker.2.fill"
-            case .keyboard:return "keyboard.fill"
-            case .other:return ""
-            
-        }
-        
-    }
     
 }
 

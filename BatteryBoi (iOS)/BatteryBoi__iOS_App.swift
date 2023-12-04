@@ -186,7 +186,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func applicationFetchLatestEvent(completion: @escaping (Events?) -> Void) {
         if let context = AppManager.shared.appStorageContext() {
             let fetch: NSFetchRequest<Events> = Events.fetchRequest()
-            fetch.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
+            fetch.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
             fetch.fetchLimit = 1
             
             do {

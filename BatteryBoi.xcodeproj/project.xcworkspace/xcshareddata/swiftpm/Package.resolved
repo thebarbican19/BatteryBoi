@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "bclm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/zackelia/bclm.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "4b4d1350aeb6389bddcc63dd89652ed6fb51930b"
+      }
+    },
+    {
       "identity" : "deviice",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/andrealufino/Deviice",

@@ -11,40 +11,55 @@ import WidgetKit
 import Intents
 
 struct WidgetStandard: Widget {
+    @Environment(\.widgetFamily) var family
+    
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: "com.batteryboi.widget.standard", provider: WidgetProvider()) { entry in
-            if #available(iOS 17.0, *) {
-                DeleteMeEntryView(entry: entry)
-                    .containerBackground(.fill.tertiary, for: .widget)
+            if family == .systemSmall {
+                if #available(iOS 17.0, *) {
+                    DeleteMeEntryView(entry: entry)
+                        .containerBackground(.fill.tertiary, for: .widget)
+                        .background(.green)
+                    
+                }
+                else {
+                    DeleteMeEntryView(entry: entry)
+                        .padding()
+                        .background(.gray)
+                    
+                }
                 
-            } 
+            }
             else {
-                DeleteMeEntryView(entry: entry)
-                    .padding()
-                    .background()
+                Rectangle().background(.red)
                 
             }
             
         }
         .configurationDisplayName("BatteryBoi")
         .description("View the Status of your Devices, even your Mac!")
-        .supportedFamilies([.systemSmall])
+        .supportedFamilies([.systemSmall, .accessoryCircular, .accessoryRectangular])
         
     }
     
 }
-
 
 struct DeleteMeEntryView : View {
     var entry: WidgetProvider.Entry
 
     var body: some View {
         VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
-
-            Text("Emoji:")
-            Text(entry.device)
+            if let device = entry.device {
+                Text("Time:")
+                Text(entry.date, style: .time)
+                
+                Text(device.name)
+                
+            }
+            else {
+                Text("No Device Set")
+                
+            }
             
         }
         

@@ -298,10 +298,21 @@ struct SystemDeviceObject:Hashable,Equatable,Identifiable {
 }
 
 enum SystemDeviceDistanceType:Int {
-    case proximate
-    case near
-    case far
-    case unknown
+    case unknown = 0
+    case proximate = 1
+    case near = 2
+    case far = 3
+    
+    var string:String? {
+        switch self {
+            case .unknown : return nil
+            case .proximate : return "BluetoothDistanceProximateLabel".localise()
+            case .near : return "BluetoothDistanceNearLabel".localise()
+            case .far : return "BluetoothDistanceFarLabel".localise()
+
+        }
+        
+    }
     
 }
 
