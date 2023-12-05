@@ -12,20 +12,23 @@ import SwiftUI
 import CoreData
 import CloudKit
 import CoreBluetooth
-import Deviice
+
+#if os(iOS)
+    import Deviice
+#endif
 
 class AppManager:ObservableObject {
     static var shared = AppManager()
     
     @Published var counter = 0
     @Published var list = Array<SystemDeviceObject>()
-    @Published var device:SystemDeviceObject? = nil
+    @Published var selected:SystemDeviceObject? = nil
     @Published var updated:Date? = nil
         
     #if os(macOS)
         @Published var menu:SystemMenuView = .devices
         @Published var profile:SystemProfileObject? = nil
-        @Published var alert:HUDAlertTypes? = nil
+        @Published var alert:SystemAlertTypes? = nil
     
     #endif
 
@@ -48,20 +51,6 @@ class AppManager:ObservableObject {
             self.counter += 1
             
         }
-           
-        #if os(macOS)
-            if #available(macOS 13.0, *) {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    if self.appDistribution() == .direct {
-                        self.profile = self.appProfile(force: false)
-                        
-                    }
-                    
-                }
-                
-            }
-        
-        #endif
                 
         self.timer?.store(in: &updates)
         
@@ -221,7 +210,7 @@ class AppManager:ObservableObject {
                                 let store = Wattage(context: context) as Wattage
                                 store.timestamp = Date()
                                 store.device = self.appDevice(nil, context: context)
-                                store.wattage = BatteryManager.shared.powerHourWattage() ?? 0.0
+                                //store.wattage = BatteryManager.shared.powerHourWattage() ?? 0.0
                                 
                                 try context.save()
                                 
@@ -474,9 +463,13 @@ class AppManager:ObservableObject {
                                 store?.product = type.name(false)
                                 store?.serial = nil
                                 store?.address = nil
-                                store?.os = UIDevice.current.systemVersion
                                 store?.match = self.appDeviceMatch()
                                 
+                                #if os(iOS)
+                                    store?.os = UIDevice.current.systemVersion
+                                
+                                #endif
+
                             }
                             
                         }
@@ -529,7 +522,7 @@ class AppManager:ObservableObject {
     }
     
     public func appStorageContext() -> NSManagedObjectContext? {
-        if let container = CloudManager.container.container {
+        if let container = CloudManager.container?.container {
             if CloudManager.shared.syncing == .completed {
                 let context = container.newBackgroundContext()
                 context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
@@ -587,10 +580,15 @@ class AppManager:ObservableObject {
     private func appDeviceMatch() -> String? {
         var parameters:[String] = []
         
-        parameters.append(Device.init().osName)
-        parameters.append(Device.init().osVersion ?? "0.0.0")
-        parameters.append(Device.init().actualModel.marketingName)
-        parameters.append(TimeZone.current.abbreviation() ?? "GMT")
+        #if os(macOS)
+        
+        #elseif os (iOS)
+            parameters.append(Device.init().osName)
+            parameters.append(Device.init().osVersion ?? "0.0.0")
+            parameters.append(Device.init().actualModel.marketingName)
+            parameters.append(TimeZone.current.abbreviation() ?? "GMT")
+        
+        #endif
 
         if parameters.isEmpty == false {
             var output = parameters.joined(separator: "-")
@@ -605,31 +603,31 @@ class AppManager:ObservableObject {
 
     }
     
-    public func appDistribution() -> SystemDistribution {
-        #if os(macOS)
-            if let response = ProcessManager.shared.processWithArguments("/usr/bin/codesign", arguments:["-dv", "--verbose=4", Bundle.main.bundlePath], whitespace: false) {
-                if response.contains("Authority=Apple Mac OS Application Signing") {
-                    return .appstore
-
-                }
-                
-            }
-            
-            return .direct
-        
-        #elseif os(iOS)
-            if Bundle.main.appStoreReceiptURL == nil {
-                return .direct
-
-            }
-            else {
-                return .appstore
-
-            }
-        
-        #endif
-            
-    }
+//    public func appDistribution() -> SystemDistribution {
+//        #if os(macOS)
+//            if let response = ProcessManager.shared.processWithArguments("/usr/bin/codesign", arguments:["-dv", "--verbose=4", Bundle.main.bundlePath], whitespace: false) {
+//                if response.contains("Authority=Apple Mac OS Application Signing") {
+//                    return .appstore
+//
+//                }
+//                
+//            }
+//            
+//            return .direct
+//        
+//        #elseif os(iOS)
+//            if Bundle.main.appStoreReceiptURL == nil {
+//                return .direct
+//
+//            }
+//            else {
+//                return .appstore
+//
+//            }
+//        
+//        #endif
+//            
+//    }
     
     #if os(macOS)
         public func appToggleMenu(_ animate:Bool) {
@@ -654,46 +652,6 @@ class AppManager:ObservableObject {
             
         }
 
-    #endif
-    
-    #if os(macOS)
-        private func appProfile(force:Bool = false) -> SystemProfileObject? {
-            if let payload = UserDefaults.main.object(forKey: SystemDefaultsKeys.profilePayload.rawValue) as? String {
-
-                if let object =  try? JSONDecoder().decode([SystemProfileObject].self, from: Data(payload.utf8)) {
-                    return object.first
-                    
-                }
-                
-            }
-            else {
-                if let response = ProcessManager.shared.processWithScript("BBProfileScript") {
-                    UserDefaults.save(.profilePayload, value: response)
-                    UserDefaults.save(.profileChecked, value: Date())
-                    
-                    if let object = try? JSONDecoder().decode([SystemProfileObject].self, from: Data(response.utf8)) {
-                        if let id = object.first?.id, let display = object.first?.display {
-                            let first = SystemProfileObject(id: id, display: display)
-                            
-                            if let channel = Bundle.main.infoDictionary?["SD_SLACK_CHANNEL"] as? String  {
-                                EnalogManager.main.ingest(SystemEvents.userProfile, description: "Profile Found: \(display)", metadata: object, channel:.init(.slack, id: channel))
-                                
-                            }
-                            
-                            return first
-                            
-                        }
-                        
-                    }
-                    
-                }
-                
-            }
-                
-            return nil
-            
-        }
-    
     #endif
             
 }

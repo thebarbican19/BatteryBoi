@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1430"
+   LastUpgradeVersion = "1500"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D8D9E59B2A7DE7AB00E295FA"
-               BuildableName = "BatteryBoi.app"
-               BlueprintName = "BatteryBoi"
+               BlueprintIdentifier = "D83701192B1F932900B1206E"
+               BuildableName = "cliboi"
+               BlueprintName = "cliboi"
                ReferencedContainer = "container:BatteryBoi.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -39,15 +39,14 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
-      consoleMode = "0"
-      structuredConsoleMode = "1">
+      viewDebuggingEnabled = "No">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D8D9E59B2A7DE7AB00E295FA"
-            BuildableName = "BatteryBoi.app"
-            BlueprintName = "BatteryBoi"
+            BlueprintIdentifier = "D83701192B1F932900B1206E"
+            BuildableName = "cliboi"
+            BlueprintName = "cliboi"
             ReferencedContainer = "container:BatteryBoi.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -57,6 +56,13 @@
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "ENV_ICLOUD_ID"
+            value = "TEST"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -68,9 +74,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D8D9E59B2A7DE7AB00E295FA"
-            BuildableName = "BatteryBoi.app"
-            BlueprintName = "BatteryBoi"
+            BlueprintIdentifier = "D83701192B1F932900B1206E"
+            BuildableName = "cliboi"
+            BlueprintName = "cliboi"
             ReferencedContainer = "container:BatteryBoi.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

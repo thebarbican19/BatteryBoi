@@ -77,9 +77,9 @@
 "BluetoothConnectLabel" = "Connect";
 "BluetoothDisconnectLabel" = "Disconnect";
 "BluetoothDisconnectedLabel" = "Not Paired";
-"BluetoothDistanceProximateLabel" = "On the Desk/Table";
-"BluetoothDistanceNearLabel" = "In the same Room";
-"BluetoothDistanceFarLabel" = "In another Realm";
+"BluetoothDistanceProximateLabel" = "In Proximity";
+"BluetoothDistanceNearLabel" = "Nearby";
+"BluetoothDistanceFarLabel" = "Far Away";
 "BluetoothInvalidLabel" = "No Battery Information";
 
 "OnboardingNotificationsTitle" = "";

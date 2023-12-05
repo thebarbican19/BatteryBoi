@@ -66,7 +66,7 @@ class WindowManager: ObservableObject {
     }
     
     @Published public var hover: Bool = false
-    @Published public var state: HUDState = .hidden
+    @Published public var state: SystemAlertState = .hidden
     @Published public var position: WindowPosition = .topMiddle
     @Published public var opacity: CGFloat = 1.0
 
@@ -246,7 +246,7 @@ class WindowManager: ObservableObject {
         
     }
     
-    public func windowSetState(_ state:HUDState, animated:Bool = true) {
+    public func windowSetState(_ state:SystemAlertState, animated:Bool = true) {
         if self.state != state {
             withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.7, blendDuration: 1.0)) {
                 self.state = state
@@ -257,7 +257,7 @@ class WindowManager: ObservableObject {
         
     }
     
-    public func windowIsVisible(_ type:HUDAlertTypes) -> Bool {
+    public func windowIsVisible(_ type:SystemAlertTypes) -> Bool {
         if let window = self.windowExists(type) {
             if CGFloat(window.alphaValue) > 0.5 {
                 return true
@@ -270,7 +270,7 @@ class WindowManager: ObservableObject {
         
     }
     
-    public func windowOpen(_ type:HUDAlertTypes, device:SystemDeviceObject?) {
+    public func windowOpen(_ type:SystemAlertTypes, device:SystemDeviceObject?) {
         if let window = self.windowExists(type) {
             window.contentView = WindowHostingView(rootView: HUDParent(type, device: device))
             
@@ -309,7 +309,7 @@ class WindowManager: ObservableObject {
         if let window = NSApplication.shared.windows.filter({$0.title == "modalwindow"}).first {
             if AppManager.shared.alert != nil {
                 AppManager.shared.alert = nil
-                AppManager.shared.device = nil
+                AppManager.shared.selected = nil
                 
                 self.state = .hidden
                 
@@ -321,7 +321,7 @@ class WindowManager: ObservableObject {
         
     }
     
-    private func windowDefault(_ type:HUDAlertTypes) -> NSWindow? {
+    private func windowDefault(_ type:SystemAlertTypes) -> NSWindow? {
         var window:NSWindow?
         window = NSWindow()
         window?.styleMask = [.borderless, .miniaturizable]
@@ -343,7 +343,7 @@ class WindowManager: ObservableObject {
         
     }
     
-    private func windowExists(_ type: HUDAlertTypes) -> NSWindow? {
+    private func windowExists(_ type: SystemAlertTypes) -> NSWindow? {
         if let window = NSApplication.shared.windows.filter({$0.title == "modalwindow"}).first {
             return window
             

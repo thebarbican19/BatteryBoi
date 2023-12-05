@@ -23,11 +23,13 @@
 	<string>$(SD_ENALOG_KEY)</string>
 	<key>EN_PROJECT_NAME</key>
 	<string>BatteryBoi</string>
-    <key>NSUserNotificationUsageDescription</key>
-    <string>Notifications are used to inform you when your any of your connected Devices need charging.</string>
+	<key>NSUserNotificationUsageDescription</key>
+	<string>Notifications are used to inform you when your any of your connected Devices need charging.</string>
 	<key>SUFeedURL</key>
 	<string>https://api.ovatar.io/version?id=com.ovatar.batteryapp&amp;beta=true</string>
 	<key>SUPublicEDKey</key>
 	<string>t1V9elylrpBkN0l4EkNxs7eEGVLF3Yd0P0sKDXqxfoA=</string>
+	<key>ENV_CLIBOI_PORT</key>
+	<string>$(ENV_CLIBOI_PORT)</string>
 </dict>
 </plist>

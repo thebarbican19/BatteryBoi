@@ -62,12 +62,14 @@ struct CloudContainerObject {
 enum CloudSubscriptionsType:String {
     case events
     case device
+    case alert
     
     var identifyer:String {
         switch self {
             case .device : return "update_device"
             case .events : return "updated_event"
-            
+            case .alert : return "update_device"
+
         }
         
     }
@@ -75,8 +77,8 @@ enum CloudSubscriptionsType:String {
     var record:String {
         switch self {
             case .device : return "CD_Devices"
-            case .events : return "CD_Events"
-            
+            default : return "CD_Events"
+
         }
         
     }
@@ -85,10 +87,20 @@ enum CloudSubscriptionsType:String {
         switch self {
             case .device : return .firesOnRecordUpdate
             case .events : return .firesOnRecordCreation
-            
+            case .alert : return .firesOnRecordCreation
+
         }
         
     }
     
+    var background:Bool {
+        switch self {
+            case .device : return true
+            case .events : return true
+            case .alert : return false
+            
+        }
+        
+    }
     
 }

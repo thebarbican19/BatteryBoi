@@ -7,165 +7,12 @@
 
 import SwiftUI
 
-enum HUDAlertTypes:Int {
-    case chargingComplete
-    case chargingBegan
-    case chargingStopped
-    case percentFive
-    case percentTen
-    case percentTwentyFive
-    case percentOne
-    case userInitiated
-    case userLaunched
-    case userEvent
-    case deviceOverheating
-    case deviceConnected
-    case deviceRemoved
-    case deviceDistance
 
-    var sfx:SystemSoundEffects? {
-        switch self {
-            case .chargingBegan : return .high
-            case .chargingComplete : return .high
-            case .chargingStopped : return .low
-            case .percentTwentyFive : return .low
-            case .percentTen : return .low
-            case .percentFive : return .low
-            case .percentOne : return .low
-            case .userLaunched : return nil
-            case .userInitiated : return nil
-            case .userEvent : return .low
-            case .deviceOverheating : return .low
-            case .deviceRemoved : return .low
-            case .deviceConnected : return .high
-            case .deviceDistance : return .low
-
-        }
-        
-    }
-    
-    var trigger:Bool {
-        switch self {
-            case .chargingBegan : return true
-            case .chargingComplete : return true
-            case .chargingStopped : return true
-            case .deviceRemoved : return true
-            case .deviceConnected : return true
-            default : return false
-            
-        }
-        
-    }
-    
-    var timeout:Bool {
-        switch self {
-            case .userLaunched : return false
-            case .userInitiated : return false
-            default : return true
-            
-        }
-        
-    }
-    
-}
 
 enum HUDProgressLayout {
     case center
     case trailing
     
-}
-
-enum HUDState:Equatable {
-    case hidden
-    case progress
-    case revealed
-    case detailed
-    case dismissed
-    
-    var visible:Bool {
-        switch self {
-            case .detailed : return true
-            case .revealed : return true
-            default : return false
-            
-        }
-        
-    }
-    
-    var mask:AnimationObject? {
-        if self == .revealed {
-            return .init([
-                .init(0.6, delay: 0.2, easing: .bounce, width: 120, height: 120, blur: 0, radius: 66),
-                .init(2.9, easing: .bounce, width: 430, height: 120, blur: 0, radius: 66)], id: "initial")
-            
-        }
-        else if self == .detailed {
-            return .init([.init(0.0, easing: .bounce, width: 440, height: 220, radius: 42)], id:"expand_out")
-            
-        }
-        else if self == .dismissed {
-            return .init([
-                .init(0.2, easing: .bounce, width: 430, height: 120, radius: 66),
-                .init(0.2, easing: .easeout, width: 120, height: 120, radius: 66),
-                .init(0.3, delay:1.0, easing: .bounce, width: 40, height: 40, opacity: 0, radius: 66)], id: "expand_close")
-
-        }
-        
-        return nil
-        
-    }
-    
-    var glow:AnimationObject? {
-        if self == .revealed {
-            return .init([
-                .init(0.03, easing: .easeout, opacity: 0.0, scale: 0.2),
-                .init(0.4, easing: .bounce, opacity: 0.4, scale: 1.9),
-                .init(0.4, easing: .easein, opacity: 0.0, blur:2.0)])
-            
-        }
-        else if self == .dismissed {
-            return .init([
-                .init(0.03, easing: .easeout, opacity: 0.0, scale: 0.2),
-                .init(0.4, easing: .easein, opacity: 0.6, scale:1.4),
-                .init(0.2, easing: .bounce, opacity: 0.0, scale: 0.2)])
-            
-        }
-        
-        return nil
-
-    }
-    
-    var progress:AnimationObject? {
-        if self == .revealed {
-            return .init([
-                .init(0.2, easing: .bounce, opacity: 0.0, blur:0.0, scale: 0.8),
-                .init(0.4, delay: 0.4, easing: .easeout, opacity: 1.0, scale:1.0)])
-            
-        }
-        else if self == .dismissed {
-            return .init([.init(0.6, easing: .bounce, opacity: 0.0, blur:12.0, scale: 0.9)])
-            
-        }
-
-        return nil
-        
-    }
-    
-    var container:AnimationObject? {
-        if self == .detailed {
-            return .init([.init(0.4, easing: .easeout, padding:.init(top:24, bottom:16))], id:"hud_expand")
-            
-        }
-        else if self == .dismissed {
-            return .init([.init(0.6, delay: 0.2, easing: .easeout, opacity: 0.0, blur: 5.0)])
-
-        }
-        
-        return nil
-
-    }
-
-
 }
 
 struct HUDIcon: View {
@@ -491,10 +338,10 @@ struct HUDView: View {
 }
 
 struct HUDParent: View {
-    @State var type:HUDAlertTypes
+    @State var type:SystemAlertTypes
     @State var device:SystemDeviceObject?
 
-    init(_ type: HUDAlertTypes, device:SystemDeviceObject?) {
+    init(_ type: SystemAlertTypes, device:SystemDeviceObject?) {
         self._type = State(initialValue: type)
         self._device = State(initialValue: device)
         

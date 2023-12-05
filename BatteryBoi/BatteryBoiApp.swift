@@ -40,8 +40,22 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
     
     public var status:NSStatusItem? = nil
     public var hosting:NSHostingView = NSHostingView(rootView: MenuContainer())
-    public var updates = Set<AnyCancellable>()
+    
+    private var updates = Set<AnyCancellable>()
+    private var callback: CFMessagePortCallBack = { messagePort, messageID, cfData, info in
+        var payload:Data = Data("".utf8)
+        if let pointer = info, let received = cfData as Data? {
+            if let string = String(data: received, encoding: .utf8) {
+                payload = Data(string.utf8)
+                
+            }
 
+        }
+           
+        return Unmanaged.passRetained(payload as CFData)
+
+    }
+    
     func applicationDidFinishLaunching(_ notification: Notification) {
         self.status = NSStatusBar.system.statusItem(withLength: 45)
         self.hosting.frame.size = NSSize(width: 45, height: 22)
@@ -102,7 +116,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
                 }
                 
             }
-            
+                        
         }
         
         NSAppleEventManager.shared().setEventHandler(self, andSelector: #selector(applicationHandleURLEvent(event:reply:)), forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
@@ -110,6 +124,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(applicationDidWakeNotification(_:)), name: NSWorkspace.didWakeNotification, object: nil)
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(applicationDidSleepNotification(_:)), name: NSWorkspace.screensDidSleepNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationFocusDidMove(notification:)), name: NSWindow.didMoveNotification, object:nil)
+        
+        self.applicationMessagePortHandle()
+
+    }
+    
+    private func applicationMessagePortHandle() {
+        if let id = Bundle.main.infoDictionary?["ENV_CLIBOI_PORT"] as? String  {
+            let info = Unmanaged.passUnretained(self).toOpaque()
+            let port = id as CFString
+            
+            print("Setting up Port" ,port)
+
+            var context = CFMessagePortContext(version: 0, info: info, retain: nil, release: nil, copyDescription: nil)
+            
+            if let message = CFMessagePortCreateLocal(nil, port, callback, &context, nil) {
+                if let source = CFMessagePortCreateRunLoopSource(nil, message, 0) {
+                    CFRunLoopAddSource(CFRunLoopGetMain(), source, .defaultMode)
+                    
+                }
+                
+            }
+            
+        }
         
     }
     

@@ -204,9 +204,7 @@ struct DebugContainer: View {
         }
         .sheet(isPresented: $present) {
             OnboardingContainer()
-                .presentationDragIndicator(onboarding.state.required ? .hidden : .visible)
-                .interactiveDismissDisabled(onboarding.state.required)
-
+           
         }
         .onAppear() {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -223,21 +221,6 @@ struct DebugContainer: View {
 
         })
                   
-    }
-    
-}
-
-struct ContentView: View {
-    var body: some View {
-        DebugContainer()
-            .environmentObject(AppManager.shared)
-            .environmentObject(OnboardingManager.shared)
-            .environmentObject(StatsManager.shared)
-            .environmentObject(BluetoothManager.shared)
-            .environmentObject(CloudManager.shared)
-            .environmentObject(BatteryManager.shared)
-            .environmentObject(SettingsManager.shared)
-
     }
     
 }

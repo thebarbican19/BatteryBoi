@@ -20,6 +20,162 @@ import CoreBluetooth
 
 #endif
 
+enum SystemAlertTypes:Int {
+    case chargingComplete
+    case chargingBegan
+    case chargingStopped
+    case percentFive
+    case percentTen
+    case percentTwentyFive
+    case percentOne
+    case userInitiated
+    case userLaunched
+    case userEvent
+    case deviceOverheating
+    case deviceConnected
+    case deviceRemoved
+    case deviceDistance
+
+    var sfx:SystemSoundEffects? {
+        switch self {
+            case .chargingBegan : return .high
+            case .chargingComplete : return .high
+            case .chargingStopped : return .low
+            case .percentTwentyFive : return .low
+            case .percentTen : return .low
+            case .percentFive : return .low
+            case .percentOne : return .low
+            case .userLaunched : return nil
+            case .userInitiated : return nil
+            case .userEvent : return .low
+            case .deviceOverheating : return .low
+            case .deviceRemoved : return .low
+            case .deviceConnected : return .high
+            case .deviceDistance : return .low
+
+        }
+        
+    }
+    
+    var trigger:Bool {
+        switch self {
+            case .chargingBegan : return true
+            case .chargingComplete : return true
+            case .chargingStopped : return true
+            case .deviceRemoved : return true
+            case .deviceConnected : return true
+            default : return false
+            
+        }
+        
+    }
+    
+    var timeout:Bool {
+        switch self {
+            case .userLaunched : return false
+            case .userInitiated : return false
+            default : return true
+            
+        }
+        
+    }
+    
+}
+
+enum SystemAlertState:Equatable {
+    case hidden
+    case progress
+    case revealed
+    case detailed
+    case dismissed
+    
+    var visible:Bool {
+        switch self {
+            case .detailed : return true
+            case .revealed : return true
+            default : return false
+            
+        }
+        
+    }
+    
+    var mask:AnimationObject? {
+        if self == .revealed {
+            return .init([
+                .init(0.6, delay: 0.2, easing: .bounce, width: 120, height: 120, blur: 0, radius: 66),
+                .init(2.9, easing: .bounce, width: 430, height: 120, blur: 0, radius: 66)], id: "initial")
+            
+        }
+        else if self == .detailed {
+            return .init([.init(0.0, easing: .bounce, width: 440, height: 220, radius: 42)], id:"expand_out")
+            
+        }
+        else if self == .dismissed {
+            return .init([
+                .init(0.2, easing: .bounce, width: 430, height: 120, radius: 66),
+                .init(0.2, easing: .easeout, width: 120, height: 120, radius: 66),
+                .init(0.3, delay:1.0, easing: .bounce, width: 40, height: 40, opacity: 0, radius: 66)], id: "expand_close")
+
+        }
+        
+        return nil
+        
+    }
+    
+    var glow:AnimationObject? {
+        if self == .revealed {
+            return .init([
+                .init(0.03, easing: .easeout, opacity: 0.0, scale: 0.2),
+                .init(0.4, easing: .bounce, opacity: 0.4, scale: 1.9),
+                .init(0.4, easing: .easein, opacity: 0.0, blur:2.0)])
+            
+        }
+        else if self == .dismissed {
+            return .init([
+                .init(0.03, easing: .easeout, opacity: 0.0, scale: 0.2),
+                .init(0.4, easing: .easein, opacity: 0.6, scale:1.4),
+                .init(0.2, easing: .bounce, opacity: 0.0, scale: 0.2)])
+            
+        }
+        
+        return nil
+
+    }
+    
+    var progress:AnimationObject? {
+        if self == .revealed {
+            return .init([
+                .init(0.2, easing: .bounce, opacity: 0.0, blur:0.0, scale: 0.8),
+                .init(0.4, delay: 0.4, easing: .easeout, opacity: 1.0, scale:1.0)])
+            
+        }
+        else if self == .dismissed {
+            return .init([.init(0.6, easing: .bounce, opacity: 0.0, blur:12.0, scale: 0.9)])
+            
+        }
+
+        return nil
+        
+    }
+    
+    var container:AnimationObject? {
+        if self == .detailed {
+            return .init([.init(0.4, easing: .easeout, padding:.init(top:24, bottom:16))], id:"hud_expand")
+            
+        }
+        else if self == .dismissed {
+            return .init([.init(0.6, delay: 0.2, easing: .easeout, opacity: 0.0, blur: 5.0)])
+
+        }
+        
+        return nil
+
+    }
+
+
+}
+
+
 public enum SystemDistribution {
     case direct
     case appstore
@@ -144,6 +300,22 @@ enum SystemDeviceTypes:String,Codable {
             
         }
         
+    }
+    
+    var mac:Bool {
+        switch self {
+            case .macbook: return true
+            case .macbookPro: return true
+            case .macbookAir: return true
+            case .ipad: return false
+            case .iphone: return false
+            case .imac: return true
+            case .macMini: return true
+            case .macPro: return true
+            case .macStudio: return true
+            case .unknown: return false
+            
+        }
     }
     
     var category:SystemDeviceCategory {
@@ -355,35 +527,35 @@ enum SystemEvents:String {
 }
 
 enum SystemDefaultsKeys: String {
-    case enabledAnalytics = "sd_settings_analytics"
-    case enabledLogin = "sd_settings_login"
-    case enabledEstimate = "sd_settings_estimate"
-    case enabledBluetooth = "sd_bluetooth_state"
-    case enabledDisplay = "sd_settings_display"
-    case enabledStyle = "sd_settings_style"
-    case enabledTheme = "sd_settings_theme"
-    case enabledSoundEffects = "sd_settings_sfx"
-    case enabledChargeEighty = "sd_charge_eighty"
-    case enabledProgressState = "sd_progress_state"
-    case enabledPinned = "sd_pinned_mode"
+    case enabledAnalytics = "bb_settings_analytics"
+    case enabledLogin = "bb_settings_login"
+    case enabledEstimate = "bb_settings_estimate"
+    case enabledBluetooth = "bb_bluetooth_state"
+    case enabledDisplay = "bb_settings_display"
+    case enabledStyle = "bb_settings_style"
+    case enabledTheme = "bb_settings_theme"
+    case enabledSoundEffects = "bb_settings_sfx"
+    case enabledChargeEighty = "bb_charge_eighty"
+    case enabledProgressState = "bb_progress_state"
+    case enabledPinned = "bb_pinned_mode"
 
-    case batteryUntilFull = "sd_charge_full"
-    case batteryLastCharged = "sd_charge_last"
-    case batteryDepletionRate = "sd_depletion_rate"
-    case batteryWindowPosition = "sd_window_position"
+    case batteryUntilFull = "bb_charge_full"
+    case batteryLastCharged = "bb_charge_last"
+    case batteryDepletionRate = "bb_depletion_rate"
+    case batteryWindowPosition = "bb_window_position"
 
-    case versionInstalled = "sd_version_installed"
-    case versionCurrent = "sd_version_current"
-    case versionIdenfiyer = "sd_version_id"
+    case versionInstalled = "bb_version_installed"
+    case versionCurrent = "bb_version_current"
+    case versionIdenfiyer = "bb_version_id"
     
-    case usageDay = "sd_usage_days"
-    case usageTimestamp = "sd_usage_date"
+    case usageDay = "bb_usage_days"
+    case usageTimestamp = "bb_usage_date"
     
-    case profileChecked = "sd_profiles_checked"
-    case profilePayload = "sd_profiles_payload"
+    case profileChecked = "bb_profiles_checked"
+    case profilePayload = "bb_profiles_payload"
     
-    case onboardingIntro = "sd_onboarding_intro"
-
+    case onboardingStep = "bb_onboarding_step"
+    
     var name:String {
         switch self {
             case .enabledAnalytics:return "Analytics"
@@ -407,13 +579,13 @@ enum SystemDefaultsKeys: String {
             case .versionCurrent:return "Active Version"
             case .versionIdenfiyer:return "App ID"
 
-            case .usageDay:return "sd_usage_days"
-            case .usageTimestamp:return "sd_usage_timestamp"
+            case .usageDay:return "bb_usage_days"
+            case .usageTimestamp:return "bb_usage_timestamp"
             
             case .profileChecked:return "Profile Validated"
             case .profilePayload:return "Profile Payload"
 
-            case .onboardingIntro:return "Onboarding Intro"
+            case .onboardingStep:return "Onboarding Intro"
 
         }
         

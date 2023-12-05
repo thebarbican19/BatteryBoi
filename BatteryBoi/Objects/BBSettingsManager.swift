@@ -141,10 +141,10 @@ class SettingsManager:ObservableObject {
         
     }
     
-    public var enabledStyle:BatteryStyle {
+    public var enabledStyle:SettingsBatteryStyle {
         get {
             if let style = UserDefaults.main.string(forKey: SystemDefaultsKeys.enabledStyle.rawValue) {
-                return BatteryStyle(rawValue: style) ?? .chunky
+                return SettingsBatteryStyle(rawValue: style) ?? .chunky
                 
             }
 
@@ -334,61 +334,61 @@ class SettingsManager:ObservableObject {
 
         }
         else if action.type == .appRate {
-            if AppManager.shared.appDistribution() == .direct {
-                if let url = URL(string: "https://www.producthunt.com/posts/batteryboi") {
-                    NSWorkspace.shared.open(url)
-                    
-                }
-                
-            }
+//            if AppManager.shared.appDistribution() == .direct {
+//                if let url = URL(string: "https://www.producthunt.com/posts/batteryboi") {
+//                    NSWorkspace.shared.open(url)
+//                    
+//                }
+//                
+//            }
 
         }
-        else if action.type == .appQuit {
-            WindowManager.shared.state = .dismissed
-            
-            EnalogManager.main.ingest(SystemEvents.userUpdated, description: "User Quit")
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                NSApp.terminate(self)
-                
-            }
-
-        }
+//        else if action.type == .appQuit {
+//            WindowManager.shared.state = .dismissed
+//            
+//            EnalogManager.main.ingest(SystemEvents.userUpdated, description: "User Quit")
+//
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+//                NSApp.terminate(self)
+//                
+//            }
+//
+//        }
         else if action.type == .appInstallUpdate {
-            if let update = UpdateManager.shared.available {
-                if let url = URL(string: "http://batteryboi.ovatar.io/index?modal=update") {
-                    NSWorkspace.shared.open(url)
-                    
-                    EnalogManager.main.ingest(SystemEvents.userUpdated, description: "Updating to \(update.version.formatted)")
-                    
-                }
-                
-            }
+//            if let update = UpdateManager.shared.available {
+//                if let url = URL(string: "http://batteryboi.ovatar.io/index?modal=update") {
+//                    NSWorkspace.shared.open(url)
+//                    
+//                    EnalogManager.main.ingest(SystemEvents.userUpdated, description: "Updating to \(update.version.formatted)")
+//                    
+//                }
+//                
+//            }
 
         }
         else if action.type == .appUpdateCheck {
-            if let update = UpdateManager.shared.available {
-                if let url = URL(string: "http://batteryboi.ovatar.io/index?modal=update") {
-                    NSWorkspace.shared.open(url)
-
-                    EnalogManager.main.ingest(SystemEvents.userUpdated, description: "Updating to \(update.version.formatted)")
-
-                }
-                
-            }
-            else {
-                UpdateManager.shared.updateCheck()
-
-            }
+//            if let update = UpdateManager.shared.available {
+//                if let url = URL(string: "http://batteryboi.ovatar.io/index?modal=update") {
+//                    NSWorkspace.shared.open(url)
+//
+//                    EnalogManager.main.ingest(SystemEvents.userUpdated, description: "Updating to \(update.version.formatted)")
+//
+//                }
+//                
+//            }
+//            else {
+//                UpdateManager.shared.updateCheck()
+//
+//            }
 
         }
-        else if action.type == .appEfficencyMode {
-            DispatchQueue.main.async {
-                BatteryManager.shared.powerSaveMode()
-
-            }
-            
-        }
+//        else if action.type == .appEfficencyMode {
+//            DispatchQueue.main.async {
+//                BatteryManager.shared.powerSaveMode()
+//
+//            }
+//            
+//        }
         else if action.type == .appBeta {
             
         }
@@ -441,12 +441,12 @@ class SettingsManager:ObservableObject {
         #if DEBUG
             output.append(.init(.customiseCharge))
         #endif
-
-        if AppManager.shared.appDistribution() == .direct {
-            output.append(.init(.appUpdateCheck))
-            
-        }
-        
+//
+//        if AppManager.shared.appDistribution() == .direct {
+//            output.append(.init(.appUpdateCheck))
+//            
+//        }
+//        
         output.append(.init(.appWebsite))
         output.append(.init(.appRate))
 

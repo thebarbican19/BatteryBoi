@@ -15,7 +15,7 @@ struct BatteryBoy__Activity_Bundle: WidgetBundle {
     var body: some Widget {
         WidgetStandard()
 
-        WidgetDynamicIsland()
+        //WidgetDynamicIsland()
         
     }
     

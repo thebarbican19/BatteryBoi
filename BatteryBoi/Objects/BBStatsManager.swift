@@ -94,7 +94,7 @@ class StatsManager:ObservableObject {
         #endif
 
         #if os(macOS)
-            AppManager.shared.$device.receive(on: DispatchQueue.main).sink() { newValue in
+            AppManager.shared.$selected.receive(on: DispatchQueue.main).sink() { newValue in
                 self.title = self.statsTitle
                 self.subtitle = self.statsSubtitle
                 
@@ -227,7 +227,7 @@ class StatsManager:ObservableObject {
         
     #if os(macOS)
         private var statsTitle:String {
-            if let device = AppManager.shared.device {
+            if let device = AppManager.shared.selected {
                 switch AppManager.shared.alert {
                     case .deviceConnected:return "AlertDeviceConnectedTitle".localise()
                     case .deviceRemoved:return "AlertDeviceDisconnectedTitle".localise()
@@ -271,7 +271,7 @@ class StatsManager:ObservableObject {
 
     #if os(macOS)
     private var statsSubtitle:String {
-        if let device = AppManager.shared.device {
+        if let device = AppManager.shared.selected {
 //            switch AppManager.shared.alert {
 //                case .deviceConnected:return device.device ?? device.type.type.name
 //                case .deviceRemoved:return device.device ?? device.type.type.name

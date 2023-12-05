@@ -33,7 +33,7 @@ struct NavigationContainer: View {
                             }
                             
                             if self.manager.menu == .devices {
-                                if self.manager.device != nil {
+                                if self.manager.selected != nil {
                                     BluetoothItem(nil, hover:$hover)
                                     
                                 }

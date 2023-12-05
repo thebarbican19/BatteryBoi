@@ -7,6 +7,45 @@
 
 import Foundation
 
+enum SettingsBatteryStyle:String {
+    case chunky
+    case basic
+    
+    var radius:CGFloat {
+        switch self {
+            case .basic : return 3
+            case .chunky : return 5
+            
+        }
+        
+    }
+    
+    var size:CGSize {
+        switch self {
+            case .basic : return .init(width: 28, height: 13)
+            case .chunky : return .init(width: 32, height: 15)
+            
+        }
+        
+    }
+    
+    var padding:CGFloat {
+        switch self {
+            case .basic : return 1
+            case .chunky : return 2
+            
+        }
+        
+    }
+    
+}
+
+enum SettingsBatteryAnimationType {
+    case charging
+    case low
+    
+}
+
 enum SettingsSoundEffects:String {
     case enabled
     case disabled

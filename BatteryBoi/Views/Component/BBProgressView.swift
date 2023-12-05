@@ -218,7 +218,7 @@ struct RadialProgressContainer: View {
         .padding(10)
         .onAppear() {
             withAnimation(Animation.easeOut(duration: self.animate ? 1.2 : 0.0)) {
-                if let device = manager.device {
+                if let device = manager.selected {
 //                    if let percent = device.battery.percent {
 //                        self.progress = percent / 100
 //                        self.percent = Int(percent)

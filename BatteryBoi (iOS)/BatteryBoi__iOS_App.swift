@@ -18,7 +18,7 @@ struct BatteryBoi__iOS_App: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationContainer()
             
         }
         

@@ -8,20 +8,38 @@
 import Foundation
 import EnalogSwift
 
-enum ProcessState {
-    case idle
-    case waiting
-    case failed
-    case complete
-    
-}
-
 class ProcessManager:ObservableObject {
     static var shared = ProcessManager()
     
-    @Published var charging:ProcessState = .idle
+    @Published var state:ProcessPermissionState = .unknown
     
     init() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            self.processInstallScript()
+            
+        }
+        #warning("Remove This for Onboarding State")
+        
+    }
+    
+    public func processInstallScript() {
+        #if MAINTARGET
+            if ToolInstaller.install() == true {
+                DispatchQueue.main.async {
+                    self.state = .allowed
+                    
+                }
+
+            }
+            else {
+                DispatchQueue.main.async {
+                    self.state = .denied
+                    
+                }
+                
+            }
+        
+        #endif
         
     }
     
@@ -33,68 +51,25 @@ class ProcessManager:ObservableObject {
         let pipe = Pipe()
         process.standardOutput = pipe
 
-        do {
-            try process.launch()
+        process.launch()
+        process.waitUntilExit()
+        
+        if process.terminationStatus == 0 {
+            let data = pipe.fileHandleForReading.readDataToEndOfFile()
             
-            process.waitUntilExit()
-            
-            if process.terminationStatus == 0 {
-                let data = pipe.fileHandleForReading.readDataToEndOfFile()
-                
-                if whitespace == true {
-                    return String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines)
+            if whitespace == true {
+                return String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines)
 
-                }
-                else {
-                    return String(data: data, encoding: .utf8)
+            }
+            else {
+                return String(data: data, encoding: .utf8)
 
-                }
-                
             }
             
         }
-        catch {
-            EnalogManager.main.ingest(SystemEvents.fatalError, description: error.localizedDescription)
             
-        }
-        
         return nil
                 
-    }
-    
-    public func processWithScript(_ script:String) -> String? {
-        if FileManager.default.fileExists(atPath: "/usr/bin/python3") {
-            if let script = Bundle.main.path(forResource: script, ofType: "py") {
-                let process = Process()
-                process.executableURL = URL(fileURLWithPath: "/usr/bin/python3")
-                process.arguments = [script]
-                
-                let pipe = Pipe()
-                process.standardOutput = pipe
-
-                do {                    
-                    try process.run()
-                    process.waitUntilExit()
-                    
-                    let data = pipe.fileHandleForReading.readDataToEndOfFile()
-                    
-                    if let output = String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) {
-                        return output
-                        
-                    }
-                    
-                }
-                catch {
-                    EnalogManager.main.ingest(SystemEvents.fatalError, description: error.localizedDescription)
-
-                }
-                
-            }
-            
-        }
-        
-        return nil
-        
     }
     
 }

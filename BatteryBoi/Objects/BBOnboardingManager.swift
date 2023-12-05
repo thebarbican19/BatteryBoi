@@ -26,7 +26,7 @@ class OnboardingManager:ObservableObject {
 
     init() {
         UserDefaults.changed.receive(on: DispatchQueue.main).sink { key in
-            if key == .onboardingIntro {
+            if key == .onboardingStep {
                 self.onboardingSetup()
 
             }
@@ -43,12 +43,20 @@ class OnboardingManager:ObservableObject {
 
         }.store(in: &updates)
         
+        #if os(macOS)
+//            ProcessManager.shared.$state.receive(on: DispatchQueue.main).sink { _ in
+//                self.onboardingSetup()
+//
+//            }.store(in: &updates)
+//        
+        #endif
+        
         self.onboardingSetup()
         
     }
 
     public func onboardingSetup() {
-        if self.onboardingIntro == nil {
+        if self.onboardingStep(.intro) == .unseen {
             self.state = .intro
             self.updated = Date()
 
@@ -69,6 +77,11 @@ class OnboardingManager:ObservableObject {
             self.updated = Date()
 
         }
+        else if self.onboardingStep(.admin) == .unseen && AppManager.shared.appDeviceType.mac == true {
+            self.state = .admin
+            self.updated = Date()
+
+        }
         else {
             self.state = .complete
             self.updated = Date()
@@ -79,7 +92,7 @@ class OnboardingManager:ObservableObject {
     
     public func onboardingAction() {
         if state == .intro {
-            self.onboardingIntro = Date()
+            _ = self.onboardingStep(.intro, insert: true)
             
         }
         else if state == .bluetooth {
@@ -105,6 +118,16 @@ class OnboardingManager:ObservableObject {
                 default : self.onboardingPermissionsUpdate(.cloud)
 
             }
+            
+        }
+        else if state == .admin {
+            #if os(macOS)
+//                if ProcessManager.shared.state == .allowed {
+//                    ProcessManager.shared.processInstallScript()
+//                    
+//                }
+            
+            #endif
             
         }
         
@@ -146,21 +169,22 @@ class OnboardingManager:ObservableObject {
 
     }
     
-    private var onboardingIntro:Date? {
-        get {
-            if let timestamp = UserDefaults.main.object(forKey: SystemDefaultsKeys.onboardingIntro.rawValue) as? Date {
-                return timestamp
-                
-            }
-
-            return nil
-
-        }
+    private func onboardingStep(_ step:OnboardingViewType, insert:Bool = false) -> OnboardingStepViewed {
+        var list:Array<OnboardingViewType> = []
+        
+        if let existing = UserDefaults.main.object(forKey: SystemDefaultsKeys.onboardingStep.rawValue) as? [String] {
+            list = existing.compactMap({ OnboardingViewType(rawValue: $0) })
             
-        set {
-            UserDefaults.save(.onboardingIntro, value: newValue)
+        }
+        
+        if insert == true {
+            list.append(step)
+
+            UserDefaults.save(.onboardingStep, value: list.compactMap({ $0.rawValue }))
 
         }
+        
+        return list.filter({ $0 == step }).isEmpty ? .unseen : .seen
 
     }
     

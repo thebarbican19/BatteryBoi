@@ -87,7 +87,7 @@ struct BluetoothItem: View {
 
             VStack(alignment: .leading) {
                 if let item = self.item {
-                    Text(item.name ?? item.profile?.vendor ?? "Unknown")
+                    Text(item.name)
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(self.style == .light ? Color("BatteryButton") : Color("BatteryTitle"))
                         .padding(0)
@@ -118,15 +118,18 @@ struct BluetoothItem: View {
                     
                 }
                 else {
-                    Text(AppManager.shared.appDeviceType.name(true))
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundColor(self.style == .light ? Color("BatteryButton") : Color("BatteryTitle"))
-                        .padding(0)
-                    
-                    if self.hover == true {
-                        Text("AlertSomePercentTitle".localise([Int(battery.percentage)]))
-                            .font(.system(size: 10, weight: .bold))
-                            .foregroundColor(Color("BatterySubtitle"))
+                    if let type = AppManager.shared.appDeviceType.name(true) {
+                        Text(type)
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(self.style == .light ? Color("BatteryButton") : Color("BatteryTitle"))
+                            .padding(0)
+                        
+                        if self.hover == true {
+                            Text("AlertSomePercentTitle".localise([Int(battery.percentage)]))
+                                .font(.system(size: 10, weight: .bold))
+                                .foregroundColor(Color("BatterySubtitle"))
+                            
+                        }
                         
                     }
                     

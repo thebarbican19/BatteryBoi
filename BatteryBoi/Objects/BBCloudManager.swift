@@ -20,7 +20,7 @@ class CloudManager:ObservableObject {
 
     private var updates = Set<AnyCancellable>()
 
-    static var container: CloudContainerObject = {
+    static var container: CloudContainerObject? = {
         let object = "BBDataObject"
         let container = NSPersistentCloudKitContainer(name: object)
         
@@ -28,7 +28,8 @@ class CloudManager:ObservableObject {
         var subdirectory: URL?
         
         guard let description = container.persistentStoreDescriptions.first else {
-            fatalError("No Description found")
+            //fatalError("No Description found")
+            return nil
             
         }
         
@@ -84,7 +85,7 @@ class CloudManager:ObservableObject {
 
         }
         else {
-            fatalError("Directory Not Found")
+            //fatalError("Directory Not Found")
             
         }
         
@@ -107,10 +108,10 @@ class CloudManager:ObservableObject {
                         
         }
         else {
-            #if DEBUG
-                fatalError("Cloud ID Enviroment is Missing")
-
-            #endif
+//            #if DEBUG
+//                fatalError("Cloud ID Enviroment is Missing")
+//
+//            #endif
 
         }
         
@@ -189,7 +190,14 @@ class CloudManager:ObservableObject {
             let info = CKSubscription.NotificationInfo()
             info.shouldSendContentAvailable = true
             
-            subscription.notificationInfo = info
+            if type == .alert {
+                //subscription.notificationInfo = info
+
+            }
+            else {
+                subscription.notificationInfo = info
+
+            }
             
             let database = CKContainer(identifier: id).privateCloudDatabase
             database.save(subscription) { (savedSubscription, error) in

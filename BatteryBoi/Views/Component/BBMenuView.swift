@@ -8,45 +8,6 @@
 import SwiftUI
 import Combine
 
-enum BatteryStyle:String {
-    case chunky
-    case basic
-    
-    var radius:CGFloat {
-        switch self {
-            case .basic : return 3
-            case .chunky : return 5
-            
-        }
-        
-    }
-    
-    var size:CGSize {
-        switch self {
-            case .basic : return .init(width: 28, height: 13)
-            case .chunky : return .init(width: 32, height: 15)
-            
-        }
-        
-    }
-    
-    var padding:CGFloat {
-        switch self {
-            case .basic : return 1
-            case .chunky : return 2
-            
-        }
-        
-    }
-    
-}
-
-enum BatteryAnimationType {
-    case charging
-    case low
-    
-}
-
 public struct BatteryPulsatingIcon: View {
     @EnvironmentObject var manager:BatteryManager
 
@@ -378,7 +339,9 @@ struct MenuContainer: View {
             .environmentObject(BatteryManager.shared)
             .environmentObject(StatsManager.shared)
             .environmentObject(UpdateManager.shared)
-            .environmentObject(CloudManager.shared)
+//            .environmentObject(CloudManager.shared)
+//            .environmentObject(BluetoothManager.shared)
+            .environmentObject(ProcessManager.shared)
 
     }
     
