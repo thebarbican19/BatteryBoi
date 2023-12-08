@@ -106,6 +106,7 @@ struct ViewMarkdown: View {
 
 struct ViewTextStyle: ViewModifier {
     @State var size:CGFloat
+    @State var kerning:CGFloat
     
     func body(content: Content) -> some View {
         if #available(iOS 14.0, macOS 13.0, watchOS 7.0, tvOS 14.0, *) {
@@ -141,6 +142,18 @@ extension TimeInterval {
     
 }
 
+extension Bool {
+    public var string:String {
+        switch self {
+            case true : return "SettingsEnabledLabel".localise()
+            case false : return "SettingsDisabledLabel".localise()
+
+        }
+        
+    }
+    
+}
+
 extension String {
     public func append(_ string:String, seporator:String) -> String {
         return "\(self)\(seporator)\(string)"
@@ -154,35 +167,59 @@ extension String {
             return attribute.size().width
             
         }
-    
+        
     #endif
     
     public func localise(_ params: [CVarArg]? = nil, comment:String? = nil) -> String {
         var key = self
         var output = NSLocalizedString(self, tableName: "LocalizableMain", comment: comment ?? "")
-
+        
         if let number = params?.first(where: { $0 is Int}) as? Int {
             switch number {
-                case 1 : key = "\(key)_Single"
-                default : key = "\(key)_Plural"
-
+            case 1 : key = "\(key)_Single"
+            default : key = "\(key)_Plural"
+                
             }
             
         }
         
         if output == self {
             output = NSLocalizedString(key, tableName: "LocalizableMain", comment: comment ?? "")
-
+            
         }
         
         if let params = params {
             return String(format: output, arguments: params)
-
+            
         }
         
         return output
-
+        
     }
+
+    public var boolean:Bool {
+        switch self.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() {
+            case "y" : return true
+            case "on" : return true
+            case "yes" : return true
+            case "1" : return true
+            case "true" : return true
+            case "yass" : return true //🤩
+            case "sure" : return true
+            case "yeanah" : return true // 🦘
+            case "doit" : return true
+            case "haan" : return true
+            case "aye" : return true // 🏴󠁧󠁢󠁳󠁣󠁴󠁿
+            case "whynot" : return true // 🤷‍♂️
+            case "fuckit" : return true
+            case "si" : return true // 🇪🇨
+            case "yarr" : return true // 🏴‍☠️
+            default : return false
+            
+        }
+        
+    }
+    
 }
 
 extension Array<String> {
@@ -309,8 +346,8 @@ extension View {
 
     }
     
-    func style(_ font:CGFloat) -> some View {
-        self.modifier(ViewTextStyle(size: font))
+    func style(_ font:CGFloat, kerning:CGFloat) -> some View {
+        self.modifier(ViewTextStyle(size: font, kerning: kerning))
 
     }
 
@@ -334,6 +371,22 @@ extension UserDefaults {
         
     }
     
+    static func remove(_ matches:String) {
+        for key in UserDefaults.standard.dictionaryRepresentation().keys {
+            if key.contains(matches) {
+                self.save(string: key, value: nil)
+                
+                #if MAINTARGET
+                    print("\n\n💾 Reset '\(key)'\n\n")
+
+                #endif
+                
+            }
+
+        }
+        
+    }
+
     static func save(string key:String, value:Any?) {
         if let value = value {
             main.set(Date(), forKey: "\(key)_timestamp")
@@ -345,7 +398,10 @@ extension UserDefaults {
 
             }
 
-            print("\n\n💾 Saved \(value) to '\(key)'\n\n")
+            #if MAINTARGET
+                print("\n\n💾 Saved \(value) to '\(key)'\n\n")
+            
+            #endif
             
         }
         else {

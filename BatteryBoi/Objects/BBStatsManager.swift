@@ -14,25 +14,18 @@ import CloudKit
 class StatsManager:ObservableObject {
     static var shared = StatsManager()
     
-    @Published var display:String?
-    @Published var overlay:String?
     @Published var title:String
     @Published var subtitle:String
 
     private var updates = Set<AnyCancellable>()
     
     init() {
-        self.display = nil
         self.title = ""
         self.subtitle = ""
         
         UserDefaults.changed.receive(on: DispatchQueue.main).sink { key in
             #if os(macOS)
-                if key == .enabledDisplay {
-                    self.display = self.statsDisplay
-                    self.overlay = self.statsOverlay
-
-                }
+                
             
             #endif
                            
@@ -40,8 +33,6 @@ class StatsManager:ObservableObject {
         
         BatteryManager.shared.$percentage.removeDuplicates().receive(on: DispatchQueue.main).sink() { newValue in
             #if os(macOS)
-               self.display = self.statsDisplay
-               self.overlay = self.statsOverlay
                self.title = self.statsTitle
                self.subtitle = self.statsSubtitle
            
@@ -51,8 +42,6 @@ class StatsManager:ObservableObject {
             
         BatteryManager.shared.$charging.removeDuplicates().receive(on: DispatchQueue.main).sink() { newValue in
             #if os(macOS)
-                self.display = self.statsDisplay
-                self.overlay = self.statsOverlay
                 self.title = self.statsTitle
                 self.subtitle = self.statsSubtitle
         
@@ -62,8 +51,6 @@ class StatsManager:ObservableObject {
 
         #if os(macOS)
             AppManager.shared.$alert.receive(on: DispatchQueue.main).sink() { newValue in
-                self.display = self.statsDisplay
-                self.overlay = self.statsOverlay
                 self.title = self.statsTitle
                 self.subtitle = self.statsSubtitle
                 
@@ -73,8 +60,6 @@ class StatsManager:ObservableObject {
         
         #if os(macOS)
             BatteryManager.shared.$saver.receive(on: DispatchQueue.main).sink() { newValue in
-                self.display = self.statsDisplay
-                self.overlay = self.statsOverlay
                 self.title = self.statsTitle
                 self.subtitle = self.statsSubtitle
                 
@@ -84,8 +69,6 @@ class StatsManager:ObservableObject {
 
         #if os(macOS)
             BatteryManager.shared.$thermal.receive(on: DispatchQueue.main).sink() { newValue in
-                self.display = self.statsDisplay
-                self.overlay = self.statsOverlay
                 self.title = self.statsTitle
                 self.subtitle = self.statsSubtitle
                 
@@ -97,17 +80,6 @@ class StatsManager:ObservableObject {
             AppManager.shared.$selected.receive(on: DispatchQueue.main).sink() { newValue in
                 self.title = self.statsTitle
                 self.subtitle = self.statsSubtitle
-                
-            }.store(in: &updates)
-        
-        #endif
-
-        #if os(macOS)
-            AppManager.shared.appTimer(3600).sink { _ in
-                DispatchQueue.global().async {
-                    AppManager.shared.appWattageStore()
-                    
-                }
                 
             }.store(in: &updates)
         
@@ -159,71 +131,6 @@ class StatsManager:ObservableObject {
         return nil
         
     }
-    
-    #if os(macOS)
-        private var statsDisplay:String? {
-            let display = SettingsManager.shared.enabledDisplay(false)
-            let state = BatteryManager.shared.charging.state
-            
-            if state == .charging {
-                if display == .empty {
-                    return nil
-                    
-                }
-                
-            }
-            else {
-                if display == .empty {
-                    return nil
-                    
-                }
-                else if SettingsManager.shared.enabledDisplay() == .countdown {
-                    return self.statsCountdown
-                    
-                }
-                else if SettingsManager.shared.enabledDisplay() == .cycle {
-                    if let cycle = BatteryManager.shared.metrics?.cycles.formatted {
-                        return cycle
-
-                    }
-
-                }
-                
-            }
-            
-            return "\(Int(BatteryManager.shared.percentage))"
-
-        }
-
-    #endif
-
-    #if os(macOS)
-        private var statsOverlay:String? {
-            let state = BatteryManager.shared.charging.state
-
-            if state == .charging {
-                return nil
-                
-            }
-            else {
-                if SettingsManager.shared.enabledDisplay() == .countdown {
-                    return "\(Int(BatteryManager.shared.percentage))"
-                    
-                }
-                else if SettingsManager.shared.enabledDisplay() == .empty {
-                    return "\(Int(BatteryManager.shared.percentage))"
-
-                }
-                else {
-                    return self.statsCountdown
-                    
-                }
-                
-            }
-            
-        }
-
-    #endif
         
     #if os(macOS)
         private var statsTitle:String {

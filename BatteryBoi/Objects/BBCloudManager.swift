@@ -28,7 +28,7 @@ class CloudManager:ObservableObject {
         var subdirectory: URL?
         
         guard let description = container.persistentStoreDescriptions.first else {
-            //fatalError("No Description found")
+            fatalError("No Description found")
             return nil
             
         }
@@ -85,7 +85,7 @@ class CloudManager:ObservableObject {
 
         }
         else {
-            //fatalError("Directory Not Found")
+            fatalError("Directory Not Found")
             
         }
         
@@ -108,10 +108,10 @@ class CloudManager:ObservableObject {
                         
         }
         else {
-//            #if DEBUG
-//                fatalError("Cloud ID Enviroment is Missing")
-//
-//            #endif
+            #if DEBUG
+                fatalError("Cloud ID Enviroment is Missing")
+
+            #endif
 
         }
         

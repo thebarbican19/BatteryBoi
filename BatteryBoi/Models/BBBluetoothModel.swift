@@ -49,6 +49,7 @@ struct BluetoothBroadcastItem:Equatable,Hashable {
 enum BluetoothPermissionState:String {
     case allowed
     case undetermined
+    case disabled
     case denied
     case off
     case unknown

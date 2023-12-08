@@ -30,6 +30,12 @@ import CoreData
 
 #endif
 
+enum CloudEntityType:String {
+    case devices = "Devices"
+    case events = "Events"
+    
+}
+
 enum CloudNotificationType:String {
     case alert
     case background

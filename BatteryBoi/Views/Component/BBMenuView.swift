@@ -10,25 +10,27 @@ import Combine
 
 public struct BatteryPulsatingIcon: View {
     @EnvironmentObject var manager:BatteryManager
+    @EnvironmentObject var menubar:MenubarManager
 
+    @State private var animate:Bool = false
     @State private var visible:Bool = false
     @State private var icon:String = "ChargingIcon"
     
     init(_ icon:String) {
         self._icon = State(initialValue: icon)
-        
+
     }
     
     public var body: some View {
         Rectangle()
-            .fill(Color.black)
+            .fill(menubar.style.text)
             .mask(
                Image(icon)
                    .resizable()
                    .aspectRatio(contentMode: .fit)
             
             )
-            .frame(width: 5, height: 8)
+            .frame(width: menubar.style.icon.width, height: menubar.style.icon.height)
             .onAppear() {
                 withAnimation(Animation.easeInOut) {
                     self.visible = true
@@ -39,15 +41,30 @@ public struct BatteryPulsatingIcon: View {
             .opacity(self.visible ? 1.0 : 0.0)
             .onChange(of: self.visible) { newValue in
                 DispatchQueue.main.asyncAfter(deadline: .now() + (self.visible ? 2.0 : 0.8)) {
-                    withAnimation(Animation.easeInOut) {
-                        self.visible.toggle()
-    
+                    if self.menubar.animation == true {
+                        withAnimation(Animation.easeInOut) {
+                            self.visible.toggle()
+                            
+                        }
+                        
                     }
     
                 }
     
             }
-           
+            .onChange(of: self.menubar.animation) { newValue in
+                withAnimation(Animation.easeInOut) {
+                    switch newValue {
+                        case true : self.visible.toggle()
+                        case false : self.visible = true
+                        
+                    }
+                    
+                }
+                
+            }
+        
+        
     }
     
 }
@@ -82,43 +99,41 @@ public struct BatteryMask: Shape {
 
 private struct BatteryStatus: View {
     @EnvironmentObject var manager:BatteryManager
-    @EnvironmentObject var stats:StatsManager
+    @EnvironmentObject var menubar:MenubarManager
 
-    @State private var size:CGSize
-    @State private var font:CGFloat
     @State private var icon:String? = nil
 
     @Binding private var hover:Bool
     
-    init(_ size:CGSize, font:CGFloat, hover:Binding<Bool>) {
-        self._size = State(initialValue: size)
-        self._font = State(initialValue: font)
+    init(hover:Binding<Bool>) {
         self._hover = hover
         
     }
 
     var body: some View {
         ZStack {
-            if let overlay = self.stats.overlay {
-                Text(overlay).style(self.font).offset(y:self.hover ? 0.0 : -self.size.height)
+            if let overlay = menubar.seconary {
+                Text(overlay)
+                    .style(menubar.style.font, kerning:menubar.style.kerning)
+                    .offset(y:self.hover ? 0.0 : -menubar.style.size.height)
                 
             }
 
-            HStack(alignment: .center, spacing:0.4) {
+            HStack(alignment: .center, spacing:menubar.style.spacing) {
                 if let icon = self.icon {
                     BatteryPulsatingIcon(icon)
                     
                 }
                 
-                if let summary = self.stats.display {
-                    Text(summary).style(self.font)
+                if let summary = menubar.primary {
+                    Text(summary)
+                        .style(menubar.style.font, kerning:menubar.style.kerning)
                     
                 }
                 
             }
-            .offset(y:self.hover ? self.size.height : 0.0)
-            .foregroundColor(Color.black)
-            .frame(width: self.size.width, height: self.size.height)
+            .offset(y:self.hover ? menubar.style.size.height : 0.0)
+            .frame(width: menubar.style.size.width, height: self.menubar.style.size.height)
             
         }
         .onAppear() {
@@ -154,21 +169,32 @@ private struct BatteryStatus: View {
             }
             
         }
+        .onChange(of: manager.thermal) { newValue in
+            if newValue == .suboptimal {
+                self.icon = "OverheatIcon"
+
+            }
+            else {
+                self.icon = nil
+
+            }
+            
+        }
         .frame(alignment: .center)
-        .foregroundColor(Color.black)
-        .animation(Animation.easeInOut, value: self.manager.charging)
+        .foregroundColor(menubar.style.text)
+        .animation(Animation.easeInOut, value: manager.charging)
 
     }
     
 }
 
 private struct BatteryStub: View {
-    @State private var proxy:GeometryProxy
-    @State private var size:CGSize
+    @EnvironmentObject var menubar:MenubarManager
 
-    init(_ proxy: GeometryProxy, size:CGSize) {
+    @State private var proxy:GeometryProxy
+
+    init(_ proxy: GeometryProxy) {
         self._proxy = State(initialValue: proxy)
-        self._size = State(initialValue: size)
         
     }
     
@@ -179,7 +205,7 @@ private struct BatteryStub: View {
         }
         .position(x:proxy.size.width + 2, y:proxy.size.height / 2)
         .frame(width: 1.6, height: 6)
-        .opacity(0.6)
+        .opacity(menubar.style.stub)
 
     }
     
@@ -187,22 +213,13 @@ private struct BatteryStub: View {
 
 struct BatteryIcon: View {
     @EnvironmentObject var manager:BatteryManager
-    
-    @State var size:CGSize
-    @State var radius:CGFloat = 25
-    @State var max:CGFloat = 25
-    @State var font:CGFloat
-    @State var padding:CGFloat
+    @EnvironmentObject var menubar:MenubarManager
+
     @State var progress:CGFloat
     
     @Binding var hover:Bool
 
-    init(_ size: CGSize, radius: CGFloat, font:CGFloat, hover:Binding<Bool>) {
-        self._size = State(initialValue: size)
-        self._radius = State(initialValue: radius)
-        self._max = State(initialValue: radius)
-        self._font = State(initialValue: font)
-        self._padding = State(initialValue: 1.6)
+    init(hover:Binding<Bool>) {
         self._progress = State(initialValue: 1.0)
         self._hover = hover
 
@@ -213,88 +230,187 @@ struct BatteryIcon: View {
             HStack(alignment: .center) {
                 Rectangle()
                     .frame(width: self.progress, alignment: .leading)
-                    .clipShape(BatteryMask(3.4))
+                    .clipShape(BatteryMask(menubar.radius))
     
             }
-            .frame(maxWidth: self.size.width, alignment: .leading)
+            .frame(maxWidth: menubar.style.size.width, alignment: .leading)
             .foregroundColor(Color.black)
             .overlay(
-                BatteryStatus(size, font: font, hover: $hover)
+                BatteryStatus(hover: $hover)
              
             )
                         
         }
         .animation(.linear, value: self.manager.percentage)
         .inverse(
-            BatteryStatus(size, font: font, hover: $hover).mask(
+            BatteryStatus(hover: $hover).mask(
                 Rectangle()
                     .fill(.black)
-                    .frame(width: self.size.width)
-                    .position(x: -(self.size.width / 2) + (self.progress + 2.0), y: self.size.height / 2)
-
+                    .frame(width: menubar.style.size.width)
+                    .position(x: -(menubar.style.size.width / 2) + (self.progress + menubar.style.padding), y: menubar.style.size.height / 2)
+                
+                
+                
             )
+                    
             
         )
-        .clipShape(RoundedRectangle(cornerRadius: self.radius - self.padding, style: .continuous))
-        .padding(self.padding)
+        .clipShape(RoundedRectangle(cornerRadius: menubar.radius - menubar.style.padding, style: .continuous))
+        .padding(menubar.style.padding)
         .onChange(of: self.manager.charging.state, perform: { newValue in
-            withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.9, blendDuration: 1)) {
-                self.progress = newValue.progress(self.manager.percentage, width: self.size.width)
-                
-            }
-            
+            self.update(self.manager.percentage)
+
         })
         .onChange(of: self.manager.percentage, perform: { newValue in
-            withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.9, blendDuration: 1)) {
-                self.progress = self.manager.charging.state.progress(newValue, width: self.size.width)
-                
-            }
+            self.update(newValue)
           
         })
+        .onChange(of: self.menubar.progress, perform: { newValue in
+            self.update(self.manager.percentage)
+
+        })
         .onAppear() {
-            withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.9, blendDuration: 1)) {
-                self.progress = self.manager.charging.state.progress(self.manager.percentage, width: self.size.width)
+            self.update(self.manager.percentage)
+
+        }
+        
+    }
+    
+    private func update(_ percentage:Double) {
+        withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.9, blendDuration: 1)) {
+            if BatteryManager.shared.charging.state == .battery {
+                switch MenubarManager.shared.progress {
+                    case .progress : self.progress = self.manager.charging.state.progress(self.manager.percentage, width: menubar.style.size.width)
+                    case .empty : self.progress = self.manager.charging.state.progress(100.0, width: menubar.style.size.width)
+                    case .full : self.progress = self.manager.charging.state.progress(0.0, width: menubar.style.size.width)
+                    
+                }
+                
+            }
+            else {
+                switch MenubarManager.shared.progress {
+                    case .empty : self.progress = self.manager.charging.state.progress(100.0, width: menubar.style.size.width)
+                    default : self.progress = self.manager.charging.state.progress(0.0, width: menubar.style.size.width)
+                    
+                }
                 
             }
             
         }
-       
-
+        
     }
     
 }
 
-struct BatteryContainer: View {
-    @EnvironmentObject var manager:BatteryManager
-    @EnvironmentObject var updates:UpdateManager
-    @EnvironmentObject var stats:StatsManager
+struct BatteryEmpty: View {
+    @EnvironmentObject var menubar:MenubarManager
 
-    @State private var size:CGSize
-    @State private var radius:CGFloat
-    @State private var font:CGFloat
-    @State private var hover:Bool = false
+    @Binding var hover:Bool
 
-    init(_ size: CGSize, radius:CGFloat, font:CGFloat) {
-        self._size = State(initialValue: size)
-        self._radius = State(initialValue: radius)
-        self._font = State(initialValue: font)
+    init(hover:Binding<Bool>) {
+        self._hover = hover
 
     }
     
     var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: self.radius, style: .continuous)
-                .fill(Color("BatteryDefault"))
-                .opacity(0.9)
-                .frame(width:self.size.width, height: self.size.height)
-                .mask(
-                    Rectangle().inverse(BatteryIcon(size, radius: radius, font: font, hover: $hover))
-                    
-                )
+        ZStack(alignment: .leading) {
+            BatteryStatus(hover: $hover)
 
         }
+        .mask(
+            RoundedRectangle(cornerRadius: self.menubar.radius, style: .continuous)
+                .frame(width:self.menubar.style.size.width, height: self.menubar.style.size.height)
+
+        )
+        .animation(.easeIn, value: menubar.style)
+        
+    }
+    
+}
+
+
+struct BatteryTransparent: View {
+    @EnvironmentObject var menubar:MenubarManager
+    @EnvironmentObject var manager:BatteryManager
+
+    @Binding var hover:Bool
+
+    init(hover:Binding<Bool>) {
+        self._hover = hover
+
+    }
+    
+    var body: some View {
+        ZStack(alignment: .leading) {
+            RoundedRectangle(cornerRadius: self.menubar.radius, style: .continuous)
+                .fill(Color("BatteryDefault"))
+                .opacity(menubar.style.background)
+                .frame(width:menubar.style.size.width, height: menubar.style.size.height)
+                
+            RoundedRectangle(cornerRadius: menubar.radius, style: .continuous)
+                .fill(Color("BatteryDefault"))
+                .opacity(menubar.style.foreground)
+                .frame(width:(menubar.style.size.width / 100) * manager.percentage, height: menubar.style.size.height)
+            
+        }
+        .mask(
+            RoundedRectangle(cornerRadius: menubar.radius, style: .continuous)
+                .frame(width:menubar.style.size.width, height: menubar.style.size.height)
+                .inverse(BatteryStatus(hover: $hover))
+            
+        )
+        .animation(Animation.easeInOut, value: menubar.style)
+        
+    }
+    
+}
+
+struct BatteryOriginal: View {
+    @EnvironmentObject var menubar:MenubarManager
+
+    @Binding var hover:Bool
+
+    init(hover:Binding<Bool>) {
+        self._hover = hover
+
+    }
+    
+    var body: some View {
+        RoundedRectangle(cornerRadius: menubar.radius, style: .continuous)
+            .fill(Color("BatteryDefault"))
+            .opacity(0.9)
+            .frame(width:menubar.style.size.width, height: menubar.style.size.height)
+            .animation(.easeInOut, value: menubar.style)
+            .mask(
+                Rectangle().inverse(BatteryIcon(hover: $hover))
+                
+            )
+        
+    }
+    
+}
+
+
+struct BatteryContainer: View {
+    @EnvironmentObject var manager:BatteryManager
+    @EnvironmentObject var updates:UpdateManager
+    @EnvironmentObject var menubar:MenubarManager
+
+    @State private var hover:Bool = false
+
+    var body: some View {
+        ZStack {
+            switch menubar.style {
+                case .original : BatteryOriginal(hover: $hover)
+                case .transparent : BatteryTransparent(hover: $hover)
+                case .text : BatteryEmpty(hover: $hover)
+
+            }
+            
+        }
+        .animation(.easeIn, value: menubar.style)
         .onHover { hover in
-            if self.stats.overlay != nil {
+            if menubar.seconary != nil {
                 withAnimation(Animation.easeOut(duration: 0.3).delay(self.hover ? 0.8 : 0.1)) {
                     self.hover = hover
                     
@@ -323,7 +439,7 @@ struct BatteryContainer: View {
                     
                 }
                 
-                BatteryStub(geo, size: .init(width: 4, height: size.height / 2))
+                BatteryStub(geo)
                 
             }
             
@@ -335,13 +451,14 @@ struct BatteryContainer: View {
 
 struct MenuContainer: View {
     var body: some View {
-        BatteryContainer(.init(width: 32, height: 15), radius: 5, font: 11)
+        BatteryContainer()
             .environmentObject(BatteryManager.shared)
             .environmentObject(StatsManager.shared)
             .environmentObject(UpdateManager.shared)
-//            .environmentObject(CloudManager.shared)
-//            .environmentObject(BluetoothManager.shared)
+            .environmentObject(CloudManager.shared)
+            .environmentObject(BluetoothManager.shared)
             .environmentObject(ProcessManager.shared)
+            .environmentObject(MenubarManager.shared)
 
     }
     

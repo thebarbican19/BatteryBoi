@@ -27,7 +27,6 @@ class AppManager:ObservableObject {
         
     #if os(macOS)
         @Published var menu:SystemMenuView = .devices
-        @Published var profile:SystemProfileObject? = nil
         @Published var alert:SystemAlertTypes? = nil
     
     #endif
@@ -192,45 +191,7 @@ class AppManager:ObservableObject {
         }
         
     }
-  
-    public func appWattageStore() {
-        #if os(macOS)
-            if let context = self.appStorageContext() {
-                context.performAndWait {
-                    let calendar = Calendar.current
-                    let components = calendar.dateComponents([.year, .month, .day, .hour], from: Date())
-                    
-                    if let hour = calendar.date(from: components) {
-                        let fetch = Wattage.fetchRequest() as NSFetchRequest<Wattage>
-                        fetch.includesPendingChanges = true
-                        fetch.predicate = NSPredicate(format: "timestamp == %@" ,hour as CVarArg)
-                        
-                        do {
-                            if try context.fetch(fetch).first == nil {
-                                let store = Wattage(context: context) as Wattage
-                                store.timestamp = Date()
-                                store.device = self.appDevice(nil, context: context)
-                                //store.wattage = BatteryManager.shared.powerHourWattage() ?? 0.0
-                                
-                                try context.save()
-                                
-                            }
-                            
-                        }
-                        catch {
-                            
-                        }
-                        
-                    }
-                    
-                }
-                
-            }
-        
-        #endif
-        
-    }
-    
+      
     public func appTimer(_ multiple: Int) -> AnyPublisher<Int, Never> {
         self.$counter.filter { $0 % multiple == 0 }.eraseToAnyPublisher()
         
@@ -432,10 +393,6 @@ class AppManager:ObservableObject {
                                 
                             }
                             
-                            if device == nil {
-                                store?.id = UUID.device()
-
-                            }
                             
                         }
                         else {
@@ -455,7 +412,7 @@ class AppManager:ObservableObject {
                             }
                             else {
                                 store?.name = name
-                                store?.id = UUID.device()
+                                store?.id = self.appDeviceMatch()
                                 store?.subtype = type.name(false)
                                 store?.type = type.category.rawValue
                                 store?.primary = true
@@ -463,7 +420,6 @@ class AppManager:ObservableObject {
                                 store?.product = type.name(false)
                                 store?.serial = nil
                                 store?.address = nil
-                                store?.match = self.appDeviceMatch()
                                 
                                 #if os(iOS)
                                     store?.os = UIDevice.current.systemVersion
@@ -541,6 +497,28 @@ class AppManager:ObservableObject {
         
     }
 
+    public func appDestoryEntity(_ type:CloudEntityType) {
+        if let context = self.appStorageContext() {
+            context.perform {
+                do {
+                    var request:NSFetchRequest<NSFetchRequestResult>
+                    request = NSFetchRequest(entityName: type.rawValue)
+
+                    let delete = NSBatchDeleteRequest(fetchRequest: request)
+                    delete.resultType = .resultTypeObjectIDs
+                    
+                    try context.execute(delete)
+
+                }
+                catch {
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
     
     public var appDeviceType:SystemDeviceTypes {
         #if os(macOS)
@@ -602,32 +580,6 @@ class AppManager:ObservableObject {
         return nil
 
     }
-    
-//    public func appDistribution() -> SystemDistribution {
-//        #if os(macOS)
-//            if let response = ProcessManager.shared.processWithArguments("/usr/bin/codesign", arguments:["-dv", "--verbose=4", Bundle.main.bundlePath], whitespace: false) {
-//                if response.contains("Authority=Apple Mac OS Application Signing") {
-//                    return .appstore
-//
-//                }
-//                
-//            }
-//            
-//            return .direct
-//        
-//        #elseif os(iOS)
-//            if Bundle.main.appStoreReceiptURL == nil {
-//                return .direct
-//
-//            }
-//            else {
-//                return .appstore
-//
-//            }
-//        
-//        #endif
-//            
-//    }
     
     #if os(macOS)
         public func appToggleMenu(_ animate:Bool) {

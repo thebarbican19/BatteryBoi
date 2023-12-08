@@ -12,6 +12,7 @@ import EnalogSwift
 #if os(macOS)
     import IOKit.pwr_mgt
     import IOKit.ps
+    import IOKit
 
 #elseif os(iOS)
     import UIKit
@@ -105,23 +106,16 @@ enum BatteryChargingState:String {
     }
     
     public func progress(_ percent:Double, width:CGFloat) -> CGFloat {
-        if self == .charging {
-            return min(100 * (width - 2.6), (width - 2.6))
-            
+        if percent > 0 && percent < 10 {
+            return min(CGFloat(10 / 100) * (width - 2.6), (width - 2.6))
+
+        }
+        else if percent >= 90 && percent < 100 {
+            return min(CGFloat(90 / 100) * (width - 2.6), (width - 2.6))
+
         }
         else {
-            if percent > 0 && percent < 10 {
-                return min(CGFloat(10 / 100) * (width - 2.6), (width - 2.6))
-
-            }
-            else if percent >= 90 && percent < 100 {
-                return min(CGFloat(90 / 100) * (width - 2.6), (width - 2.6))
-
-            }
-            else {
-                return min(CGFloat(percent / 100) * (width - 2.6), (width - 2.6))
-                
-            }
+            return min(CGFloat(percent / 100) * (width - 2.6), (width - 2.6))
             
         }
         
@@ -210,9 +204,10 @@ struct BatteryEstimateObject {
     
 }
 
+
 class BatteryManager:ObservableObject {
     static var shared = BatteryManager()
-    
+
     @Published var charging:BatteryCharging = .init(.battery)
     @Published var percentage:Double = 100
     @Published var remaining:BatteryRemaining? = nil
@@ -222,6 +217,11 @@ class BatteryManager:ObservableObject {
     #if os(macOS)
         @Published var metrics:BatteryMetricsObject? = nil
         @Published var thermal:BatteryThemalState = .optimal
+    
+    #endif
+    
+    #if os(macOS)
+        private var connection: io_connect_t = 0
     
     #endif
     
@@ -295,7 +295,7 @@ class BatteryManager:ObservableObject {
         #endif
         
         self.powerStatus(true)
-
+        
     }
     
     deinit {
@@ -409,29 +409,29 @@ class BatteryManager:ObservableObject {
     
     private var powerRemaing:BatteryRemaining? {
         #if os(macOS)
-            if let response = ProcessManager.shared.processWithArguments("/bin/sh", arguments: ["-c", "pmset -g batt | grep -o '[0-9]\\{1,2\\}:[0-9]\\{2\\}'"]) {
-                let trimmed = response.components(separatedBy: ":")
-                
-                if let hour = trimmed.map({ Int($0)}).first, let min = trimmed.map({ Int($0)}).last {
-                    if let hour = hour, let minute = min {
-                        self.powerDepetionAverage =  (Double(hour) * 60.0 * 60.0) + (Double(minute) * 60.0)
-                        
-                        return .init(hour: hour, minute: minute)
-                        
-                    }
-                    else if let rate = self.powerDepetionAverage {
-                        let date = Date().addingTimeInterval(rate * self.percentage)
-                        let components = Calendar.current.dateComponents([.hour, .minute], from: Date(), to: date)
-                        
-                        return .init(hour: components.hour ?? 0, minute: components.minute ?? 0)
-                        
-                    }
-                    
-                    return .init(hour: 0, minute: 0)
-                    
-                }
-                
-            }
+//            if let response = ProcessManager.shared.processWithArguments("/bin/sh", arguments: ["-c", "pmset -g batt | grep -o '[0-9]\\{1,2\\}:[0-9]\\{2\\}'"]) {
+//                let trimmed = response.components(separatedBy: ":")
+//                
+//                if let hour = trimmed.map({ Int($0)}).first, let min = trimmed.map({ Int($0)}).last {
+//                    if let hour = hour, let minute = min {
+//                        self.powerDepetionAverage =  (Double(hour) * 60.0 * 60.0) + (Double(minute) * 60.0)
+//                        
+//                        return .init(hour: hour, minute: minute)
+//                        
+//                    }
+//                    else if let rate = self.powerDepetionAverage {
+//                        let date = Date().addingTimeInterval(rate * self.percentage)
+//                        let components = Calendar.current.dateComponents([.hour, .minute], from: Date(), to: date)
+//                        
+//                        return .init(hour: components.hour ?? 0, minute: components.minute ?? 0)
+//                        
+//                    }
+//                    
+//                    return .init(hour: 0, minute: 0)
+//                    
+//                }
+//                
+//            }
         
         #endif
         
@@ -462,60 +462,79 @@ class BatteryManager:ObservableObject {
 
     }
     
-    private var powerDepetionAverage:Double? {
-        get {
-            if let averages = UserDefaults.main.object(forKey: SystemDefaultsKeys.batteryDepletionRate.rawValue) as? Array<Double> {
+    #if os(macOS)
+        private func powerChargeLimit() {
+            do {
+                try SMCKit.open()
                 
-                if averages.count > 0 {
-                    return averages.reduce(0.0, +) / Double(averages.count)
-
-                }
-                
-            }
-            
-            return nil
-            
-        }
-        
-        set {
-            if let seconds = newValue {
-                let averages = UserDefaults.main.object(forKey: SystemDefaultsKeys.batteryDepletionRate.rawValue) as? Array<Double> ?? Array<Double>()
-                
-                if averages.contains(seconds / self.percentage) == false && self.charging.state == .battery {
-                    if (seconds / self.percentage) > 0.0 {
-                        var list = Array(averages.suffix(15))
-                        list.append(seconds / self.percentage)
-                        
-                        UserDefaults.save(.batteryDepletionRate, value: list)
-                        
-                    }
-
-                }
-                
+            } catch {
+                print(error)
             }
 
+            let key = SMCKit.getKey("BCLM", type: DataTypes.UInt8)
+            do {
+                let status = try SMCKit.readData(key).0
+                
+
+            } catch {
+                print(error)
+            }
+                
         }
-        
-    }
     
+    #endif
+    
+    #if os(macOS)
+        private func powerThermalCheck() {
+            do {
+                try SMCKit.open()
+            } catch {
+                print(error)
+            }
+            
+            
+            let key = SMCKit.getKey("TC0P", type: DataTypes.UInt32)
+
+            do {
+                let formatter = MeasurementFormatter()
+                    let locale = Locale.current
+                    formatter.locale = locale
+
+                    let temperature = Measurement(value: 0, unit: UnitTemperature.celsius)
+                    let formattedString = formatter.string(from: temperature)
+                
+                let rawTemperature = try SMCKit.readData(key).0
+                    let temperatureCelsius = Double(rawTemperature) / 256.0
+                //print("CPU Temperature: \(temperatureCelsius) °C")
+                
+            } catch {
+                print("CPU Temperature Error" ,error)
+                
+            }
+                
+        }
+           
+    #endif
+        
+    #warning("Depricate")
     private var powerSaveModeStatus:BatteryModeType {
         #if os(macOS)
-            if let response = ProcessManager.shared.processWithArguments("/usr/bin/env", arguments:["bash", "-c", "pmset -g | grep lowpowermode"]) {
-                
-                if response.contains("lowpowermode") == true {
-                    if response.contains("1") == true {
-                        return .efficient
-                        
-                    }
-                    else if response.contains("0") == true {
-                        return .normal
-                        
-                    }
-                    
-                }
-                
-                
-            }
+//            if let response = ProcessManager.shared.processWithArguments("/usr/bin/env", arguments:["bash", "-c", "pmset -g | grep lowpowermode"]) {
+//                
+//                if response.contains("lowpowermode") == true {
+//                    if response.contains("1") == true {
+//                        return .efficient
+//                        
+//                    }
+//                    else if response.contains("0") == true {
+//                        return .normal
+//                        
+//                    }
+//                    
+//                }
+//                
+//                
+//            }
         
             return .unavailable
         
@@ -553,141 +572,134 @@ class BatteryManager:ObservableObject {
     
     #endif
     
-    #if os(macOS)
-        private func powerThermalCheck() {
-            if let response = ProcessManager.shared.processWithArguments("/usr/bin/env", arguments:["pmset", "-g", "therm"]) {
-                let cores = self.powerCPUCores
-                
-                if let match = response.range(of: "CPU_Scheduler_Limit\\s+=\\s+(\\d+)", options: .regularExpression) {
-                    let value = Int(response[match].components(separatedBy: CharacterSet.decimalDigits.inverted).joined()) ?? 0
-                    
-                    if value < 100 {
-                        self.thermal = .suboptimal
-                        
-                    }
-                    
-                }
-                
-            }
-        
-        }
-    
-    #endif
+  
 
     #if os(macOS)
         private var powerProfilerDetails:BatteryMetricsObject? {
-            if let response = ProcessManager.shared.processWithArguments("/usr/bin/env", arguments:["system_profiler", "SPPowerDataType"], whitespace: false) {
-                let lines = response.split(separator: "\n")
-                
-                var cycles: String?
-                var heath: String?
-                
-                for line in lines {
-                    if line.contains("Cycle Count") {
-                        cycles = String(line.split(separator: ":").last ?? "").trimmingCharacters(in: .whitespaces)
-                        
-                    }
-                    
-                    if line.contains("Condition") {
-                        heath = String(line.split(separator: ":").last ?? "").trimmingCharacters(in: .whitespaces)
-                        
-                    }
-                    
-                    if let cycles = cycles, let heath = heath {
-                        return .init(cycles: cycles, health: heath)
-                        
-                    }
-                    
-                }
-                
-            }
-            
-            return nil
-
-        }
-    
-    #endif
-    
-    #if os(macOS)
-        private var powerCPUCores:Int {
-            if let response = ProcessManager.shared.processWithArguments("/usr/bin/env", arguments:["sysctl", "-n", "hw.physicalcpu"], whitespace: false) {
-                if let cores = Int(response.trimmingCharacters(in: .whitespacesAndNewlines)) {
-                    return cores
-                    
-                }
-                
-            }
-        
-            return 1
-            
-        }
-
-    #endif
-    
-    #if os(macOS)
-        private func powerWattage(_ type: BatteryWattageType) -> Int? {
-            var arguments:[String] = []
-            
-            switch type {
-                case .current: arguments = ["-c", "ioreg -l | grep CurrentCapacity | awk '{print $5}'"]
-                case .max: arguments = ["-c", "ioreg -l | grep MaxCapacity | awk '{print $5}'"]
-                case .voltage: arguments = ["-c", "ioreg -l | grep Voltage | awk '{print $5}'"]
-                
-            }
-            
-            if let response = ProcessManager.shared.processWithArguments("/bin/sh", arguments: arguments) {
-                return Int(response.trimmingCharacters(in: .whitespacesAndNewlines))
-
-            }
-        
-            return nil
-            
-        }
-    
-    #endif
-    
-    #if os(macOS)
-        public func powerHourWattage() -> Double? {
-            if let mAh = self.powerWattage(.max), let mV = self.powerWattage(.voltage) {
-                print("Max" ,mAh)
-                print("Voltage" ,mV)
-
-                return (Double(mAh) / 1000.0) * (Double(mV) / 1000.0)
-                
-            }
-            
-            return nil
-            
-        }
-    
-    #endif
-    
-//    func setSMCByte(key: String, value: UInt8) {
-//           do {
-//               try SMCKit.open()
-//           } catch {
-//               print(error)
-//               exit(EX_UNAVAILABLE)
-//           }
-//           let smcKey = SMCKit.getKey(key, type: DataTypes.UInt8)
-//           let bytes: SMCBytes = (value, UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
-//           UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
-//           UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
-//           UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
-//           UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
-//           UInt8(0), UInt8(0))
-//           
-//           if(self.modifiedKeys[key] == nil){
-//               readSMCByte(key: key) { (originalValue) in
-//                   self.modifiedKeys[key] = originalValue
-//                   _ = try? SMCKit.writeData(smcKey, data: bytes)
-//               }
-//           }
-//           else{
-//               _ = try? SMCKit.writeData(smcKey, data: bytes)
-//           }
+//            let cycleCountKey = SMCKit.getKey("CBC", type: DataTypes.UInt32)  // or "CBC" if "BCNT" is not available
 //
-//           
-//       }
+//            do {
+//                // Reading Battery Cycle Count
+//                let cycleCount = try SMCKit.readData(cycleCountKey).0
+//                print("Battery Cycle Count: \(cycleCount)")
+//                
+//            }
+//            catch {
+//                print("Error reading battery cycle count: \(error)")
+//            }
+
+//            // Key for Battery Cycle Count
+//            let cycleCountKey = SMCKit.getKey("BCNT", type: DataTypes.UInt8)
+//
+//            // Key for Battery Condition
+////            let batteryConditionKey = SMCKit.getKey("BSmC", type: DataTypes.SP78) // The type might differ based on the key
+//
+//            do {
+//                // Reading Battery Cycle Count
+//                let cycleCount = try SMCKit.readData(cycleCountKey).0
+//                print("Battery Cycle Count: \(cycleCount)")
+//
+//                // Reading Battery Condition
+////                let rawCondition = try SMCKit.readData(batteryConditionKey).0
+//////                // The interpretation of rawCondition depends on the key and its data format
+////                print("Raw Battery Condition: \(rawCondition)")
+//
+//            } catch {
+//                print("Error reading SMC data: \(error)")
+//                
+//                
+//                
+//            }
+
+//            if let response = ProcessManager.shared.processWithArguments("/usr/bin/env", arguments:["system_profiler", "SPPowerDataType"], whitespace: false) {
+//                let lines = response.split(separator: "\n")
+//                
+//                var cycles: String?
+//                var heath: String?
+//                
+//                for line in lines {
+//                    if line.contains("Cycle Count") {
+//                        cycles = String(line.split(separator: ":").last ?? "").trimmingCharacters(in: .whitespaces)
+//                        
+//                    }
+//                    
+//                    if line.contains("Condition") {
+//                        heath = String(line.split(separator: ":").last ?? "").trimmingCharacters(in: .whitespaces)
+//                        
+//                    }
+//                    
+//                    if let cycles = cycles, let heath = heath {
+//                        return .init(cycles: cycles, health: heath)
+//                        
+//                    }
+//                    
+//                }
+//                
+//            }
+            
+            return nil
+
+        }
+    
+    #endif
+    
+    #if os(macOS)
+    private func powerWattage(_ type: BatteryWattageType) -> Int? {
+        //B0AV
+        return nil
+        
+    }
+    
+//        private func powerWattage(_ type: BatteryWattageType) -> Int? {
+//            var arguments:[String] = []
+//            
+//            switch type {
+//                case .current: arguments = ["-c", "ioreg -l | grep CurrentCapacity | awk '{print $5}'"]
+//                case .max: arguments = ["-c", "ioreg -l | grep MaxCapacity | awk '{print $5}'"]
+//                case .voltage: arguments = ["-c", "ioreg -l | grep Voltage | awk '{print $5}'"]
+//                
+//            }
+//            
+//            if let response = ProcessManager.shared.processWithArguments("/bin/sh", arguments: arguments) {
+//                return Int(response.trimmingCharacters(in: .whitespacesAndNewlines))
+//
+//            }
+//        
+//            return nil
+//            
+//        }
+    
+    #endif
+    
+    #if os(macOS)
+//        public func powerHourWattage() -> Double? {
+//            if let mAh = self.powerWattage(.max), let mV = self.powerWattage(.voltage) {
+//                print("Max" ,mAh)
+//                print("Voltage" ,mV)
+//
+//                return (Double(mAh) / 1000.0) * (Double(mV) / 1000.0)
+//                
+//            }
+//            
+//            return nil
+//            
+//        }
+//    
+    
+    private func powerReadData() {
+        do {
+            try SMCKit.open()
+            
+            
+        }
+        catch {
+            print("Error opening SMC: \(error)")
+            
+        }
+        
+    }
+    
+    #endif
+    
     
 }

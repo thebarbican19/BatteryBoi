@@ -75,11 +75,11 @@ struct SettingsItem: View {
                 self.subtitle = self.updates.state.subtitle(updates.checked)
                 
             }
-            else if item.type == .customiseDisplay {
-                self.subtitle = self.settings.enabledDisplay(false).type
-                self.icon = self.settings.enabledDisplay(false).icon
-
-            }
+//            else if item.type == .customiseDisplay {
+//                self.subtitle = self.settings.enabledDisplay(false).type
+//                self.icon = self.settings.enabledDisplay(false).icon
+//
+//            }
             else if item.type == .customiseSoundEffects {
                 self.subtitle = self.settings.sfx.subtitle
                 self.icon = self.settings.sfx.icon
@@ -113,18 +113,18 @@ struct SettingsItem: View {
             }
             
         })
-        .onChange(of: self.settings.display, perform: { newValue in
-            withAnimation(Animation.easeOut.delay(0.1)) {
-                if item.type == .customiseDisplay {
-                    self.subtitle = newValue.type
-                    self.icon = newValue.icon
-                    
-                }
-                
-                
-            }
-            
-        })
+//        .onChange(of: self.settings.display, perform: { newValue in
+//            withAnimation(Animation.easeOut.delay(0.1)) {
+//                if item.type == .customiseDisplay {
+//                    self.subtitle = newValue.type
+//                    self.icon = newValue.icon
+//                    
+//                }
+//                
+//                
+//            }
+//            
+//        })
         .onChange(of: self.settings.sfx, perform: { newValue in
             if item.type == .customiseSoundEffects {
                 self.subtitle = self.settings.sfx.subtitle

@@ -7,36 +7,36 @@
 
 import Foundation
 
-enum ProcessPrimaryCommands:String {
+enum ProcessPrimaryCommands:String,CaseIterable {
     case menubar = "mbar"
     case battery = "batt"
-    case alert = "alert"
     case debug = "debug"
     case devices = "devices"
     case website = "website"
+    case rate = "rate"
 
     var description:String {
         switch self {
             case .menubar : return "Settings & Customization for the Menu Bar Icon"
             case .battery : return "Battery Information for System & Setting Max Charge Limit"
-            case .alert : return "Settings & Customization for Alert View"
             case .debug : return "App System Status & Debugging Information"
             case .devices : return "List & Append Device Information"
             case .website : return "Opens BatteryBoi Website"
-            
+            case .rate : return "Rate BatteryBoi on ProductHunt"
+
         }
         
     }
     
     var secondary:[ProcessSecondaryCommands] {
         switch self {
-            case .menubar : return [.help, .info, .set]
-            case .battery : return [.info, .help, .set]
-            case .alert : return [.help, .set, .show]
+            case .menubar : return [.info, .set, .reset]
+            case .battery : return [.info]
             case .debug : return [.info, .reset]
-            case .devices : return [.list, .help, .remove, .reset]
+            case .devices : return [.list, .reset]
             case .website : return [.open]
-            
+            case .rate : return [.open]
+
         }
         
     }
@@ -51,7 +51,6 @@ enum ProcessSecondaryCommands:String {
     case remove = "remove"
     case recent = "recent"
     case reset = "reset"
-    case help = "help"
     case open = "open"
     
 }
@@ -68,6 +67,13 @@ enum ProcessPermissionState:String {
     case undetermined
     case denied
     case unknown
+    
+}
+
+enum ProcessHomebrewState:String {
+    case installed
+    case unknown
+    case notfound
     
 }
 

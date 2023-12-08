@@ -182,12 +182,6 @@ public enum SystemDistribution {
     
 }
 
-public struct SystemProfileObject:Codable {
-    var id:String
-    var display:String
-    
-}
-
 public enum SystemMenuView:String {
     case settings
     case stats
@@ -401,7 +395,7 @@ struct SystemDeviceObject:Hashable,Equatable,Identifiable {
         
     }
     
-    var id:UUID
+    var id:String
     var address: String?
     var name:String
     var profile:SystemDeviceProfileObject?
@@ -413,11 +407,12 @@ struct SystemDeviceObject:Hashable,Equatable,Identifiable {
     var order:Int = 1
     var distance:SystemDeviceDistanceObject? = nil
     var events:[SystemEventObject] = []
+    var added:Date? = nil
     
     init?(_ device:Devices) {
         if let id = device.id, let events = device.events?.allObjects {
             self.id = id
-            self.name = device.name ?? device.match ?? "Shiittt"
+            self.name = device.name ?? id
             self.profile = .init(serial:device.serial, vendor: device.vendor)
             self.synced = true
             self.favourite = device.favourite
@@ -425,16 +420,17 @@ struct SystemDeviceObject:Hashable,Equatable,Identifiable {
             self.order = Int(device.order)
             self.distance = nil
             self.events = events.compactMap({ SystemEventObject.init($0 as? Events) }).sorted(by: { $0.created > $1.created })
+            self.added = device.added_on ?? Date()
             self.polled = self.events.first?.created ?? nil
             
-            if UUID.device() == id {
-                self.connectivity = .system
-
-            }
-            else {
-                self.connectivity = .bluetooth
-
-            }
+//            if UUID.device() == id {
+//                self.connectivity = .system
+//
+//            }
+//            else {
+//                self.connectivity = .bluetooth
+//
+//            }
 
             print("\(name) has \(events.count) events")
             print("\(name) set events \(self.events.count)")
@@ -447,7 +443,7 @@ struct SystemDeviceObject:Hashable,Equatable,Identifiable {
  
     }
     
-    init(_ id:UUID, name:String, profile:SystemDeviceProfileObject, connectivity:SystemConnectivityType = .bluetooth, synced:Bool = false, distance:SystemDeviceDistanceObject? = nil) {
+    init(_ id:String, name:String, profile:SystemDeviceProfileObject, connectivity:SystemConnectivityType = .bluetooth, synced:Bool = false, distance:SystemDeviceDistanceObject? = nil) {
         self.id = id
         self.name = name
         self.address = ""
@@ -531,12 +527,9 @@ enum SystemDefaultsKeys: String {
     case enabledLogin = "bb_settings_login"
     case enabledEstimate = "bb_settings_estimate"
     case enabledBluetooth = "bb_bluetooth_state"
-    case enabledDisplay = "bb_settings_display"
-    case enabledStyle = "bb_settings_style"
     case enabledTheme = "bb_settings_theme"
     case enabledSoundEffects = "bb_settings_sfx"
     case enabledChargeEighty = "bb_charge_eighty"
-    case enabledProgressState = "bb_progress_state"
     case enabledPinned = "bb_pinned_mode"
 
     case batteryUntilFull = "bb_charge_full"
@@ -554,6 +547,13 @@ enum SystemDefaultsKeys: String {
     case profileChecked = "bb_profiles_checked"
     case profilePayload = "bb_profiles_payload"
     
+    case menubarStyle = "bb_mbar_style"
+    case menubarRadius = "bb_mbar_radius"
+    case menubarAnimation = "bb_mbar_animations"
+    case menubarProgress = "bb_mbar_progress"
+    case menubarPrimary = "bb_mbar_primary"
+    case menubarSecondary = "bb_mbar_secondary"
+
     case onboardingStep = "bb_onboarding_step"
     
     var name:String {
@@ -562,12 +562,9 @@ enum SystemDefaultsKeys: String {
             case .enabledLogin:return "Launch at Login"
             case .enabledEstimate:return "Battery Time Estimate"
             case .enabledBluetooth:return "Bluetooth"
-            case .enabledStyle:return "Icon Style"
-            case .enabledDisplay:return "Icon Display Text"
             case .enabledTheme:return "Theme"
             case .enabledSoundEffects:return "SFX"
             case .enabledChargeEighty:return "Show complete at 80%"
-            case .enabledProgressState:return "Show Progress"
             case .enabledPinned:return "Pinned"
 
             case .batteryUntilFull:return "Seconds until Charged"
@@ -586,6 +583,13 @@ enum SystemDefaultsKeys: String {
             case .profilePayload:return "Profile Payload"
 
             case .onboardingStep:return "Onboarding Intro"
+            
+            case .menubarStyle:return "MenuBar Style"
+            case .menubarRadius:return "MenuBar Radius"
+            case .menubarPrimary:return "MenuBar Primary Display"
+            case .menubarSecondary:return "MenuBar Secondary Display"
+            case .menubarAnimation:return "MenuBar Pulsing Animation"
+            case .menubarProgress:return "MenuBar Show Progress"
 
         }
         

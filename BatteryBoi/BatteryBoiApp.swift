@@ -43,11 +43,33 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
     
     private var updates = Set<AnyCancellable>()
     private var callback: CFMessagePortCallBack = { messagePort, messageID, cfData, info in
-        var payload:Data = Data("".utf8)
+        var payload:Data = Data("\n\u{001B}[1m\u{001B}[31m\("PARSING ERROR")\u{001B}[0m\n".utf8)
         if let pointer = info, let received = cfData as Data? {
-            if let string = String(data: received, encoding: .utf8) {
-                payload = Data(string.utf8)
+            if let arguments = try? JSONDecoder().decode([String].self, from: received) {
+                var primary:ProcessPrimaryCommands? = nil
+                var secondary:ProcessSecondaryCommands? = nil
+                var flags:[String] = []
+
+                if arguments.indices.contains(0) {
+                    primary = ProcessPrimaryCommands(rawValue: arguments[0])
+                    
+                }
                 
+                if arguments.indices.contains(1) {
+                    secondary = ProcessSecondaryCommands(rawValue: arguments[1])
+                    
+                }
+                
+                if arguments.indices.contains(0) && arguments.indices.contains(0) {
+                    flags = Array(arguments.suffix(arguments.count - 1)).map { String($0) }
+                    
+                }
+                
+                if let response = ProcessManager.shared.processInbound(primary, subcommand: secondary, flags: flags) {
+                    payload = Data(response.utf8)
+
+                }
+    
             }
 
         }
@@ -66,11 +88,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
         guard let status = self.status else {
             print("Failed to create status item.")
             return
+            
         }
 
         if status.button == nil {
             print("Status item created, but its button is nil.")
-        } else {
+        } 
+        else {
             print("Status item and its button are initialized successfully.")
         }
         
@@ -91,7 +115,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
             _ = SettingsManager.shared.enabledTheme
-            _ = SettingsManager.shared.enabledDisplay()
             
             print("\n\nApp Installed: \(AppManager.shared.appInstalled)\n\n")
             print("App Usage (Days): \(AppManager.shared.appUsage?.day ?? 0)\n\n")
@@ -100,13 +123,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
             
             WindowManager.shared.windowOpen(.userLaunched, device: nil)
             
-            SettingsManager.shared.$display.sink { type in
-                switch type {
-                    case .hidden : self.applicationMenuBarIcon(false)
-                    default : self.applicationMenuBarIcon(true)
+            MenubarManager.shared.$primary.removeDuplicates().sink { type in
+                if type == nil {
+                    self.applicationMenuBarIcon(false)
                     
                 }
-                
+                else {
+                    self.applicationMenuBarIcon(true)
+                    
+                }
+               
             }.store(in: &self.updates)
             
             if #available(macOS 13.0, *) {
@@ -134,8 +160,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
             let info = Unmanaged.passUnretained(self).toOpaque()
             let port = id as CFString
             
-            print("Setting up Port" ,port)
-
             var context = CFMessagePortContext(version: 0, info: info, retain: nil, release: nil, copyDescription: nil)
             
             if let message = CFMessagePortCreateLocal(nil, port, callback, &context, nil) {
@@ -186,8 +210,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
     }
     
     @objc func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        WindowManager.shared.windowOpen(.userInitiated, device: nil)
+        #if MAINTARGET
+            WindowManager.shared.windowOpen(.userInitiated, device: nil)
 
+        #endif
+        
         return false
         
     }

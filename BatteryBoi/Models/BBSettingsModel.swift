@@ -7,39 +7,6 @@
 
 import Foundation
 
-enum SettingsBatteryStyle:String {
-    case chunky
-    case basic
-    
-    var radius:CGFloat {
-        switch self {
-            case .basic : return 3
-            case .chunky : return 5
-            
-        }
-        
-    }
-    
-    var size:CGSize {
-        switch self {
-            case .basic : return .init(width: 28, height: 13)
-            case .chunky : return .init(width: 32, height: 15)
-            
-        }
-        
-    }
-    
-    var padding:CGFloat {
-        switch self {
-            case .basic : return 1
-            case .chunky : return 2
-            
-        }
-        
-    }
-    
-}
-
 enum SettingsBatteryAnimationType {
     case charging
     case low
@@ -140,39 +107,6 @@ enum SettingsBeta:String {
         
     }
 
-}
-
-enum SettingsDisplayType:String {
-    case countdown
-    case empty
-    case percent
-    case cycle
-    case hidden
-    
-    var type:String {
-        switch self {
-            case .countdown : return "SettingsDisplayEstimateLabel".localise()
-            case .percent : return "SettingsDisplayPercentLabel".localise()
-            case .empty : return "SettingsDisplayNoneLabel".localise()
-            case .cycle : return "SettingsDisplayCycleLabel".localise()
-            case .hidden : return "SettingsDisplayHiddenLabel".localise()
-
-        }
-        
-    }
-    
-    var icon:String {
-        switch self {
-            case .countdown : return "TimeIcon"
-            case .percent : return "PercentIcon"
-            case .cycle : return "CycleIcon"
-            case .empty : return "EmptyIcon"
-            case .hidden : return "EmptyIcon"
-
-        }
-        
-    }
-    
 }
 
 struct SettingsActionObject:Hashable {
@@ -289,8 +223,8 @@ enum SettingsStateValue:String {
     
     var title:String {
         switch self {
-            case .enabled : return "Enabled"
-            case .disabled : return "Disabled"
+            case .enabled : return true.string
+            case .disabled : return false.string
             case .undetermined : return "Not Set"
             case .restricted : return "Restricted"
 

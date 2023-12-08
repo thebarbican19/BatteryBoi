@@ -16,7 +16,6 @@ class SettingsManager:ObservableObject {
     static var shared = SettingsManager()
     
     @Published var menu:[SettingsActionObject] = []
-    @Published var display:SettingsDisplayType = .countdown
     @Published var sfx:SettingsSoundEffects = .enabled
     @Published var theme:SettingsTheme = .dark
     @Published var pinned:SettingsPinned = .disabled
@@ -26,7 +25,6 @@ class SettingsManager:ObservableObject {
 
     init() {
         self.menu = self.settingsMenu
-        self.display = self.enabledDisplay(false)
         self.theme = self.enabledTheme
         self.sfx = self.enabledSoundEffects
         self.pinned = self.enabledPinned
@@ -34,7 +32,6 @@ class SettingsManager:ObservableObject {
 
         UserDefaults.changed.receive(on: DispatchQueue.main).sink { key in
             switch key {
-                case .enabledDisplay : self.display = self.enabledDisplay(false)
                 case .enabledTheme : self.theme = self.enabledTheme
                 case .enabledSoundEffects : self.sfx = self.enabledSoundEffects
                 case .enabledPinned : self.pinned = self.enabledPinned
@@ -108,60 +105,7 @@ class SettingsManager:ObservableObject {
         }
         
     }
-    
-    public func enabledDisplay(_ toggle:Bool = false) -> SettingsDisplayType {
-        var output:SettingsDisplayType = .percent
-
-        if let type = UserDefaults.main.string(forKey: SystemDefaultsKeys.enabledDisplay.rawValue) {
-            output = SettingsDisplayType(rawValue: type) ?? .percent
-
-        }
         
-        if toggle {
-            switch output {
-                case .countdown : output = .percent
-                case .percent : output = .empty
-                case .empty : output = .cycle
-                case .cycle : output = .hidden
-                default : output = .countdown
-                
-            }
-                        
-            UserDefaults.save(.enabledDisplay, value: output.rawValue)
-            
-        }
-        
-        switch output {
-            case .hidden : NSApp.setActivationPolicy(.regular)
-            default : NSApp.setActivationPolicy(.accessory)
-            
-        }
-       
-        return output
-        
-    }
-    
-    public var enabledStyle:SettingsBatteryStyle {
-        get {
-            if let style = UserDefaults.main.string(forKey: SystemDefaultsKeys.enabledStyle.rawValue) {
-                return SettingsBatteryStyle(rawValue: style) ?? .chunky
-                
-            }
-
-            return .chunky
-            
-        }
-        
-        set {
-            if self.enabledStyle != newValue {
-                UserDefaults.save(.enabledStyle, value: newValue)
-                
-            }
-            
-        }
-        
-    }
-    
     public var enabledTheme:SettingsTheme {
         get {
             if let value = UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledTheme.rawValue) as? Int {
@@ -235,26 +179,6 @@ class SettingsManager:ObservableObject {
         
     }
     
-    public var enabledProgressBar:Bool {
-        get {
-            if UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledProgressState.rawValue) == nil {
-                return false
-                
-            }
-            else {
-                return UserDefaults.main.bool(forKey: SystemDefaultsKeys.enabledProgressState.rawValue)
-                
-            }
-        
-        }
-        
-        set {
-            UserDefaults.save(.enabledProgressState, value: newValue)
-            
-        }
-        
-    }
-    
     public var enabledPinned:SettingsPinned {
         get {
             if let key = UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledPinned.rawValue) as? String {
@@ -281,7 +205,7 @@ class SettingsManager:ObservableObject {
             }
             
             return .enabled
-        
+            
         }
         
         set {
@@ -291,35 +215,6 @@ class SettingsManager:ObservableObject {
             }
             
             UserDefaults.save(.enabledSoundEffects, value: newValue.rawValue)
-            
-        }
-        
-    }
-
-    public var enabledBluetoothStatus:SettingsStateValue {
-        get {
-            if UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledBluetooth.rawValue) == nil {
-                return .undetermined
-                
-            }
-            else {
-                //let devices = IOBluetoothDevice.pairedDevices() as? [IOBluetoothDevice]
-
-                switch UserDefaults.main.bool(forKey: SystemDefaultsKeys.enabledBluetooth.rawValue) {
-                    case true : return .enabled
-                    case false : return .disabled
-                    
-                }
-                
-            }
-            
-        }
-        
-        set {
-            if self.enabledBluetoothStatus != newValue {
-                UserDefaults.save(.enabledBluetooth, value: newValue.enabled)
-                
-            }
             
         }
         
@@ -398,10 +293,6 @@ class SettingsManager:ObservableObject {
                 case .disabled : self.enabledPinned = .enabled
 
             }
-            
-        }
-        else if action.type == .customiseDisplay {
-            _ = self.enabledDisplay(true)
             
         }
         else if action.type == .customiseSoundEffects {

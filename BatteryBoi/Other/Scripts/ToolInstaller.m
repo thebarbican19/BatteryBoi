@@ -13,7 +13,7 @@
     NSString * const kInstallerName = @"install.sh";
     NSString * const kToolName = @"cliboi";
     NSString * const kToolInstallPath = [NSString stringWithFormat:@"/usr/local/bin/%@", kToolName];
-    
+
     AuthorizationRef authorization;
     OSStatus status = AuthorizationCreate(NULL, NULL, kAuthorizationFlagDefaults, &authorization);
     if (status == errAuthorizationSuccess) {

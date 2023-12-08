@@ -44,11 +44,11 @@ class OnboardingManager:ObservableObject {
         }.store(in: &updates)
         
         #if os(macOS)
-//            ProcessManager.shared.$state.receive(on: DispatchQueue.main).sink { _ in
-//                self.onboardingSetup()
-//
-//            }.store(in: &updates)
-//        
+            ProcessManager.shared.$state.receive(on: DispatchQueue.main).sink { _ in
+                self.onboardingSetup()
+
+            }.store(in: &updates)
+        
         #endif
         
         self.onboardingSetup()
@@ -77,12 +77,32 @@ class OnboardingManager:ObservableObject {
             self.updated = Date()
 
         }
-        else if self.onboardingStep(.admin) == .unseen && AppManager.shared.appDeviceType.mac == true {
-            self.state = .admin
-            self.updated = Date()
+        else if AppManager.shared.appDeviceType.mac == true {
+            #if os(macOS)
+//                if self.onboardingStep(.nobatt) == .unseen && AppManager.shared.appDeviceType.battery == false {
+//                    self.state = .nobatt
+//                    self.updated = Date()
+//
+//                }
+                if self.onboardingStep(.admin) == .unseen {
+                    self.state = .admin
+                    self.updated = Date()
 
+                }
+                else if self.onboardingStep(.cli) == .unseen && ProcessManager.shared.homebrew == .installed {
+                    self.state = .cli
+                    self.updated = Date()
+                    
+                }
+                else {
+                    self.state = .complete
+                    self.updated = Date()
+                    
+                }
+            
+            #endif
         }
-        else {
+        else if AppManager.shared.appDeviceType.mac == false {
             self.state = .complete
             self.updated = Date()
             
@@ -95,7 +115,8 @@ class OnboardingManager:ObservableObject {
             _ = self.onboardingStep(.intro, insert: true)
             
         }
-        else if state == .bluetooth {
+         
+        if state == .bluetooth {
             switch BluetoothManager.shared.state {
                 case .undetermined : BluetoothManager.shared.bluetoothAuthorization(true)
                 case .allowed : BluetoothManager.shared.bluetoothAuthorization(true)
@@ -104,32 +125,46 @@ class OnboardingManager:ObservableObject {
             }
             
         }
-        else if state == .cloud {
+         
+        if state == .cloud {
             if CloudManager.shared.state == .disabled {
                 self.onboardingPermissionsUpdate(.cloud)
                 
             }
 
         }
-        else if state == .notifications {
-            switch CloudManager.shared.state {
-                case .blocked : CloudManager.shared.cloudAllowNotifications()
-                case .disabled : self.onboardingPermissionsUpdate(.notifications)
-                default : self.onboardingPermissionsUpdate(.cloud)
+        
+        #if os(iOS)
+            if state == .notifications {
+                switch CloudManager.shared.state {
+                    case .blocked : CloudManager.shared.cloudAllowNotifications()
+                    case .disabled : self.onboardingPermissionsUpdate(.notifications)
+                    default : self.onboardingPermissionsUpdate(.cloud)
 
+                }
+                
+            }
+        
+        #endif
+         
+        #if os(macOS)
+            if state == .cli {
+                _ = self.onboardingStep(.cli, insert: true)
+                
+            }
+        
+        #endif
+
+        #if os(macOS)
+            if state == .admin {
+                if ProcessManager.shared.state == .allowed {
+                    ProcessManager.shared.processInstallScript()
+                    
+                }
+                
             }
             
-        }
-        else if state == .admin {
-            #if os(macOS)
-//                if ProcessManager.shared.state == .allowed {
-//                    ProcessManager.shared.processInstallScript()
-//                    
-//                }
-            
-            #endif
-            
-        }
+        #endif
         
     }
     

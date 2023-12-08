@@ -65,27 +65,49 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
             }
             
         }.store(in: &updates)
+        
+        $state.dropFirst().removeDuplicates().receive(on: DispatchQueue.main).sink { state in
+            if state == .disabled {
+                UserDefaults.save(.enabledBluetooth, value: state.rawValue)
+                
+                self.broadcasting = []
+                self.connecting = false
+                
+                self.bluetoothStopScanning()
+                
+            }
+            else {
+                UserDefaults.save(.enabledBluetooth, value: nil)
+
+                self.bluetoothAuthorization()
+                
+            }
+            
+        }.store(in: &updates)
 
         self.bluetoothAuthorization()
 
     }
-    
+        
     public func bluetoothAuthorization(_ force:Bool = false) {
-        if force == true {
-            if CBCentralManager.authorization == .notDetermined {
-                self.manager = CBCentralManager(delegate: self, queue: nil)
-                self.manager.scanForPeripherals(withServices: nil, options: nil)
-
+        if UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledBluetooth.rawValue) == nil {
+            if force == true {
+                if CBCentralManager.authorization == .notDetermined {
+                    self.manager = CBCentralManager(delegate: self, queue: nil)
+                    self.manager.scanForPeripherals(withServices: nil, options: nil)
+                    
+                }
+                
             }
             
-        }
-        
-        DispatchQueue.main.async {
-            switch CBCentralManager.authorization {
-                case .allowedAlways : self.state = .allowed
-                case .notDetermined : self.state = .undetermined
-                default : self.state = .denied
-
+            DispatchQueue.main.async {
+                switch CBCentralManager.authorization {
+                    case .allowedAlways : self.state = .allowed
+                    case .notDetermined : self.state = .undetermined
+                    default : self.state = .denied
+                    
+                }
+                
             }
             
         }
@@ -105,7 +127,10 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
     }
     
     public func bluetoothStopScanning() {
-        self.manager.stopScan()
+        if self.manager != nil {
+            self.manager.stopScan()
+            
+        }
         
     }
 
@@ -281,7 +306,7 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
                     
                     if let name = name {
                         let profile:SystemDeviceProfileObject = .init(serial: serial, vendor: vendor)
-                        let device:SystemDeviceObject = .init(peripheral.identifier, name: name, profile: profile)
+                        let device:SystemDeviceObject = .init(peripheral.identifier.uuidString, name: name, profile: profile)
                         
                         AppManager.shared.appUpdateList(device)
 
@@ -298,14 +323,6 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
                     
                     if characteristic.uuid == BluetoothUUID.continuity.uuid {
                         print("FOUND CONTINUITY FOR \(peripheral.name)")
-                        
-                    }
-                    
-                    switch characteristic.uuid {
-                        case CBUUID(string: "110D"): print("TYPE: HEADPHONES")
-                        case CBUUID(string: "1812"): print("TYPE: MOUSE")
-                        case CBUUID(string: "110A"): print("TYPE: SPEAKERS")
-                        default : print("UNKNOWN")
                         
                     }
                     

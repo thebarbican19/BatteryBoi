@@ -34,6 +34,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        print("\n\nApp Installed: \(AppManager.shared.appInstalled)\n\n")
+        print("App Usage (Days): \(AppManager.shared.appUsage?.day ?? 0)\n\n")
+
         BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.ovatar.batteryapp.refresh", using: nil) { task in
             self.applicationHandleAppRefresh(task: task as! BGAppRefreshTask)
             
@@ -117,7 +120,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         do {
             if let event = event, let timestamp = event.timestamp {
                 let stale:Date = Date(timeIntervalSinceNow: 60 * 20)
-                let attributes = CloudNotifyAttributes(device: event.device?.name ?? event.device?.match ?? "Uknown")
+                let attributes = CloudNotifyAttributes(device: event.device?.name ?? event.device?.id ?? "UNKNOWN")
                 let state = CloudNotifyAttributes.ContentState.init(battery: Int(event.charge), charging: false, timestamp: timestamp)
                 let content = ActivityContent(state: state, staleDate: stale)
                 

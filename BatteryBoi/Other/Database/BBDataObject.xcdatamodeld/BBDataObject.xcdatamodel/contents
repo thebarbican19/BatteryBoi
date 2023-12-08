@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22225" systemVersion="23C5055b" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22225" systemVersion="23C63" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Devices" representedClassName="Devices" syncable="YES" codeGenerationType="class">
         <attribute name="added_on" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="address" optional="YES" attributeType="String"/>
         <attribute name="favourite" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hidden" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="match" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="notifications" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>

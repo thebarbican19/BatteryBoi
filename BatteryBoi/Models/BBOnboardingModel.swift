@@ -14,8 +14,10 @@ import Foundation
         case cloud
         case bluetooth
         case admin
+        case cli
+        case nobatt
         case ios
-        case macos
+        case loginatlaunch
         case complete
         
         var present:Bool {
@@ -24,9 +26,11 @@ import Foundation
                 case .notifications : return true
                 case .cloud : return true
                 case .admin : return true
+                case .nobatt : return true
+                case .cli : return false
                 case .bluetooth : return true
                 case .ios : return false
-                case .macos : return false
+                case .loginatlaunch : return false
                 case .complete : return false
 
             }

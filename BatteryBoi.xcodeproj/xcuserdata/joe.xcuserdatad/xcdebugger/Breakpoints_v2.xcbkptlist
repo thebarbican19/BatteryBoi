@@ -561,42 +561,10 @@
             filePath = "BatteryBoi (iOS)/BatteryBoi__iOS_App.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "applicationScheduleAppRefresh()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "5ACB9DBC-E9DE-4C01-9ABB-96E855E0B4A5 - 551e84aae218cdfc"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BatteryBoi__iOS_.AppDelegate.applicationScheduleAppRefresh() -&gt; ()"
-                  moduleName = "BatteryBoi (iOS)"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi%20(iOS)/BatteryBoi__iOS_App.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "55"
-                  endingLineNumber = "55"
-                  offsetFromSymbolStart = "416">
-               </Location>
-               <Location
-                  uuid = "5ACB9DBC-E9DE-4C01-9ABB-96E855E0B4A5 - 551e84aae218cd9d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BatteryBoi__iOS_.AppDelegate.applicationScheduleAppRefresh() -&gt; ()"
-                  moduleName = "BatteryBoi (iOS)"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi%20(iOS)/BatteryBoi__iOS_App.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "56"
-                  endingLineNumber = "56"
-                  offsetFromSymbolStart = "296">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -609,42 +577,10 @@
             filePath = "BatteryBoi (iOS)/BatteryBoi__iOS_App.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "applicationDidEnterBackground(_:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "8331B85E-B614-4FA0-98B4-20C7F7D4FACF - 9627bcaa43eeab33"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BatteryBoi__iOS_.AppDelegate.applicationDidEnterBackground(__C.UIApplication) -&gt; ()"
-                  moduleName = "BatteryBoi (iOS)"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi%20(iOS)/BatteryBoi__iOS_App.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "46"
-                  endingLineNumber = "46"
-                  offsetFromSymbolStart = "60">
-               </Location>
-               <Location
-                  uuid = "8331B85E-B614-4FA0-98B4-20C7F7D4FACF - 9627bcaa43eeab14"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BatteryBoi__iOS_.AppDelegate.applicationDidEnterBackground(__C.UIApplication) -&gt; ()"
-                  moduleName = "BatteryBoi (iOS)"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi%20(iOS)/BatteryBoi__iOS_App.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "47"
-                  endingLineNumber = "47"
-                  offsetFromSymbolStart = "32">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -657,42 +593,26 @@
             filePath = "BatteryBoi (iOS)/BatteryBoi__iOS_App.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
             landmarkName = "applicationScheduleAppRefresh()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "0789172E-3282-403B-9BC8-274D68A5E900 - 551e84aae218ca32"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BatteryBoi__iOS_.AppDelegate.applicationScheduleAppRefresh() -&gt; ()"
-                  moduleName = "BatteryBoi (iOS)"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi%20(iOS)/BatteryBoi__iOS_App.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "61"
-                  endingLineNumber = "61"
-                  offsetFromSymbolStart = "424">
-               </Location>
-               <Location
-                  uuid = "0789172E-3282-403B-9BC8-274D68A5E900 - 551e84aae218ca95"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "BatteryBoi__iOS_.AppDelegate.applicationScheduleAppRefresh() -&gt; ()"
-                  moduleName = "BatteryBoi (iOS)"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/joe/Library/Mobile%20Documents/com~apple~CloudDocs/Projects/BatteryBoi/BatteryBoi/BatteryBoi%20(iOS)/BatteryBoi__iOS_App.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "64"
-                  endingLineNumber = "64"
-                  offsetFromSymbolStart = "424">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "19750FF0-B2FF-4C4F-94C4-6320FC33C96F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BatteryBoi/Objects/BBSMCManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "read(key:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -40,12 +40,16 @@
 "SettingsNewUpdateLabel" = "Install New Update";
 "SettingsDisplayLabel" = "Display";
 "SettingsDisplayCycleLabel" = "Cycle Count";
+"SettingsDisplayVoltageLabel" = "Voltage";
 "SettingsDisplayPercentLabel" = "Percentage";
 "SettingsDisplayEstimateLabel" = "Time";
 "SettingsDisplayNoneLabel" = "Empty";
 "SettingsDisplayHiddenLabel" = "Hidden";
 "SettingsEnabledLabel" = "Enabled";
 "SettingsDisabledLabel" = "Disabled";
+"SettingsProgressDynamicLabel" = "Show Dynamic Progress";
+"SettingsProgressFullLabel" = "Show Static Full State";
+"SettingsProgressEmptyLabel" = "Show Static Empty State";
 
 "SettingsAboutLabel" = "About";
 "SettingsCustomizationLabel" = "Customisation";
