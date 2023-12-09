@@ -525,11 +525,8 @@ enum SystemEvents:String {
 enum SystemDefaultsKeys: String {
     case enabledAnalytics = "bb_settings_analytics"
     case enabledLogin = "bb_settings_login"
-    case enabledEstimate = "bb_settings_estimate"
-    case enabledBluetooth = "bb_bluetooth_state"
     case enabledTheme = "bb_settings_theme"
     case enabledSoundEffects = "bb_settings_sfx"
-    case enabledChargeEighty = "bb_charge_eighty"
     case enabledPinned = "bb_pinned_mode"
 
     case batteryUntilFull = "bb_charge_full"
@@ -544,27 +541,25 @@ enum SystemDefaultsKeys: String {
     case usageDay = "bb_usage_days"
     case usageTimestamp = "bb_usage_date"
     
-    case profileChecked = "bb_profiles_checked"
-    case profilePayload = "bb_profiles_payload"
-    
     case menubarStyle = "bb_mbar_style"
     case menubarRadius = "bb_mbar_radius"
     case menubarAnimation = "bb_mbar_animations"
     case menubarProgress = "bb_mbar_progress"
     case menubarPrimary = "bb_mbar_primary"
     case menubarSecondary = "bb_mbar_secondary"
+    
+    case bluetoothUpdated = "bb_bluetoothlte_updated"
+    case bluetoothEnabled = "bb_bluetoothlte_enabled"
 
     case onboardingStep = "bb_onboarding_step"
-    
+    case onboardingComplete = "bb_onboarding_updated"
+
     var name:String {
         switch self {
             case .enabledAnalytics:return "Analytics"
             case .enabledLogin:return "Launch at Login"
-            case .enabledEstimate:return "Battery Time Estimate"
-            case .enabledBluetooth:return "Bluetooth"
             case .enabledTheme:return "Theme"
             case .enabledSoundEffects:return "SFX"
-            case .enabledChargeEighty:return "Show complete at 80%"
             case .enabledPinned:return "Pinned"
 
             case .batteryUntilFull:return "Seconds until Charged"
@@ -579,17 +574,18 @@ enum SystemDefaultsKeys: String {
             case .usageDay:return "bb_usage_days"
             case .usageTimestamp:return "bb_usage_timestamp"
             
-            case .profileChecked:return "Profile Validated"
-            case .profilePayload:return "Profile Payload"
-
-            case .onboardingStep:return "Onboarding Intro"
-            
             case .menubarStyle:return "MenuBar Style"
             case .menubarRadius:return "MenuBar Radius"
             case .menubarPrimary:return "MenuBar Primary Display"
             case .menubarSecondary:return "MenuBar Secondary Display"
             case .menubarAnimation:return "MenuBar Pulsing Animation"
             case .menubarProgress:return "MenuBar Show Progress"
+            
+            case .onboardingStep:return "Onboarding Step"
+            case .onboardingComplete:return "Onboarding Complete"
+            
+            case .bluetoothEnabled:return "Bluetooth State"
+            case .bluetoothUpdated:return "Bluetooth Updated"
 
         }
         

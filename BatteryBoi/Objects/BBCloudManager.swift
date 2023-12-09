@@ -67,7 +67,11 @@ class CloudManager:ObservableObject {
                     if let error = error {
                         DispatchQueue.main.async {
                             CloudManager.shared.syncing = .error
-                            
+
+//                            #if DEBUG
+//                                fatalError("iCloud Error \(error)")
+//                            #endif
+
                         }
                         
                     }
@@ -157,22 +161,30 @@ class CloudManager:ObservableObject {
         if let id = Bundle.main.infoDictionary?["ENV_ICLOUD_ID"] as? String  {
             CKContainer(identifier: id).fetchUserRecordID { id, error in
                 if let id = id {
-                    UNUserNotificationCenter.current().getNotificationSettings { settings in
+                    #if os(macOS)
                         DispatchQueue.main.async {
-                            switch settings.authorizationStatus {
-                                case .authorized: self.state = .enabled
-                                default : self.state = .blocked
+                            self.state = .enabled
+                            self.id = id.recordName
+
+                        }
+                    
+                    #else
+                        UNUserNotificationCenter.current().getNotificationSettings { settings in
+                            DispatchQueue.main.async {
+                                switch settings.authorizationStatus {
+                                    case .authorized: self.state = .enabled
+                                    default : self.state = .blocked
+                                    
+                                }
+                                
+                                self.id = id.recordName
                                 
                             }
-                            
-                            self.id = id.recordName
-                            
+                                                    
                         }
-                                                
-                    }
                     
-                    print("\n\niCloud ID" ,id.recordName)
-
+                    #endif
+                    
                 }
                                 
             }

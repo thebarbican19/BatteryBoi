@@ -19,8 +19,8 @@ enum SettingsSoundEffects:String {
     
     var subtitle:String {
         switch self {
-            case .enabled : "SettingsEnabledLabel".localise()
-            default : "SettingsDisabledLabel".localise()
+            case .enabled : "PermissionsEnabledLabel".localise()
+            default : "PermissionsDisabledLabel".localise()
             
         }
         
@@ -43,8 +43,8 @@ enum SettingsPinned:String {
     
     var subtitle:String {
         switch self {
-            case .enabled : "SettingsEnabledLabel".localise()
-            default : "SettingsDisabledLabel".localise()
+            case .enabled : "PermissionsEnabledLabel".localise()
+            default : "PermissionsDisabledLabel".localise()
             
         }
         
@@ -67,8 +67,8 @@ enum SettingsCharged:String {
     
     var subtitle:String {
         switch self {
-            case .enabled : "SettingsEnabledLabel".localise()
-            default : "SettingsDisabledLabel".localise()
+            case .enabled : "PermissionsEnabledLabel".localise()
+            default : "PermissionsDisabledLabel".localise()
             
         }
         
@@ -91,8 +91,8 @@ enum SettingsBeta:String {
     
     var subtitle:String {
         switch self {
-            case .enabled : "SettingsEnabledLabel".localise()
-            default : "SettingsDisabledLabel".localise()
+            case .enabled : "PermissionsEnabledLabel".localise()
+            default : "PermissionsDisabledLabel".localise()
             
         }
         
@@ -180,16 +180,16 @@ enum SettingsActionType {
     
 }
 
-enum SettingsTheme:Int {
+enum SettingsTheme:String,CaseIterable {
     case system
     case light
     case dark
     
-    var string:String {
+    var name:String {
         switch self {
-            case .light : return "light"
-            case .dark : return "dark"
-            default : return "system"
+            case .light : return "SettingsCustomizationThemeLightLabel".localise()
+            case .dark : return "SettingsCustomizationThemeDarkLabel".localise()
+            default : return "SettingsCustomizationThemeSystemLabel".localise()
             
         }
         

@@ -9,11 +9,14 @@ import Foundation
 import EnalogSwift
 import Combine
 import AppKit
+import SecurityFoundation
+import ServiceManagement
 
 class ProcessManager:ObservableObject {
     static var shared = ProcessManager()
     
-    @Published var state:ProcessPermissionState = .unknown
+    @Published var interface:ProcessPermissionState = .unknown
+    @Published var helper:ProcessPermissionState = .unknown
     @Published var homebrew:ProcessHomebrewState = .unknown
 
     private var updates = Set<AnyCancellable>()
@@ -24,29 +27,89 @@ class ProcessManager:ObservableObject {
                 self.processCheckHomebrew()
 
             }
-
+            
         }.store(in: &updates)
-                
+
+        self.processInstallHelper()
+        
     }
     
-    public func processInstallScript() {
+    public var connection: NSXPCConnection? = {
+        if let id = Bundle.main.infoDictionary?["ENV_MACH_ID"] as? String  {
+            let connection = NSXPCConnection(machServiceName: id, options: .privileged)
+            //connection.remoteObjectInterface = NSXPCInterface(with: HelperToolProtocol.self)
+            
+            connection.resume()
+            
+            return connection
+            
+        }
+        
+        return nil
+        
+    }()
+    
+    public func processInstallInterface() {
         #if MAINTARGET
             if ToolInstaller.install() == true {
                 DispatchQueue.main.async {
-                    self.state = .allowed
+                    self.interface = .allowed
                     
                 }
 
             }
             else {
                 DispatchQueue.main.async {
-                    self.state = .denied
+                    self.interface = .denied
                     
                 }
                 
             }
         
         #endif
+        
+    }
+    
+    public func processInstallHelper() {
+        var reference: AuthorizationRef?
+        var error: Unmanaged<CFError>?
+
+        let helper = "helperboi" as CFString
+        let flags: AuthorizationFlags = [.interactionAllowed, .preAuthorize, .extendRights]
+
+        var item = kSMRightBlessPrivilegedHelper.withCString {
+            AuthorizationItem(name: $0, valueLength: 0, value: nil, flags: 0)
+            
+        }
+        
+        var rights = withUnsafeMutablePointer(to: &item) {
+            AuthorizationRights(count: 1, items: $0)
+            
+        }
+
+        AuthorizationCreate(&rights, nil, flags, &reference)
+        SMJobBless(kSMDomainSystemLaunchd, helper, reference, &error)
+        
+        if let code = error?.takeRetainedValue() {
+            DispatchQueue.main.async {
+                switch CFErrorGetCode(code) {
+                    case -60005:self.helper = .denied
+                    case -60006:self.helper = .denied
+                    case -60008:self.helper = .denied
+                    default:self.helper = .error
+                    
+                }
+                
+            }
+            
+        }
+        else {
+            DispatchQueue.main.async {
+                self.helper = .allowed
+                
+            }
+            
+        }
         
     }
     
@@ -270,19 +333,28 @@ class ProcessManager:ObservableObject {
                     
                     output.append("\n----------ICLOUD----------\n\n")
                     
-                    output.append(self.processValueOutput("State", value: CloudManager.shared.state.rawValue))
+                    output.append(self.processValueOutput("State", value: CloudManager.shared.state.title))
                     output.append(self.processValueOutput("Syncing", value: CloudManager.shared.syncing.rawValue))
-                    output.append(self.processValueOutput("User ID", value: CloudManager.shared.id ?? "Unknown"))
+                    output.append(self.processValueOutput("User ID", value: CloudManager.shared.id ?? "PermissionsUnknownLabel".localise()))
                     
                     output.append("\n----------BLUETOOTH----------\n\n")
                     
-                    output.append(self.processValueOutput("State", value: BluetoothManager.shared.state.rawValue))
+                    output.append(self.processValueOutput("State", value: BluetoothManager.shared.state.title))
                     output.append(self.processValueOutput("Discoverable Proximity", value: BluetoothManager.shared.proximity.string))
                     
                     output.append("\n----------SETTINGS----------\n\n")
                     
-                    output.append(self.processValueOutput("SFX", value: SettingsManager.shared.enabledSoundEffects.subtitle))
-                    output.append(self.processValueOutput("Login at Launch", value: SettingsManager.shared.enabledAutoLaunch.title))
+                    output.append(self.processValueOutput("SettingsSoundEffectsLabel".localise(), value: SettingsManager.shared.enabledSoundEffects.subtitle))
+                    output.append(self.processValueOutput("SettingsCustomizationThemeTitle".localise(), value: SettingsManager.shared.enabledTheme.name))
+
+                    output.append("\n----------RECENT EVENTS----------\n\n")
+
+                    for event in AppManager.shared.appListEvents(20) {
+                        output.append(self.processValueOutput("Notify", value: event.notify))
+                        output.append(self.processValueOutput("State", value: event.state))
+                        output.append(self.processValueOutput("Charge", value: "\(event.charge)"))
+
+                    }
                     
                 }
                 
@@ -326,9 +398,9 @@ class ProcessManager:ObservableObject {
                         
                         if let device = device {
                             switch secondary {
-                            case .set : response = MenubarManager.shared.menubarAppendDevices(device, state: .add)
-                            case .remove : response = MenubarManager.shared.menubarAppendDevices(device, state: .remove)
-                            default : break
+                                case .set : response = MenubarManager.shared.menubarAppendDevices(device, state: .add)
+                                case .remove : response = MenubarManager.shared.menubarAppendDevices(device, state: .remove)
+                                default : break
                                 
                             }
                             
@@ -350,6 +422,63 @@ class ProcessManager:ObservableObject {
                     
                 }
                 
+            }
+            else if command == .settings {
+                if secondary == .info {
+                    output.append("\n----------SETTINGS----------\n\n")
+                    
+                    output.append(self.processValueOutput("SettingsSoundEffectsLabel".localise(), value: SettingsManager.shared.enabledSoundEffects.subtitle))
+                    output.append(self.processValueOutput("SettingsCustomizationThemeTitle".localise(), value: SettingsManager.shared.enabledTheme.name))
+
+                }
+                else if secondary == .set {
+                    if flags.indices.contains(1) == false || flags.indices.contains(2) == false{
+                        output.append(self.processHeaderOutput("MISSING FLAG", state:.error))
+                        
+                        output.append(self.processValueOutput("SettingsSoundEffectsLabel".localise(), value: "-m", reverse:true))
+                        output.append(self.processValueOutput("SettingsCustomizationThemeTitle".localise(), value: "-a", reverse:true))
+                        
+                    }
+                    else {
+                        if flags[1] == "-m" {
+                            switch flags[2].boolean {
+                                case true : SettingsManager.shared.enabledSoundEffects = .enabled
+                                case false : SettingsManager.shared.enabledSoundEffects = .disabled
+
+                            }
+                            
+                            output.append(self.processHeaderOutput("SAVED", state:.sucsess))
+
+                        }
+                        else if flags[1] == "-a" {
+                            if let value = SettingsTheme(rawValue: flags[2]) {
+                                SettingsManager.shared.enabledTheme = value
+                                
+                                output.append(self.processHeaderOutput("SAVED", state:.sucsess))
+                                
+                            }
+                            else {
+                                output.append(self.processHeaderOutput("INVALID VALUE", state:.error))
+                                
+                                for supported in SettingsTheme.allCases {
+                                    output.append(self.processValueOutput(supported.name, value: supported.rawValue, reverse:true))
+                                    
+                                }
+                                
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                }
+                else if secondary == .reset {
+                    SettingsManager.shared.settingsReset()
+
+                    output.append(self.processHeaderOutput("RESET TO DEFAULT", state:.sucsess))
+
+                }
+                    
             }
             else if command == .website {
                 if let url = URL(string: "http://batteryboi.ovatar.io/index?ref=cliboi") {
@@ -460,6 +589,18 @@ class ProcessManager:ObservableObject {
             
         }
 
+    }
+    
+    private func processRestart(){
+        let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
+        let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString
+        let task = Process()
+        task.launchPath = "/usr/bin/open"
+        task.arguments = [path]
+        task.launch()
+        
+        exit(0)
+        
     }
     
 }

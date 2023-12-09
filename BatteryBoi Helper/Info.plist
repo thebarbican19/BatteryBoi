@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string>com.ovatar.batteryapp.helperboi</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Ovatar Ltd</string>
+	<key>SMAuthorizedClients</key>
+	<array>
+		<string>identifier "com.ovatar.batteryapp" and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: Joe Barbour (9292KA78DX)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+	</array>
+	<key>CFBundleName</key>
+	<string>helperboi</string>
+	<key>CFBundleDisplayName</key>
+	<string>helperboi</string>
+</dict>
+</plist>

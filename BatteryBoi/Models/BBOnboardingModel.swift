@@ -10,7 +10,6 @@ import Foundation
 #if os(macOS)
     public enum OnboardingViewType:String {
         case intro
-        case notifications
         case cloud
         case bluetooth
         case admin
@@ -23,7 +22,6 @@ import Foundation
         var present:Bool {
             switch self {
                 case .intro : return true
-                case .notifications : return true
                 case .cloud : return true
                 case .admin : return true
                 case .nobatt : return true

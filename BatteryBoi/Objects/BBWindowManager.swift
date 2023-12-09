@@ -71,6 +71,18 @@ class WindowManager: ObservableObject {
     @Published public var opacity: CGFloat = 1.0
 
     init() {
+        UserDefaults.changed.receive(on: DispatchQueue.main).sink { key in
+            switch key {
+                case .enabledPinned : self.windowOpen(.userLaunched, device: nil)
+                case .enabledTheme : self.windowOpen(.userInitiated, device: nil)
+                case .onboardingComplete : self.windowOpen(.userInitiated, device: nil)
+                default : break
+                
+            }
+            
+        }.store(in: &updates)
+        
+        #warning("Replace with Stored Event")
         BatteryManager.shared.$charging.dropFirst().removeDuplicates().sink { charging in
             switch charging.state {
                 case .battery : self.windowOpen(.chargingStopped, device: nil)
@@ -93,14 +105,16 @@ class WindowManager: ObservableObject {
                 
             }
             else {
-                if percent == 100 && SettingsManager.shared.enabledChargeEighty == .disabled {
-                    self.windowOpen(.chargingComplete, device: nil)
-                    
-                }
-                else if percent == 80 && SettingsManager.shared.enabledChargeEighty == .enabled {
-                    self.windowOpen(.chargingComplete, device: nil)
-                    
-                }
+//                if percent == 100 && SettingsManager.shared.enabledChargeEighty == .disabled {
+//                    self.windowOpen(.chargingComplete, device: nil)
+//                    
+//                }
+//                else if percent == 80 && SettingsManager.shared.enabledChargeEighty == .enabled {
+//                    self.windowOpen(.chargingComplete, device: nil)
+//                    
+//                }
+                
+                self.windowOpen(.chargingComplete, device: nil)
                 
             }
             

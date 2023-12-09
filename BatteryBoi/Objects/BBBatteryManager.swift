@@ -212,7 +212,6 @@ class BatteryManager:ObservableObject {
     @Published var percentage:Double = 100
     @Published var remaining:BatteryRemaining? = nil
     @Published var rate:BatteryEstimateObject? = nil
-    @Published var saver:BatteryModeType = .unavailable
 
     #if os(macOS)
         @Published var metrics:BatteryMetricsObject? = nil
@@ -263,7 +262,6 @@ class BatteryManager:ObservableObject {
             
             #endif
             
-            self.saver = self.powerSaveModeStatus
             self.counter = nil
 
         }.store(in: &updates)
@@ -308,15 +306,6 @@ class BatteryManager:ObservableObject {
             self.powerStatus(true)
             
         }
-        
-        #if os(macOS)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                self.saver = self.powerSaveModeStatus
-                self.metrics = self.powerProfilerDetails
-                
-            }
-        
-        #endif
         
     }
     
@@ -497,15 +486,15 @@ class BatteryManager:ObservableObject {
 
             do {
                 let formatter = MeasurementFormatter()
-                    let locale = Locale.current
-                    formatter.locale = locale
-
-                    let temperature = Measurement(value: 0, unit: UnitTemperature.celsius)
-                    let formattedString = formatter.string(from: temperature)
+                formatter.locale = Locale.current
                 
-                let rawTemperature = try SMCKit.readData(key).0
-                    let temperatureCelsius = Double(rawTemperature) / 256.0
-                //print("CPU Temperature: \(temperatureCelsius) °C")
+                print(Locale.current)
+                
+                let fahrenheit = try SMCKit.readData(key).0
+                let temperature = Measurement(value: Double(fahrenheit), unit: UnitTemperature.fahrenheit)
+
+              
+                print("CPU Temperature: \(formatter.string(from: temperature))")
                 
             } catch {
                 print("CPU Temperature Error" ,error)
@@ -515,64 +504,6 @@ class BatteryManager:ObservableObject {
         }
            
     #endif
-        
-    #warning("Depricate")
-    private var powerSaveModeStatus:BatteryModeType {
-        #if os(macOS)
-//            if let response = ProcessManager.shared.processWithArguments("/usr/bin/env", arguments:["bash", "-c", "pmset -g | grep lowpowermode"]) {
-//                
-//                if response.contains("lowpowermode") == true {
-//                    if response.contains("1") == true {
-//                        return .efficient
-//                        
-//                    }
-//                    else if response.contains("0") == true {
-//                        return .normal
-//                        
-//                    }
-//                    
-//                }
-//                
-//                
-//            }
-        
-            return .unavailable
-        
-        #elseif os(iOS)
-            switch ProcessInfo.processInfo.isLowPowerModeEnabled {
-                case true : return .efficient
-                case false : return .normal
-                
-            }
-            
-        #endif
-        
-        
-    }
-        
-    #if os(macOS)
-        public func powerSaveMode() {
-            if self.saver != .unavailable {
-                let command = "do shell script \"pmset -c lowpowermode \(self.saver.flag ? 0 : 1)\" with administrator privileges"
-                
-                if let script = NSAppleScript(source:command) {
-                    var error: NSDictionary?
-                    script.executeAndReturnError(&error)
-                    
-                    DispatchQueue.main.async {
-                        self.saver = self.powerSaveModeStatus
-                        
-                    }
-                    
-                }
-                
-            }
-                    
-        }
-    
-    #endif
-    
-  
 
     #if os(macOS)
         private var powerProfilerDetails:BatteryMetricsObject? {

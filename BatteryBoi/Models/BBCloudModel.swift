@@ -49,6 +49,17 @@ enum CloudState:String {
     case blocked
     case disabled
     
+    var title:String {
+        switch self {
+            case .enabled : return "PermissionsEnabledLabel".localise()
+            case .blocked : return "PermissionsBlockedLabel".localise()
+            case .disabled : return "PermissionsDisabledLabel".localise()
+            case .unknown : return "PermissionsUnknownLabel".localise()
+
+        }
+        
+    }
+    
 }
 
 enum CloudSyncedState:String {

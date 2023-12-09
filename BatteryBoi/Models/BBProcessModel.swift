@@ -11,6 +11,7 @@ enum ProcessPrimaryCommands:String,CaseIterable {
     case menubar = "mbar"
     case battery = "batt"
     case debug = "debug"
+    case settings = "settings"
     case devices = "devices"
     case website = "website"
     case rate = "rate"
@@ -21,6 +22,7 @@ enum ProcessPrimaryCommands:String,CaseIterable {
             case .battery : return "Battery Information for System & Setting Max Charge Limit"
             case .debug : return "App System Status & Debugging Information"
             case .devices : return "List & Append Device Information"
+            case .settings : return "Information & Customization for Settings"
             case .website : return "Opens BatteryBoi Website"
             case .rate : return "Rate BatteryBoi on ProductHunt"
 
@@ -34,6 +36,7 @@ enum ProcessPrimaryCommands:String,CaseIterable {
             case .battery : return [.info]
             case .debug : return [.info, .reset]
             case .devices : return [.list, .reset]
+            case .settings : return [.info, .set, .reset]
             case .website : return [.open]
             case .rate : return [.open]
 
@@ -63,10 +66,23 @@ enum ProcessResponseHeaderType:String {
 }
 
 enum ProcessPermissionState:String {
+    case error
     case allowed
     case undetermined
     case denied
     case unknown
+    
+    var title:String {
+        switch self {
+            case .error : return "PermissionsErrorLabel".localise(["pissnugget"])
+            case .allowed : return "PermissionsEnabledLabel".localise()
+            case .undetermined : return "PermissionsUndeterminedLabel".localise()
+            case .denied : return "PermissionsDeniedLabel".localise()
+            case .unknown : return "PermissionsUnknownLabel".localise()
+
+        }
+        
+    }
     
 }
 

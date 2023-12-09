@@ -145,8 +145,8 @@ extension TimeInterval {
 extension Bool {
     public var string:String {
         switch self {
-            case true : return "SettingsEnabledLabel".localise()
-            case false : return "SettingsDisabledLabel".localise()
+            case true : return "PermissionsEnabledLabel".localise()
+            case false : return "PermissionsDisabledLabel".localise()
 
         }
         
@@ -176,8 +176,8 @@ extension String {
         
         if let number = params?.first(where: { $0 is Int}) as? Int {
             switch number {
-            case 1 : key = "\(key)_Single"
-            default : key = "\(key)_Plural"
+                case 1 : key = "\(key)_Single"
+                default : key = "\(key)_Plural"
                 
             }
             
@@ -387,7 +387,7 @@ extension UserDefaults {
         
     }
 
-    static func save(string key:String, value:Any?) {
+    static func save(string key:String, value:Any?, debug:Bool = false) {
         if let value = value {
             main.set(Date(), forKey: "\(key)_timestamp")
             main.set(value, forKey: key)
@@ -398,10 +398,10 @@ extension UserDefaults {
 
             }
 
-            #if MAINTARGET
+            if debug {
                 print("\n\n💾 Saved \(value) to '\(key)'\n\n")
-            
-            #endif
+                
+            }
             
         }
         else {

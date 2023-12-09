@@ -18,12 +18,14 @@
 "AlertLimitedSummary" = "Your battery might be insufficient for the event '%@'.";
 
 "TimestampHourFullAlertDeviceUnknownTitleLabel_Plural" = "%d hours";
+"TimestampHourFullAlertDeviceUnknownTitleLabel_Single" = "%d hour";
 "TimestampHourFullLabel_Single" = "%d hour";
 "TimestampHourFullLabel_Plural" = "%d hours";
 "TimestampMinuteFullLabel_Plural" = "%d minutes";
 "TimestampMinuteFullLabel_Single" = "%d minute";
 "TimestampDaysFullLabel_Plural" = "%d days";
-"TimestampDaysFull_Single" = "%d day";
+"TimestampDaysFullLabel_Single" = "%d day";
+
 "TimestampHourAbbriviatedLabel" = "h";
 "TimestampMinuteAbbriviatedLabel" = "m";
 "TimestampDayAbbriviatedLabel" = "d";
@@ -45,8 +47,6 @@
 "SettingsDisplayEstimateLabel" = "Time";
 "SettingsDisplayNoneLabel" = "Empty";
 "SettingsDisplayHiddenLabel" = "Hidden";
-"SettingsEnabledLabel" = "Enabled";
-"SettingsDisabledLabel" = "Disabled";
 "SettingsProgressDynamicLabel" = "Show Dynamic Progress";
 "SettingsProgressFullLabel" = "Show Static Full State";
 "SettingsProgressEmptyLabel" = "Show Static Empty State";
@@ -54,9 +54,9 @@
 "SettingsAboutLabel" = "About";
 "SettingsCustomizationLabel" = "Customisation";
 "SettingsSoundEffectsLabel" = "Sound Effects";
-"SettingsTriggersLabel" = "Commands";
 "SettingsNotificationsLabel" = "Notifications";
 "SettingsPrereleasesLabel" = "Beta Releases";
+"SettingsAnalyticsLabel" = "System Analytics";
 
 "SettingsCustomizationMenuLabel" = "Menu Bar Icon";
 "SettingsCustomizationThemeDarkLabel" = "Dark";
@@ -67,10 +67,19 @@
 "UpdateStatusCheckingLabel" = "Checking for Updates...";
 "UpdateStatusIdleLabel" = "Last Checked: %@"; // Last Checked: 4 hours ago
 "UpdateStatusEmptyLabel" = "No Updates Available";
-"UpdateStatusNewLabel" = "New Update Available!"; 
+"UpdateStatusNewLabel" = "New Update Available!";
 
-"AboutGithubAction" = "GitHub";
-"AboutShareAction" = "Share";
+"PermissionsDisabledLabel" = "Disabled";
+"PermissionsRestrictedLabel" = "Restricted";
+"PermissionsDeniedLabel" = "Denied (by User)";
+"PermissionsUndeterminedLabel" = "Undetermined";
+"PermissionsAllowedLabel" = "Allowed";
+"PermissionsEnabledLabel" = "Enabled";
+"PermissionsBlockedLabel" = "Blocked";
+"PermissionsDisabledLabel" = "Disabled";
+"PermissionsUnavailableLabel" = "Unavailable";
+"PermissionsUnknownLabel" = "[Stares Blankly]";
+"PermissionsErrorLabel" = "Internal Error (%@)";
 
 "BluetoothDeviceHeadphonesLabel" = "Headphones";
 "BluetoothDeviceMouseLabel" = "Mouse";

@@ -57,15 +57,6 @@ class StatsManager:ObservableObject {
             }.store(in: &updates)
 
         #endif
-        
-        #if os(macOS)
-            BatteryManager.shared.$saver.receive(on: DispatchQueue.main).sink() { newValue in
-                self.title = self.statsTitle
-                self.subtitle = self.statsSubtitle
-                
-            }.store(in: &updates)
-        
-        #endif
 
         #if os(macOS)
             BatteryManager.shared.$thermal.receive(on: DispatchQueue.main).sink() { newValue in
@@ -104,7 +95,7 @@ class StatsManager:ObservableObject {
         
     }
     
-    public func statsSystemDevicesTypes(){
+    public func statsSystemDevicesTypes() {
         
     }
     

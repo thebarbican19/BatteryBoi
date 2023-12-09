@@ -54,6 +54,19 @@ enum BluetoothPermissionState:String {
     case off
     case unknown
     
+    var title:String {
+        switch self {
+            case .allowed : return "PermissionsAllowedLabel".localise()
+            case .undetermined : return "PermissionsUndeterminedLabel".localise()
+            case .disabled : return "PermissionsDisabledLabel".localise()
+            case .denied : return "PermissionsDeniedLabel".localise()
+            case .off : return "PermissionsUnavailableLabel".localise()
+            case .unknown : return "PermissionsUnknownLabel".localise()
+
+        }
+        
+    }
+    
 }
 
 enum BluetoothUUID:String,Hashable,CaseIterable {

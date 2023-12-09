@@ -66,6 +66,9 @@
 		D851F8062AB214E8003FCA79 /* BBDataObject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D851F8042AB214E8003FCA79 /* BBDataObject.xcdatamodeld */; };
 		D851F80A2ABA29A0003FCA79 /* BBNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D851F8092ABA299F003FCA79 /* BBNavigationView.swift */; };
 		D8577A152B223F7E00366B51 /* RateBoi.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8577A142B223F7E00366B51 /* RateBoi.swift */; };
+		D8577A412B23B3A200366B51 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8577A402B23B3A200366B51 /* main.swift */; };
+		D8577A462B23B4C000366B51 /* helperboi in CopyFiles */ = {isa = PBXBuildFile; fileRef = D8577A3E2B23B3A000366B51 /* helperboi */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		D8577A472B23B71600366B51 /* Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = D8577A452B23B3CC00366B51 /* Info.plist */; };
 		D8598C902B156085006F36B2 /* BBDataObject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D851F8042AB214E8003FCA79 /* BBDataObject.xcdatamodeld */; };
 		D8598C972B156199006F36B2 /* BBCloudModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8598C962B156198006F36B2 /* BBCloudModel.swift */; };
 		D8598C982B1561B8006F36B2 /* BBCloudModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8598C962B156198006F36B2 /* BBCloudModel.swift */; };
@@ -151,7 +154,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		D83701182B1F932900B1206E /* CopyFiles */ = {
+		D8577A192B23AFB800366B51 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LaunchServices;
+			dstSubfolderSpec = 1;
+			files = (
+				D8577A462B23B4C000366B51 /* helperboi in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8577A3C2B23B3A000366B51 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -210,6 +223,7 @@
 		D837011C2B1F932900B1206E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D83701432B1FD27500B1206E /* SMC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMC.swift; sourceTree = "<group>"; };
 		D837014A2B2100DE00B1206E /* BBMenubarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBMenubarManager.swift; sourceTree = "<group>"; };
+		D83C2C2A2B24F53000B78456 /* Launchd.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Launchd.plist; sourceTree = "<group>"; };
 		D83CD7442AA8F693004223D7 /* BBBluetoothView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBBluetoothView.swift; sourceTree = "<group>"; };
 		D83DD3F42A9908E600FCC534 /* BBUpdateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBUpdateManager.swift; sourceTree = "<group>"; };
 		D83DD3F92A9D62AF00FCC534 /* BBStatsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBStatsManager.swift; sourceTree = "<group>"; };
@@ -228,6 +242,10 @@
 		D851F8172ABCA443003FCA79 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
 		D851F8222ABDF99D003FCA79 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
 		D8577A142B223F7E00366B51 /* RateBoi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateBoi.swift; sourceTree = "<group>"; };
+		D8577A162B239AA000366B51 /* cliboi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = cliboi.entitlements; sourceTree = "<group>"; };
+		D8577A3E2B23B3A000366B51 /* helperboi */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = helperboi; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8577A402B23B3A200366B51 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D8577A452B23B3CC00366B51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D8598C962B156198006F36B2 /* BBCloudModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBCloudModel.swift; sourceTree = "<group>"; };
 		D85DEE332B0C0EAE00E53109 /* BatteryBoy (Activity)Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "BatteryBoy (Activity)Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D85DEE372B0C0EAE00E53109 /* BatteryBoy__Activity_Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryBoy__Activity_Bundle.swift; sourceTree = "<group>"; };
@@ -302,6 +320,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				D83701342B1F954600B1206E /* EnalogSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8577A3B2B23B3A000366B51 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -417,6 +442,16 @@
 			path = Database;
 			sourceTree = "<group>";
 		};
+		D8577A3F2B23B3A200366B51 /* BatteryBoi Helper */ = {
+			isa = PBXGroup;
+			children = (
+				D8577A402B23B3A200366B51 /* main.swift */,
+				D8577A452B23B3CC00366B51 /* Info.plist */,
+				D83C2C2A2B24F53000B78456 /* Launchd.plist */,
+			);
+			path = "BatteryBoi Helper";
+			sourceTree = "<group>";
+		};
 		D85DEE362B0C0EAE00E53109 /* BatteryBoy (Activity) */ = {
 			isa = PBXGroup;
 			children = (
@@ -461,10 +496,12 @@
 		D8D9E5932A7DE7AA00E295FA = {
 			isa = PBXGroup;
 			children = (
+				D8577A162B239AA000366B51 /* cliboi.entitlements */,
 				D8D9E59E2A7DE7AB00E295FA /* BatteryBoi */,
 				D8228E0E2AC1EA790014DC85 /* BatteryBoi (iOS) */,
 				D85DEE362B0C0EAE00E53109 /* BatteryBoy (Activity) */,
 				D837011B2B1F932900B1206E /* BatteryBoi CLI */,
+				D8577A3F2B23B3A200366B51 /* BatteryBoi Helper */,
 				D8D9E59D2A7DE7AB00E295FA /* Products */,
 				D8DFD5602A89C4BD00732635 /* Frameworks */,
 			);
@@ -477,6 +514,7 @@
 				D8228E0D2AC1EA790014DC85 /* BatteryBoi (iOS).app */,
 				D85DEE332B0C0EAE00E53109 /* BatteryBoy (Activity)Extension.appex */,
 				D837011A2B1F932900B1206E /* cliboi */,
+				D8577A3E2B23B3A000366B51 /* helperboi */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -631,7 +669,6 @@
 			buildPhases = (
 				D83701162B1F932900B1206E /* Sources */,
 				D83701172B1F932900B1206E /* Frameworks */,
-				D83701182B1F932900B1206E /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -643,6 +680,23 @@
 			);
 			productName = "BatteryBoi CLI";
 			productReference = D837011A2B1F932900B1206E /* cliboi */;
+			productType = "com.apple.product-type.tool";
+		};
+		D8577A3D2B23B3A000366B51 /* helperboi */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D8577A422B23B3A200366B51 /* Build configuration list for PBXNativeTarget "helperboi" */;
+			buildPhases = (
+				D8577A3A2B23B3A000366B51 /* Sources */,
+				D8577A3B2B23B3A000366B51 /* Frameworks */,
+				D8577A3C2B23B3A000366B51 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = helperboi;
+			productName = "BatteryBoi Helper";
+			productReference = D8577A3E2B23B3A000366B51 /* helperboi */;
 			productType = "com.apple.product-type.tool";
 		};
 		D85DEE322B0C0EAE00E53109 /* BatteryBoy (Activity)Extension */ = {
@@ -676,6 +730,7 @@
 				D8DFD55B2A89C4A000732635 /* Embed Frameworks */,
 				D8C784BA2B1E8FF900EBD52A /* CopyFiles */,
 				D837013B2B1FC03800B1206E /* ShellScript */,
+				D8577A192B23AFB800366B51 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -710,6 +765,9 @@
 						LastSwiftMigration = 1500;
 					};
 					D83701192B1F932900B1206E = {
+						CreatedOnToolsVersion = 15.0.1;
+					};
+					D8577A3D2B23B3A000366B51 = {
 						CreatedOnToolsVersion = 15.0.1;
 					};
 					D85DEE322B0C0EAE00E53109 = {
@@ -764,6 +822,7 @@
 				D8228E0C2AC1EA790014DC85 /* BatteryBoi (iOS) */,
 				D85DEE322B0C0EAE00E53109 /* BatteryBoy (Activity)Extension */,
 				D83701192B1F932900B1206E /* cliboi */,
+				D8577A3D2B23B3A000366B51 /* helperboi */,
 			);
 		};
 /* End PBXProject section */
@@ -880,6 +939,15 @@
 				D83701232B1F935F00B1206E /* BBSettingsModel.swift in Sources */,
 				D837011D2B1F932900B1206E /* main.swift in Sources */,
 				D837012A2B1F937500B1206E /* BBAppManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D8577A3A2B23B3A000366B51 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8577A472B23B71600366B51 /* Info.plist in Sources */,
+				D8577A412B23B3A200366B51 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1092,16 +1160,22 @@
 			baseConfigurationReference = D8D9E5CC2A84069700E295FA /* BBEnviroments.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_ENTITLEMENTS = cliboi.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QYKKXLKZD6;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "BatteryBoi CLI/BBInfo.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/$(TARGET_NAME)/info.plist";
 				"INFOPLIST_FILE[sdk=*]" = "";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ovatar.batteryapp.cliboi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_VERSION = 5.0;
@@ -1113,15 +1187,80 @@
 			baseConfigurationReference = D8D9E5CC2A84069700E295FA /* BBEnviroments.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_ENTITLEMENTS = cliboi.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QYKKXLKZD6;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "BatteryBoi CLI/BBInfo.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/$(TARGET_NAME)/info.plist";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ovatar.batteryapp.cliboi;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		D8577A432B23B3A200366B51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.0;
+				DEVELOPMENT_TEAM = QYKKXLKZD6;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				INFOPLIST_FILE = "$(SRCROOT)/BatteryBoi Helper/Info.plist";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"\"$(SRCROOT)/BatteryBoi Helper/Info.plist\"",
+					"-sectcreate",
+					__TEXT,
+					__launchd_plist,
+					"\"$(SRCROOT)/BatteryBoi Helper/Launchd.plist\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D8577A442B23B3A200366B51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.0;
+				DEVELOPMENT_TEAM = QYKKXLKZD6;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				INFOPLIST_FILE = "$(SRCROOT)/BatteryBoi Helper/Info.plist";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-sectcreate",
+					__TEXT,
+					__info_plist,
+					"\"$(SRCROOT)/BatteryBoi Helper/Info.plist\"",
+					"-sectcreate",
+					__TEXT,
+					__launchd_plist,
+					"\"$(SRCROOT)/BatteryBoi Helper/Launchd.plist\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
@@ -1322,6 +1461,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = BatteryBoi/BatteryBoi.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 27;
@@ -1346,6 +1486,7 @@
 				OTHER_SWIFT_FLAGS = "-DMAINTARGET";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ovatar.batteryapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "BatteryBoi/Other/Scripts/BatteryBoi-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1361,6 +1502,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = BatteryBoi/BatteryBoi.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 27;
@@ -1385,6 +1527,7 @@
 				OTHER_SWIFT_FLAGS = "-DMAINTARGET";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ovatar.batteryapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "BatteryBoi/Other/Scripts/BatteryBoi-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -1408,6 +1551,15 @@
 			buildConfigurations = (
 				D837011F2B1F932900B1206E /* Debug */,
 				D83701202B1F932900B1206E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D8577A422B23B3A200366B51 /* Build configuration list for PBXNativeTarget "helperboi" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D8577A432B23B3A200366B51 /* Debug */,
+				D8577A442B23B3A200366B51 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -61,12 +61,8 @@ struct SettingsItem: View {
             
         )
         .onAppear() {
-            if item.type == .appEfficencyMode {
-                self.color = self.battery.saver == .efficient ? "BatteryEfficient" : nil
-                self.subtitle = self.battery.saver == .efficient ? "SettingsEnabledLabel".localise() : "SettingsDisabledLabel".localise()
-
-            }
-            else if item.type == .appPinned {
+           
+            if item.type == .appPinned {
                 self.subtitle = self.settings.pinned.subtitle
                 self.icon = self.settings.pinned.icon
 
@@ -92,17 +88,6 @@ struct SettingsItem: View {
             }
             
         }
-        .onChange(of: self.battery.saver, perform: { newValue in
-            withAnimation(Animation.easeOut.delay(0.1)) {
-                if item.type == .appEfficencyMode {
-                    self.color = self.battery.saver == .efficient ? "BatteryEfficient" : nil
-                    self.subtitle = self.battery.saver == .efficient ? "SettingsEnabledLabel".localise() : "SettingsDisabledLabel".localise()
-
-                }
-                
-            }
-            
-        })
         .onChange(of: self.updates.state, perform: { newValue in
             withAnimation(Animation.easeOut.delay(0.1)) {
                 if item.type == .appUpdateCheck {

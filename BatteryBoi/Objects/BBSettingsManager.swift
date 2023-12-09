@@ -28,14 +28,12 @@ class SettingsManager:ObservableObject {
         self.theme = self.enabledTheme
         self.sfx = self.enabledSoundEffects
         self.pinned = self.enabledPinned
-        self.charge = self.enabledChargeEighty
 
         UserDefaults.changed.receive(on: DispatchQueue.main).sink { key in
             switch key {
                 case .enabledTheme : self.theme = self.enabledTheme
                 case .enabledSoundEffects : self.sfx = self.enabledSoundEffects
                 case .enabledPinned : self.pinned = self.enabledPinned
-                case .enabledChargeEighty : self.charge = self.enabledChargeEighty
                 default : break
                 
             }
@@ -108,7 +106,7 @@ class SettingsManager:ObservableObject {
         
     public var enabledTheme:SettingsTheme {
         get {
-            if let value = UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledTheme.rawValue) as? Int {
+            if let value = UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledTheme.rawValue) as? String {
                 if let theme = SettingsTheme(rawValue: value) {
                     if theme == .light {
                         NSApp.appearance = NSAppearance(named: .aqua)
@@ -160,25 +158,7 @@ class SettingsManager:ObservableObject {
         }
         
     }
-    
-    public var enabledChargeEighty:SettingsCharged {
-        get {
-            if let key = UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledChargeEighty.rawValue) as? String {
-                return SettingsCharged(rawValue: key) ?? .disabled
-                
-            }
-            
-            return .disabled
-            
-        }
         
-        set {
-            UserDefaults.save(.enabledChargeEighty, value: newValue.rawValue)
-            
-        }
-        
-    }
-    
     public var enabledPinned:SettingsPinned {
         get {
             if let key = UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledPinned.rawValue) as? String {
@@ -303,14 +283,6 @@ class SettingsManager:ObservableObject {
             }
             
         }
-        else if action.type == .customiseCharge {
-            switch self.enabledChargeEighty {
-                case .enabled : self.enabledChargeEighty = .disabled
-                case .disabled : self.enabledChargeEighty = .enabled
-
-            }
-            
-        }
         
     }
     
@@ -343,6 +315,13 @@ class SettingsManager:ObservableObject {
 
         return output
         
+    }
+    
+    public func settingsReset() {
+        UserDefaults.save(.enabledSoundEffects, value: nil)
+        UserDefaults.save(.enabledTheme, value: nil)
+        UserDefaults.save(.enabledAnalytics, value: nil)
+
     }
 
 }

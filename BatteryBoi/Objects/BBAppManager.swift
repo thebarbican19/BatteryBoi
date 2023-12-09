@@ -170,7 +170,7 @@ class AppManager:ObservableObject {
                             store.charge = Int64(BatteryManager.shared.percentage)
                             store.device = device
                             store.reporter = device
-                            store.mode = BatteryManager.shared.saver.rawValue
+                            store.mode = BatteryModeType.unavailable.rawValue
                             store.version = version ?? 0.0
                             store.notify = notify.rawValue
                             
@@ -312,6 +312,33 @@ class AppManager:ObservableObject {
         }
         
     }
+    
+    public func appListEvents(_ limit:Int?) -> [Events] {
+        if let context = self.appStorageContext() {
+            let fetch: NSFetchRequest<Events> = Events.fetchRequest()
+            fetch.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
+            
+            if let limit = limit {
+                fetch.fetchLimit = limit
+                
+            }
+            
+            do {
+                let list = try context.fetch(fetch)
+                return list
+                print("Events" ,list)
+                
+            }
+            catch {
+                
+            }
+            
+        }
+        
+        return []
+        
+    }
+
 
     private func appLatestEvent(_ state:StatsStateType, device:CBPeripheral?, context:NSManagedObjectContext) -> Events? {
         var predicates = Array<NSPredicate>()

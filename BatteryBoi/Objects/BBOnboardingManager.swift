@@ -44,7 +44,12 @@ class OnboardingManager:ObservableObject {
         }.store(in: &updates)
         
         #if os(macOS)
-            ProcessManager.shared.$state.receive(on: DispatchQueue.main).sink { _ in
+            ProcessManager.shared.$interface.receive(on: DispatchQueue.main).sink { _ in
+                self.onboardingSetup()
+
+            }.store(in: &updates)
+        
+            ProcessManager.shared.$helper.receive(on: DispatchQueue.main).sink { _ in
                 self.onboardingSetup()
 
             }.store(in: &updates)
@@ -67,12 +72,22 @@ class OnboardingManager:ObservableObject {
 
         }
         else if CloudManager.shared.state != .enabled && CloudManager.shared.state != .unknown {
-            switch CloudManager.shared.state {
-                case .disabled : self.state = .cloud
-                case .blocked : self.state = .notifications
-                default : break
-                
-            }
+            #if os(macOS)
+                switch CloudManager.shared.state {
+                    case .disabled : self.state = .cloud
+                    default : break
+                    
+                }
+            
+            #else
+                switch CloudManager.shared.state {
+                    case .disabled : self.state = .cloud
+                    case .blocked : self.state = .notifications
+                    default : break
+                    
+                }
+            
+            #endif
             
             self.updated = Date()
 
@@ -105,7 +120,7 @@ class OnboardingManager:ObservableObject {
         else if AppManager.shared.appDeviceType.mac == false {
             self.state = .complete
             self.updated = Date()
-            
+                        
         }
         
     }
@@ -157,8 +172,8 @@ class OnboardingManager:ObservableObject {
 
         #if os(macOS)
             if state == .admin {
-                if ProcessManager.shared.state == .allowed {
-                    ProcessManager.shared.processInstallScript()
+                if ProcessManager.shared.interface == .unknown {
+                    ProcessManager.shared.processInstallInterface()
                     
                 }
                 
@@ -172,7 +187,6 @@ class OnboardingManager:ObservableObject {
         #if os(macOS)
             var url:URL? = nil
             switch step {
-                case .notifications : url = URL(fileURLWithPath: "/System/Library/PreferencePanes/Notifications.prefPane")
                 case .bluetooth : url = URL(fileURLWithPath: "/System/Library/PreferencePanes/Bluetooth.prefPane")
                 case .cloud : url = URL(string: "x-apple.systempreferences:com.apple.preferences.icloud")
                 default : break

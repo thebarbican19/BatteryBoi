@@ -68,8 +68,9 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
         
         $state.dropFirst().removeDuplicates().receive(on: DispatchQueue.main).sink { state in
             if state == .disabled {
-                UserDefaults.save(.enabledBluetooth, value: state.rawValue)
-                
+                UserDefaults.save(.bluetoothEnabled, value: state.rawValue)
+                UserDefaults.save(.bluetoothUpdated, value: Date())
+
                 self.broadcasting = []
                 self.connecting = false
                 
@@ -77,7 +78,8 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
                 
             }
             else {
-                UserDefaults.save(.enabledBluetooth, value: nil)
+                UserDefaults.save(.bluetoothEnabled, value: nil)
+                UserDefaults.save(.bluetoothUpdated, value: Date())
 
                 self.bluetoothAuthorization()
                 
@@ -90,7 +92,7 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
     }
         
     public func bluetoothAuthorization(_ force:Bool = false) {
-        if UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledBluetooth.rawValue) == nil {
+        if UserDefaults.main.object(forKey: SystemDefaultsKeys.bluetoothEnabled.rawValue) == nil {
             if force == true {
                 if CBCentralManager.authorization == .notDetermined {
                     self.manager = CBCentralManager(delegate: self, queue: nil)
@@ -176,6 +178,8 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
             }
 
         }
+        
+        UserDefaults.save(.bluetoothUpdated, value: Date())
         
     }
 
