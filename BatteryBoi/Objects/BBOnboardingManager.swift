@@ -44,15 +44,15 @@ class OnboardingManager:ObservableObject {
         }.store(in: &updates)
         
         #if os(macOS)
-            ProcessManager.shared.$interface.receive(on: DispatchQueue.main).sink { _ in
-                self.onboardingSetup()
-
-            }.store(in: &updates)
-        
-            ProcessManager.shared.$helper.receive(on: DispatchQueue.main).sink { _ in
-                self.onboardingSetup()
-
-            }.store(in: &updates)
+//            ProcessManager.shared.$interface.receive(on: DispatchQueue.main).sink { _ in
+//                self.onboardingSetup()
+//
+//            }.store(in: &updates)
+//        
+//            ProcessManager.shared.$helper.receive(on: DispatchQueue.main).sink { _ in
+//                self.onboardingSetup()
+//
+//            }.store(in: &updates)
         
         #endif
         
@@ -104,7 +104,7 @@ class OnboardingManager:ObservableObject {
                     self.updated = Date()
 
                 }
-                else if self.onboardingStep(.cli) == .unseen && ProcessManager.shared.homebrew == .installed {
+                else if self.onboardingStep(.cli) == .unseen {
                     self.state = .cli
                     self.updated = Date()
                     

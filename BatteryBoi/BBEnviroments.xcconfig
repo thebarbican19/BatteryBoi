@@ -14,3 +14,5 @@ ENV_ICLOUD_ID = iCloud.com.ovatar.batteryboi
 ENV_MACH_ID = com.ovatar.batteryapp.helperboi.mach
 ENV_ICLOUD_FILE = BBDataObject
 ENV_CLIBOI_PORT = com.batteryboi.cli
+ENV_SPARKLE_PUBLIC = t1V9elylrpBkN0l4EkNxs7eEGVLF3Yd0P0sKDXqxfoA=
+ENV_APPCAST_URL = https://api.ovatar.io/version?id=com.ovatar.batteryapp&beta=true

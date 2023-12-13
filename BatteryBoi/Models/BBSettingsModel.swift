@@ -223,8 +223,8 @@ enum SettingsStateValue:String {
     
     var title:String {
         switch self {
-            case .enabled : return true.string
-            case .disabled : return false.string
+            case .enabled : return true.string(.enabled)
+            case .disabled : return false.string(.enabled)
             case .undetermined : return "Not Set"
             case .restricted : return "Restricted"
 

@@ -17,28 +17,14 @@ class ProcessManager:ObservableObject {
     
     @Published var interface:ProcessPermissionState = .unknown
     @Published var helper:ProcessPermissionState = .unknown
-    @Published var homebrew:ProcessHomebrewState = .unknown
 
     private var updates = Set<AnyCancellable>()
-
-    init() {
-        AppManager.shared.appTimer(18).dropFirst().sink { _ in
-            if self.homebrew == .unknown {
-                self.processCheckHomebrew()
-
-            }
-            
-        }.store(in: &updates)
-
-        self.processInstallHelper()
-        
-    }
     
     public var connection: NSXPCConnection? = {
         if let id = Bundle.main.infoDictionary?["ENV_MACH_ID"] as? String  {
+            print("!Mach Setup " ,id)
             let connection = NSXPCConnection(machServiceName: id, options: .privileged)
-            //connection.remoteObjectInterface = NSXPCInterface(with: HelperToolProtocol.self)
-            
+            connection.remoteObjectInterface = NSXPCInterface(with: HelperProtocol.self)
             connection.resume()
             
             return connection
@@ -108,6 +94,23 @@ class ProcessManager:ObservableObject {
                 self.helper = .allowed
                 
             }
+                        
+        }
+        
+    }
+    
+    public func processHelperContext() -> HelperProtocol? {
+        if let helper = self.connection?.remoteObjectProxy as? HelperProtocol {
+            return helper
+            
+        }
+        else {
+            if self.helper == .allowed {
+                self.processInstallHelper()
+
+            }
+            
+            return nil
             
         }
         
@@ -120,7 +123,7 @@ class ProcessManager:ObservableObject {
             output.append(self.processHeaderOutput("UNSUPPORTED", state:.error))
             
             for supported in ProcessPrimaryCommands.allCases {
-                output.append(self.processValueOutput(supported.description, value: supported.rawValue, reverse:true))
+                output.append(self.processValueOutput(supported.description, value: .init(supported.rawValue), reverse:true))
                 
             }
             
@@ -135,7 +138,7 @@ class ProcessManager:ObservableObject {
                 output.append(self.processHeaderOutput("UNSUPPORTED", state:.error))
                 
                 for supported in command.secondary {
-                    output.append(self.processValueOutput(supported.rawValue, value: nil))
+                    output.append(self.processValueOutput(supported.rawValue, value: .init(nil)))
                     
                 }
                 
@@ -147,361 +150,452 @@ class ProcessManager:ObservableObject {
             
         }
         
-        if let update = UpdateManager.shared.available {
-            output.append(self.processHeaderOutput("UPDATE AVAILABLE", state:.error))
-
-            output.append(self.processValueOutput(update.version.formatted, value:"Please Update to Version to Continue", reverse: true))
-
-        }
-        else {
-            if command == .menubar {
-                if secondary == .info {
-                    output.append("\n----------MENUBAR----------\n\n")
+       
+        if command == .menubar {
+            if secondary == .info {
+                output.append("\n----------MENUBAR----------\n\n")
+                
+                output.append(self.processValueOutput("Primary Display (-p)", value:.init(MenubarManager.shared.menubarPrimaryDisplay.type)))
+                output.append(self.processValueOutput("Secondary Display (-s)", value:.init(MenubarManager.shared.menubarSecondaryDisplay.type)))
+                output.append(self.processValueOutput("Menubar Style (-c)", value: .init(MenubarManager.shared.menubarStyle.rawValue)))
+                output.append(self.processValueOutput("Menubar Colour Scheme (-m)", value: .init(MenubarManager.shared.menubarSchemeType.rawValue)))
+                output.append(self.processValueOutput("Pulsating Animation (-a)", value:.init( MenubarManager.shared.menubarPulsingAnimation.string(.enabled))))
+                output.append(self.processValueOutput("Progress Bar Fill (-b)", value:.init( MenubarManager.shared.menubarProgressBar.description)))
+                output.append(self.processValueOutput("Icon Radius (-r)", value:.init( "\(MenubarManager.shared.menubarRadius)px")))
+                
+                
+            }
+            else if secondary == .set {
+                if flags.indices.contains(1) == false || flags.indices.contains(2) == false{
+                    output.append(self.processHeaderOutput("MISSING FLAG", state:.error))
                     
-                    output.append(self.processValueOutput("Primary Display (-p)", value:MenubarManager.shared.menubarPrimaryDisplay.type))
-                    output.append(self.processValueOutput("Secondary Display (-s)", value:MenubarManager.shared.menubarSecondaryDisplay.type))
-                    output.append(self.processValueOutput("Menubar Style (-c)", value: MenubarManager.shared.menubarStyle.rawValue))
-                    output.append(self.processValueOutput("Pulsating Animation (-a)", value: MenubarManager.shared.menubarPulsingAnimation.string))
-                    output.append(self.processValueOutput("Progress Bar Fill (-b)", value: MenubarManager.shared.menubarProgressBar.description))
-                    output.append(self.processValueOutput("Icon Radius (-r)", value: "\(MenubarManager.shared.menubarRadius)px"))
-                    
+                    output.append(self.processValueOutput("Menubar Primary Display", value: .init("-p"), reverse:true))
+                    output.append(self.processValueOutput("Menubar Seconary Display", value: .init("-s"), reverse:true))
+                    output.append(self.processValueOutput("Menubar Style", value: .init("-c"), reverse:true))
+                    output.append(self.processValueOutput("Menubar Colour Scheme", value: .init("-m"), reverse:true))
+                    output.append(self.processValueOutput("Animation Toggle", value: .init("-a"), reverse:true))
+                    output.append(self.processValueOutput("Progress Bar Fill", value: .init("-b"), reverse:true))
+                    output.append(self.processValueOutput("Icon Radius", value: .init("-r"), reverse:true))
                     
                 }
-                else if secondary == .set {
-                    if flags.indices.contains(1) == false || flags.indices.contains(2) == false{
-                        output.append(self.processHeaderOutput("MISSING FLAG", state:.error))
-                        
-                        output.append(self.processValueOutput("Menubar Primary Display", value: "-p", reverse:true))
-                        output.append(self.processValueOutput("Menubar Seconary Display", value: "-s", reverse:true))
-                        output.append(self.processValueOutput("Menubar Style", value: "-c", reverse:true))
-                        output.append(self.processValueOutput("Animation Toggle", value: "-a", reverse:true))
-                        output.append(self.processValueOutput("Progress Bar Fill", value: "-b", reverse:true))
-                        output.append(self.processValueOutput("Icon Radius", value: "-r", reverse:true))
-                        
-                    }
-                    else {
-                        if flags[1] == "-s" || flags[1] == "-p" {
-                            if let value = MenubarDisplayType(rawValue: flags[2]) {
-                                switch flags[1] {
+                else {
+                    if flags[1] == "-s" || flags[1] == "-p" {
+                        if let value = MenubarDisplayType(rawValue: flags[2]) {
+                            switch flags[1] {
                                 case "-p" : MenubarManager.shared.menubarPrimaryDisplay = value
                                 case "-s" : MenubarManager.shared.menubarSecondaryDisplay = value
                                 default : break
-                                    
-                                }
-                                
-                                output.append(self.processHeaderOutput("SAVED", state:.sucsess))
                                 
                             }
-                            else {
-                                output.append(self.processHeaderOutput("INVALID VALUE", state:.error))
-                                
-                                for supported in MenubarDisplayType.allCases {
-                                    output.append(self.processValueOutput(supported.type, value: supported.rawValue, reverse:true))
-                                    
-                                }
-                                
-                            }
-                            
-                        }
-                        else if flags[1] == "-a"  {
-                            MenubarManager.shared.menubarPulsingAnimation = flags[2].boolean
                             
                             output.append(self.processHeaderOutput("SAVED", state:.sucsess))
                             
                         }
-                        else if flags[1] == "-b" {
-                            if let value = MenubarProgressType(rawValue: flags[2]) {
-                                MenubarManager.shared.menubarProgressBar = value
-                                
-                                output.append(self.processHeaderOutput("SAVED", state:.sucsess))
-                                
-                            }
-                            else {
-                                output.append(self.processHeaderOutput("INVALID VALUE", state:.error))
-                                
-                                for supported in MenubarProgressType.allCases {
-                                    output.append(self.processValueOutput(supported.description, value: supported.rawValue, reverse:true))
-                                    
-                                }
+                        else {
+                            output.append(self.processHeaderOutput("INVALID VALUE", state:.error))
+                            
+                            for supported in MenubarDisplayType.allCases {
+                                output.append(self.processValueOutput(supported.type, value: .init(supported.rawValue), reverse:true))
                                 
                             }
                             
                         }
-                        else if flags[1] == "-c" {
-                            if let value = MenubarStyle(rawValue: flags[2]) {
-                                MenubarManager.shared.menubarStyle = value
-                                
-                                output.append(self.processHeaderOutput("SAVED", state:.sucsess))
-                                
-                            }
-                            else {
-                                output.append(self.processHeaderOutput("INVALID VALUE", state:.error))
-                                
-                                for supported in MenubarStyle.allCases {
-                                    output.append(self.processValueOutput("", value: supported.rawValue, reverse:true))
-                                    
-                                }
+                        
+                    }
+                    else if flags[1] == "-a"  {
+                        MenubarManager.shared.menubarPulsingAnimation = flags[2].boolean
+                        
+                        output.append(self.processHeaderOutput("SAVED", state:.sucsess))
+                        
+                    }
+                    else if flags[1] == "-b" {
+                        if let value = MenubarProgressType(rawValue: flags[2]) {
+                            MenubarManager.shared.menubarProgressBar = value
+                            
+                            output.append(self.processHeaderOutput("SAVED", state:.sucsess))
+                            
+                        }
+                        else {
+                            output.append(self.processHeaderOutput("INVALID VALUE", state:.error))
+                            
+                            for supported in MenubarProgressType.allCases {
+                                output.append(self.processValueOutput(supported.description, value: .init(supported.rawValue), reverse:true))
                                 
                             }
                             
                         }
-                        else if flags[1] == "-r" {
-                            if let value = Float(flags[2]) {
-                                MenubarManager.shared.menubarRadius = value
+                        
+                    }
+                    else if flags[1] == "-c" {
+                        if let value = MenubarStyle(rawValue: flags[2]) {
+                            MenubarManager.shared.menubarStyle = value
+                            
+                            output.append(self.processHeaderOutput("SAVED", state:.sucsess))
+                            
+                        }
+                        else {
+                            output.append(self.processHeaderOutput("INVALID VALUE", state:.error))
+                            
+                            for supported in MenubarStyle.allCases {
+                                output.append(self.processValueOutput("", value: .init(supported.rawValue), reverse:true))
+                                
+                            }
+                            
+                        }
+                        
+                    }
+                    else if flags[1] == "-r" {
+                        if let value = Float(flags[2]) {
+                            MenubarManager.shared.menubarRadius = value
+                            
+                            output.append(self.processHeaderOutput("SAVED", state:.sucsess))
+                            
+                        }
+                        else {
+                            output.append(self.processHeaderOutput("INVALID VALUE", state:.error))
+                            output.append(self.processValueOutput("Must be of Type", value:.init( "FLOAT")))
+                            
+                        }
+                        
+                    }
+                    else if flags[1] == "-m" {
+                        if MenubarManager.shared.menubarStyle == .transparent {
+                            if let value = MenubarScheme(rawValue: flags[2]) {
+                                MenubarManager.shared.menubarSchemeType = value
                                 
                                 output.append(self.processHeaderOutput("SAVED", state:.sucsess))
                                 
                             }
                             else {
                                 output.append(self.processHeaderOutput("INVALID VALUE", state:.error))
-                                output.append(self.processValueOutput("Must be of Type", value: "FLOAT"))
+                                
+                                for supported in MenubarScheme.allCases {
+                                    output.append(self.processValueOutput("", value: .init(supported.rawValue), reverse:true))
+                                    
+                                }
                                 
                             }
                             
                         }
                         else {
-                            output.append(self.processHeaderOutput("INVALID FLAG", state:.error))
-                            
-                            output.append(self.processValueOutput("Menubar Primary Display", value: "-p", reverse:true))
-                            output.append(self.processValueOutput("Menubar Seconary Display", value: "-s", reverse:true))
-                            output.append(self.processValueOutput("Menubar Style", value: "-c", reverse:true))
-                            output.append(self.processValueOutput("Animation Toggle", value: "-a", reverse:true))
-                            output.append(self.processValueOutput("Progress Bar Fill", value: "-b", reverse:true))
-                            output.append(self.processValueOutput("Icon Radius", value: "-r", reverse:true))
-                            
+                            output.append(self.processHeaderOutput("ONLY AVAILABLE FOR '\("transparent")' STYLE", state:.error))
+
                         }
-                        
-                    }
-                    
-                }
-                else if secondary == .reset {
-                    MenubarManager.shared.menubarReset()
-                    
-                    output.append(self.processHeaderOutput("RESET TO DEFAULT", state:.sucsess))
-                    
-                }
-                
-            }
-            else if command == .battery {
-                if secondary == .info {
-                    output.append("\n----------GENERAL----------\n\n")
-                    
-                    output.append(self.processValueOutput("Charge", value: String(BatteryManager.shared.percentage)))
-                    output.append(self.processValueOutput("Charging", value: String(BatteryManager.shared.charging.state.charging ? "Yes":"No")))
-                    output.append(self.processValueOutput("Charge To", value: "75%"))
-                    
-                    if let metrics = BatteryManager.shared.metrics {
-                        output.append(self.processValueOutput("Cycle Count", value: metrics.cycles.formatted))
-                        
-                    }
-                    
-                    if BatteryManager.shared.charging.state == .charging {
-                        output.append(self.processValueOutput("Time Until Fully Charged", value: "32 Minutes"))
                         
                     }
                     else {
-                        output.append(self.processValueOutput("Time Until Empty", value: "32 Minutes"))
+                        output.append(self.processHeaderOutput("INVALID FLAG", state:.error))
                         
-                    }
-                    
-                    output.append(self.processValueOutput("Health", value: "Normal"))
-                    output.append(self.processValueOutput("Low Power Mode", value: "No"))
-                    output.append(self.processValueOutput("Overheating", value: "No"))
-                    output.append(self.processValueOutput("Last Charged", value: "6 Hours Ago"))
-                    
-                }
-                else if secondary == .set {
-                    //set charge limit
-                    //set efficient mode
-                    
-                }
-                
-            }
-            else if command == .debug {
-                if secondary == .info {
-                    output.append("\n----------GENERAL----------\n\n")
-                    
-                    output.append(self.processValueOutput("Installed On", value: AppManager.shared.appInstalled.formatted))
-                    output.append(self.processValueOutput("Device", value: AppManager.shared.appDeviceType.name()))
-                    output.append(self.processValueOutput("User ID", value: AppManager.shared.appIdentifyer))
-                    output.append(self.processValueOutput("Usage Count", value: String(AppManager.shared.appUsage?.day ?? 0)))
-                    output.append(self.processValueOutput("Homebrew", value: ProcessManager.shared.homebrew.rawValue))
-                    
-                    output.append("\n----------ONBOARDING----------\n\n")
-                    
-                    output.append(self.processValueOutput("State", value: OnboardingManager.shared.state.rawValue))
-                    
-                    output.append("\n----------ICLOUD----------\n\n")
-                    
-                    output.append(self.processValueOutput("State", value: CloudManager.shared.state.title))
-                    output.append(self.processValueOutput("Syncing", value: CloudManager.shared.syncing.rawValue))
-                    output.append(self.processValueOutput("User ID", value: CloudManager.shared.id ?? "PermissionsUnknownLabel".localise()))
-                    
-                    output.append("\n----------BLUETOOTH----------\n\n")
-                    
-                    output.append(self.processValueOutput("State", value: BluetoothManager.shared.state.title))
-                    output.append(self.processValueOutput("Discoverable Proximity", value: BluetoothManager.shared.proximity.string))
-                    
-                    output.append("\n----------SETTINGS----------\n\n")
-                    
-                    output.append(self.processValueOutput("SettingsSoundEffectsLabel".localise(), value: SettingsManager.shared.enabledSoundEffects.subtitle))
-                    output.append(self.processValueOutput("SettingsCustomizationThemeTitle".localise(), value: SettingsManager.shared.enabledTheme.name))
-
-                    output.append("\n----------RECENT EVENTS----------\n\n")
-
-                    for event in AppManager.shared.appListEvents(20) {
-                        output.append(self.processValueOutput("Notify", value: event.notify))
-                        output.append(self.processValueOutput("State", value: event.state))
-                        output.append(self.processValueOutput("Charge", value: "\(event.charge)"))
-
+                        output.append(self.processValueOutput("Menubar Primary Display", value: .init("-p"), reverse:true))
+                        output.append(self.processValueOutput("Menubar Seconary Display", value: .init("-s"), reverse:true))
+                        output.append(self.processValueOutput("Menubar Style", value: .init("-c"), reverse:true))
+                        output.append(self.processValueOutput("Menubar Colour Scheme", value: .init("-m"), reverse:true))
+                        output.append(self.processValueOutput("Animation Toggle", value: .init("-a"), reverse:true))
+                        output.append(self.processValueOutput("Progress Bar Fill", value: .init("-b"), reverse:true))
+                        output.append(self.processValueOutput("Icon Radius", value: .init("-r"), reverse:true))
+                        
                     }
                     
                 }
                 
             }
-            else if command == .devices {
-                if secondary == .list {
-                    for device in AppManager.shared.list {
-                        output.append("\n----------DEVICE #\(device.order + 1)----------\n\n")
-                        
-                        output.append(self.processValueOutput("ID", value: device.id))
-                        output.append(self.processValueOutput("Name", value: device.name))
-                        output.append(self.processValueOutput("Added", value: "\(device.added?.formatted ?? "Unknown")"))
-                        output.append(self.processValueOutput("Updated", value: device.polled?.formatted ?? "Never"))
-                        output.append(self.processValueOutput("Favourited", value: device.favourite.string))
-                        output.append(self.processValueOutput("Events", value: "\(device.events.count)"))
-                        
+            else if secondary == .reset {
+                MenubarManager.shared.menubarReset()
+                
+                output.append(self.processHeaderOutput("RESET TO DEFAULT", state:.sucsess))
+                
+            }
+            
+        }
+        else if command == .battery {
+            if secondary == .info {
+                output.append("\n----------GENERAL----------\n\n")
+                
+                if BatteryManager.shared.charging == .battery {
+                    if BatteryManager.shared.percentage <= 25 {
+                        output.append(self.processValueOutput("Charge", value:.init( "\(BatteryManager.shared.percentage)%", type:.warning)))
+
                     }
-                    
-                }
-                else if secondary == .set || secondary == .remove {
-                    if flags.indices.contains(1) == false || flags.indices.contains(2) == false{
-                        output.append(self.processHeaderOutput("MISSING FLAG", state:.error))
-                        
-                        output.append(self.processValueOutput("Device Name", value: "-n", reverse:true))
-                        output.append(self.processValueOutput("Device ID", value: "-id", reverse:true))
-                        
+                    else if BatteryManager.shared.percentage <= 18 {
+                        output.append(self.processValueOutput("Charge", value:.init( "\(BatteryManager.shared.percentage)%", type:.error)))
+
                     }
                     else {
-                        var device:SystemDeviceObject? = nil
-                        var response:String = ""
-                        
-                        if flags[1] == "-n"  {
-                            device = AppManager.shared.list.first(where: { $0.name == flags[2] })
+                        output.append(self.processValueOutput("Charge", value:.init( "\(BatteryManager.shared.percentage)%", type:.normal)))
+
+                    }
+                    
+                    output.append(self.processValueOutput("Charging", value:.init( false.string(.yes))))
+
+                }
+                else {
+                    output.append(self.processValueOutput("Charge", value:.init( "\(BatteryManager.shared.percentage)%", type:.normal)))
+                    output.append(self.processValueOutput("Charging", value:.init( true.string(.yes), type: .sucsess)))
+
+                }
+                
+                output.append(self.processValueOutput("Charge To", value: .init("100%")))
+                output.append(self.processValueOutput("Low Power Mode", value:.init( BatteryManager.shared.mode.flag.string(.enabled), type: BatteryManager.shared.mode.flag ? .sucsess : .normal)))
+
+                if BatteryManager.shared.charging == .charging {
+                    output.append(self.processValueOutput("Time Until Fully Charged", value:.init( "32 Minutes")))
+                    
+                }
+                else {
+                    output.append(self.processValueOutput("Time Until Empty", value: .init("32 Minutes")))
+                    
+                }
+                
+                output.append("\n----------HEALTH----------\n\n")
+
+                if let heath = BatteryManager.shared.health {
+                    output.append(self.processValueOutput("Health", value:.init( heath.state.rawValue, type: heath.state.warning)))
+                    output.append(self.processValueOutput("Cycle Count", value:.init( "\(heath.cycles)")))
+                    output.append(self.processValueOutput("Capacity", value:.init( "\(Int(heath.percentage))%")))
+
+                }
+                
+                output.append("\n----------TEMPRATURE----------\n\n")
+
+                output.append(self.processValueOutput("Overheating", value: .init(BatteryManager.shared.temperature.state.flag.string(.yes), type: BatteryManager.shared.temperature.state.warning)))
+                output.append(self.processValueOutput("Battery Temprature", value: .init(BatteryManager.shared.temperature.formatted)))
+                
+                
+                output.append("\n----------OTHER----------\n\n")
+
+                if let info = BatteryManager.shared.info {
+                    output.append(self.processValueOutput("Battery Manufacturer", value: .init(info.manufacturer)))
+                    output.append(self.processValueOutput("Serial Number", value: .init(info.serial)))
+
+                    if let accumulated = info.accumulated {
+                        output.append(self.processValueOutput("Accumulated Usage", value: .init("\(accumulated) kWh")))
+
+                    }
+                    
+                }
+                
+            }
+            else if secondary == .set {
+                if flags.indices.contains(1) == false || flags.indices.contains(2) == false{
+                    output.append(self.processHeaderOutput("MISSING FLAG", state:.error))
+                    
+                    output.append(self.processValueOutput("Low Power Mode", value: .init("-m"), reverse:true))
+                    
+                }
+                else {
+                    if flags[1] == "-m" {
+                        if let value = BatteryModeType(rawValue: flags[2]) {
+                            BatteryManager.shared.powerEfficiencyMode(value)
                             
-                            
-                        }
-                        else if flags[1] == "-id"  {
-                            device = AppManager.shared.list.first(where: { $0.id == flags[2] })
-                            
-                        }
-                        
-                        if let device = device {
-                            switch secondary {
-                                case .set : response = MenubarManager.shared.menubarAppendDevices(device, state: .add)
-                                case .remove : response = MenubarManager.shared.menubarAppendDevices(device, state: .remove)
-                                default : break
-                                
-                            }
-                            
-                            output.append(response)
+                            output.append(self.processHeaderOutput("SAVED", state:.sucsess))
                             
                         }
                         else {
-                            output.append(self.processHeaderOutput("DEVICE NOT FOUND", state:.error))
+                            output.append(self.processHeaderOutput("INVALID VALUE", state:.error))
+                            
+                            for supported in BatteryModeType.allCases.filter({ $0 != .unavailable }) {
+                                output.append(self.processValueOutput("", value: .init(supported.rawValue), reverse:true))
+                                
+                            }
                             
                         }
-                        
-                    }
-                    
-                }
-                else if secondary == .reset {
-                    AppManager.shared.appDestoryEntity(.devices)
-                    
-                    output.append(self.processHeaderOutput("REMOVED ALL DEVICE", state:.sucsess))
-                    
-                }
-                
-            }
-            else if command == .settings {
-                if secondary == .info {
-                    output.append("\n----------SETTINGS----------\n\n")
-                    
-                    output.append(self.processValueOutput("SettingsSoundEffectsLabel".localise(), value: SettingsManager.shared.enabledSoundEffects.subtitle))
-                    output.append(self.processValueOutput("SettingsCustomizationThemeTitle".localise(), value: SettingsManager.shared.enabledTheme.name))
-
-                }
-                else if secondary == .set {
-                    if flags.indices.contains(1) == false || flags.indices.contains(2) == false{
-                        output.append(self.processHeaderOutput("MISSING FLAG", state:.error))
-                        
-                        output.append(self.processValueOutput("SettingsSoundEffectsLabel".localise(), value: "-m", reverse:true))
-                        output.append(self.processValueOutput("SettingsCustomizationThemeTitle".localise(), value: "-a", reverse:true))
                         
                     }
                     else {
-                        if flags[1] == "-m" {
-                            switch flags[2].boolean {
-                                case true : SettingsManager.shared.enabledSoundEffects = .enabled
-                                case false : SettingsManager.shared.enabledSoundEffects = .disabled
-
-                            }
-                            
-                            output.append(self.processHeaderOutput("SAVED", state:.sucsess))
-
-                        }
-                        else if flags[1] == "-a" {
-                            if let value = SettingsTheme(rawValue: flags[2]) {
-                                SettingsManager.shared.enabledTheme = value
-                                
-                                output.append(self.processHeaderOutput("SAVED", state:.sucsess))
-                                
-                            }
-                            else {
-                                output.append(self.processHeaderOutput("INVALID VALUE", state:.error))
-                                
-                                for supported in SettingsTheme.allCases {
-                                    output.append(self.processValueOutput(supported.name, value: supported.rawValue, reverse:true))
-                                    
-                                }
-                                
-                            }
-                            
-                        }
+                        output.append(self.processHeaderOutput("MISSING FLAG", state:.error))
+                        
+                        output.append(self.processValueOutput("Low Power Mode", value: .init("-m"), reverse:true))
                         
                     }
-                    
-                }
-                else if secondary == .reset {
-                    SettingsManager.shared.settingsReset()
-
-                    output.append(self.processHeaderOutput("RESET TO DEFAULT", state:.sucsess))
-
-                }
-                    
-            }
-            else if command == .website {
-                if let url = URL(string: "http://batteryboi.ovatar.io/index?ref=cliboi") {
-                    NSWorkspace.shared.open(url)
-                    
-                    output.append(self.processHeaderOutput("SUCSESS", state:.sucsess))
-                    output.append(self.processValueOutput("Opening URL", value: url.absoluteString))
-                    
-                }
-                
-            }
-            else if command == .rate {
-                if let url = URL(string: "https://www.producthunt.com/products/batteryboi/reviews") {
-                    NSWorkspace.shared.open(url)
-                    
-                    output.append(self.processHeaderOutput("THANK YOU", state:.sucsess))
-                    output.append(self.processValueOutput("Opening URL", value: url.absoluteString))
                     
                 }
                 
             }
             
         }
+        else if command == .debug {
+            if secondary == .info {
+                output.append("\n----------GENERAL----------\n\n")
+                
+                output.append(self.processValueOutput("Installed On", value:.init( AppManager.shared.appInstalled.formatted)))
+                output.append(self.processValueOutput("Device", value:.init( AppManager.shared.appDeviceType.name())))
+                output.append(self.processValueOutput("User ID", value: .init(AppManager.shared.appIdentifyer)))
+                output.append(self.processValueOutput("Usage Count", value: .init(String(AppManager.shared.appUsage?.day ?? 0))))
+                
+                output.append("\n----------ONBOARDING----------\n\n")
+                
+                output.append(self.processValueOutput("State", value: .init(OnboardingManager.shared.state.rawValue)))
+                
+                output.append("\n----------ICLOUD----------\n\n")
+                
+                output.append(self.processValueOutput("State", value: .init(CloudManager.shared.state.title)))
+                output.append(self.processValueOutput("Syncing", value: .init(CloudManager.shared.syncing.rawValue)))
+                output.append(self.processValueOutput("User ID", value:.init( CloudManager.shared.id ?? "PermissionsUnknownLabel".localise())))
+                
+                output.append("\n----------BLUETOOTH----------\n\n")
+                
+                output.append(self.processValueOutput("State", value: .init(BluetoothManager.shared.state.title)))
+                output.append(self.processValueOutput("Discoverable Proximity", value:.init( BluetoothManager.shared.proximity.string)))
+                
+                output.append("\n----------SETTINGS----------\n\n")
+                
+                output.append(self.processValueOutput("SettingsSoundEffectsLabel".localise(), value: .init(SettingsManager.shared.enabledSoundEffects.subtitle)))
+                output.append(self.processValueOutput("SettingsCustomizationThemeTitle".localise(), value: .init(SettingsManager.shared.enabledTheme.name)))
+
+                output.append("\n----------RECENT EVENTS----------\n\n")
+
+                for event in AppManager.shared.appListEvents(20) {
+                    output.append(self.processValueOutput("Notify", value: .init(event.notify)))
+                    output.append(self.processValueOutput("State", value: .init(event.state)))
+                    output.append(self.processValueOutput("Charge", value: .init("\(event.charge)")))
+
+                }
+                
+            }
+            
+        }
+        else if command == .devices {
+            if secondary == .list {
+                for device in AppManager.shared.list {
+                    output.append("\n----------DEVICE #\(device.order + 1)----------\n\n")
+                    
+                    output.append(self.processValueOutput("ID", value:.init(device.id)))
+                    output.append(self.processValueOutput("Name", value: .init(device.name)))
+                    output.append(self.processValueOutput("Added", value:.init( "\(device.added?.formatted ?? "Unknown")")))
+                    output.append(self.processValueOutput("Updated", value:.init( device.polled?.formatted ?? "Never")))
+                    output.append(self.processValueOutput("Favourited", value: .init(device.favourite.string(.yes))))
+                    output.append(self.processValueOutput("Events", value: .init("\(device.events.count)")))
+                    
+                }
+                
+            }
+            else if secondary == .set || secondary == .remove {
+                if flags.indices.contains(1) == false || flags.indices.contains(2) == false{
+                    output.append(self.processHeaderOutput("MISSING FLAG", state:.error))
+                    
+                    output.append(self.processValueOutput("Device Name", value: .init("-n"), reverse:true))
+                    output.append(self.processValueOutput("Device ID", value: .init("-id"), reverse:true))
+                    
+                }
+                else {
+                    var device:SystemDeviceObject? = nil
+                    var response:String = ""
+                    
+                    if flags[1] == "-n"  {
+                        device = AppManager.shared.list.first(where: { $0.name == flags[2] })
+                        
+                        
+                    }
+                    else if flags[1] == "-id"  {
+                        device = AppManager.shared.list.first(where: { $0.id == flags[2] })
+                        
+                    }
+                    
+                    if let device = device {
+                        switch secondary {
+                            case .set : response = MenubarManager.shared.menubarAppendDevices(device, state: .add)
+                            case .remove : response = MenubarManager.shared.menubarAppendDevices(device, state: .remove)
+                            default : break
+                            
+                        }
+                        
+                        output.append(response)
+                        
+                    }
+                    else {
+                        output.append(self.processHeaderOutput("DEVICE NOT FOUND", state:.error))
+                        
+                    }
+                    
+                }
+                
+            }
+            else if secondary == .reset {
+                AppManager.shared.appDestoryEntity(.devices)
+                
+                output.append(self.processHeaderOutput("REMOVED ALL DEVICE", state:.sucsess))
+                
+            }
+            
+        }
+        else if command == .settings {
+            if secondary == .info {
+                output.append("\n----------SETTINGS----------\n\n")
+                
+                output.append(self.processValueOutput("SettingsSoundEffectsLabel".localise(), value:.init(SettingsManager.shared.enabledSoundEffects.subtitle)))
+                output.append(self.processValueOutput("SettingsCustomizationThemeTitle".localise(), value: .init(SettingsManager.shared.enabledTheme.name)))
+
+            }
+            else if secondary == .set {
+                if flags.indices.contains(1) == false || flags.indices.contains(2) == false{
+                    output.append(self.processHeaderOutput("MISSING FLAG", state:.error))
+                    
+                    output.append(self.processValueOutput("SettingsSoundEffectsLabel".localise(), value: .init("-m"), reverse:true))
+                    output.append(self.processValueOutput("SettingsCustomizationThemeTitle".localise(), value: .init("-a"), reverse:true))
+                    
+                }
+                else {
+                    if flags[1] == "-m" {
+                        switch flags[2].boolean {
+                            case true : SettingsManager.shared.enabledSoundEffects = .enabled
+                            case false : SettingsManager.shared.enabledSoundEffects = .disabled
+
+                        }
+                        
+                        output.append(self.processHeaderOutput("SAVED", state:.sucsess))
+
+                    }
+                    else if flags[1] == "-a" {
+                        if let value = SettingsTheme(rawValue: flags[2]) {
+                            SettingsManager.shared.enabledTheme = value
+                            
+                            output.append(self.processHeaderOutput("SAVED", state:.sucsess))
+                            
+                        }
+                        else {
+                            output.append(self.processHeaderOutput("INVALID VALUE", state:.error))
+                            
+                            for supported in SettingsTheme.allCases {
+                                output.append(self.processValueOutput(supported.name, value: .init(supported.rawValue), reverse:true))
+                                
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+            else if secondary == .reset {
+                SettingsManager.shared.settingsReset()
+
+                output.append(self.processHeaderOutput("RESET TO DEFAULT", state:.sucsess))
+
+            }
+                
+        }
+        else if command == .website {
+            if let url = URL(string: "http://batteryboi.ovatar.io/index?ref=cliboi") {
+                NSWorkspace.shared.open(url)
+                
+                output.append(self.processHeaderOutput("SUCSESS", state:.sucsess))
+                output.append(self.processValueOutput("Opening URL", value: .init(url.absoluteString)))
+                
+            }
+            
+        }
+        else if command == .rate {
+            if let url = URL(string: "https://www.producthunt.com/products/batteryboi/reviews?ref=cliboi") {
+                NSWorkspace.shared.open(url)
+                
+                output.append(self.processHeaderOutput("THANK YOU", state:.sucsess))
+                output.append(self.processValueOutput("Opening URL", value: .init(url.absoluteString)))
+                
+            }
+            
+        }
+
         
         if output.isEmpty {
             return nil
@@ -520,75 +614,59 @@ class ProcessManager:ObservableObject {
         
     }
     
-    private func processCheckHomebrew() {
-        if let response = self.processWithArguments("/bin/sh", arguments: ["-c", "brew --version"]) {
-            if response.starts(with: "Homebrew") {
-                self.homebrew = .installed
-                
-            }
-            
-        }
-        
-        if self.homebrew == .unknown {
-            self.homebrew = .notfound
-            
-        }
-        
-    }
-    
-    public func processWithArguments(_ path:String, arguments:[String], whitespace:Bool = false) -> String? {
-        let process = Process()
-        process.launchPath = path
-        process.arguments = arguments
-
-        let pipe = Pipe()
-        process.standardOutput = pipe
-
-        process.launch()
-        process.waitUntilExit()
-        
-        if process.terminationStatus == 0 {
-            let data = pipe.fileHandleForReading.readDataToEndOfFile()
-            
-            if whitespace == true {
-                return String(data: data, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines)
-
-            }
-            else {
-                return String(data: data, encoding: .utf8)
-
-            }
-            
-        }
-            
-        return nil
-                
-    }
-    
     private func processHeaderOutput(_ response:String, state:ProcessResponseHeaderType) -> String {
         switch state {
-            case .error : return "\n\u{001B}[1m\u{001B}[31m\(response)\u{001B}[0m\n"
-            case .sucsess : return  "\n\u{001B}[1m\u{001B}[32m\(response)\u{001B}[0m\n"
-            case .normal : return "\n\u{001B}[1m\(response)\u{001B}[0m\n"
-
+            case .error:return "\n\u{001B}[1;31m\(response)\u{001B}[0m\n"
+            case .sucsess:return "\n\u{001B}[1;32m\(response)\u{001B}[0m\n"
+            case .normal:return "\n\u{001B}[1m\(response)\u{001B}[0m\n"
+            case .warning:return "\n\u{001B}[1;33m\(response)\u{001B}[0m\n"
+            
         }
 
     }
 
-    private func processValueOutput(_ label:String, value:String?, reverse:Bool = false) -> String {
-        if let value = value {
-            switch reverse {
-                case true : return " - \u{001B}[1m\(value)\u{001B}[0m: \(label)\n"
-                case false : return " - \(label): \u{001B}[1m\(value)\u{001B}[0m\n"
-                
+    private func processValueOutput(_ label:String, value:ProcessResponseValueObjectType, reverse:Bool = false) -> String {
+        if reverse == true {
+            switch value.type {
+                case .error:return " - \u{001B}[1;31m\(value.value)\u{001B}[0m\n"
+                case .sucsess:return " - \u{001B}[1;32m\(value.value)\u{001B}[0m\n"
+                case .normal:return " - \u{001B}[1m\(value.value)\u{001B}[0m\n"
+                case .warning: return " - \u{001B}[1;33m\(value.value)\u{001B}[0m\n"
             }
-           
+            
         }
         else {
-            return " - \(label)\n"
+            switch value.type {
+                case .error:return " - \(label): \u{001B}[1;31m\(value.value)\u{001B}[0m\n"
+                case .sucsess:return " - \(label): \u{001B}[1;32m\(value.value)\u{001B}[0m\n"
+                case .normal:return " - \(label): \u{001B}[1m\(value.value)\u{001B}[0m\n"
+                case .warning:return " - \(label): \u{001B}[1;33m\(value.value)\u{001B}[0m\n"
+          
+            }
             
         }
 
+    }
+    
+    private func processHomebrewScript(_ file:String) -> String? {
+        let path = "/bin/bash"
+        let home = NSHomeDirectory()
+        let file = file.replacingOccurrences(of: " ", with: "\\ ")
+        let command = "\(path) -c 'export HOME=\(home) && \(file)'"
+        let script = "do shell script \"\(command.replacingOccurrences(of: "\"", with: "\\\""))\" with administrator privileges"
+
+        var error: NSDictionary?
+        if let scriptObject = NSAppleScript(source: script) {
+            scriptObject.executeAndReturnError(&error)
+            if let error = error {
+                print(error)
+                
+            }
+            
+        }
+        
+        return nil
+        
     }
     
     private func processRestart(){

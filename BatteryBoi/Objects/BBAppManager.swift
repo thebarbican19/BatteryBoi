@@ -326,7 +326,6 @@ class AppManager:ObservableObject {
             do {
                 let list = try context.fetch(fetch)
                 return list
-                print("Events" ,list)
                 
             }
             catch {

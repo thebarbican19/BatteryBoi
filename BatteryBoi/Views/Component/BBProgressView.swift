@@ -149,7 +149,7 @@ struct RadialProgressMiniContainer: View {
             }
             else {
                 self.percent = Int(self.battery.percentage)
-                self.progress = self.battery.percentage / 100
+                self.progress = Double(self.battery.percentage / 100)
                 
             }
             
@@ -231,7 +231,7 @@ struct RadialProgressContainer: View {
                     
                 }
                 else {
-                    self.progress = self.battery.percentage / 100
+                    self.progress = Double(self.battery.percentage / 100)
                     self.percent = Int(self.battery.percentage)
 
                 }

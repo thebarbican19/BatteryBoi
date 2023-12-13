@@ -28,8 +28,11 @@ class CloudManager:ObservableObject {
         var subdirectory: URL?
         
         guard let description = container.persistentStoreDescriptions.first else {
-            fatalError("No Description found")
-            return nil
+            #if DEBUG
+                fatalError("No Description found")
+            #else
+                return nil
+            #endif
             
         }
         

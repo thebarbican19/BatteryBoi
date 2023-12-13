@@ -143,11 +143,28 @@ extension TimeInterval {
 }
 
 extension Bool {
-    public var string:String {
-        switch self {
-            case true : return "PermissionsEnabledLabel".localise()
-            case false : return "PermissionsDisabledLabel".localise()
-
+    public enum StringFormat {
+        case enabled
+        case yes
+        
+    }
+    
+    public func string(_ type:StringFormat) -> String {
+        if type == .enabled {
+            switch self {
+                case true : return "PermissionsEnabledLabel".localise()
+                case false : return "PermissionsDisabledLabel".localise()
+                
+            }
+            
+        }
+        else {
+            switch self {
+                case true : return "PermissionsYesLabel".localise()
+                case false : return "PermissionsNoLabel".localise()
+                
+            }
+            
         }
         
     }

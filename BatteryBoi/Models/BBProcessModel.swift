@@ -33,7 +33,7 @@ enum ProcessPrimaryCommands:String,CaseIterable {
     var secondary:[ProcessSecondaryCommands] {
         switch self {
             case .menubar : return [.info, .set, .reset]
-            case .battery : return [.info]
+            case .battery : return [.info, .set]
             case .debug : return [.info, .reset]
             case .devices : return [.list, .reset]
             case .settings : return [.info, .set, .reset]
@@ -62,6 +62,24 @@ enum ProcessResponseHeaderType:String {
     case normal
     case error
     case sucsess
+    case warning
+    
+}
+
+struct ProcessResponseValueObjectType {
+    var value:String
+    var type:ProcessResponseHeaderType
+
+    init(_ value:String?, type:ProcessResponseHeaderType = .normal, placeholder:Bool = true) {
+        switch placeholder {
+            case true : self.value = value ?? "PermissionsUnknownLabel".localise()
+            case false : self.value = value ?? ""
+            
+        }
+       
+        self.type = type
+        
+    }
     
 }
 

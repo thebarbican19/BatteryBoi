@@ -59,7 +59,7 @@ class StatsManager:ObservableObject {
         #endif
 
         #if os(macOS)
-            BatteryManager.shared.$thermal.receive(on: DispatchQueue.main).sink() { newValue in
+            BatteryManager.shared.$temperature.receive(on: DispatchQueue.main).sink() { newValue in
                 self.title = self.statsTitle
                 self.subtitle = self.statsSubtitle
                 
@@ -91,7 +91,7 @@ class StatsManager:ObservableObject {
         
     }
     
-    public func statsAverageChargeTime(_ device:SystemDeviceObject?) {
+    public func statsAverageChargeTime(_ device:SystemDeviceObject?, start:Date = Date(), end:Date = Date().addingTimeInterval(-60*60*24*100)) {
         
     }
     
@@ -136,7 +136,7 @@ class StatsManager:ObservableObject {
             }
             else {
                 let percent = Int(BatteryManager.shared.percentage)
-                let state = BatteryManager.shared.charging.state
+                let state = BatteryManager.shared.charging
                 
                 switch AppManager.shared.alert {
                     case .chargingComplete:return "AlertChargingCompleteTitle".localise()
@@ -186,7 +186,7 @@ class StatsManager:ObservableObject {
             
         }
         else {
-            let state = BatteryManager.shared.charging.state
+            let state = BatteryManager.shared.charging
             let percent = Int(BatteryManager.shared.percentage)
             let remaining = BatteryManager.shared.remaining
             let full = BatteryManager.shared.powerUntilFull

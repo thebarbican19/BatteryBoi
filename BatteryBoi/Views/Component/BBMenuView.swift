@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import DynamicColor
 
 public struct BatteryPulsatingIcon: View {
     @EnvironmentObject var manager:BatteryManager
@@ -137,7 +138,7 @@ private struct BatteryStatus: View {
             
         }
         .onAppear() {
-            if self.manager.charging.state == .charging && self.manager.percentage != 100 {
+            if self.manager.charging == .charging && self.manager.percentage != 100 {
                 self.icon = "ChargingIcon"
                 
             }
@@ -148,7 +149,7 @@ private struct BatteryStatus: View {
             
         }
         .onChange(of: manager.charging) { newValue in
-            if newValue.state == .charging && self.manager.percentage != 100 {
+            if newValue == .charging && self.manager.percentage != 100 {
                 self.icon = "ChargingIcon"
                 
             }
@@ -159,7 +160,7 @@ private struct BatteryStatus: View {
             
         }
         .onChange(of: manager.percentage) { newValue in
-            if self.manager.charging.state == .charging && newValue != 100 {
+            if self.manager.charging == .charging && newValue != 100 {
                 self.icon = "ChargingIcon"
 
             }
@@ -169,7 +170,7 @@ private struct BatteryStatus: View {
             }
             
         }
-        .onChange(of: manager.thermal) { newValue in
+        .onChange(of: manager.temperature.state) { newValue in
             if newValue == .suboptimal {
                 self.icon = "OverheatIcon"
 
@@ -257,7 +258,7 @@ struct BatteryIcon: View {
         )
         .clipShape(RoundedRectangle(cornerRadius: menubar.radius - menubar.style.padding, style: .continuous))
         .padding(menubar.style.padding)
-        .onChange(of: self.manager.charging.state, perform: { newValue in
+        .onChange(of: self.manager.charging, perform: { newValue in
             self.update(self.manager.percentage)
 
         })
@@ -276,21 +277,21 @@ struct BatteryIcon: View {
         
     }
     
-    private func update(_ percentage:Double) {
+    private func update(_ percentage:Int) {
         withAnimation(.interactiveSpring(response: 0.6, dampingFraction: 0.9, blendDuration: 1)) {
-            if BatteryManager.shared.charging.state == .battery {
+            if BatteryManager.shared.charging == .battery {
                 switch MenubarManager.shared.progress {
-                    case .progress : self.progress = self.manager.charging.state.progress(self.manager.percentage, width: menubar.style.size.width)
-                    case .empty : self.progress = self.manager.charging.state.progress(100.0, width: menubar.style.size.width)
-                    case .full : self.progress = self.manager.charging.state.progress(0.0, width: menubar.style.size.width)
+                    case .progress : self.progress = self.manager.charging.progress(self.manager.percentage, width: menubar.style.size.width)
+                    case .empty : self.progress = self.manager.charging.progress(100, width: menubar.style.size.width)
+                    case .full : self.progress = self.manager.charging.progress(0, width: menubar.style.size.width)
                     
                 }
                 
             }
             else {
                 switch MenubarManager.shared.progress {
-                    case .empty : self.progress = self.manager.charging.state.progress(100.0, width: menubar.style.size.width)
-                    default : self.progress = self.manager.charging.state.progress(0.0, width: menubar.style.size.width)
+                    case .empty : self.progress = self.manager.charging.progress(100, width: menubar.style.size.width)
+                    default : self.progress = self.manager.charging.progress(0, width: menubar.style.size.width)
                     
                 }
                 
@@ -304,9 +305,15 @@ struct BatteryIcon: View {
 
 struct BatteryEmpty: View {
     @EnvironmentObject var menubar:MenubarManager
+    @EnvironmentObject var manager:BatteryManager
 
     @Binding var hover:Bool
 
+    @State private var color:Color = Color("BatteryDefault")
+    @State private var standard:Color = Color("BatteryDefault")
+
+    let timer = Timer.publish(every: 0.8, on: .main, in: .common).autoconnect()
+    
     init(hover:Binding<Bool>) {
         self._hover = hover
 
@@ -322,6 +329,20 @@ struct BatteryEmpty: View {
                 .frame(width:self.menubar.style.size.width, height: self.menubar.style.size.height)
 
         )
+        .onReceive(timer) { _ in
+            withAnimation(Animation.easeInOut(duration: 0.75)) {
+                if manager.percentage <= 25 && manager.charging == .battery {
+                    switch color {
+                        case standard : color = menubar.scheme.warning
+                        default : color = standard
+                        
+                    }
+                    
+                }
+                
+            }
+            
+        }
         .animation(.easeIn, value: menubar.style)
         
     }
@@ -333,7 +354,12 @@ struct BatteryTransparent: View {
     @EnvironmentObject var menubar:MenubarManager
     @EnvironmentObject var manager:BatteryManager
 
+    @State private var color:Color = Color("BatteryDefault")
+    @State private var standard:Color = Color("BatteryDefault")
+
     @Binding var hover:Bool
+
+    let timer = Timer.publish(every: 0.8, on: .main, in: .common).autoconnect()
 
     init(hover:Binding<Bool>) {
         self._hover = hover
@@ -342,15 +368,15 @@ struct BatteryTransparent: View {
     
     var body: some View {
         ZStack(alignment: .leading) {
-            RoundedRectangle(cornerRadius: self.menubar.radius, style: .continuous)
+            RoundedRectangle(cornerRadius: menubar.radius, style: .continuous)
                 .fill(Color("BatteryDefault"))
                 .opacity(menubar.style.background)
                 .frame(width:menubar.style.size.width, height: menubar.style.size.height)
                 
             RoundedRectangle(cornerRadius: menubar.radius, style: .continuous)
-                .fill(Color("BatteryDefault"))
+                .fill(color)
                 .opacity(menubar.style.foreground)
-                .frame(width:(menubar.style.size.width / 100) * manager.percentage, height: menubar.style.size.height)
+                .frame(width:(menubar.style.size.width / 100) * Double(manager.percentage), height: menubar.style.size.height)
             
         }
         .mask(
@@ -359,6 +385,32 @@ struct BatteryTransparent: View {
                 .inverse(BatteryStatus(hover: $hover))
             
         )
+        .onReceive(timer) { _ in
+            withAnimation(Animation.easeInOut(duration: 0.75)) {
+                if manager.percentage <= 25 && manager.charging == .battery {
+                    switch color {
+                        case standard : color = menubar.scheme.warning
+                        default : color = standard
+                        
+                    }
+                    
+                }
+                else if manager.mode == .efficient {
+                    switch color {
+                        case standard : color = menubar.scheme.efficient
+                        default : color = standard
+                        
+                    }
+                    
+                }
+                else {
+                    color = standard
+                    
+                }
+                
+            }
+            
+        }
         .animation(Animation.easeInOut, value: menubar.style)
         
     }
@@ -420,7 +472,7 @@ struct BatteryContainer: View {
             
         }
         .onChange(of: self.manager.charging, perform: { newValue in
-            if newValue.state == .charging && self.hover == true {
+            if newValue == .charging && self.hover == true {
                 withAnimation(Animation.easeOut(duration: 0.3)) {
                     self.hover = false
                     

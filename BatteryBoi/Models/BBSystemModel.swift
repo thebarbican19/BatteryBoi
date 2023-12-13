@@ -545,6 +545,7 @@ enum SystemDefaultsKeys: String {
     case menubarRadius = "bb_mbar_radius"
     case menubarAnimation = "bb_mbar_animations"
     case menubarProgress = "bb_mbar_progress"
+    case menubarScheme = "bb_mbar_scheme"
     case menubarPrimary = "bb_mbar_primary"
     case menubarSecondary = "bb_mbar_secondary"
     
@@ -576,6 +577,7 @@ enum SystemDefaultsKeys: String {
             
             case .menubarStyle:return "MenuBar Style"
             case .menubarRadius:return "MenuBar Radius"
+            case .menubarScheme:return "MenuBar Colour Scheme"
             case .menubarPrimary:return "MenuBar Primary Display"
             case .menubarSecondary:return "MenuBar Secondary Display"
             case .menubarAnimation:return "MenuBar Pulsing Animation"

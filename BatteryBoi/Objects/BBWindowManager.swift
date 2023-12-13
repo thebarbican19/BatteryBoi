@@ -84,7 +84,7 @@ class WindowManager: ObservableObject {
         
         #warning("Replace with Stored Event")
         BatteryManager.shared.$charging.dropFirst().removeDuplicates().sink { charging in
-            switch charging.state {
+            switch charging {
                 case .battery : self.windowOpen(.chargingStopped, device: nil)
                 case .charging : self.windowOpen(.chargingBegan, device: nil)
                 
@@ -93,7 +93,7 @@ class WindowManager: ObservableObject {
         }.store(in: &updates)
         
         BatteryManager.shared.$percentage.dropFirst().removeDuplicates().sink { percent in
-            if BatteryManager.shared.charging.state == .battery {
+            if BatteryManager.shared.charging == .battery {
                 switch percent {
                     case 25 : self.windowOpen(.percentTwentyFive, device: nil)
                     case 10 : self.windowOpen(.percentTen, device: nil)

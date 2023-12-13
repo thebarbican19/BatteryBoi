@@ -9,6 +9,31 @@ import Foundation
 import Combine
 import Cocoa
 import SwiftUI
+import DynamicColor
+
+enum MenubarScheme:String,CaseIterable {
+    case monochrome
+    case polychrome
+    
+    var warning:Color {
+        switch self {
+            case .monochrome : return Color("BatteryDefault").opacity(0.7)
+            case .polychrome : return Color(hexString: "#ed7671")
+
+        }
+        
+    }
+    
+    var efficient:Color {
+        switch self {
+            case .monochrome : return Color("BatteryDefault")
+            case .polychrome : return Color("BatteryEfficient")
+
+        }
+        
+    }
+    
+}
 
 enum MenubarStyle:String,CaseIterable {
     case original
@@ -83,7 +108,7 @@ enum MenubarStyle:String,CaseIterable {
     var background:CGFloat {
         switch self {
             case .original : return 1.0
-            case .transparent : return 0.6
+            case .transparent : return 0.4
             case .text : return 0.0
             
         }
@@ -189,6 +214,7 @@ class MenubarManager:ObservableObject {
     @Published var animation:Bool = true
     @Published var radius:CGFloat = 6
     @Published var style:MenubarStyle = .transparent
+    @Published var scheme:MenubarScheme = .monochrome
 
     private var updates = Set<AnyCancellable>()
 
@@ -214,7 +240,7 @@ class MenubarManager:ObservableObject {
 
         }.store(in: &updates)
 
-        BatteryManager.shared.$thermal.receive(on: DispatchQueue.main).sink() { newValue in
+        BatteryManager.shared.$temperature.receive(on: DispatchQueue.main).sink() { newValue in
             self.menubarUpdateValues()
 
         }.store(in: &updates)
@@ -260,7 +286,8 @@ class MenubarManager:ObservableObject {
         self.animation = self.menubarPulsingAnimation
         self.style = self.menubarStyle
         self.radius = CGFloat(self.menubarRadius)
-
+        self.scheme = self.menubarSchemeType
+        
     }
     
     private func menubarDevices() -> [SystemDeviceObject] {
@@ -350,6 +377,24 @@ class MenubarManager:ObservableObject {
         
     }
     
+    public var menubarSchemeType:MenubarScheme {
+        get {
+            if let type = UserDefaults.main.string(forKey: SystemDefaultsKeys.menubarScheme.rawValue) {
+                return MenubarScheme(rawValue: type) ?? .monochrome
+                
+            }
+            
+            return .monochrome
+        
+        }
+        
+        set {
+            UserDefaults.save(.menubarScheme, value: newValue.rawValue)
+            
+        }
+        
+    }
+    
     public var menubarPrimaryDisplay:MenubarDisplayType {
         set {
             UserDefaults.save(.menubarPrimary, value: newValue.rawValue)
@@ -364,7 +409,7 @@ class MenubarManager:ObservableObject {
                 
             }
             
-            if BatteryManager.shared.charging.state == .charging {
+            if BatteryManager.shared.charging == .charging {
                 if output != .hidden && output != .empty {
                     output = .percent
                     
@@ -427,7 +472,7 @@ class MenubarManager:ObservableObject {
     }
     
     public func menubarAppendDevices(_ device:SystemDeviceObject, state:MenubarAppendType) -> String {
-        if let context = AppManager.shared.appStorageContext() {
+        if let _ = AppManager.shared.appStorageContext() {
             
         }
         
@@ -441,6 +486,8 @@ class MenubarManager:ObservableObject {
         UserDefaults.save(.menubarRadius, value: nil)
         UserDefaults.save(.menubarProgress, value: nil)
         UserDefaults.save(.menubarAnimation, value: nil)
+        UserDefaults.save(.menubarScheme, value: nil)
+        UserDefaults.save(.menubarStyle, value: nil)
 
     }
     

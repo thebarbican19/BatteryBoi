@@ -243,6 +243,8 @@ public struct DataTypes {
                  DataType(type: FourCharCode(fromStaticString: "sp78"), size: 2)
     public static let UInt8 =
                  DataType(type: FourCharCode(fromStaticString: "ui8 "), size: 1)
+    public static let UInt16 =
+                 DataType(type: FourCharCode(fromStaticString: "ui16"), size: 2)
     public static let UInt32 =
                  DataType(type: FourCharCode(fromStaticString: "ui32"), size: 4)
 }

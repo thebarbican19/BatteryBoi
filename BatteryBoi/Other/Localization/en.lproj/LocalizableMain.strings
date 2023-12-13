@@ -7,7 +7,6 @@
 "AlertLimitedTitle" = "Not Enough Battery...";
 "AlertDeviceConnectedTitle" = "Connected"; //'Joe's Headphones' Connected
 "AlertDeviceDisconnectedTitle" = "Disconnected"; //'Joe's Headphones' Disconnected
-"" = "Unknown";
 "AlertDeviceCalculatingTitle" = "Calculating...";
 
 "AlertEstimateSummary" = "**%@** until empty"; // 1 hour, 32 minutes until empty
@@ -35,7 +34,6 @@
 "SettingsWebsiteLabel" = "Support Development";
 "SettingsQuitLabel" = "Quit";
 "SettingsPinnedLabel" = "Pin to Screen";
-"SettingsEightyLabel" = "Charge to 80%";
 "SettingsRateLabel" = "Rate BatteryBoi";
 "SettingsEfficiencyLabel" = "Low Power";
 "SettingsCheckUpdatesLabel" = "Check for Updates";
@@ -80,6 +78,8 @@
 "PermissionsUnavailableLabel" = "Unavailable";
 "PermissionsUnknownLabel" = "[Stares Blankly]";
 "PermissionsErrorLabel" = "Internal Error (%@)";
+"PermissionsYesLabel" = "Yes";
+"PermissionsNoLabel" = "No";
 
 "BluetoothDeviceHeadphonesLabel" = "Headphones";
 "BluetoothDeviceMouseLabel" = "Mouse";

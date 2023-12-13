@@ -19,8 +19,8 @@
 	<string>$(ENV_ICLOUD_ID)</string>
 	<key>ENV_SLACK_CHANNEL</key>
 	<string>$(ENV_SLACK_CHANNEL)</string>
-    <key>ENV_MACH_ID</key>
-    <string>$(ENV_MACH_ID)</string>
+	<key>ENV_MACH_ID</key>
+	<string>$(ENV_MACH_ID)</string>
 	<key>EN_API_KEY</key>
 	<string>$(SD_ENALOG_KEY)</string>
 	<key>EN_PROJECT_NAME</key>
@@ -28,15 +28,15 @@
 	<key>NSUserNotificationUsageDescription</key>
 	<string>Notifications are used to inform you when your any of your connected Devices need charging.</string>
 	<key>SUFeedURL</key>
-	<string>https://api.ovatar.io/version?id=com.ovatar.batteryapp&amp;beta=true</string>
+	<string>$(ENV_APPCAST_URL)</string>
 	<key>SUPublicEDKey</key>
-	<string>t1V9elylrpBkN0l4EkNxs7eEGVLF3Yd0P0sKDXqxfoA=</string>
+	<string>$(ENV_SPARKLE_PUBLIC)</string>
 	<key>ENV_CLIBOI_PORT</key>
 	<string>$(ENV_CLIBOI_PORT)</string>
-    <key>SMPrivilegedExecutables</key>
-    <dict>
-        <key>com.ovatar.batteryapp.helperboi</key>
-        <string>identifier "com.ovatar.batteryapp.helperboi" and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: Joe Barbour (9292KA78DX)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
-    </dict>
+	<key>SMPrivilegedExecutables</key>
+	<dict>
+		<key>com.ovatar.batteryapp.helperboi</key>
+		<string>identifier &quot;com.ovatar.batteryapp.helperboi&quot; and anchor apple generic and certificate leaf[subject.CN] = &quot;Apple Development: Joe Barbour (9292KA78DX)&quot; and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+	</dict>
 </dict>
 </plist>

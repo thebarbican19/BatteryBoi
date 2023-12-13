@@ -6,15 +6,13 @@
 	<string>com.ovatar.batteryapp.helperboi</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>CFBundleShortVersionString</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>CFBundleVersionKey</key>
+	<string>1.01</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Ovatar Ltd</string>
 	<key>SMAuthorizedClients</key>
 	<array>
-		<string>identifier "com.ovatar.batteryapp" and anchor apple generic and certificate leaf[subject.CN] = "Apple Development: Joe Barbour (9292KA78DX)" and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+		<string>identifier &quot;com.ovatar.batteryapp&quot; and anchor apple generic and certificate leaf[subject.CN] = &quot;Apple Development: Joe Barbour (9292KA78DX)&quot; and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
 	</array>
 	<key>CFBundleName</key>
 	<string>helperboi</string>
