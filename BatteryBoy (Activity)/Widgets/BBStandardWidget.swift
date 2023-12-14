@@ -18,8 +18,8 @@ struct WidgetStandard: Widget {
             if family == .systemSmall {
                 if #available(iOS 17.0, *) {
                     DeleteMeEntryView(entry: entry)
-                        .containerBackground(.fill.tertiary, for: .widget)
                         .background(.green)
+                        .containerBackground(.fill.tertiary, for: .widget)
                     
                 }
                 else {
@@ -37,7 +37,7 @@ struct WidgetStandard: Widget {
             
         }
         .configurationDisplayName("BatteryBoi")
-        .description("View the Status of your Devices, even your Mac!")
+        .description("View the Status of your Devices.")
         .supportedFamilies([.systemSmall, .accessoryCircular, .accessoryRectangular])
         
     }

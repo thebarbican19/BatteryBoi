@@ -21,7 +21,7 @@ class AppManager:ObservableObject {
     static var shared = AppManager()
     
     @Published var counter = 0
-    @Published var list = Array<SystemDeviceObject>()
+    @Published var devices = Array<SystemDeviceObject>()
     @Published var selected:SystemDeviceObject? = nil
     @Published var updated:Date? = nil
         
@@ -58,7 +58,7 @@ class AppManager:ObservableObject {
 
         }.store(in: &updates)
         
-        $list.removeDuplicates().receive(on: DispatchQueue.global()).sink { items in
+        $devices.removeDuplicates().receive(on: DispatchQueue.global()).sink { items in
             for item in items  {
                 print("List Devices \(item.name) - \(item.synced)")
 
@@ -75,6 +75,7 @@ class AppManager:ObservableObject {
 
         CloudManager.shared.$syncing.removeDuplicates().receive(on: DispatchQueue.main).sink { state in
             if state == .completed {
+                self.appListDevices()
                 self.appStoreDevice()
                 
             }
@@ -90,22 +91,19 @@ class AppManager:ObservableObject {
     }
     
     public func appUpdateList(_ device:SystemDeviceObject) {
-        if self.list.contains(device) == false {
-            self.list.append(device)
+        if self.devices.contains(device) == false {
+            self.devices.append(device)
             
         }
         
     }
-        
-    public func appStoreEvent(_ state:StatsStateType, peripheral:CBPeripheral?, battery:Int? = nil) {
+
+    public func appStoreEvent(_ state:StatsStateType, device:SystemDeviceObject?, battery:Int? = nil) {
         if let context = self.appStorageContext() {
             context.performAndWait {
                 var notify:StatsActivityNotificationType = .background
-                
-                let os = ProcessInfo.processInfo.operatingSystemVersion
-                let version = Float("\(os.majorVersion).\(os.minorVersion)")
-                
-                if let last = self.appLatestEvent(state, device: peripheral, context: context) {
+        
+                if let last = self.appLatestEvent(state, device: device, context: context) {
                     if let battery = battery {
                         switch battery {
                             case 25 : notify = .alert
@@ -134,58 +132,43 @@ class AppManager:ObservableObject {
                     
                 }
                 
-                if let peripheral = peripheral {
-                    if let device = self.appDevice(peripheral, context: context), let battery = battery {
-                        
-                        do {
-                            let store = Events(context: context) as Events
-                            store.id = UUID()
-                            store.timestamp = Date()
-                            store.state = state.rawValue
-                            store.charge = Int64(battery)
-                            store.device = device
-                            store.reporter = self.appDevice(peripheral, context: context)
-                            store.mode = BatteryModeType.normal.rawValue
-                            store.notify = notify.rawValue
-                            store.version = version ?? 0.0
+                let store = Events(context: context) as Events
+                store.id = UUID()
+                store.timestamp = Date()
+                store.notify = notify.rawValue
+                store.state = state.rawValue
+                
+                if let version = Float(SystemDeviceTypes.os.replacingOccurrences(of: ".", with: "")) {
+                    store.version = version
+                    
+                }
 
-                            try context.save()
-                            
-                        }
-                        catch {
-                            print("Error" ,error)
-                            
-                        }
+                if let device = device {
+                    if let match = self.appDevice(device, context: context), let battery = battery {
+                        store.charge = Int64(battery)
+                        store.device = match
+                        store.reporter = self.appDevice(nil, context: context)
+                        store.mode = BatteryModeType.normal.rawValue
                         
                     }
                     
                 }
                 else {
                     if let device = self.appDevice(nil, context: context) {
-                        do {
-                            let store = Events(context: context) as Events
-                            store.id = UUID()
-                            store.timestamp = Date()
-                            store.state = state.rawValue
-                            store.charge = Int64(BatteryManager.shared.percentage)
-                            store.device = device
-                            store.reporter = device
-                            store.mode = BatteryModeType.unavailable.rawValue
-                            store.version = version ?? 0.0
-                            store.notify = notify.rawValue
-                            
-                            try context.save()
-                            
-                        }
-                        catch {
-                            print("Error" ,error)
-                            
-                        }
+                        store.charge = Int64(BatteryManager.shared.percentage)
+                        store.device = device
+                        store.reporter = device
+                        store.mode = BatteryManager.shared.mode.rawValue
                         
                     }
                     
                 }
-    
+                
+                if store.device != nil {
+                    try? context.save()
+
+                }
+
             }
             
         }
@@ -263,41 +246,17 @@ class AppManager:ObservableObject {
         }
         
     }
-    
-    public var appIdentifyer:String {
-        if let id = UserDefaults.main.object(forKey: SystemDefaultsKeys.versionIdenfiyer.rawValue) as? String {
-            return id
-            
-        }
-        else {
-            var id = "US-\(UUID().uuidString)"
-            #if os(macOS)
-                id = "\(Locale.current.regionCode?.uppercased() ?? "US")-\(UUID().uuidString)"
-            
-            #elseif os(iOS)
-                id = "\(Locale.current.region?.identifier.uppercased() ?? "US")-\(UUID().uuidString)"
-
-            #endif
-            
-            UserDefaults.save(.versionIdenfiyer, value: id)
-
-            return id
-            
-        }
-        
-    }
         
     private func appListDevices() {
         if let context = self.appStorageContext() {
             let fetch: NSFetchRequest<Devices> = Devices.fetchRequest()
-//            fetch.predicate = NSPredicate(format: "name != %@", "")
             
             do {
                 let list = try context.fetch(fetch)
                 let mapped:[SystemDeviceObject] = list.compactMap({ .init($0) })
 
                 DispatchQueue.main.async {
-                    self.list = mapped
+                    self.devices = mapped
                     
                 }
 
@@ -339,159 +298,145 @@ class AppManager:ObservableObject {
     }
 
 
-    private func appLatestEvent(_ state:StatsStateType, device:CBPeripheral?, context:NSManagedObjectContext) -> Events? {
+    private func appLatestEvent(_ state:StatsStateType, device:SystemDeviceObject?, context:NSManagedObjectContext) -> Events? {
         var predicates = Array<NSPredicate>()
         
-        if let name = device?.name {
-            predicates.append(NSPredicate(format: "SELF.device.name == %@", name))
-            predicates.append(NSPredicate(format: "state == %@", state.rawValue))
-
-        }
-        else if let id = UUID.device() {
-            predicates.append(NSPredicate(format: "SELF.device.id == %@", id as CVarArg))
-            predicates.append(NSPredicate(format: "state == %@", state.rawValue))
-
-        }
-        
-        let fetch = Events.fetchRequest() as NSFetchRequest<Events>
-        fetch.includesPendingChanges = true
-        fetch.fetchLimit = 1
-        fetch.predicate = NSCompoundPredicate(type: .and, subpredicates: predicates)
-
-        if predicates.isEmpty == false {
-            if let existing = try? context.fetch(fetch).first {
-                return existing
+        if let match = SystemDeviceObject.match(device, context: context) {
+            predicates.append(NSPredicate(format: "SELF.device.id == %@", match.id as CVarArg))
+            predicates.append(NSPredicate(format: "SELF.state == %@", state.rawValue))
+            
+            let fetch = Events.fetchRequest() as NSFetchRequest<Events>
+            fetch.includesPendingChanges = true
+            fetch.fetchLimit = 1
+            fetch.predicate = NSCompoundPredicate(type: .and, subpredicates: predicates)
+            
+            if predicates.isEmpty == false {
+                if let existing = try? context.fetch(fetch).first {
+                    return existing
+                    
+                }
                 
             }
-                    
+            
         }
-        
+    
         return nil
                 
     }
     
     private func appStoreDevice(_ device:SystemDeviceObject? = nil) {
         if let context = self.appStorageContext() {
-            context.performAndWait {
-                let type = AppManager.shared.appDeviceType
+            if let match = SystemDeviceObject.match(device, context: context) {
+                let fetch = Devices.fetchRequest() as NSFetchRequest<Devices>
+                fetch.includesPendingChanges = true
+                fetch.fetchLimit = 1
+                fetch.predicate = NSPredicate(format: "id == %@", match.id as CVarArg)
 
-                var predicates = Array<NSPredicate>()
-                var name:String? = device?.name
-                                
-                if let device = device {
-                    predicates.append(NSPredicate(format: "name == %@", device.name))
+                do {
+                    if let existing = try context.fetch(fetch).first {
+                        existing.refreshed_on = Date()
+
+                        if existing.serial.empty {
+                            existing.serial = device?.profile.serial
+
+                        }
+                        
+                        if existing.address.empty {
+                            existing.address = device?.address
+
+                        }
+                        
+                        if existing.vendor.empty {
+                            existing.vendor = device?.profile.vendor
+
+                        }
+                        
+                        if let favourite = device?.favourite {
+                            existing.favourite = favourite
+
+                        }
+                        
+                        if let notifications = device?.notifications {
+                            existing.notifications = notifications
+
+                        }
+                        
+                        if existing.primary == false && device?.connectivity == .bluetooth {
+                            existing.primary = true
+
+                        }
+                        
+                        if let id = device?.id {
+                            existing.id = id
+                            
+                        }
+                        
+                        try context.save()
+
+                    }
                     
+                }
+                catch {
+                    
+                }
+                    
+            }
+            else {
+                let store = Devices(context: context) as Devices
+                store.added_on = Date()
+                store.refreshed_on = Date()
+                store.order = Int16(self.devices.count + 1)
+                store.id = UUID()
+                
+                if let device = device {
+                    store.primary = false
+                    store.name = device.name
+                    store.model = device.profile.model
+                    store.serial = device.profile.serial
+                    store.vendor = device.profile.vendor
+                    store.address = nil
+                    store.owner = self.appDevice(nil, context: context)?.id
+
                 }
                 else {
-                    name = type.name(true)
-
-                    if let match = self.appDeviceMatch() {
-                        predicates.append(NSPredicate(format: "match == %@", match))
-                        
-                    }
+                    store.model = SystemDeviceTypes.model
+                    store.os = SystemDeviceTypes.os
+                    store.subtype = SystemDeviceTypes.type.rawValue
+                    store.type = SystemDeviceTypes.type.category.rawValue
+                    store.primary = true
+                    store.vendor = "Apple Inc"
+                    store.product = SystemDeviceTypes.name(false)
+                    store.serial = SystemDeviceTypes.serial
+                    store.address = nil
+                    store.name = SystemDeviceTypes.name(true)
                     
-                    if let name = name {
-                        predicates.append(NSPredicate(format: "name == %@", name))
-                        
-                    }
-
                 }
                 
-                if predicates.isEmpty == false {
-                    let fetch = Devices.fetchRequest() as NSFetchRequest<Devices>
-                    fetch.includesPendingChanges = true
-                    fetch.predicate = NSCompoundPredicate(type: .or, subpredicates: predicates)
-                    fetch.fetchLimit = 1
-                    
+                if store.model.empty == false || store.name.empty == false {
                     do {
-                        var store:Devices?
-                        if let existing = try context.fetch(fetch).first {
-                            store = existing
-                            store?.refreshed_on = Date()
-                            
-                            if let notifications = device?.notifications {
-                                store?.notifications = notifications
-                                
-                            }
-                            
-                            if let favourite = device?.favourite {
-                                store?.favourite = favourite
-                                
-                            }
-                            
-                            
-                        }
-                        else {
-                            store = Devices(context: context) as Devices
-                            store?.added_on = Date()
-                            store?.refreshed_on = Date()
-                            store?.notifications = true
-                            
-                            if let device = device {
-                                store?.address = device.address
-                                store?.id = device.id
-                                store?.name = name
-                                store?.vendor = device.profile?.hardware
-                                store?.type = "TBA"
-                                store?.primary = false
-                                
-                            }
-                            else {
-                                store?.name = name
-                                store?.id = self.appDeviceMatch()
-                                store?.subtype = type.name(false)
-                                store?.type = type.category.rawValue
-                                store?.primary = true
-                                store?.vendor = "Apple Inc"
-                                store?.product = type.name(false)
-                                store?.serial = nil
-                                store?.address = nil
-                                
-                                #if os(iOS)
-                                    store?.os = UIDevice.current.systemVersion
-                                
-                                #endif
-
-                            }
-                            
-                        }
-                                                
                         try context.save()
                         
                     }
                     catch {
+                        print("Saving Error - \(error)")
                         
                     }
-                    
+
                 }
-                
+                                    
             }
-            
+  
         }
         
     }
     
-    private func appDevice(_ device:CBPeripheral? ,context:NSManagedObjectContext) -> Devices? {
-        let fetch = Devices.fetchRequest() as NSFetchRequest<Devices>
-        fetch.includesPendingChanges = true
-        fetch.fetchLimit = 1
-        
-        if device != nil {
-            if let name = device?.name {
-                fetch.predicate = NSPredicate(format: "name == %@", name)
-                
-            }
+    private func appDevice(_ device:SystemDeviceObject? ,context:NSManagedObjectContext) -> Devices? {
+        if let match = SystemDeviceObject.match(device, context: context) {
+            let fetch = Devices.fetchRequest() as NSFetchRequest<Devices>
+            fetch.includesPendingChanges = true
+            fetch.fetchLimit = 1
+            fetch.predicate = NSPredicate(format: "id == %@", match.id as CVarArg)
             
-        }
-        else {
-            if let id = UUID.device() {
-                fetch.predicate = NSPredicate(format: "id == %@", id as CVarArg)
-                
-            }
-            
-        }
-       
-        if fetch.predicate != nil {
             if let device = try? context.fetch(fetch).first {
                 return device
                 
@@ -545,68 +490,7 @@ class AppManager:ObservableObject {
         }
         
     }
-    
-    public var appDeviceType:SystemDeviceTypes {
-        #if os(macOS)
-            let platform = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"))
-
-            if let model = IORegistryEntryCreateCFProperty(platform, "model" as CFString, kCFAllocatorDefault, 0).takeRetainedValue() as? Data {
-                if let type = String(data: model, encoding: .utf8)?.cString(using: .utf8) {
-                    if String(cString: type).lowercased().contains("macbookpro") { return .macbookPro }
-                    else if String(cString: type).lowercased().contains("macbookair") { return .macbookAir }
-                    else if String(cString: type).lowercased().contains("macbook") { return .macbook }
-                    else if String(cString: type).lowercased().contains("imac") { return .imac }
-                    else if String(cString: type).lowercased().contains("macmini") { return .macMini }
-                    else if String(cString: type).lowercased().contains("macstudio") { return .macStudio }
-                    else if String(cString: type).lowercased().contains("macpro") { return .macPro }
-                    else { return .unknown }
-                  
-                }
-              
-            }
-
-            IOObjectRelease(platform)
         
-        #elseif os(iOS)
-            switch UIDevice.current.userInterfaceIdiom {
-                case .phone:return .iphone
-                case .pad:return .ipad
-                default:return .unknown
-                
-            }
-        
-        #endif
-
-        return .unknown
-      
-    }
-    
-    private func appDeviceMatch() -> String? {
-        var parameters:[String] = []
-        
-        #if os(macOS)
-        
-        #elseif os (iOS)
-            parameters.append(Device.init().osName)
-            parameters.append(Device.init().osVersion ?? "0.0.0")
-            parameters.append(Device.init().actualModel.marketingName)
-            parameters.append(TimeZone.current.abbreviation() ?? "GMT")
-        
-        #endif
-
-        if parameters.isEmpty == false {
-            var output = parameters.joined(separator: "-")
-            output = output.lowercased()
-            output = output.replacingOccurrences(of: " ", with: "")
-            
-            return output
-            
-        }
-        
-        return nil
-
-    }
-    
     #if os(macOS)
         public func appToggleMenu(_ animate:Bool) {
             if animate {

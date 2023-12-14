@@ -86,7 +86,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func applicationSendBackgroundEvent(completion: @escaping (Bool) -> Void) {
         BatteryManager.shared.powerForceRefresh()
         BluetoothManager.shared.bluetoothAuthorization()
-        
+        AppManager.shared.updated = Date()
+
         self.applicationFetchLatestEvent { event in
             if let event = event {
                 completion(true)
@@ -118,32 +119,32 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     func applicationHandleActivity(_ event:Events?) {
         do {
-            if let event = event, let timestamp = event.timestamp {
-                let stale:Date = Date(timeIntervalSinceNow: 60 * 20)
-                let attributes = CloudNotifyAttributes(device: event.device?.name ?? event.device?.id ?? "UNKNOWN")
-                let state = CloudNotifyAttributes.ContentState.init(battery: Int(event.charge), charging: false, timestamp: timestamp)
-                let content = ActivityContent(state: state, staleDate: stale)
-                
-                if self.activity == nil {
-                    self.activity = try Activity.request(attributes: attributes, content: content)
-
-                }
-                else {
-                    Task {
-                        await self.activity?.update(content)
-
-                    }
-                    
-                }
-                
-            }
-            else {
-                Task {
-                    await self.activity?.end(self.activity?.content, dismissalPolicy: .immediate)
-
-                }
-                
-            }
+//            if let event = event, let timestamp = event.timestamp {
+//                let stale:Date = Date(timeIntervalSinceNow: 60 * 20)
+//                //let attributes = CloudNotifyAttributes(device: event.device?.name ?? event.device?.id ?? "UNKNOWN")
+//                let state = CloudNotifyAttributes.ContentState.init(battery: Int(event.charge), charging: false, timestamp: timestamp)
+//                let content = ActivityContent(state: state, staleDate: stale)
+//                
+//                if self.activity == nil {
+//                    self.activity = try Activity.request(attributes: attributes, content: content)
+//
+//                }
+//                else {
+//                    Task {
+//                        await self.activity?.update(content)
+//
+//                    }
+//                    
+//                }
+//                
+//            }
+//            else {
+//                Task {
+//                    await self.activity?.end(self.activity?.content, dismissalPolicy: .immediate)
+//
+//                }
+//                
+//            }
         
         }
         catch {

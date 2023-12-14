@@ -64,16 +64,20 @@ class CloudManager:ObservableObject {
 
         if let directory = directory {
             DispatchQueue.global(qos: .userInitiated).async {
-                container.persistentStoreDescriptions.append(NSPersistentStoreDescription(url: directory))
+                if container.persistentStoreDescriptions.contains(where: { $0.url == description.url }) == false {
+                    container.persistentStoreDescriptions.append(description)
+                    
+                }  
+                
                 container.viewContext.automaticallyMergesChangesFromParent = true
                 container.loadPersistentStores { (storeDescription, error) in
                     if let error = error {
                         DispatchQueue.main.async {
                             CloudManager.shared.syncing = .error
 
-//                            #if DEBUG
-//                                fatalError("iCloud Error \(error)")
-//                            #endif
+                            #if DEBUG
+                                fatalError("iCloud Error \(error)")
+                            #endif
 
                         }
                         
@@ -198,21 +202,23 @@ class CloudManager:ObservableObject {
     
     private func cloudSubscriptionsSetup(_ type:CloudSubscriptionsType) {
         if let id = Bundle.main.infoDictionary?["ENV_ICLOUD_ID"] as? String  {
-            //let predicate = NSPredicate(format: "NOTIFY == %@", ActivityNotificationType.background.rawValue)
+            //let predicate = NSPredicate(format: "NOTIFY == %@", SystemEvents.background.rawValue)
             let predicate = NSPredicate(value: true)
             let subscription = CKQuerySubscription(recordType: type.record, predicate: predicate, subscriptionID: type.identifyer, options:type.options)
             
             let info = CKSubscription.NotificationInfo()
             info.shouldSendContentAvailable = true
             
-            if type == .alert {
-                //subscription.notificationInfo = info
-
-            }
-            else {
+            if type != .background {
+                info.title = "Your Notification Title"
+                info.alertBody = "Your notification message here."
+                info.soundName = "highnote.wav"
+                
                 subscription.notificationInfo = info
 
             }
+            
+            subscription.notificationInfo = info
             
             let database = CKContainer(identifier: id).privateCloudDatabase
             database.save(subscription) { (savedSubscription, error) in

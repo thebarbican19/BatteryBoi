@@ -23,7 +23,7 @@ struct DebugDeviceCell: View {
             HStack {
                 Text("(\(device.connectivity.rawValue))")
                 
-                Text(device.name)
+                Text(device.profile.model)
                 
                 Text(device.polled?.formatted ?? "Never")
                 
@@ -74,7 +74,7 @@ struct DebugDeviceView: View {
         Text("Devices & Events").font(.title)
 
         LazyVGrid(columns: layout, alignment: .leading, spacing:10) {
-            ForEach(manager.list.sorted(by: { $0.polled ?? Date.distantPast > $1.polled ?? Date.distantPast }), id: \.self) { device in
+            ForEach(manager.devices.sorted(by: { $0.polled ?? Date.distantPast > $1.polled ?? Date.distantPast }), id: \.self) { device in
                 DebugDeviceCell(device)
                 
             }
@@ -172,7 +172,7 @@ struct DebugContainer: View {
                 
                 Text("Cloud State: \(cloud.syncing.rawValue)")
 
-                Text("Devices: \(manager.list.count)")
+                Text("Devices: \(manager.devices.count)")
                 
                 Text("Polled: \(manager.updated?.formatted ?? "Never")")
                 
@@ -195,7 +195,7 @@ struct DebugContainer: View {
             HStack {
                 Text("Charge: \(battery.percentage)")
                 
-                Text("State: \(battery.charging.state.rawValue)")
+                Text("State: \(battery.charging.rawValue)")
                 
             }
             .padding()

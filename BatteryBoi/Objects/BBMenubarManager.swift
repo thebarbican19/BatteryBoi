@@ -417,7 +417,7 @@ class MenubarManager:ObservableObject {
                 
             }
             
-            if AppManager.shared.appDeviceType.battery == false {
+            if SystemDeviceTypes.type.battery == false {
                 output = .voltage
 
             }
@@ -451,7 +451,7 @@ class MenubarManager:ObservableObject {
                 
             }
             
-            if AppManager.shared.appDeviceType.battery == false {
+            if SystemDeviceTypes.type.battery == false {
                 output = .hidden
 
             }

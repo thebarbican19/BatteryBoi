@@ -8,9 +8,9 @@
 import Foundation
 import CoreBluetooth
 
-struct BluetoothBroadcastItem:Equatable,Hashable {
+struct BluetoothBroadcastItem:Identifiable,Equatable,Hashable {
     static func == (lhs: BluetoothBroadcastItem, rhs: BluetoothBroadcastItem) -> Bool {
-        lhs.peripheral == rhs.peripheral && lhs.state == rhs.state
+        lhs.peripheral == rhs.peripheral && lhs.updated == rhs.updated
 
     }
     

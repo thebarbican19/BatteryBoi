@@ -171,6 +171,19 @@ extension Bool {
     
 }
 
+extension String? {
+    public var empty:Bool {
+        if let valid = self {
+            return valid.isEmpty ? true : false
+            
+        }
+        
+        return true
+        
+    }
+    
+}
+
 extension String {
     public func append(_ string:String, seporator:String) -> String {
         return "\(self)\(seporator)\(string)"

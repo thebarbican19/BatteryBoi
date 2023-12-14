@@ -22,7 +22,6 @@ class ProcessManager:ObservableObject {
     
     public var connection: NSXPCConnection? = {
         if let id = Bundle.main.infoDictionary?["ENV_MACH_ID"] as? String  {
-            print("!Mach Setup " ,id)
             let connection = NSXPCConnection(machServiceName: id, options: .privileged)
             connection.remoteObjectInterface = NSXPCInterface(with: HelperProtocol.self)
             connection.resume()
@@ -309,34 +308,36 @@ class ProcessManager:ObservableObject {
         }
         else if command == .battery {
             if secondary == .info {
+                BatteryManager.shared.powerForceRefresh()
+                
                 output.append("\n----------GENERAL----------\n\n")
                 
                 if BatteryManager.shared.charging == .battery {
                     if BatteryManager.shared.percentage <= 25 {
                         output.append(self.processValueOutput("Charge", value:.init( "\(BatteryManager.shared.percentage)%", type:.warning)))
-
+                        
                     }
                     else if BatteryManager.shared.percentage <= 18 {
                         output.append(self.processValueOutput("Charge", value:.init( "\(BatteryManager.shared.percentage)%", type:.error)))
-
+                        
                     }
                     else {
                         output.append(self.processValueOutput("Charge", value:.init( "\(BatteryManager.shared.percentage)%", type:.normal)))
-
+                        
                     }
                     
                     output.append(self.processValueOutput("Charging", value:.init( false.string(.yes))))
-
+                    
                 }
                 else {
                     output.append(self.processValueOutput("Charge", value:.init( "\(BatteryManager.shared.percentage)%", type:.normal)))
                     output.append(self.processValueOutput("Charging", value:.init( true.string(.yes), type: .sucsess)))
-
+                    
                 }
                 
                 output.append(self.processValueOutput("Charge To", value: .init("100%")))
                 output.append(self.processValueOutput("Low Power Mode", value:.init( BatteryManager.shared.mode.flag.string(.enabled), type: BatteryManager.shared.mode.flag ? .sucsess : .normal)))
-
+                
                 if BatteryManager.shared.charging == .charging {
                     output.append(self.processValueOutput("Time Until Fully Charged", value:.init( "32 Minutes")))
                     
@@ -347,30 +348,31 @@ class ProcessManager:ObservableObject {
                 }
                 
                 output.append("\n----------HEALTH----------\n\n")
-
+                
                 if let heath = BatteryManager.shared.health {
                     output.append(self.processValueOutput("Health", value:.init( heath.state.rawValue, type: heath.state.warning)))
                     output.append(self.processValueOutput("Cycle Count", value:.init( "\(heath.cycles)")))
                     output.append(self.processValueOutput("Capacity", value:.init( "\(Int(heath.percentage))%")))
-
+                    
                 }
                 
                 output.append("\n----------TEMPRATURE----------\n\n")
-
+                
                 output.append(self.processValueOutput("Overheating", value: .init(BatteryManager.shared.temperature.state.flag.string(.yes), type: BatteryManager.shared.temperature.state.warning)))
                 output.append(self.processValueOutput("Battery Temprature", value: .init(BatteryManager.shared.temperature.formatted)))
                 
-                
                 output.append("\n----------OTHER----------\n\n")
-
+                
                 if let info = BatteryManager.shared.info {
                     output.append(self.processValueOutput("Battery Manufacturer", value: .init(info.manufacturer)))
                     output.append(self.processValueOutput("Serial Number", value: .init(info.serial)))
-
+                    
                     if let accumulated = info.accumulated {
                         output.append(self.processValueOutput("Accumulated Usage", value: .init("\(accumulated) kWh")))
-
+                        
                     }
+                        
+        
                     
                 }
                 
@@ -379,8 +381,10 @@ class ProcessManager:ObservableObject {
                 if flags.indices.contains(1) == false || flags.indices.contains(2) == false{
                     output.append(self.processHeaderOutput("MISSING FLAG", state:.error))
                     
-                    output.append(self.processValueOutput("Low Power Mode", value: .init("-m"), reverse:true))
-                    
+                    output.append(self.processValueOutput("SettingsEfficiencyLabel".localise(), value: .init("-m"), reverse:true))
+//                    output.append(self.processValueOutput("Charge Limit", value: .init("-l"), reverse:true))
+//                    output.append(self.processValueOutput("Autopilot", value: .init("-a"), reverse:true))
+
                 }
                 else {
                     if flags[1] == "-m" {
@@ -418,8 +422,8 @@ class ProcessManager:ObservableObject {
                 output.append("\n----------GENERAL----------\n\n")
                 
                 output.append(self.processValueOutput("Installed On", value:.init( AppManager.shared.appInstalled.formatted)))
-                output.append(self.processValueOutput("Device", value:.init( AppManager.shared.appDeviceType.name())))
-                output.append(self.processValueOutput("User ID", value: .init(AppManager.shared.appIdentifyer)))
+                output.append(self.processValueOutput("Device", value:.init( SystemDeviceTypes.name())))
+                output.append(self.processValueOutput("User ID", value: .init(SystemDeviceTypes.identifyer)))
                 output.append(self.processValueOutput("Usage Count", value: .init(String(AppManager.shared.appUsage?.day ?? 0))))
                 
                 output.append("\n----------ONBOARDING----------\n\n")
@@ -456,10 +460,10 @@ class ProcessManager:ObservableObject {
         }
         else if command == .devices {
             if secondary == .list {
-                for device in AppManager.shared.list {
+                for device in AppManager.shared.devices {
                     output.append("\n----------DEVICE #\(device.order + 1)----------\n\n")
                     
-                    output.append(self.processValueOutput("ID", value:.init(device.id)))
+                    output.append(self.processValueOutput("ID", value:.init(device.id.uuidString)))
                     output.append(self.processValueOutput("Name", value: .init(device.name)))
                     output.append(self.processValueOutput("Added", value:.init( "\(device.added?.formatted ?? "Unknown")")))
                     output.append(self.processValueOutput("Updated", value:.init( device.polled?.formatted ?? "Never")))
@@ -478,19 +482,9 @@ class ProcessManager:ObservableObject {
                     
                 }
                 else {
-                    var device:SystemDeviceObject? = nil
+                    var device:SystemDeviceObject? = AppManager.shared.devices.first(where: { $0.name == flags[2] })
                     var response:String = ""
-                    
-                    if flags[1] == "-n"  {
-                        device = AppManager.shared.list.first(where: { $0.name == flags[2] })
-                        
-                        
-                    }
-                    else if flags[1] == "-id"  {
-                        device = AppManager.shared.list.first(where: { $0.id == flags[2] })
-                        
-                    }
-                    
+                
                     if let device = device {
                         switch secondary {
                             case .set : response = MenubarManager.shared.menubarAppendDevices(device, state: .add)
@@ -628,10 +622,11 @@ class ProcessManager:ObservableObject {
     private func processValueOutput(_ label:String, value:ProcessResponseValueObjectType, reverse:Bool = false) -> String {
         if reverse == true {
             switch value.type {
-                case .error:return " - \u{001B}[1;31m\(value.value)\u{001B}[0m\n"
-                case .sucsess:return " - \u{001B}[1;32m\(value.value)\u{001B}[0m\n"
-                case .normal:return " - \u{001B}[1m\(value.value)\u{001B}[0m\n"
-                case .warning: return " - \u{001B}[1;33m\(value.value)\u{001B}[0m\n"
+                case .error:return " - \u{001B}[1;31m\(value.value)\u{001B}[0m - \(label)\n"
+                case .sucsess:return " - \u{001B}[1;32m\(value.value)\u{001B}[0m - \(label)\n"
+                case .normal:return " - \u{001B}[1m\(value.value)\u{001B}[0m - \(label)\n"
+                case .warning: return " - \u{001B}[1;33m\(value.value)\u{001B} - \(label)\n"
+                
             }
             
         }

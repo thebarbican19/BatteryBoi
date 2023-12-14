@@ -12,15 +12,25 @@ struct NavigationContainer:View {
     @State var visibility:NavigationSplitViewVisibility = .doubleColumn
 
     var body: some View {
-        NavigationSplitView(columnVisibility: $visibility) {
-            Text("To Add")
-            
-        } detail: {
-            DebugContainer()
-            
+        VStack {
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                NavigationSplitView(columnVisibility: $visibility) {
+                    Text("To Add")
+                    
+                } detail: {
+                    DebugContainer()
+                    
+                }
+                .navigationBarBackButtonHidden(true)
+                .navigationSplitViewStyle(.balanced)
+                
+            }
+            else {
+                DebugContainer()
+
+            }
+
         }
-        .navigationBarBackButtonHidden(true)
-        .navigationSplitViewStyle(.balanced)
         .environmentObject(AppManager.shared)
         .environmentObject(OnboardingManager.shared)
         .environmentObject(StatsManager.shared)

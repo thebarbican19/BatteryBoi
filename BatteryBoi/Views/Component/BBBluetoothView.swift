@@ -118,7 +118,7 @@ struct BluetoothItem: View {
                     
                 }
                 else {
-                    if let type = AppManager.shared.appDeviceType.name(true) {
+                    if let type = SystemDeviceTypes.name(true) {
                         Text(type)
                             .font(.system(size: 16, weight: .medium))
                             .foregroundColor(self.style == .light ? Color("BatteryButton") : Color("BatteryTitle"))

@@ -47,7 +47,7 @@ struct WidgetProvider: TimelineProvider {
     }
     
     func widgetCreateEntry(_ context:Context, completion: @escaping (WidgetDeviceObject) -> ()) {
-        if let device = AppManager.shared.list.sorted(by: { $0.polled ?? Date.distantPast > $1.polled ?? Date.distantPast }).first {
+        if let device = AppManager.shared.devices.sorted(by: { $0.polled ?? Date.distantPast > $1.polled ?? Date.distantPast }).first {
             completion(.init(device))
 
         }

@@ -19,6 +19,12 @@ import EnalogSwift
 
 #endif
 
+enum BatteryTriggerType {
+    case lowpower
+    case limit
+    
+}
+
 struct BatteryInformationObject {
     var available:Double
     var capacity:Double
@@ -61,10 +67,10 @@ struct BatteryThemalObject {
         formatter.unitStyle = .medium
         
         let temperature = Measurement(value: value, unit: UnitTemperature.fahrenheit)
-        
+                
         self.value = value
         self.formatted = formatter.string(from: temperature)
-        self.state = value > 35 ? .suboptimal : .optimal
+        self.state = value > 95 ? .suboptimal : .optimal
         
     }
     
@@ -83,14 +89,17 @@ enum BatteryThemalState {
         
     }
     
-    var warning:ProcessResponseHeaderType {
-        switch self {
-            case .optimal : return .normal
-            case .suboptimal : return .error
+    #if os(macOS)
+        var warning:ProcessResponseHeaderType {
+            switch self {
+                case .optimal : return .normal
+                case .suboptimal : return .error
+                
+            }
             
         }
-        
-    }
+    
+    #endif
     
 }
 
@@ -106,11 +115,11 @@ struct BatteryHealthObject {
             self.capacity = capacity
             self.available = available
             self.percentage = available / capacity * 100
-            self.cycles = cycles
+            self.cycles = (cycles / (100 - Int(self.percentage))) * (Int(self.percentage) - 50)
 
             switch self.percentage {
-                case 86...: self.state = .optimal
-                case 76...85: self.state = .suboptimal
+                case 81...: self.state = .optimal
+                case 65...80: self.state = .suboptimal
                 default: self.state = .malfunctioning
                 
             }
@@ -132,16 +141,19 @@ enum BatteryHealthState: String {
     case malfunctioning = "Service Battery"
     case unknown = "Unknown"
     
-    var warning:ProcessResponseHeaderType {
-        switch self {
-            case .optimal : return .sucsess
-            case .suboptimal : return .warning
-            case .unknown : return .normal
-            default : return .error
+    #if os(macOS)
+        var warning:ProcessResponseHeaderType {
+            switch self {
+                case .optimal : return .sucsess
+                case .suboptimal : return .warning
+                case .unknown : return .normal
+                default : return .error
+                
+            }
             
         }
-        
-    }
+    
+    #endif
         
 }
 
@@ -256,7 +268,6 @@ struct BatteryEstimateObject {
     
 }
 
-
 class BatteryManager:ObservableObject {
     static var shared = BatteryManager()
 
@@ -296,7 +307,7 @@ class BatteryManager:ObservableObject {
         }.store(in: &updates)
         
         AppManager.shared.appTimer(6).sink { _ in
-            //self.remaining = self.powerRemaing
+            self.powerStatus(true)
             self.counter = nil
 
         }.store(in: &updates)
@@ -321,8 +332,8 @@ class BatteryManager:ObservableObject {
         
         $percentage.removeDuplicates().receive(on: DispatchQueue.global()).sink() { newValue in
             switch BatteryManager.shared.charging {
-                case .battery : AppManager.shared.appStoreEvent(.disconnected, peripheral: nil)
-                case .charging : AppManager.shared.appStoreEvent(.charging, peripheral: nil)
+                case .battery : AppManager.shared.appStoreEvent(.disconnected, device: nil)
+                case .charging : AppManager.shared.appStoreEvent(.charging, device: nil)
                 
             }
 
@@ -330,8 +341,8 @@ class BatteryManager:ObservableObject {
         
         $charging.removeDuplicates().receive(on: DispatchQueue.global()).sink() { newValue in
             switch newValue {
-                case .battery : AppManager.shared.appStoreEvent(.disconnected, peripheral: nil)
-                case .charging : AppManager.shared.appStoreEvent(.connected, peripheral: nil)
+                case .battery : AppManager.shared.appStoreEvent(.disconnected, device: nil)
+                case .charging : AppManager.shared.appStoreEvent(.connected, device: nil)
 
             }
 
@@ -342,12 +353,12 @@ class BatteryManager:ObservableObject {
 
             NotificationCenter.default.addObserver(self, selector: #selector(self.powerStateNotification(notification:)), name: UIDevice.batteryLevelDidChangeNotification, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(self.powerStateNotification(notification:)), name: UIDevice.batteryStateDidChangeNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(self.powerStateNotification(notification:)), name: NSNotification.Name.NSProcessInfoPowerStateDidChange, object: nil)
+
         
         #endif
         
-        self.powerStatus(true)
-        self.powerEfficiencyMode()
-        self.powerMetrics()
+        self.powerForceRefresh()
         
     }
     
@@ -360,8 +371,12 @@ class BatteryManager:ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.powerStatus(true)
             self.powerEfficiencyMode()
-            self.powerTempratureCheck()
-
+           
+            #if os(macOS)
+                self.powerTempratureCheck()
+                self.powerMetrics()
+            
+            #endif
         }
         
     }
@@ -401,10 +416,15 @@ class BatteryManager:ObservableObject {
             }
         
         #else
-            self.mode = UIDevice.current.isLowPowerModeEnabled ? .efficient : .normal
+            self.mode = ProcessInfo.processInfo.isLowPowerModeEnabled ? .efficient : .normal
 
         #endif
     
+    }
+    
+    public func powerTrigger(_ type:BatteryTriggerType, value:Int = 0) {
+        #warning("To Build Functionality")
+        
     }
     
     private func powerUpdaterFallback() {
@@ -429,7 +449,7 @@ class BatteryManager:ObservableObject {
     }
     
     @objc private func powerStateNotification(notification: Notification) {
-        self.powerStatus(true)
+        self.powerForceRefresh()
         
     }
     
@@ -493,7 +513,7 @@ class BatteryManager:ObservableObject {
         #endif
                 
     }
-    
+        
     public var powerUntilFull:Date? {
         return Date()
         

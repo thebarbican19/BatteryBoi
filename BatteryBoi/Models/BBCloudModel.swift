@@ -77,15 +77,15 @@ struct CloudContainerObject {
 }
 
 enum CloudSubscriptionsType:String {
+    case background
     case events
     case device
-    case alert
     
     var identifyer:String {
         switch self {
-            case .device : return "update_device"
-            case .events : return "updated_event"
-            case .alert : return "update_device"
+            case .background : return "new_activity"
+            case .device : return "new_device"
+            case .events : return "new_event"
 
         }
         
@@ -102,9 +102,9 @@ enum CloudSubscriptionsType:String {
     
     var options:CKQuerySubscription.Options {
         switch self {
-            case .device : return .firesOnRecordUpdate
+            case .device : return .firesOnRecordCreation
             case .events : return .firesOnRecordCreation
-            case .alert : return .firesOnRecordCreation
+            case .background : return .firesOnRecordCreation
 
         }
         
@@ -112,9 +112,9 @@ enum CloudSubscriptionsType:String {
     
     var background:Bool {
         switch self {
-            case .device : return true
-            case .events : return true
-            case .alert : return false
+            case .device : return false
+            case .events : return false
+            case .background : return true
             
         }
         

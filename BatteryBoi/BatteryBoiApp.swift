@@ -105,7 +105,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
         
         if let channel = Bundle.main.infoDictionary?["SD_SLACK_CHANNEL"] as? String  {
             #if !DEBUG
-                EnalogManager.main.user(AppManager.shared.appIdentifyer)
+                EnalogManager.main.user(SystemDeviceTypes.identifyer)
                 EnalogManager.main.crash(SystemEvents.fatalError, channel: .init(.slack, id:channel))
                 EnalogManager.main.ingest(SystemEvents.userLaunched, description: "Launched BatteryBoi")
             

@@ -92,7 +92,7 @@ class OnboardingManager:ObservableObject {
             self.updated = Date()
 
         }
-        else if AppManager.shared.appDeviceType.mac == true {
+        else if SystemDeviceTypes.type.mac == true {
             #if os(macOS)
 //                if self.onboardingStep(.nobatt) == .unseen && AppManager.shared.appDeviceType.battery == false {
 //                    self.state = .nobatt
@@ -117,7 +117,7 @@ class OnboardingManager:ObservableObject {
             
             #endif
         }
-        else if AppManager.shared.appDeviceType.mac == false {
+        else if SystemDeviceTypes.type.mac == false {
             self.state = .complete
             self.updated = Date()
                         
