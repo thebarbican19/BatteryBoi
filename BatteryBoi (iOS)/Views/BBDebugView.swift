@@ -23,10 +23,12 @@ struct DebugDeviceCell: View {
             HStack {
                 Text("(\(device.connectivity.rawValue))")
                 
-                Text(device.profile.model)
+                Text(device.name)
                 
                 Text(device.polled?.formatted ?? "Never")
                 
+                Text(device.polled?.formatted ?? "Never")
+
                 Text("Events: \(device.events.count)")
                 
             }
@@ -45,7 +47,7 @@ struct DebugDeviceCell: View {
                         }
                         
                     }
-                    .background(.gray.opacity(0.2))
+                    .background(event.notify == .alert ? .blue.opacity(0.4) : .gray.opacity(0.2))
                     .padding(.leading, 30)
                     
                 }
@@ -109,15 +111,15 @@ struct DebugBroadcastCell: View {
             
             if revealed == true {
                 VStack {
-                    ForEach(device.characteristics, id: \.self) { item in
-                        HStack {
-                            Text(item)
-                            
-                        }
-                        .background(.gray.opacity(0.2))
-                        .padding(.leading, 30)
-                        
-                    }
+//                    ForEach(device.characteristics, id: \.self) { item in
+//                        HStack {
+//                            Text(item)
+//                            
+//                        }
+//                        .background(.gray.opacity(0.2))
+//                        .padding(.leading, 30)
+//                        
+//                    }
                     
                 }
                 
@@ -143,7 +145,20 @@ struct DebugBroadcastView: View {
     let layout = [GridItem(.flexible(minimum: 180, maximum: .infinity))]
 
     var body: some View {
-        Text("Broadcasting").font(.title)
+        HStack() {
+            Text("Broadcasting")
+                .frame(alignment: .leading)
+                .font(.title)
+            
+            if bluetooth.proximity == .proximate {
+                Button("Wide Search") {
+                    bluetooth.proximity = .far
+                    
+                }
+                
+            }
+
+        }
         
         LazyVGrid(columns: layout, alignment: .leading, spacing:10) {
             ForEach(bluetooth.broadcasting, id: \.self) { device in

@@ -28,29 +28,59 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
             
         }
         
-        $broadcasting.removeDuplicates().receive(on: DispatchQueue.global()).delay(for: .seconds(2), scheduler: RunLoop.main).sink { found in
-            if let index = found.firstIndex(where: { $0.state == .queued }) {
-                self.broadcasting[index].state = .pending
-                self.broadcasting[index].updated = Date()
+        $proximity.dropFirst().removeDuplicates().delay(for: .seconds(10.0), scheduler: RunLoop.main).receive(on: DispatchQueue.main).sink { state in
+            if state != .proximate {
+                self.proximity = .proximate
                 
             }
             
-            if let pending = found.first(where: { $0.state == .pending }) {
-                self.manager.connect(pending.peripheral, options: nil)
+            self.manager.stopScan()
+            self.manager.scanForPeripherals(withServices: nil, options: nil)
+            
+        }.store(in: &updates)
+
+        $broadcasting.debounce(for: .seconds(2), scheduler: RunLoop.main).receive(on: DispatchQueue.main).sink { found in
+            for item in found.filter({ $0.state == .connected && $0.characteristics.isEmpty == false }) {
+                if let match = self.peripheralMatchDevice(item.peripheral) {
+                    if AppManager.shared.devices.contains(match) == false {
+                        AppManager.shared.appStoreDevice(match)
+
+                    }
+                    
+                }
+                
+            }
+            
+        }.store(in: &updates)
+
+        $broadcasting.delay(for: .seconds(2), scheduler: RunLoop.main).receive(on: DispatchQueue.main).sink { found in
+            if let queued = found.first(where: { $0.state == .pending }) {
+                self.manager.connect(queued.peripheral, options: nil)
+
+            }
+            else if let queued = found.first(where: { $0.state == .queued && $0.state != .pending }) {
+                self.bluetoothUpdateBroadcast(state: .queued, peripheral: queued.peripheral, update: .pending)
+                
+            }
+            
+            if let disconnected = found.first(where: { $0.state == .disconnected }) {
+                if let match = self.peripheralMatchDevice(disconnected.peripheral) {
+                    AppManager.shared.appStoreEvent(.disconnected, device: match)
+                    
+                }
+                
+                self.bluetoothUpdateBroadcast(state: .disconnected, peripheral: disconnected.peripheral, update: .queued)
 
             }
             
-            if let index = found.firstIndex(where: { $0.characteristics.isEmpty == false && $0.queried == false }) {
-                if let match = self.peripheralMatchDevice(self.broadcasting[index].peripheral) {
-                    AppManager.shared.appStoreDevice(match)
-                    
-                }
+            for item in found.filter({ $0.state != .unavailable }) {
+                print("\n👋🏻 - \(item.peripheral.name ?? "Unknown") State: \(item.state) Characteristics: \(item.characteristics.count)\n")
                 
             }
 
         }.store(in: &updates)
         
-        $state.dropFirst().removeDuplicates().receive(on: DispatchQueue.main).sink { state in
+        $state.removeDuplicates().receive(on: DispatchQueue.main).sink { state in
             if state == .disabled {
                 UserDefaults.save(.bluetoothEnabled, value: state.rawValue)
                 UserDefaults.save(.bluetoothUpdated, value: Date())
@@ -73,6 +103,38 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
         self.bluetoothAuthorization()
 
     }
+    
+    public func bluetoothUpdateBroadcast(state:BluetoothConnectionState, peripheral:CBPeripheral? = nil, update:BluetoothConnectionState) {
+        DispatchQueue.main.async {
+            if let peripheral = peripheral {
+                if let index = self.broadcasting.firstIndex(where: { $0.state == state && peripheral == peripheral }) {
+                    var payload = self.broadcasting[index]
+                    payload.state = update
+                    
+                    self.broadcasting[index] = payload
+                    
+                }
+                
+                if self.broadcasting.firstIndex(where:{ $0.peripheral == peripheral }) == nil {
+                    self.broadcasting.append(.init(peripheral))
+                    
+                }
+                
+            }
+            else {
+                if let index = self.broadcasting.firstIndex(where: { $0.state == state }) {
+                    var payload = self.broadcasting[index]
+                    payload.state = update
+                    
+                    self.broadcasting[index] = payload
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
         
     public func bluetoothAuthorization(_ force:Bool = false) {
         if UserDefaults.main.object(forKey: SystemDefaultsKeys.bluetoothEnabled.rawValue) == nil {
@@ -83,6 +145,13 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
                     
                 }
                 
+            }
+            else {
+                if CBCentralManager.authorization == .allowedAlways {
+                    self.manager.scanForPeripherals(withServices: nil, options: nil)
+                    
+                }
+
             }
             
             DispatchQueue.main.async {
@@ -166,59 +235,30 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
         }
         
         if distance.state.rawValue <= self.proximity.rawValue {
-            if let index = self.broadcasting.firstIndex(where: { $0.peripheral.name == peripheral.name }) {
-                if self.broadcasting[index].state != .unavailable && self.broadcasting[index].state != .connected {
-                    self.broadcasting[index].state = .queued
-                    self.broadcasting[index].updated = Date()
-                    self.broadcasting[index].proximity = distance.state
-
-                }
-
-            }
-            else {
-                self.broadcasting.append(.init(peripheral, proximity: distance.state))
-                
-            }
-
+            self.bluetoothUpdateBroadcast(state: .queued, peripheral: peripheral, update: .queued)
+        
         }
         
         UserDefaults.save(.bluetoothUpdated, value: Date())
         
     }
 
-    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {  
-        if let index = self.broadcasting.firstIndex(where: { $0.peripheral == peripheral }) {
-            self.broadcasting[index].state = .connected
-            self.broadcasting[index].updated = Date()
+    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) { 
+        self.bluetoothUpdateBroadcast(state: .pending, peripheral: peripheral, update: .connected)
 
-        }
-                        
         peripheral.delegate = self
         peripheral.discoverServices(BluetoothUUID.allCases.compactMap({ $0.uuid }))
         
     }
 
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-        if let index = self.broadcasting.firstIndex(where: { $0.peripheral.name == peripheral.name }) {
-            self.broadcasting[index].state = .failed
-            self.broadcasting[index].updated = Date()
+        self.bluetoothUpdateBroadcast(state: .pending, peripheral: peripheral, update: .failed)
 
-        }
-        
     }
 
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        if let index = self.broadcasting.firstIndex(where: { $0.peripheral.name == peripheral.name }) {
-            self.broadcasting[index].state = .disconnected
-            self.broadcasting[index].updated = Date()
+        self.bluetoothUpdateBroadcast(state: .connected, peripheral: peripheral, update: .disconnected)
 
-        }
-        
-        if let match = self.peripheralMatchDevice(peripheral) {
-            AppManager.shared.appStoreEvent(.disconnected, device: match)
-            
-        }
-        
     }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
@@ -227,23 +267,6 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
             
         }
         else {
-            if let index = self.broadcasting.firstIndex(where: { $0.peripheral.name == peripheral.name && $0.state != .connected }) {
-                self.broadcasting[index].state = .connected
-                self.broadcasting[index].updated = Date()
-            
-                if let index = self.broadcasting.firstIndex(where: { $0.peripheral.name == peripheral.name }) {
-                    if let services = self.broadcasting[index].peripheral.services {
-                        for service in services {
-                            self.bluetoothServicesAppend(service, index: index)
-                            
-                        }
-                        
-                    }
-                    
-                }
-                
-            }
-            
             if let services = peripheral.services {
                 for service in services {
                     peripheral.discoverCharacteristics(nil, for: service)
@@ -262,26 +285,20 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
 
         }
         else {
-            if let index = self.broadcasting.firstIndex(where: { $0.peripheral.name == peripheral.name }) {
+            if let index = self.broadcasting.firstIndex(where: { $0.peripheral == peripheral }) {
                 if let characteristics = service.characteristics {
                     for characteristic in characteristics {
                         self.bluetoothCharacteristicAppend(characteristic, index: index)
                         
-                    }
-                    
-                }
-                
-            }
-            
-            if let characteristics = service.characteristics {
-                for characteristic in characteristics {
-                    peripheral.readValue(for: characteristic)
-                    
-                    if characteristic.properties.contains(.notify) {
-                        peripheral.setNotifyValue(true, for: characteristic)
+                        peripheral.readValue(for: characteristic)
+                        
+                        if characteristic.properties.contains(.notify) {
+                            peripheral.setNotifyValue(true, for: characteristic)
+                            
+                        }
                         
                     }
-                    
+        
                 }
                 
             }
@@ -350,7 +367,6 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
                 
                 if characteristic.uuid == BluetoothUUID.model.uuid {
                     if let data = characteristic.value, let string = String(data: data, encoding: .utf8) {
-                        print("Model Name for \(peripheral.name!):", string)
                         model = string
                         
                     }
@@ -358,9 +374,7 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
                 }
                 
                 if characteristic.uuid == BluetoothUUID.vendor.uuid {
-                    print("VENDOR FOUND FOR \(peripheral.name!)")
                     if let data = characteristic.value, let string = String(data: data, encoding: .utf8) {
-                        print("Vendor Name for \(peripheral.name!):", string)
                         vendor = string
                         
                     }
@@ -377,9 +391,6 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
                 
             }
             
-            self.broadcasting[index].queried = true
-            self.broadcasting[index].updated = Date()
-
         }
         
         if let name = peripheral.name, let model = model {

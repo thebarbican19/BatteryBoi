@@ -22,6 +22,7 @@ struct StatsIcon {
 
 enum StatsStateType:String {
     case charging
+    case battery
     case depleted
     case connected
     case disconnected

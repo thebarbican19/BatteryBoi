@@ -85,7 +85,7 @@ enum SettingsCharged:String {
 
 }
 
-enum SettingsBeta:String {
+enum SettingsBeta:String,CaseIterable {
     case enabled
     case disabled
     
@@ -93,15 +93,6 @@ enum SettingsBeta:String {
         switch self {
             case .enabled : "PermissionsEnabledLabel".localise()
             default : "PermissionsDisabledLabel".localise()
-            
-        }
-        
-    }
-    
-    var icon:String {
-        switch self {
-            case .enabled : "AudioIcon"
-            default : "MuteIcon"
             
         }
         

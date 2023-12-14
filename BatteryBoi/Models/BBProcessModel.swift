@@ -15,6 +15,7 @@ enum ProcessPrimaryCommands:String,CaseIterable {
     case devices = "devices"
     case website = "website"
     case rate = "rate"
+    case beta = "beta"
 
     var description:String {
         switch self {
@@ -25,6 +26,7 @@ enum ProcessPrimaryCommands:String,CaseIterable {
             case .settings : return "Information & Customization for Settings"
             case .website : return "Opens BatteryBoi Website"
             case .rate : return "Rate BatteryBoi on ProductHunt"
+            case .beta : return "Enable/Disable Beta Program (Note: May Cause Crashes or Unstable Performance)"
 
         }
         
@@ -39,6 +41,7 @@ enum ProcessPrimaryCommands:String,CaseIterable {
             case .settings : return [.info, .set, .reset]
             case .website : return [.open]
             case .rate : return [.open]
+            case .beta : return [.set]
 
         }
         

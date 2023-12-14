@@ -158,6 +158,24 @@ class SettingsManager:ObservableObject {
         }
         
     }
+    
+    public var enabledBeta:SettingsBeta {
+        get {
+            if let key = UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledBeta.rawValue) as? String {
+                return SettingsBeta(rawValue: key) ?? .disabled
+                
+            }
+            
+            return .disabled
+            
+        }
+        
+        set {
+            UserDefaults.save(.enabledBeta, value: newValue.rawValue)
+            
+        }
+        
+    }
         
     public var enabledPinned:SettingsPinned {
         get {
@@ -264,9 +282,6 @@ class SettingsManager:ObservableObject {
 //            }
 //            
 //        }
-        else if action.type == .appBeta {
-            
-        }
         else if action.type == .appPinned {
             switch self.enabledPinned {
                 case .enabled : self.enabledPinned = .disabled

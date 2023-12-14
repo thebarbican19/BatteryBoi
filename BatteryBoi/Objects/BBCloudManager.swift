@@ -85,6 +85,7 @@ class CloudManager:ObservableObject {
                     else {
                         DispatchQueue.main.async {
                             CloudManager.shared.syncing = .completed
+                            AppManager.shared.updated = Date()
                             
                         }
                         
@@ -210,7 +211,7 @@ class CloudManager:ObservableObject {
             info.shouldSendContentAvailable = true
             
             if type != .background {
-                info.title = "Your Notification Title"
+                info.title = "Notification \(type.rawValue)"
                 info.alertBody = "Your notification message here."
                 info.soundName = "highnote.wav"
                 
@@ -241,7 +242,7 @@ class CloudManager:ObservableObject {
         if let userInfo = notification.userInfo {
             if userInfo[NSInsertedObjectsKey] != nil || userInfo[NSUpdatedObjectsKey] != nil || userInfo[NSDeletedObjectsKey] != nil {
                 DispatchQueue.main.async {
-                    //AppManager.shared.updated = Date()
+                    AppManager.shared.updated = Date()
 
                 }
                 

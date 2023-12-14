@@ -353,7 +353,9 @@ class ProcessManager:ObservableObject {
                     output.append(self.processValueOutput("Health", value:.init( heath.state.rawValue, type: heath.state.warning)))
                     output.append(self.processValueOutput("Cycle Count", value:.init( "\(heath.cycles)")))
                     output.append(self.processValueOutput("Capacity", value:.init( "\(Int(heath.percentage))%")))
-                    
+                    output.append(self.processValueOutput("Original Capacity", value:.init( "\(Int(heath.capacity)) mAh")))
+                    output.append(self.processValueOutput("Current Capacity", value:.init( "\(Int(heath.available)) mAh")))
+
                 }
                 
                 output.append("\n----------TEMPRATURE----------\n\n")
@@ -382,8 +384,12 @@ class ProcessManager:ObservableObject {
                     output.append(self.processHeaderOutput("MISSING FLAG", state:.error))
                     
                     output.append(self.processValueOutput("SettingsEfficiencyLabel".localise(), value: .init("-m"), reverse:true))
-//                    output.append(self.processValueOutput("Charge Limit", value: .init("-l"), reverse:true))
-//                    output.append(self.processValueOutput("Autopilot", value: .init("-a"), reverse:true))
+                    
+                    if SettingsManager.shared.enabledBeta == .enabled {
+                        output.append(self.processValueOutput("Charge Limit", value: .init("-l"), reverse:true))
+                        output.append(self.processValueOutput("Autopilot", value: .init("-a"), reverse:true))
+                        
+                    }
 
                 }
                 else {
@@ -423,9 +429,15 @@ class ProcessManager:ObservableObject {
                 
                 output.append(self.processValueOutput("Installed On", value:.init( AppManager.shared.appInstalled.formatted)))
                 output.append(self.processValueOutput("Device", value:.init( SystemDeviceTypes.name())))
+                output.append(self.processValueOutput("Model", value:.init( SystemDeviceTypes.model)))
                 output.append(self.processValueOutput("User ID", value: .init(SystemDeviceTypes.identifyer)))
                 output.append(self.processValueOutput("Usage Count", value: .init(String(AppManager.shared.appUsage?.day ?? 0))))
                 
+                if SettingsManager.shared.enabledBeta == .enabled {
+                    output.append(self.processValueOutput("Beta", value: .init(SettingsManager.shared.enabledBeta.subtitle, type: .sucsess)))
+
+                }
+
                 output.append("\n----------ONBOARDING----------\n\n")
                 
                 output.append(self.processValueOutput("State", value: .init(OnboardingManager.shared.state.rawValue)))
@@ -482,7 +494,7 @@ class ProcessManager:ObservableObject {
                     
                 }
                 else {
-                    var device:SystemDeviceObject? = AppManager.shared.devices.first(where: { $0.name == flags[2] })
+                    let device:SystemDeviceObject? = AppManager.shared.devices.first(where: { $0.name == flags[2] })
                     var response:String = ""
                 
                     if let device = device {
@@ -589,7 +601,31 @@ class ProcessManager:ObservableObject {
             }
             
         }
+        else if command == .beta {
+            if flags.indices.contains(1) == false {
+                
+                
+                SettingsManager.shared.enabledBeta = .disabled
 
+            
+            }
+            else {
+                if flags[1].boolean == true {
+                    SettingsManager.shared.enabledBeta = .enabled
+
+                    output.append(self.processHeaderOutput("BETA ENABLED", state:.sucsess))
+
+                }
+                else {
+                    SettingsManager.shared.enabledBeta = .disabled
+
+                    output.append(self.processHeaderOutput("BETA DISABLED", state:.sucsess))
+                    
+                }
+                
+            }
+            
+        }
         
         if output.isEmpty {
             return nil

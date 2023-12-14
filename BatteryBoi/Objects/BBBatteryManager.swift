@@ -331,18 +331,17 @@ class BatteryManager:ObservableObject {
         }.store(in: &updates)
         
         $percentage.removeDuplicates().receive(on: DispatchQueue.global()).sink() { newValue in
-            switch BatteryManager.shared.charging {
-                case .battery : AppManager.shared.appStoreEvent(.disconnected, device: nil)
-                case .charging : AppManager.shared.appStoreEvent(.charging, device: nil)
-                
+            if BatteryManager.shared.charging == .battery {
+                AppManager.shared.appStoreEvent(.depleted, device: nil, battery: newValue)
+               
             }
 
         }.store(in: &updates)
         
         $charging.removeDuplicates().receive(on: DispatchQueue.global()).sink() { newValue in
             switch newValue {
-                case .battery : AppManager.shared.appStoreEvent(.disconnected, device: nil)
-                case .charging : AppManager.shared.appStoreEvent(.connected, device: nil)
+                case .battery : AppManager.shared.appStoreEvent(.battery, device: nil)
+                case .charging : AppManager.shared.appStoreEvent(.charging, device: nil)
 
             }
 

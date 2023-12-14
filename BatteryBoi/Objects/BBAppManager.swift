@@ -53,17 +53,16 @@ class AppManager:ObservableObject {
                 
         self.timer?.store(in: &updates)
         
-        $updated.receive(on: DispatchQueue.global()).debounce(for: .seconds(5), scheduler: RunLoop.main).sink { _ in
-            self.appListDevices()
+        $updated.receive(on: DispatchQueue.global()).debounce(for: .seconds(3), scheduler: RunLoop.main).sink { _ in
+            if CloudManager.shared.syncing == .completed {
+                self.appListDevices()
+
+            }
 
         }.store(in: &updates)
-
-        CloudManager.shared.$syncing.removeDuplicates().receive(on: DispatchQueue.main).sink { state in
-            if state == .completed {
-                self.appListDevices()
-                self.appStoreDevice()
-                
-            }
+        
+        $devices.receive(on: DispatchQueue.global()).debounce(for: .seconds(3), scheduler: RunLoop.main).sink { _ in
+            self.appStoreDevice()
             
         }.store(in: &updates)
             
@@ -233,7 +232,7 @@ class AppManager:ObservableObject {
             let fetch: NSFetchRequest<Devices> = Devices.fetchRequest()
             
             do {
-                let list = try context.fetch(fetch)
+                let list = try context.fetch(fetch)                
                 let mapped:[SystemDeviceObject] = list.compactMap({ .init($0) })
 
                 DispatchQueue.main.async {
@@ -275,7 +274,6 @@ class AppManager:ObservableObject {
         return []
         
     }
-
 
     private func appLatestEvent(_ state:StatsStateType, device:SystemDeviceObject?, context:NSManagedObjectContext) -> Events? {
         var predicates = Array<NSPredicate>()
@@ -321,6 +319,11 @@ class AppManager:ObservableObject {
                                 
                             }
                             
+                            if existing.name.empty {
+                                existing.name = device?.name
+                                
+                            }
+                            
                             if existing.address.empty {
                                 existing.address = device?.address
                                 
@@ -338,11 +341,6 @@ class AppManager:ObservableObject {
                             
                             if let notifications = device?.notifications {
                                 existing.notifications = notifications
-                                
-                            }
-                            
-                            if existing.primary == false && device?.connectivity == .bluetooth {
-                                existing.primary = true
                                 
                             }
                             
@@ -367,7 +365,9 @@ class AppManager:ObservableObject {
                     store.refreshed_on = Date()
                     store.order = Int16(self.devices.count + 1)
                     store.id = UUID()
-                    
+                    store.notifications = true
+                    store.hidden = false
+
                     if let device = device {
                         store.primary = false
                         store.name = device.name

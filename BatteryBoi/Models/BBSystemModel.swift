@@ -501,13 +501,15 @@ struct SystemEventObject:Identifiable,Hashable {
     var created:Date = Date()
     var state:StatsStateType?
     var battery:Int
+    var notify:StatsActivityNotificationType
     
     init?(_ event:Events?) {
-        if let id = event?.id, let state = StatsStateType(rawValue: event?.state ?? ""), let timestamp = event?.timestamp {
+        if let id = event?.id, let state = StatsStateType(rawValue: event?.state ?? ""), let timestamp = event?.timestamp, let notify = event?.notify {
             self.id = id
             self.state = state
             self.created = timestamp
             self.battery = Int(event?.charge ?? 100)
+            self.notify = StatsActivityNotificationType(rawValue: notify) ?? .background
             
         }
         else {
@@ -540,12 +542,12 @@ struct SystemDeviceObject:Hashable,Equatable,Identifiable {
     var added:Date? = nil
     
     init?(_ device:Devices) {
-        if let id = device.id, let name = device.name, let model = device.model {
+        if let id = device.id, let model = device.model {
             self.id = id
-            self.name = name
+            self.name = device.name ?? model.replacingOccurrences(of: "[^A-Za-z]", with: "", options: .regularExpression)
             self.profile = .init(model: model, vendor: device.vendor ?? "", apperance: device.apperance, findmy:device.findmy)
             self.synced = true
-            self.connectivity = device.primary ? .system : .system
+            self.connectivity = device.primary ? .system : .bluetooth
             self.favourite = device.favourite
             self.notifications = device.notifications
             self.order = Int(device.order)
@@ -593,6 +595,8 @@ struct SystemDeviceObject:Hashable,Equatable,Identifiable {
         let fetch = Devices.fetchRequest() as NSFetchRequest<Devices>
         fetch.includesPendingChanges = true
         
+        print("Attempting to Store Device" ,device)
+        
         if let list = try? context.fetch(fetch) {
             let existing:[SystemDeviceObject] = list.compactMap({ .init($0) })
             
@@ -606,14 +610,17 @@ struct SystemDeviceObject:Hashable,Equatable,Identifiable {
                 }
                 
                 if let serial = device.profile.serial {
-                    if let match = existing.first(where: { $0.profile.model == SystemDeviceTypes.model && $0.profile.serial == serial }) {
+                    if let match = existing.first(where: { $0.profile.model == device.profile.model && $0.profile.serial == serial }) {
                         return match
                         
                     }
                     
                 }
                 
-                if let match = existing.first(where: { $0.profile.model == SystemDeviceTypes.model }) {
+                print("SystemDeviceTypes.model" ,SystemDeviceTypes.model)
+                print("existing" ,existing.map({ $0.profile.model }))
+                
+                if let match = existing.first(where: { $0.profile.model == device.profile.model }) {
                     return match
                     
                 }
@@ -643,9 +650,11 @@ struct SystemDeviceObject:Hashable,Equatable,Identifiable {
                 
             }
             
+            return nil
+            
         }
         
-        return nil
+        return device
         
     }
     
@@ -714,6 +723,7 @@ enum SystemDefaultsKeys: String {
     case enabledTheme = "bb_settings_theme"
     case enabledSoundEffects = "bb_settings_sfx"
     case enabledPinned = "bb_pinned_mode"
+    case enabledBeta = "bb_beta_mode"
 
     case batteryUntilFull = "bb_charge_full"
     case batteryLastCharged = "bb_charge_last"
@@ -748,11 +758,12 @@ enum SystemDefaultsKeys: String {
             case .enabledTheme:return "Theme"
             case .enabledSoundEffects:return "SFX"
             case .enabledPinned:return "Pinned"
+            case .enabledBeta:return "Beta Mode"
 
             case .batteryUntilFull:return "Seconds until Charged"
             case .batteryLastCharged:return "Seconds until Charged"
             case .batteryDepletionRate:return "Battery Depletion Rate"
-            case .batteryWindowPosition:return "Battery Window Positio"
+            case .batteryWindowPosition:return "Battery Window Position"
             
             case .versionInstalled:return "Installed on"
             case .versionCurrent:return "Active Version"
