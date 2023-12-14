@@ -10,7 +10,7 @@ import CoreBluetooth
 
 struct BluetoothBroadcastItem:Identifiable,Equatable,Hashable {
     static func == (lhs: BluetoothBroadcastItem, rhs: BluetoothBroadcastItem) -> Bool {
-        lhs.peripheral == rhs.peripheral && lhs.updated == rhs.updated
+        lhs.peripheral == rhs.peripheral && lhs.state == rhs.state
 
     }
     
@@ -18,7 +18,9 @@ struct BluetoothBroadcastItem:Identifiable,Equatable,Hashable {
     var state:BluetoothConnectionState
     var id:UUID
     var updated:Date
-    var characteristics = Array<String>()
+    var queried:Bool = false
+    var characteristics:[CBCharacteristic]
+    var services:[CBService]
     var proximity:SystemDeviceDistanceType = .unknown
     
     init(_ peripheral:CBPeripheral, proximity:SystemDeviceDistanceType = .unknown, state:BluetoothConnectionState = .queued) {
@@ -26,6 +28,8 @@ struct BluetoothBroadcastItem:Identifiable,Equatable,Hashable {
         self.state = state
         self.id = peripheral.identifier
         self.updated = Date()
+        self.characteristics = []
+        self.services = []
         self.proximity = proximity
         
         if peripheral.name == nil {

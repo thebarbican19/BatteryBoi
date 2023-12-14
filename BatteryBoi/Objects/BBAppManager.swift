@@ -57,21 +57,6 @@ class AppManager:ObservableObject {
             self.appListDevices()
 
         }.store(in: &updates)
-        
-        $devices.removeDuplicates().receive(on: DispatchQueue.global()).sink { items in
-            for item in items  {
-                print("List Devices \(item.name) - \(item.synced)")
-
-            }
-            
-            for item in items.filter({ $0.synced == false }) {
-                self.appStoreDevice(item)
-               
-            }
-            
-            self.appListDevices()
-
-        }.store(in: &updates)
 
         CloudManager.shared.$syncing.removeDuplicates().receive(on: DispatchQueue.main).sink { state in
             if state == .completed {
@@ -88,14 +73,6 @@ class AppManager:ObservableObject {
         self.timer?.cancel()
         self.updates.forEach { $0.cancel() }
  
-    }
-    
-    public func appUpdateList(_ device:SystemDeviceObject) {
-        if self.devices.contains(device) == false {
-            self.devices.append(device)
-            
-        }
-        
     }
 
     public func appStoreEvent(_ state:StatsStateType, device:SystemDeviceObject?, battery:Int? = nil) {
@@ -167,6 +144,10 @@ class AppManager:ObservableObject {
                 if store.device != nil {
                     try? context.save()
 
+                }
+                else {
+                    print("")
+                    
                 }
 
             }
@@ -259,8 +240,6 @@ class AppManager:ObservableObject {
                     self.devices = mapped
                     
                 }
-
-                print("trained" ,mapped)
                 
             }
             catch {
@@ -324,106 +303,109 @@ class AppManager:ObservableObject {
                 
     }
     
-    private func appStoreDevice(_ device:SystemDeviceObject? = nil) {
+    public func appStoreDevice(_ device:SystemDeviceObject? = nil) {
         if let context = self.appStorageContext() {
-            if let match = SystemDeviceObject.match(device, context: context) {
-                let fetch = Devices.fetchRequest() as NSFetchRequest<Devices>
-                fetch.includesPendingChanges = true
-                fetch.fetchLimit = 1
-                fetch.predicate = NSPredicate(format: "id == %@", match.id as CVarArg)
-
-                do {
-                    if let existing = try context.fetch(fetch).first {
-                        existing.refreshed_on = Date()
-
-                        if existing.serial.empty {
-                            existing.serial = device?.profile.serial
-
-                        }
-                        
-                        if existing.address.empty {
-                            existing.address = device?.address
-
-                        }
-                        
-                        if existing.vendor.empty {
-                            existing.vendor = device?.profile.vendor
-
-                        }
-                        
-                        if let favourite = device?.favourite {
-                            existing.favourite = favourite
-
-                        }
-                        
-                        if let notifications = device?.notifications {
-                            existing.notifications = notifications
-
-                        }
-                        
-                        if existing.primary == false && device?.connectivity == .bluetooth {
-                            existing.primary = true
-
-                        }
-                        
-                        if let id = device?.id {
-                            existing.id = id
+            context.performAndWait {
+                if let match = SystemDeviceObject.match(device, context: context) {
+                    let fetch = Devices.fetchRequest() as NSFetchRequest<Devices>
+                    fetch.includesPendingChanges = true
+                    fetch.fetchLimit = 1
+                    fetch.predicate = NSPredicate(format: "id == %@", match.id as CVarArg)
+                    
+                    do {
+                        if let existing = try context.fetch(fetch).first {
+                            existing.refreshed_on = Date()
+                            
+                            if existing.serial.empty {
+                                existing.serial = device?.profile.serial
+                                
+                            }
+                            
+                            if existing.address.empty {
+                                existing.address = device?.address
+                                
+                            }
+                            
+                            if existing.vendor.empty {
+                                existing.vendor = device?.profile.vendor
+                                
+                            }
+                            
+                            if let favourite = device?.favourite {
+                                existing.favourite = favourite
+                                
+                            }
+                            
+                            if let notifications = device?.notifications {
+                                existing.notifications = notifications
+                                
+                            }
+                            
+                            if existing.primary == false && device?.connectivity == .bluetooth {
+                                existing.primary = true
+                                
+                            }
+                            
+                            if let id = device?.id {
+                                existing.id = id
+                                
+                            }
+                            
+                            try context.save()
                             
                         }
                         
-                        try context.save()
-
-                    }
-                    
-                }
-                catch {
-                    
-                }
-                    
-            }
-            else {
-                let store = Devices(context: context) as Devices
-                store.added_on = Date()
-                store.refreshed_on = Date()
-                store.order = Int16(self.devices.count + 1)
-                store.id = UUID()
-                
-                if let device = device {
-                    store.primary = false
-                    store.name = device.name
-                    store.model = device.profile.model
-                    store.serial = device.profile.serial
-                    store.vendor = device.profile.vendor
-                    store.address = nil
-                    store.owner = self.appDevice(nil, context: context)?.id
-
-                }
-                else {
-                    store.model = SystemDeviceTypes.model
-                    store.os = SystemDeviceTypes.os
-                    store.subtype = SystemDeviceTypes.type.rawValue
-                    store.type = SystemDeviceTypes.type.category.rawValue
-                    store.primary = true
-                    store.vendor = "Apple Inc"
-                    store.product = SystemDeviceTypes.name(false)
-                    store.serial = SystemDeviceTypes.serial
-                    store.address = nil
-                    store.name = SystemDeviceTypes.name(true)
-                    
-                }
-                
-                if store.model.empty == false || store.name.empty == false {
-                    do {
-                        try context.save()
-                        
                     }
                     catch {
-                        print("Saving Error - \(error)")
                         
                     }
-
+                    
                 }
-                                    
+                else {
+                    let store = Devices(context: context) as Devices
+                    store.added_on = Date()
+                    store.refreshed_on = Date()
+                    store.order = Int16(self.devices.count + 1)
+                    store.id = UUID()
+                    
+                    if let device = device {
+                        store.primary = false
+                        store.name = device.name
+                        store.model = device.profile.model
+                        store.serial = device.profile.serial
+                        store.vendor = device.profile.vendor
+                        store.address = nil
+                        store.owner = self.appDevice(nil, context: context)?.id
+                        
+                    }
+                    else {
+                        store.model = SystemDeviceTypes.model
+                        store.os = SystemDeviceTypes.os
+                        store.subtype = SystemDeviceTypes.type.rawValue
+                        store.type = SystemDeviceTypes.type.category.rawValue
+                        store.primary = true
+                        store.vendor = "Apple Inc"
+                        store.product = SystemDeviceTypes.name(false)
+                        store.serial = SystemDeviceTypes.serial
+                        store.address = nil
+                        store.name = SystemDeviceTypes.name(true)
+                        
+                    }
+                    
+                    if store.model.empty == false || store.name.empty == false {
+                        do {
+                            try context.save()
+                            
+                        }
+                        catch {
+                            print("Saving Error - \(error)")
+                            
+                        }
+                        
+                    }
+                    
+                }
+                
             }
   
         }

@@ -453,7 +453,9 @@ enum SystemDeviceTypes:String,Codable {
             }
 
             IOObjectRelease(platform)
-
+        
+            return .unknown
+        
         #elseif os(iOS)
             switch UIDevice.current.userInterfaceIdiom {
                 case .phone:return .iphone
@@ -464,8 +466,6 @@ enum SystemDeviceTypes:String,Codable {
 
         #endif
 
-        return .unknown
-        
     }
     
 }
@@ -477,7 +477,7 @@ struct SystemDeviceProfileObject:Hashable,Equatable {
     }
     
     var model:String
-    var vendor:String
+    var vendor:String?
     var serial:String?
     var hardware:String?
     var apperance:String?
@@ -540,9 +540,9 @@ struct SystemDeviceObject:Hashable,Equatable,Identifiable {
     var added:Date? = nil
     
     init?(_ device:Devices) {
-        if let id = device.id, let model = device.model {
+        if let id = device.id, let name = device.name, let model = device.model {
             self.id = id
-            self.name = device.name ?? id.uuidString
+            self.name = name
             self.profile = .init(model: model, vendor: device.vendor ?? "", apperance: device.apperance, findmy:device.findmy)
             self.synced = true
             self.connectivity = device.primary ? .system : .system
