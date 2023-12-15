@@ -478,9 +478,8 @@ class ProcessManager:ObservableObject {
                     output.append(self.processValueOutput("ID", value:.init(device.id.uuidString)))
                     output.append(self.processValueOutput("Name", value: .init(device.name)))
                     output.append(self.processValueOutput("Added", value:.init( "\(device.added?.formatted ?? "Unknown")")))
-                    output.append(self.processValueOutput("Updated", value:.init( device.polled?.formatted ?? "Never")))
                     output.append(self.processValueOutput("Favourited", value: .init(device.favourite.string(.yes))))
-                    output.append(self.processValueOutput("Events", value: .init("\(device.events.count)")))
+//                    output.append(self.processValueOutput("Events", value: .init("\(device.events.count)")))
                     
                 }
                 

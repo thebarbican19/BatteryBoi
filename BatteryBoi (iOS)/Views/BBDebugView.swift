@@ -9,6 +9,8 @@ import SwiftUI
 import Combine
 
 struct DebugDeviceCell: View {
+    @EnvironmentObject var manager:AppManager
+
     @State var revealed:Bool = true
     @State var device:SystemDeviceObject
     
@@ -25,17 +27,17 @@ struct DebugDeviceCell: View {
                 
                 Text(device.name)
                 
-                Text(device.polled?.formatted ?? "Never")
+                //Text(device.polled?.formatted ?? "Never")
                 
-                Text(device.polled?.formatted ?? "Never")
+                Text("Is System: \(device.system.string(.yes))")
 
-                Text("Events: \(device.events.count)")
+//                Text("Events: \(device.events.count)")
                 
             }
             .background(.gray)
             
             if revealed == true {
-                ForEach(device.events.prefix(5), id: \.self) { event in
+                ForEach(manager.events.filter({ $0.device == device }).prefix(5), id: \.self) { event in
                     HStack {
                         Text("Charge: \(event.battery)")
                         
@@ -76,7 +78,7 @@ struct DebugDeviceView: View {
         Text("Devices & Events").font(.title)
 
         LazyVGrid(columns: layout, alignment: .leading, spacing:10) {
-            ForEach(manager.devices.sorted(by: { $0.polled ?? Date.distantPast > $1.polled ?? Date.distantPast }), id: \.self) { device in
+            ForEach(manager.devices, id: \.self) { device in
                 DebugDeviceCell(device)
                 
             }

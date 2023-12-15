@@ -23,6 +23,7 @@ class AppManager:ObservableObject {
     @Published var counter = 0
     @Published var devices = Array<SystemDeviceObject>()
     @Published var selected:SystemDeviceObject? = nil
+    @Published var events = Array<SystemEventObject>()
     @Published var updated:Date? = nil
         
     #if os(macOS)
@@ -56,6 +57,7 @@ class AppManager:ObservableObject {
         $updated.receive(on: DispatchQueue.global()).debounce(for: .seconds(3), scheduler: RunLoop.main).sink { _ in
             if CloudManager.shared.syncing == .completed {
                 self.appListDevices()
+                self.appEventsDevices()
 
             }
 
@@ -250,6 +252,30 @@ class AppManager:ObservableObject {
         
     }
     
+    private func appEventsDevices() {
+        if let context = self.appStorageContext() {
+            let fetch: NSFetchRequest<Events> = Events.fetchRequest()
+            
+            do {
+                let list = try context.fetch(fetch)
+                let mapped:[SystemEventObject] = list.compactMap({ .init($0) })
+
+                DispatchQueue.main.async {
+                    self.events = mapped
+                    
+                }
+                
+            }
+            catch {
+                print("Error fetching Trained records: \(error)")
+                
+            }
+            
+        }
+        
+    }
+
+    
     public func appListEvents(_ limit:Int?) -> [Events] {
         if let context = self.appStorageContext() {
             let fetch: NSFetchRequest<Events> = Events.fetchRequest()
@@ -329,6 +355,12 @@ class AppManager:ObservableObject {
                                 
                             }
                             
+                            if let device = device, let type = SystemDeviceTypes.type(device.profile.model) {
+                                existing.subtype = type.category.rawValue
+                                existing.type = type.rawValue
+
+                            }
+       
                             if existing.vendor.empty {
                                 existing.vendor = device?.profile.vendor
                                 
@@ -369,27 +401,37 @@ class AppManager:ObservableObject {
                     store.hidden = false
 
                     if let device = device {
+                        let type = SystemDeviceTypes.type(device.profile.model)
+                        
                         store.primary = false
                         store.name = device.name
                         store.model = device.profile.model
                         store.serial = device.profile.serial
                         store.vendor = device.profile.vendor
+                        store.type = type?.category.rawValue
+                        store.subtype = type?.rawValue
                         store.address = nil
                         store.owner = self.appDevice(nil, context: context)?.id
                         
                     }
                     else {
-                        store.model = SystemDeviceTypes.model
-                        store.os = SystemDeviceTypes.os
-                        store.subtype = SystemDeviceTypes.type.rawValue
-                        store.type = SystemDeviceTypes.type.category.rawValue
-                        store.primary = true
-                        store.vendor = "Apple Inc"
-                        store.product = SystemDeviceTypes.name(false)
-                        store.serial = SystemDeviceTypes.serial
-                        store.address = nil
-                        store.name = SystemDeviceTypes.name(true)
-                        
+                        if UserDefaults.main.object(forKey: SystemDefaultsKeys.deviceIdentifyer.rawValue) == nil {
+                            store.model = SystemDeviceTypes.model
+                            store.os = SystemDeviceTypes.os
+                            store.subtype = SystemDeviceTypes.type.rawValue
+                            store.type = SystemDeviceTypes.type.category.rawValue
+                            store.primary = true
+                            store.vendor = "Apple Inc"
+                            store.product = SystemDeviceTypes.name(false)
+                            store.serial = SystemDeviceTypes.serial
+                            store.address = nil
+                            store.name = SystemDeviceTypes.name(true)
+                            
+                            UserDefaults.save(.deviceIdentifyer, value: store.id?.uuidString)
+                            UserDefaults.save(.deviceCreated, value: Date())
+                            
+                        }
+
                     }
                     
                     if store.model.empty == false || store.name.empty == false {

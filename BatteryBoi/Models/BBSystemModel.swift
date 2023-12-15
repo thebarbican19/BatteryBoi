@@ -224,6 +224,39 @@ enum SystemDeviceCategory:String,Codable {
     case laptop
     case tablet
     case smartphone
+    case mouse
+    case headphones
+    case gamepad
+    case speaker
+    case keyboard
+    case other
+    
+    var name:String {
+        switch self {
+            case .mouse:return "BluetoothDeviceMouseLabel".localise()
+            case .headphones:return "BluetoothDeviceHeadphonesLabel".localise()
+            case .gamepad:return "BluetoothDeviceGamepadLabel".localise()
+            case .speaker:return "BluetoothDeviceSpeakerLabel".localise()
+            case .keyboard:return "BluetoothDeviceKeyboardLabel".localise()
+            case .other:return "BluetoothDeviceOtherLabel".localise()
+            default:return ""
+            
+        }
+        
+    }
+    
+    var icon:String {
+        switch self {
+            case .mouse:return "magicmouse.fill"
+            case .headphones:return "headphones"
+            case .gamepad:return "gamecontroller.fill"
+            case .speaker:return "hifispeaker.2.fill"
+            case .keyboard:return "keyboard.fill"
+            default:return ""
+            
+        }
+        
+    }
     
 }
 
@@ -305,8 +338,8 @@ enum SystemDeviceTypes:String,Codable {
         var name:String? = nil
         switch SystemDeviceTypes.type {
             case .macbook: name = "Macbook"
-            case .macbookPro: name = "Macbook Pro"
-            case .macbookAir: name = "Macbook Air"
+            case .macbookPro: name = "MacBook Pro"
+            case .macbookAir: name = "MacBook Air"
             case .imac: name = "iMac"
             case .ipad: name = "iPad"
             case .iphone: name = "iPhone"
@@ -341,8 +374,15 @@ enum SystemDeviceTypes:String,Codable {
         return nil
         
     }
-
     
+    static func type(_ model:String) -> SystemDeviceTypes? {
+        var formatted = model.replacingOccurrences(of: "[^A-Za-z]", with: "", options: .regularExpression)
+        formatted = formatted.lowercased()
+        
+        return SystemDeviceTypes(rawValue: formatted)
+        
+    }
+
     static var serial:String? {
         #if os(macOS)
             var output: String? = nil
@@ -407,6 +447,16 @@ enum SystemDeviceTypes:String,Codable {
             return UIDevice.current.systemVersion
 
         #endif
+        
+    }
+    
+    static var system:UUID? {
+        if let system = UserDefaults.standard.object(forKey: SystemDefaultsKeys.deviceIdentifyer.rawValue) as? String {
+            return UUID(uuidString: system)
+    
+        }
+        
+        return nil
         
     }
     
@@ -502,14 +552,16 @@ struct SystemEventObject:Identifiable,Hashable {
     var state:StatsStateType?
     var battery:Int
     var notify:StatsActivityNotificationType
-    
+    var device:SystemDeviceObject?
+
     init?(_ event:Events?) {
-        if let id = event?.id, let state = StatsStateType(rawValue: event?.state ?? ""), let timestamp = event?.timestamp, let notify = event?.notify {
+        if let id = event?.id, let state = StatsStateType(rawValue: event?.state ?? ""), let timestamp = event?.timestamp, let notify = event?.notify, let device = event?.device {
             self.id = id
             self.state = state
             self.created = timestamp
             self.battery = Int(event?.charge ?? 100)
             self.notify = StatsActivityNotificationType(rawValue: notify) ?? .background
+            self.device = .init(device)
             
         }
         else {
@@ -532,14 +584,13 @@ struct SystemDeviceObject:Hashable,Equatable,Identifiable {
     var name:String
     var profile:SystemDeviceProfileObject
     var connectivity:SystemConnectivityType = .system
-    var polled:Date? = nil
     var synced:Bool = true
     var favourite:Bool = false
     var notifications:Bool = true
     var order:Int = 1
     var distance:SystemDeviceDistanceObject? = nil
-    var events:[SystemEventObject] = []
     var added:Date? = nil
+    var system:Bool = false
     
     init?(_ device:Devices) {
         if let id = device.id, let model = device.model {
@@ -553,16 +604,8 @@ struct SystemDeviceObject:Hashable,Equatable,Identifiable {
             self.order = Int(device.order)
             self.distance = nil
             self.added = device.added_on ?? Date()
-            self.polled = self.events.first?.created ?? nil
+            self.system = id == SystemDeviceTypes.system ? true : false
             
-            if let events = device.events?.allObjects {
-                self.events = events.compactMap({ SystemEventObject.init($0 as? Events) }).sorted(by: { $0.created > $1.created })
-
-            }
-           
-            print("\(name) has \(events.count) events")
-            print("\(name) set events \(self.events.count)")
-
         }
         else {
             return nil
@@ -581,7 +624,6 @@ struct SystemDeviceObject:Hashable,Equatable,Identifiable {
         self.order = 0
         self.favourite = false
         self.notifications = true
-        self.polled = nil
         self.distance = distance
         
     }
@@ -594,9 +636,7 @@ struct SystemDeviceObject:Hashable,Equatable,Identifiable {
     static func match(_ device:SystemDeviceObject?, context:NSManagedObjectContext) -> SystemDeviceObject? {
         let fetch = Devices.fetchRequest() as NSFetchRequest<Devices>
         fetch.includesPendingChanges = true
-        
-        print("Attempting to Store Device" ,device)
-        
+                
         if let list = try? context.fetch(fetch) {
             let existing:[SystemDeviceObject] = list.compactMap({ .init($0) })
             
@@ -621,6 +661,11 @@ struct SystemDeviceObject:Hashable,Equatable,Identifiable {
                 print("existing" ,existing.map({ $0.profile.model }))
                 
                 if let match = existing.first(where: { $0.profile.model == device.profile.model }) {
+                    return match
+                    
+                }
+                
+                if let match = existing.first(where: { $0.name == device.name }) {
                     return match
                     
                 }
@@ -718,6 +763,9 @@ enum SystemEvents:String {
 }
 
 enum SystemDefaultsKeys: String {
+    case deviceCreated = "bb_device_created"
+    case deviceIdentifyer = "bb_device_identifyer"
+    
     case enabledAnalytics = "bb_settings_analytics"
     case enabledLogin = "bb_settings_login"
     case enabledTheme = "bb_settings_theme"
@@ -732,7 +780,7 @@ enum SystemDefaultsKeys: String {
 
     case versionInstalled = "bb_version_installed"
     case versionCurrent = "bb_version_current"
-    case versionIdenfiyer = "bb_version_id"
+    case versionIdenfiyer = "bb_version_idenfiyer"
     
     case usageDay = "bb_usage_days"
     case usageTimestamp = "bb_usage_date"
@@ -753,6 +801,9 @@ enum SystemDefaultsKeys: String {
 
     var name:String {
         switch self {
+            case .deviceCreated:return "Device Created"
+            case .deviceIdentifyer:return "Device ID"
+            
             case .enabledAnalytics:return "Analytics"
             case .enabledLogin:return "Launch at Login"
             case .enabledTheme:return "Theme"
@@ -767,7 +818,7 @@ enum SystemDefaultsKeys: String {
             
             case .versionInstalled:return "Installed on"
             case .versionCurrent:return "Active Version"
-            case .versionIdenfiyer:return "App ID"
+            case .versionIdenfiyer:return "Version Idenfiyer"
 
             case .usageDay:return "bb_usage_days"
             case .usageTimestamp:return "bb_usage_timestamp"

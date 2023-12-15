@@ -88,15 +88,35 @@ class StatsManager:ObservableObject {
     }
     
     public func statsAverageDepletionTime(_ device:SystemDeviceObject?) {
+        var matches = [SystemEventObject]()
+        if let device = device {
+            matches = AppManager.shared.events.filter({ $0.device == device && $0.state == .depleted && $0.notify != .none })
+
+        }
+        else {
+            matches = AppManager.shared.events.filter({ $0.device?.system == true && $0.state == .depleted && $0.notify != .none })
+
+        }
+        
+        if matches.isEmpty == false {
+            
+        }
         
     }
     
-    public func statsAverageChargeTime(_ device:SystemDeviceObject?, start:Date = Date(), end:Date = Date().addingTimeInterval(-60*60*24*100)) {
-        
+    public func statsAverageChargeTime(_ device:SystemDeviceObject?) {
+        if let device = device {
+            let matches = AppManager.shared.events.filter({ $0.device == device && $0.state == .charging && $0.notify != .none }).prefix(30)
+            
+        }
+        else {
+            
+        }
+
     }
     
     public func statsSystemDevicesTypes() {
-        
+        //AppManager.shared.devices.map({ $0.})
     }
     
     private var statsCountdown:String? {
