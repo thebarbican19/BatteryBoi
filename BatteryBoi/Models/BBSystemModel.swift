@@ -551,7 +551,7 @@ struct SystemEventObject:Identifiable,Hashable {
     var created:Date = Date()
     var state:StatsStateType?
     var battery:Int
-    var notify:StatsActivityNotificationType
+    var notify:StatsNotificationType
     var device:SystemDeviceObject?
 
     init?(_ event:Events?) {
@@ -560,7 +560,7 @@ struct SystemEventObject:Identifiable,Hashable {
             self.state = state
             self.created = timestamp
             self.battery = Int(event?.charge ?? 100)
-            self.notify = StatsActivityNotificationType(rawValue: notify) ?? .background
+            self.notify = StatsNotificationType(rawValue: notify) ?? .background
             self.device = .init(device)
             
         }
@@ -689,6 +689,11 @@ struct SystemDeviceObject:Hashable,Equatable,Identifiable {
                 }
                 
                 if let match = existing.first(where: { $0.profile.model == SystemDeviceTypes.model }) {
+                    return match
+                    
+                }
+                
+                if let match = existing.first(where: { $0.name == SystemDeviceTypes.name(true) }) {
                     return match
                     
                 }

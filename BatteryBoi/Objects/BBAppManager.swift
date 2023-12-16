@@ -79,7 +79,7 @@ class AppManager:ObservableObject {
     public func appStoreEvent(_ state:StatsStateType, device:SystemDeviceObject?, battery:Int? = nil) {
         if let context = self.appStorageContext() {
             context.performAndWait {
-                var notify:StatsActivityNotificationType = .background
+                var notify:StatsNotificationType = .background
         
                 if let last = self.appLatestEvent(state, device: device, context: context) {
                     if let battery = battery {
@@ -134,6 +134,7 @@ class AppManager:ObservableObject {
                 else {
                     if let device = self.appDevice(nil, context: context) {
                         store.charge = Int64(BatteryManager.shared.percentage)
+                        store.temprature = Float(BatteryManager.shared.temperature.value)
                         store.device = device
                         store.reporter = device
                         store.mode = BatteryManager.shared.mode.rawValue

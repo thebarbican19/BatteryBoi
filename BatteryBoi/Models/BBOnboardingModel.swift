@@ -11,9 +11,9 @@ import Foundation
     public enum OnboardingViewType:String {
         case intro
         case cloud
+        case notifications
         case bluetooth
-        case admin
-        case cli
+        case process
         case nobatt
         case ios
         case loginatlaunch
@@ -23,9 +23,9 @@ import Foundation
             switch self {
                 case .intro : return true
                 case .cloud : return true
-                case .admin : return true
+                case .notifications : return true
+                case .process : return true
                 case .nobatt : return true
-                case .cli : return false
                 case .bluetooth : return true
                 case .ios : return false
                 case .loginatlaunch : return false
@@ -40,8 +40,8 @@ import Foundation
 #elseif os(iOS)
     public enum OnboardingViewType:String {
         case intro
-        case notifications
         case cloud
+        case notifications
         case bluetooth
         case macos
         case complete
@@ -49,8 +49,8 @@ import Foundation
         var present:Bool {
             switch self {
                 case .intro : return true
-                case .notifications : return true
                 case .cloud : return true
+                case .notifications : return true
                 case .bluetooth : return true
                 case .macos : return false
                 case .complete : return false

@@ -22,6 +22,12 @@ import Foundation
     
 }
 
+@objc enum HelperInterfaceState:Int {
+    case installed
+    case missing
+    
+}
+
 @objc enum HelperInstallerStatus:Int {
     case unknown = 0
     case okay = 200
@@ -58,10 +64,15 @@ import Foundation
 }
 
 @objc(HelperProtocol) protocol HelperProtocol {
+    func setupHomeDirectory(home: URL)
+    func setupExecutables(_ directory:String)
+    
+    func helperInterfaceState(completion: @escaping(HelperInterfaceState) -> Void)
     func helperDownloadDependancy(_ type:HelperDependencies, destination:URL, completion: @escaping (HelperInstallerStatus, String) -> Void)
     func helperToggleLowPower(_ state:HelperToggleState, completion: @escaping (HelperToggleState) -> Void)
     func helperPowerMode(completion: @escaping (HelperToggleState) -> Void)
     func helperVersion(completion:@escaping(NSNumber?) -> Void)
     func helperProcessTaskWithArguments(_ type:HelperProcessType, path:String, arguments:[String], whitespace:Bool, completion:@escaping(String?) -> Void)
-
+    func helperRetriveDeviceCache(completion: @escaping (String) -> Void)
+    
 }

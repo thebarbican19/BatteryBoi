@@ -30,8 +30,6 @@ struct DebugDeviceCell: View {
                 //Text(device.polled?.formatted ?? "Never")
                 
                 Text("Is System: \(device.system.string(.yes))")
-
-//                Text("Events: \(device.events.count)")
                 
             }
             .background(.gray)

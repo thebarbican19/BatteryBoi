@@ -20,6 +20,38 @@ class ProcessManager:ObservableObject {
 
     private var updates = Set<AnyCancellable>()
     
+    init() {
+        $helper.delay(for: .seconds(0.8), scheduler: RunLoop.main).receive(on: DispatchQueue.main).sink { state in
+            if state == .allowed {
+                if let helper = self.processHelperContext() {
+                    helper.helperInterfaceState { state in
+                        DispatchQueue.main.async {
+                            if self.interface == .unknown {
+                                switch state {
+                                    case .missing : self.interface = .undetermined
+                                    case .installed : self.interface = .allowed
+                                    
+                                }
+                                
+                            }
+                            
+                        }
+                        
+                        if self.interface == .undetermined {
+                            self.processInstallInterface()
+                            
+                        }
+                                               
+                    }
+                    
+                }
+                
+            }
+                        
+        }.store(in: &updates)
+        
+    }
+    
     public var connection: NSXPCConnection? = {
         if let id = Bundle.main.infoDictionary?["ENV_MACH_ID"] as? String  {
             let connection = NSXPCConnection(machServiceName: id, options: .privileged)
@@ -33,27 +65,6 @@ class ProcessManager:ObservableObject {
         return nil
         
     }()
-    
-    public func processInstallInterface() {
-        #if MAINTARGET
-            if ToolInstaller.install() == true {
-                DispatchQueue.main.async {
-                    self.interface = .allowed
-                    
-                }
-
-            }
-            else {
-                DispatchQueue.main.async {
-                    self.interface = .denied
-                    
-                }
-                
-            }
-        
-        #endif
-        
-    }
     
     public func processInstallHelper() {
         var reference: AuthorizationRef?
@@ -91,22 +102,57 @@ class ProcessManager:ObservableObject {
         else {
             DispatchQueue.main.async {
                 self.helper = .allowed
+                self.interface = .unknown
                 
             }
-                        
+            
         }
+        
+    }
+    
+    private func processInstallInterface() {
+        #if MAINTARGET
+            if ToolInstaller.install() == true {
+                DispatchQueue.main.async {
+                    self.interface = .allowed
+                    
+                }
+
+            }
+            else {
+                DispatchQueue.main.async {
+                    self.interface = .denied
+                    
+                }
+                
+            }
+        
+        #endif
         
     }
     
     public func processHelperContext() -> HelperProtocol? {
         if let helper = self.connection?.remoteObjectProxy as? HelperProtocol {
+            helper.setupHomeDirectory(home: FileManager.default.homeDirectoryForCurrentUser)
+
+            if let bundle = Bundle.main.resourcePath {
+                if let resorces = try? FileManager.default.contentsOfDirectory(atPath: bundle) {
+                    for script in resorces.filter({ $0.hasSuffix(".sh") }) {
+                        helper.setupExecutables( "\(Bundle.main.bundleURL)Contents/Resources/\(script)")
+
+                    }
+                                        
+                }
+
+            }
+            
             return helper
             
         }
         else {
             if self.helper == .allowed {
                 self.processInstallHelper()
-
+                
             }
             
             return nil
@@ -347,6 +393,11 @@ class ProcessManager:ObservableObject {
                     
                 }
                 
+                if let watts = BatteryManager.shared.info?.watts {
+                    output.append(self.processValueOutput("Watts", value:.init( "\(watts) mAh")))
+
+                }
+
                 output.append("\n----------HEALTH----------\n\n")
                 
                 if let heath = BatteryManager.shared.health {
@@ -374,8 +425,6 @@ class ProcessManager:ObservableObject {
                         
                     }
                         
-        
-                    
                 }
                 
             }

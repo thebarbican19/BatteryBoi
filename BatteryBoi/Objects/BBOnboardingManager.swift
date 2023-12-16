@@ -44,16 +44,16 @@ class OnboardingManager:ObservableObject {
         }.store(in: &updates)
         
         #if os(macOS)
-//            ProcessManager.shared.$interface.receive(on: DispatchQueue.main).sink { _ in
-//                self.onboardingSetup()
-//
-//            }.store(in: &updates)
-//        
-//            ProcessManager.shared.$helper.receive(on: DispatchQueue.main).sink { _ in
-//                self.onboardingSetup()
-//
-//            }.store(in: &updates)
+            ProcessManager.shared.$interface.receive(on: DispatchQueue.main).sink { state in
+                self.onboardingSetup()
+
+            }.store(in: &updates)
         
+            ProcessManager.shared.$helper.receive(on: DispatchQueue.main).sink { _ in
+                self.onboardingSetup()
+
+            }.store(in: &updates)
+
         #endif
         
         self.onboardingSetup()
@@ -72,23 +72,13 @@ class OnboardingManager:ObservableObject {
 
         }
         else if CloudManager.shared.state != .enabled && CloudManager.shared.state != .unknown {
-            #if os(macOS)
-                switch CloudManager.shared.state {
-                    case .disabled : self.state = .cloud
-                    default : break
-                    
-                }
-            
-            #else
-                switch CloudManager.shared.state {
-                    case .disabled : self.state = .cloud
-                    case .blocked : self.state = .notifications
-                    default : break
-                    
-                }
-            
-            #endif
-            
+            switch CloudManager.shared.state {
+                case .disabled : self.state = .cloud
+                case .blocked : self.state = .notifications
+                default : break
+                
+            }
+                        
             self.updated = Date()
 
         }
@@ -99,13 +89,8 @@ class OnboardingManager:ObservableObject {
 //                    self.updated = Date()
 //
 //                }
-                if self.onboardingStep(.admin) == .unseen {
-                    self.state = .admin
-                    self.updated = Date()
-
-                }
-                else if self.onboardingStep(.cli) == .unseen {
-                    self.state = .cli
+                if ProcessManager.shared.helper.flag == false {
+                    self.state = .process
                     self.updated = Date()
                     
                 }
@@ -149,33 +134,19 @@ class OnboardingManager:ObservableObject {
 
         }
         
-        #if os(iOS)
-            if state == .notifications {
-                switch CloudManager.shared.state {
-                    case .blocked : CloudManager.shared.cloudAllowNotifications()
-                    case .disabled : self.onboardingPermissionsUpdate(.notifications)
-                    default : self.onboardingPermissionsUpdate(.cloud)
+        if state == .notifications {
+            switch CloudManager.shared.state {
+                case .blocked : CloudManager.shared.cloudAllowNotifications()
+                case .disabled : self.onboardingPermissionsUpdate(.notifications)
+                default : self.onboardingPermissionsUpdate(.cloud)
 
-                }
-                
             }
-        
-        #endif
-         
-        #if os(macOS)
-            if state == .cli {
-                _ = self.onboardingStep(.cli, insert: true)
-                
-            }
-        
-        #endif
+            
+        }
 
         #if os(macOS)
-            if state == .admin {
-                if ProcessManager.shared.interface == .unknown {
-                    ProcessManager.shared.processInstallInterface()
-                    
-                }
+            if state == .process {
+                ProcessManager.shared.processInstallHelper()
                 
             }
             
@@ -189,6 +160,7 @@ class OnboardingManager:ObservableObject {
             switch step {
                 case .bluetooth : url = URL(fileURLWithPath: "/System/Library/PreferencePanes/Bluetooth.prefPane")
                 case .cloud : url = URL(string: "x-apple.systempreferences:com.apple.preferences.icloud")
+                case .notifications:url = URL(string: "x-apple.systempreferences:com.apple.preference.notifications")
                 default : break
                 
             }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum StatsActivityNotificationType:String {
+enum StatsNotificationType:String {
     case alert
     case background
     case none
@@ -23,6 +23,7 @@ struct StatsIcon {
 enum StatsStateType:String {
     case charging
     case battery
+    case overheating
     case depleted
     case connected
     case disconnected

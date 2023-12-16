@@ -108,7 +108,7 @@ enum MenubarStyle:String,CaseIterable {
     var background:CGFloat {
         switch self {
             case .original : return 1.0
-            case .transparent : return 0.4
+            case .transparent : return 0.6
             case .text : return 0.0
             
         }

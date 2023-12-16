@@ -105,6 +105,15 @@ enum ProcessPermissionState:String {
         
     }
     
+    var flag:Bool {
+        switch self {
+            case .allowed : return true
+            case .unknown : return true
+            default : return false
+            
+        }
+    }
+    
 }
 
 enum ProcessHomebrewState:String {

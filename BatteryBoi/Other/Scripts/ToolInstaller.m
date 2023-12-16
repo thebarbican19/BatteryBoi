@@ -38,7 +38,9 @@
                 if (![result containsString:@"Boi"]) {
                     status = -1;  // Code doesn't matter, just not errAuthorizationSuccess
                 }
+                
             }
+            
         }
         AuthorizationFree(authorization, kAuthorizationFlagDefaults);
     }

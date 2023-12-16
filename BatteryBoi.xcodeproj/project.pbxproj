@@ -92,6 +92,7 @@
 		D8BEDB532B27B379004D3EB1 /* BBHelperModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83C2C2D2B253DBD00B78456 /* BBHelperModel.swift */; };
 		D8BEDB552B27B398004D3EB1 /* BBOnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6198C2B16F13D0023D5E0 /* BBOnboardingManager.swift */; };
 		D8BEDB852B2C0DD6004D3EB1 /* airpods.sh in Resources */ = {isa = PBXBuildFile; fileRef = D8BEDB842B2C0DD5004D3EB1 /* airpods.sh */; };
+		D8BEDB872B2CEA82004D3EB1 /* cache.sh in Resources */ = {isa = PBXBuildFile; fileRef = D8BEDB862B2CEA81004D3EB1 /* cache.sh */; };
 		D8C7849F2B1E815300EBD52A /* BBNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C7849D2B1E815300EBD52A /* BBNavigationView.swift */; };
 		D8C784A22B1E84B100EBD52A /* SplitView in Frameworks */ = {isa = PBXBuildFile; productRef = D8C784A12B1E84B100EBD52A /* SplitView */; };
 		D8C784AA2B1E8A8E00EBD52A /* ToolInstaller.m in Sources */ = {isa = PBXBuildFile; fileRef = D8C784A92B1E8A8E00EBD52A /* ToolInstaller.m */; };
@@ -269,6 +270,7 @@
 		D89CFD3C2B0C08DC006342CD /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		D89CFD3E2B0C08DC006342CD /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		D8BEDB842B2C0DD5004D3EB1 /* airpods.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = airpods.sh; sourceTree = "<group>"; };
+		D8BEDB862B2CEA81004D3EB1 /* cache.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = cache.sh; sourceTree = "<group>"; };
 		D8C7849D2B1E815300EBD52A /* BBNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBNavigationView.swift; sourceTree = "<group>"; };
 		D8C784A62B1E8A8C00EBD52A /* BatteryBoi-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BatteryBoi-Bridging-Header.h"; sourceTree = "<group>"; };
 		D8C784A82B1E8A8D00EBD52A /* ToolInstaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolInstaller.h; sourceTree = "<group>"; };
@@ -433,6 +435,8 @@
 		D83DD3F62A9BBF2E00FCC534 /* Scripts */ = {
 			isa = PBXGroup;
 			children = (
+				D8BEDB842B2C0DD5004D3EB1 /* airpods.sh */,
+				D8BEDB862B2CEA81004D3EB1 /* cache.sh */,
 				D8C784B72B1E8B3D00EBD52A /* install.sh */,
 				D8C784A82B1E8A8D00EBD52A /* ToolInstaller.h */,
 				D8C784A92B1E8A8E00EBD52A /* ToolInstaller.m */,
@@ -453,7 +457,6 @@
 		D8577A3F2B23B3A200366B51 /* BatteryBoi Helper */ = {
 			isa = PBXGroup;
 			children = (
-				D8BEDB842B2C0DD5004D3EB1 /* airpods.sh */,
 				D8577A402B23B3A200366B51 /* main.swift */,
 				D83C2C2B2B25329400B78456 /* BBHelperManager.swift */,
 				D83C2C2D2B253DBD00B78456 /* BBHelperModel.swift */,
@@ -869,6 +872,7 @@
 				D8CDA7FD2AA249F800FAD41E /* highnote.wav in Resources */,
 				D8C784B82B1E8B3D00EBD52A /* install.sh in Resources */,
 				D8CDA7FE2AA249F800FAD41E /* lownote.wav in Resources */,
+				D8BEDB872B2CEA82004D3EB1 /* cache.sh in Resources */,
 				D84F4E2B2A86E9E800668582 /* LocalizableMain.strings in Resources */,
 				D8D9E5A42A7DE7AE00E295FA /* Assets.xcassets in Resources */,
 			);

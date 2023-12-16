@@ -10,6 +10,53 @@ import Foundation
 final class HelperManager: NSObject, HelperProtocol {
     static let shared = HelperManager()
     
+    private var home: String? = nil
+    private var directory: String? = nil
+
+    func setupHomeDirectory(home: URL) {
+        self.home = home.path()
+        self.directory = "\(home.path())Library/Application Support/BatteryBoi/"
+        
+    }
+    
+    func setupExecutables(_ directory:String) {
+        guard let bundle = self.directory, let file = directory.components(separatedBy: "/").last else {
+            return
+
+        }
+        
+        guard let formatted = directory.components(separatedBy: "file://").last else  {
+            return
+            
+        }
+        
+        self.helperProcessTaskWithArguments(.run, path:"/bin/cp", arguments: [formatted, "\(bundle)\(file)"]) { _ in
+            
+        }
+    
+    }
+    
+    func helperInterfaceState(completion: @escaping (HelperInterfaceState) -> Void) {
+        self.helperProcessTaskWithArguments(.launch, path: "/usr/local/bin/cliboi", arguments: ["-c", "debug"]) { response in
+            guard let response = response else {
+                completion(.missing)
+                return
+                
+            }
+            
+            if response.contains("command not found") {
+                completion(.missing)
+
+            }
+            else {
+                completion(.installed)
+
+            }
+            
+        }
+
+    }
+    
     func helperVersion(completion:(NSNumber?) -> Void) {
         if let version = Bundle.main.infoDictionary?["CFBundleVersionKey"] as? String {
             let formatter = NumberFormatter()
@@ -51,6 +98,21 @@ final class HelperManager: NSObject, HelperProtocol {
         else {
             completion(.malformedurl, "")
 
+        }
+        
+    }
+    
+    func helperRetriveDeviceCache(completion: @escaping (String) -> Void) {
+        if let directory = self.directory {
+            self.helperProcessTaskWithArguments(.launch, path: "/bin/bash", arguments: ["-c", "\(directory)/cache.sh"]) { xml in
+                completion("\(directory)/cache.sh" ?? "NO XML")
+                
+            }
+                    
+        }
+        else {
+            completion("NO DIRECTORY")
+            
         }
         
     }
@@ -164,6 +226,22 @@ final class HelperManager: NSObject, HelperProtocol {
             switch response?.isEmpty {
                 case true : completion(.okay)
                 default :  completion(.permission)
+                
+            }
+            
+        }
+        
+    }
+    
+    private func helperHomeDirectory(_ completion: @escaping (String) -> Void) {
+        self.helperProcessTaskWithArguments(.run, path: "/bin/bash", arguments: ["-c", "echo $HOME"], whitespace: true) { home in
+            if let home = home {
+                completion(home)
+//                completion(URL(fileURLWithPath: "\(home)/Library/Application Support/BatteryBoi"))
+
+            }
+            else {
+                completion("DUNNO")
                 
             }
             

@@ -169,30 +169,20 @@ class CloudManager:ObservableObject {
         if let id = Bundle.main.infoDictionary?["ENV_ICLOUD_ID"] as? String  {
             CKContainer(identifier: id).fetchUserRecordID { id, error in
                 if let id = id {
-                    #if os(macOS)
+                    UNUserNotificationCenter.current().getNotificationSettings { settings in
                         DispatchQueue.main.async {
-                            self.state = .enabled
-                            self.id = id.recordName
-
-                        }
-                    
-                    #else
-                        UNUserNotificationCenter.current().getNotificationSettings { settings in
-                            DispatchQueue.main.async {
-                                switch settings.authorizationStatus {
-                                    case .authorized: self.state = .enabled
-                                    default : self.state = .blocked
-                                    
-                                }
-                                
-                                self.id = id.recordName
+                            switch settings.authorizationStatus {
+                                case .authorized: self.state = .enabled
+                                default : self.state = .blocked
                                 
                             }
-                                                    
+                            
+                            self.id = id.recordName
+                            
                         }
-                    
-                    #endif
-                    
+                                                
+                    }
+                                        
                 }
                                 
             }

@@ -32,14 +32,18 @@ struct BatteryInformationObject {
     var manufacturer:String?
     var accumulated:Double?
     var serial:String?
+    var watts:Double?
+    var powered:Bool? = nil
+    var batteries:Int? = nil
 
-    init?(available:Double?, capacity:Double?, voltage:Double?, charger:String?, manufacturer:String?, accumulated:Double?, serial:String?) {
+    init?(available:Double?, capacity:Double?, voltage:Double?, charger:String?, manufacturer:String?, accumulated:Double?, serial:String?, watts:Double?) {
         if let available = available, let capacity = capacity {
             self.available = available
             self.capacity = capacity
             self.manufacturer = manufacturer?.replacingOccurrences(of: ")", with: "")
             self.charger = charger
             self.serial = serial
+            self.watts = watts
 
             if let accumulated = accumulated {
                 self.accumulated = accumulated / 3600000 // (kWh)
@@ -56,7 +60,7 @@ struct BatteryInformationObject {
     
 }
 
-struct BatteryThemalObject {
+struct BatteryThemalObject:Equatable {
     var state:BatteryThemalState
     var formatted:String
     var value:Double
@@ -301,13 +305,13 @@ class BatteryManager:ObservableObject {
         }
         
         AppManager.shared.appTimer(1).dropFirst(5).sink { _ in
-            self.powerStatus(true)
+            self.powerStatus()
             self.counter = nil
             
         }.store(in: &updates)
         
         AppManager.shared.appTimer(6).sink { _ in
-            self.powerStatus(true)
+            self.powerStatus()
             self.counter = nil
 
         }.store(in: &updates)
@@ -347,6 +351,14 @@ class BatteryManager:ObservableObject {
 
         }.store(in: &updates)
         
+        $temperature.removeDuplicates().receive(on: DispatchQueue.global()).sink() { newValue in
+            if newValue.state == .suboptimal {
+                AppManager.shared.appStoreEvent(.overheating, device: nil)
+                
+            }
+            
+        }.store(in: &updates)
+        
         #if os(iOS)
             UIDevice.current.isBatteryMonitoringEnabled = true
 
@@ -367,16 +379,14 @@ class BatteryManager:ObservableObject {
     }
     
     public func powerForceRefresh() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.powerStatus(true)
-            self.powerEfficiencyMode()
-           
-            #if os(macOS)
-                self.powerTempratureCheck()
-                self.powerMetrics()
-            
-            #endif
-        }
+        self.powerStatus()
+        self.powerEfficiencyMode()
+       
+        #if os(macOS)
+            self.powerTempratureCheck()
+            self.powerMetrics()
+        
+        #endif
         
     }
     
@@ -430,7 +440,7 @@ class BatteryManager:ObservableObject {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             if let counter = self.counter {
                 if counter.isMultiple(of: 1) {
-                    self.powerStatus(true)
+                    self.powerStatus()
                     
                 }
                 
@@ -452,15 +462,7 @@ class BatteryManager:ObservableObject {
         
     }
     
-    private func powerStatus(_ force:Bool = false) {
-        if force == true {
-            self.percentage = self.powerPercentage
-
-        }
-        
-    }
-    
-    private func powerCharging() {
+    private func powerStatus() {
         #if os(macOS)
             if let battery = try? SMCKit.batteryInformation() {
                 DispatchQueue.main.async {
@@ -469,13 +471,36 @@ class BatteryManager:ObservableObject {
                         case false : self.charging =  .battery
                         
                     }
-               
+                    
+                    self.info?.powered = battery.isACPresent
+                    self.info?.batteries = battery.batteryCount
+                    
+                    guard let snapshot = IOPSCopyPowerSourcesInfo()?.takeRetainedValue() else {
+                        return
+                        
+                    }
+                    
+                    if let sources = IOPSCopyPowerSourcesList(snapshot)?.takeRetainedValue() as NSArray?  {
+                        for ps in sources as NSArray {
+                            let source: CFTypeRef = ps as CFTypeRef
+                            let dict = IOPSGetPowerSourceDescription(snapshot, source as CFTypeRef).takeUnretainedValue() as NSDictionary
+                            
+                            if let type = dict[kIOPSTypeKey] as? String {
+                                if type == kIOPSInternalBatteryType {
+                                    self.percentage = dict[kIOPSCurrentCapacityKey] as? Int ?? 0
+                                    
+                                }
+
+                            }
+                            
+                        }
+                        
+                    }
+                    
                 }
                 
             }
 
-            self.charging = .charging
-        
         #elseif os(iOS)
             switch UIDevice.current.batteryState {
                 case .charging : self.charging = .charging
@@ -484,35 +509,12 @@ class BatteryManager:ObservableObject {
                 
             }
         
+            self.percentage = Int(UIDevice.current.batteryLevel * 100)
+
         #endif
         
     }
-
-    private var powerPercentage:Int {
-        #if os(macOS)
-            let snapshot = IOPSCopyPowerSourcesInfo().takeRetainedValue()
-            let sources = IOPSCopyPowerSourcesList(snapshot).takeRetainedValue() as Array
-            for source in sources {
-                if let description = IOPSGetPowerSourceDescription(snapshot, source).takeUnretainedValue() as? [String: Any] {
-                    
-                    if description["Type"] as? String == kIOPSInternalBatteryType {
-                        return description[kIOPSCurrentCapacityKey] as? Int ?? Int(0.0)
-                        
-                    }
-                    
-                }
-                
-            }
-        
-            return 100
-
-        #elseif os(iOS)
-            return Int(UIDevice.current.batteryLevel * 100)
-        
-        #endif
-                
-    }
-        
+            
     public var powerUntilFull:Date? {
         return Date()
         
@@ -546,6 +548,7 @@ class BatteryManager:ObservableObject {
                 var capacity:Double?
                 var serial:String?
                 var available:Double?
+                var watts:Double?
 
                 context.helperProcessTaskWithArguments(.launch, path: path, arguments: arguments, whitespace: false) { response in
                     guard let response = response else {
@@ -562,6 +565,7 @@ class BatteryManager:ObservableObject {
                                 case "AdapterVoltage" : voltage = Double(components[1])
                                 case "Manufacturer" : manufacture = components[1]
                                 case "AccumulatedWallEnergyEstimate" : accumulated = Double(components[1])
+                                case "Watts" : watts = Double(components[1])
                                 case "CycleCount" : cycles = Int(components[1])
                                 case "DesignCapacity" : capacity = Double(components[1])
                                 case "Capacity" : available = Double(components[1])
@@ -574,9 +578,8 @@ class BatteryManager:ObservableObject {
                         
                     }
                 
-
                     DispatchQueue.main.async {
-                        self.info = .init(available: available, capacity: capacity, voltage: voltage, charger: charger, manufacturer:manufacture, accumulated:accumulated, serial: serial)
+                        self.info = .init(available: available, capacity: capacity, voltage: voltage, charger: charger, manufacturer:manufacture, accumulated:accumulated, serial: serial, watts: watts)
                         self.health = .init(available: available, capacity: capacity, cycles: cycles)
                         
                     }

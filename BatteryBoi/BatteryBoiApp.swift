@@ -121,7 +121,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
 
             UpdateManager.shared.updateCheck()
             
-            WindowManager.shared.windowOpen(.userLaunched, device: nil)
+            WindowManager.shared.windowOpen(.alert, alert: .userInitiated, device: nil)
             
             MenubarManager.shared.$primary.removeDuplicates().sink { type in
                 if type == nil {
@@ -199,7 +199,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
     
     @objc func applicationStatusBarButtonClicked(sender: NSStatusBarButton) {
         if WindowManager.shared.windowIsVisible(.chargingBegan) == false {
-            WindowManager.shared.windowOpen(.userInitiated, device: nil)
+            WindowManager.shared.windowOpen(.alert, alert: .userInitiated, device: nil)
 
         }
         else {
@@ -211,7 +211,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
     
     @objc func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         #if MAINTARGET
-            WindowManager.shared.windowOpen(.userInitiated, device: nil)
+            WindowManager.shared.windowOpen(.alert, alert: .userInitiated, device: nil)
 
         #endif
         
@@ -221,10 +221,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
     
     @objc func applicationHandleURLEvent(event: NSAppleEventDescriptor, reply: NSAppleEventDescriptor) {
         
-//        if let path = event.paramDescriptor(forKeyword: AEKeyword(keyDirectObject))?.stringValue?.components(separatedBy: "://").last {
-//            
-//        }
-        
     }
 
     @objc func applicationFocusDidMove(notification:NSNotification) {
@@ -232,12 +228,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
             if window.title == "modalwindow" {
                 NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseUp]) { _ in
                     window.animator().alphaValue = 1.0;
-                    window.animator().setFrame(WindowManager.shared.windowHandleFrame(), display: true, animate: true)
                     
                 }
-                
-                _ = WindowManager.shared.windowHandleFrame(moved: window.frame)
-                
+                                
             }
 
         }
