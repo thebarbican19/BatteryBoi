@@ -41,7 +41,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             self.applicationHandleAppRefresh(task: task as! BGAppRefreshTask)
             
         }
-        
+                
         return true
         
     }
@@ -53,7 +53,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     func applicationScheduleAppRefresh() {
         let request = BGAppRefreshTaskRequest(identifier: "com.ovatar.batteryapp.refresh")
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 5 * 60)
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 1 * 60)
         
         do {
             try BGTaskScheduler.shared.submit(request)
@@ -74,8 +74,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             
         }
         
-        self.applicationSendBackgroundEvent { success in
-            task.setTaskCompleted(success: success)
+        self.applicationBackgroundPushEvent(id: "") { _ in
+            task.setTaskCompleted(success: true)
             
         }
         
@@ -83,20 +83,42 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
     }
     
-    func applicationSendBackgroundEvent(completion: @escaping (Bool) -> Void) {
-        BatteryManager.shared.powerForceRefresh()
-        BluetoothManager.shared.bluetoothAuthorization()
-        AppManager.shared.updated = Date()
+    func applicationBackgroundPushEvent(id:String, completion: @escaping (Bool) -> Void) {
+        let fetch: NSFetchRequest<Battery> = Battery.fetchRequest()
+        fetch.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
+        fetch.fetchLimit = 1
+        
+        do {
+            //let existing = try context.fetch(fetch)
+        
+            let content = UNMutableNotificationContent()
+            content.title = "Batter Events \(id)"
+            
+//            if let sfx = alert.type.sfx?.rawValue {
+//                content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: sfx))
+//                
+//            }
+            
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+            //let request = UNNotificationRequest(identifier: "notification.\(alert.id.uuidString)", content: content, trigger: trigger)
+            let request = UNNotificationRequest(identifier: "notification.", content: content, trigger: trigger)
 
-        self.applicationFetchLatestEvent { event in
-            if let event = event {
-                completion(true)
+            
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    print("Error scheduling notification: \(error)")
+                    completion(false)
+
+                }
+                else {
+                    completion(true)
+                    
+                }
                 
             }
-            else {
-                completion(false)
-                
-            }
+            
+        }
+        catch {
             
         }
         
@@ -117,66 +139,61 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
     }
     
-    func applicationHandleActivity(_ event:Events?) {
-        do {
-//            if let event = event, let timestamp = event.timestamp {
-//                let stale:Date = Date(timeIntervalSinceNow: 60 * 20)
-//                //let attributes = CloudNotifyAttributes(device: event.device?.name ?? event.device?.id ?? "UNKNOWN")
-//                let state = CloudNotifyAttributes.ContentState.init(battery: Int(event.charge), charging: false, timestamp: timestamp)
-//                let content = ActivityContent(state: state, staleDate: stale)
-//                
-//                if self.activity == nil {
-//                    self.activity = try Activity.request(attributes: attributes, content: content)
-//
-//                }
-//                else {
-//                    Task {
-//                        await self.activity?.update(content)
-//
-//                    }
-//                    
-//                }
-//                
-//            }
-//            else {
-//                Task {
-//                    await self.activity?.end(self.activity?.content, dismissalPolicy: .immediate)
-//
-//                }
-//                
-//            }
-        
-        }
-        catch {
-            
-        }
-    }
+//    func applicationHandleActivity(_ event:Events?) {
+//        do {
+////            if let event = event, let timestamp = event.timestamp {
+////                let stale:Date = Date(timeIntervalSinceNow: 60 * 20)
+////                //let attributes = CloudNotifyAttributes(device: event.device?.name ?? event.device?.id ?? "UNKNOWN")
+////                let state = CloudNotifyAttributes.ContentState.init(battery: Int(event.charge), charging: false, timestamp: timestamp)
+////                let content = ActivityContent(state: state, staleDate: stale)
+////                
+////                if self.activity == nil {
+////                    self.activity = try Activity.request(attributes: attributes, content: content)
+////
+////                }
+////                else {
+////                    Task {
+////                        await self.activity?.update(content)
+////
+////                    }
+////                    
+////                }
+////                
+////            }
+////            else {
+////                Task {
+////                    await self.activity?.end(self.activity?.content, dismissalPolicy: .immediate)
+////
+////                }
+////                
+////            }
+//        
+//        }
+//        catch {
+//            
+//        }
+//    }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
-        if let _ = CKNotification(fromRemoteNotificationDictionary: userInfo) as? CKQueryNotification {
+        if let query = CKNotification(fromRemoteNotificationDictionary: userInfo) as? CKQueryNotification {
             AppManager.shared.updated = Date()
-            
-            let task = UIApplication.shared.beginBackgroundTask {
-                
-            }
-            
-            self.applicationFetchLatestEvent { event in
-                if let event = event {
-                    self.applicationHandleActivity(event)
+            if let id = query.subscriptionID {
+                let task = UIApplication.shared.beginBackgroundTask {
                     
+                }
+                
+                self.applicationBackgroundPushEvent(id: id, completion: { completion in
                     UIApplication.shared.endBackgroundTask(task)
                     
                     completionHandler(.newData)
                     
-                }
-                else {
-                    self.applicationHandleActivity(nil)
+                })
+                                                    
+            }
+            else {
+                completionHandler(.failed)
 
-                    completionHandler(.noData)
-                    
-                }
-                
             }
             
         }
@@ -186,40 +203,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         }
         
     }
-    
-    func applicationFetchLatestEvent(completion: @escaping (Events?) -> Void) {
-        if let context = AppManager.shared.appStorageContext() {
-            let fetch: NSFetchRequest<Events> = Events.fetchRequest()
-            fetch.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
-            fetch.fetchLimit = 1
-            
-            do {
-                if let existing = try context.fetch(fetch).first {
-                    self.applicationHandleActivity(existing)
-
-                    completion(existing)
-                    
-                }
-                else {
-                    self.applicationHandleActivity(nil)
-
-                    completion(nil)
-                    
-                }
-                
-            }
-            catch {
-                completion(nil)
-                
-            }
-            
-        }
-        else {
-            completion(nil)
-            
-        }
         
-    }
-    
 }
 

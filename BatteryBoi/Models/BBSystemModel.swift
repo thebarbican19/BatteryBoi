@@ -21,38 +21,30 @@ import CoreBluetooth
 
 #endif
 
-enum SystemAlertTypes:Int {
+enum SystemAlertTypes:String {
     case chargingComplete
     case chargingBegan
     case chargingStopped
-    case percentFive
-    case percentTen
-    case percentTwentyFive
-    case percentOne
     case userInitiated
     case userLaunched
-    case userEvent
     case deviceOverheating
     case deviceConnected
-    case deviceRemoved
-    case deviceDistance
+    case deviceDisconnected
+    case deviceNearby
+    case deviceDepleting
 
     var sfx:SystemSoundEffects? {
         switch self {
             case .chargingBegan : return .high
             case .chargingComplete : return .high
             case .chargingStopped : return .low
-            case .percentTwentyFive : return .low
-            case .percentTen : return .low
-            case .percentFive : return .low
-            case .percentOne : return .low
             case .userLaunched : return nil
             case .userInitiated : return nil
-            case .userEvent : return .low
+            case .deviceDepleting : return .low
             case .deviceOverheating : return .low
-            case .deviceRemoved : return .low
+            case .deviceDisconnected : return .low
             case .deviceConnected : return .high
-            case .deviceDistance : return .low
+            case .deviceNearby : return .high
 
         }
         
@@ -61,9 +53,8 @@ enum SystemAlertTypes:Int {
     var trigger:Bool {
         switch self {
             case .chargingBegan : return true
-            case .chargingComplete : return true
             case .chargingStopped : return true
-            case .deviceRemoved : return true
+            case .deviceDisconnected : return true
             case .deviceConnected : return true
             default : return false
             
@@ -76,6 +67,36 @@ enum SystemAlertTypes:Int {
             case .userLaunched : return false
             case .userInitiated : return false
             default : return true
+            
+        }
+        
+    }
+    
+    var local:Bool {
+        switch self {
+            case .deviceDisconnected : return true
+            case .deviceOverheating : return true
+            case .deviceConnected : return true
+            case .chargingBegan : return true
+            case .chargingStopped : return true
+            default : return false
+            
+        }
+        
+    }
+    
+    var description:String {
+        switch self {
+            case .chargingBegan : return "Charger is Connected"
+            case .chargingComplete : return "Charging Reached Max Capacity"
+            case .chargingStopped: return "Charging Reached Max Capacity"
+            case .userInitiated: return "Manual Trigger"
+            case .userLaunched: return "Manual Trigger"
+            case .deviceOverheating: return "Internal Battery Overheating"
+            case .deviceConnected: return "Bluetooth Device Connected"
+            case .deviceDisconnected: return "Bluetooth Device Disconnected"
+            case .deviceNearby: return "Bluetooth Device Located in Proximity"
+            case .deviceDepleting:return "Battery Depleted a Percentage Point"
             
         }
         
@@ -541,27 +562,95 @@ enum SystemConnectivityType:String {
     
 }
 
-struct SystemEventObject:Identifiable,Hashable {
+struct SystemPushObject:Identifiable {
+    static func == (lhs: SystemPushObject, rhs: SystemPushObject) -> Bool {
+        lhs.id == rhs.id
+        
+    }
+    
+    var id:UUID
+    var type:SystemAlertTypes
+    var percentage:Int? = nil
+    
+    init?(_ item:Push) {
+        if let id = item.id, let type = SystemAlertTypes(rawValue:item.type ?? "") {
+            self.id = id
+            self.type = type
+            
+            if item.percent > 0 {
+                self.percentage = Int(item.percent)
+
+            }
+            
+        }
+        else {
+            return nil
+            
+        }
+        
+    }
+    
+}
+
+struct SystemAlertObject:Identifiable {
+    static func == (lhs: SystemAlertObject, rhs: SystemAlertObject) -> Bool {
+        lhs.id == rhs.id
+        
+    }
+    
+    var id:UUID
+    var triggered:Date?
+    var event:SystemEventObject
+    var type:SystemAlertTypes
+    
+    init?(_ alert:Alerts) {
+        if let event = alert.event, let event = SystemEventObject(event), let id = alert.id, let type = SystemAlertTypes(rawValue: alert.type ?? "") {
+            self.id = id
+            self.event = event
+            self.triggered = alert.triggered_on
+            self.type = type
+            
+        }
+        else {
+            return nil
+            
+        }
+        
+    }
+    
+}
+
+struct SystemEventObject:Identifiable,Equatable {
     static func == (lhs: SystemEventObject, rhs: SystemEventObject) -> Bool {
         lhs.id == rhs.id
 
     }
     
     var id:UUID
-    var created:Date = Date()
-    var state:StatsStateType?
-    var battery:Int
-    var notify:StatsNotificationType
-    var device:SystemDeviceObject?
+    var created:Date?
+    var state:BatteryChargingState
+    var thermal:BatteryThemalObject? = nil
+    var percentage:Int
+    var device:SystemDeviceObject? = nil
+    var entity:Battery
 
-    init?(_ event:Events?) {
-        if let id = event?.id, let state = StatsStateType(rawValue: event?.state ?? ""), let timestamp = event?.timestamp, let notify = event?.notify, let device = event?.device {
+    init?(_ item:Battery) {
+        if let id = item.id, let created = item.created, let state = BatteryChargingState(rawValue: item.state ?? "") {
             self.id = id
+            self.created = created
             self.state = state
-            self.created = timestamp
-            self.battery = Int(event?.charge ?? 100)
-            self.notify = StatsNotificationType(rawValue: notify) ?? .background
-            self.device = .init(device)
+            self.percentage = Int(item.percent)
+            self.entity = item
+            
+            if Double(item.temprature) > 0 {
+                self.thermal = BatteryThemalObject(Double(item.temprature))
+
+            }
+            
+            if let device = item.device {
+                self.device = SystemDeviceObject(device)
+
+            }
             
         }
         else {

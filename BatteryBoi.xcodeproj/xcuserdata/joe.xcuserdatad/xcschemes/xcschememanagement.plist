@@ -17,7 +17,7 @@
 		<key>BatteryBoi (iOS).xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>10</integer>
+			<integer>4</integer>
 		</dict>
 		<key>BatteryBoi CLI.xcscheme_^#shared#^_</key>
 		<dict>
@@ -51,7 +51,7 @@
 		<key>BatteryBoy (Activity)Extension.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>8</integer>
+			<integer>6</integer>
 		</dict>
 		<key>BatteryCommandBoi.xcscheme_^#shared#^_</key>
 		<dict>
@@ -165,12 +165,22 @@
 		<key>helperboi.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>9</integer>
+			<integer>5</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>D8228E0C2AC1EA790014DC85</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>D83701192B1F932900B1206E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D85DEE322B0C0EAE00E53109</key>
 		<dict>
 			<key>primary</key>
 			<true/>

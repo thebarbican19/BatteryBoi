@@ -6,10 +6,14 @@
 //
 
 import Foundation
-import Cocoa
 import SwiftUI
 import Combine
 import CoreGraphics
+
+#if os(macOS)
+    import Cocoa
+
+#endif
 
 struct WindowScreenSize {
     var top:CGFloat = CGFloat(NSScreen.main?.frame.origin.y ?? 0.0)
@@ -103,171 +107,174 @@ class WindowManager: ObservableObject {
     @Published public var position: WindowPosition = .topMiddle
     @Published public var opacity: CGFloat = 1.0
 
-    init() {
-        UserDefaults.changed.receive(on: DispatchQueue.main).sink { key in
-            switch key {
-                case .onboardingComplete : self.windowOpen(.alert, alert: .userInitiated, device: nil)
-                default : break
-                
-            }
-            
-        }.store(in: &updates)
-        
-        #warning("Replace with Stored Event")
-        
-        OnboardingManager.shared.$state.dropFirst().sink { state in
-            if state == .complete {
-                WindowManager.shared.windowClose(.onboarding)
-                
-            }
-            
-        }.store(in: &updates)
-
-        AppManager.shared.$alert.removeDuplicates().delay(for: .seconds(5.0), scheduler: RunLoop.main).sink { type in
-            if AppManager.shared.alert?.timeout == true && self.state == .revealed {
-                self.windowSetState(.dismissed)
-                
-            }
-
-        }.store(in: &updates)
-
-        AppManager.shared.$alert.removeDuplicates().delay(for: .seconds(10.0), scheduler: RunLoop.main).sink { type in
-            if AppManager.shared.alert?.timeout == false && self.state == .revealed {
-                self.windowSetState(.dismissed)
-                
-            }
-
-        }.store(in: &updates)
-
-        SettingsManager.shared.$pinned.sink { pinned in
-            if pinned == .enabled {
-                withAnimation(Animation.easeOut) {
-                    self.opacity = 1.0
-
-                }
-                
-            }
-            
-        }.store(in: &updates)
-
-        NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseUp, .rightMouseUp]) { event in
-            if NSRunningApplication.current == NSWorkspace.shared.frontmostApplication {
-                if self.state == .revealed || self.state == .progress {
-                    self.windowSetState(.detailed)
+    #if os(macOS)
+        init() {
+            UserDefaults.changed.receive(on: DispatchQueue.main).sink { key in
+                switch key {
+                    case .onboardingComplete : self.windowOpen(.alert, alert: .userInitiated, device: nil)
+                    default : break
                     
                 }
                 
-            }
-            else {
-                if SettingsManager.shared.enabledPinned == .disabled {
-                    if self.state.visible == true {
-                        self.windowSetState(.dismissed)
+            }.store(in: &updates)
+                        
+            OnboardingManager.shared.$state.dropFirst().sink { state in
+                if state == .complete {
+                    WindowManager.shared.windowClose(.onboarding)
+                    
+                }
+                
+            }.store(in: &updates)
+
+            AppManager.shared.$alert.removeDuplicates().delay(for: .seconds(5.0), scheduler: RunLoop.main).sink { type in
+                if AppManager.shared.alert?.timeout == true && self.state == .revealed {
+                    self.windowSetState(.dismissed)
+                    
+                }
+
+            }.store(in: &updates)
+
+            AppManager.shared.$alert.removeDuplicates().delay(for: .seconds(10.0), scheduler: RunLoop.main).sink { type in
+                if AppManager.shared.alert?.timeout == false && self.state == .revealed {
+                    self.windowSetState(.dismissed)
+                    
+                }
+
+            }.store(in: &updates)
+
+            SettingsManager.shared.$pinned.sink { pinned in
+                if pinned == .enabled {
+                    withAnimation(Animation.easeOut) {
+                        self.opacity = 1.0
+
+                    }
+                    
+                }
+                
+            }.store(in: &updates)
+
+            NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseUp, .rightMouseUp]) { event in
+                if NSRunningApplication.current == NSWorkspace.shared.frontmostApplication {
+                    if self.state == .revealed || self.state == .progress {
+                        self.windowSetState(.detailed)
                         
                     }
-
+                    
                 }
                 else {
-                    self.windowSetState(.revealed)
+                    if SettingsManager.shared.enabledPinned == .disabled {
+                        if self.state.visible == true {
+                            self.windowSetState(.dismissed)
+                            
+                        }
 
-                }
-                
-            }
-            
-        }
-        
-        $state.sink { state in
-            if state == .dismissed {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                    WindowManager.shared.windowClose(.alert)
-                    
-                }
-                
-            }
-            else if state == .progress {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    self.windowSetState(.revealed)
-                    
-                }
-                
-            }
-            else if state == .revealed && AppManager.shared.alert?.timeout == false {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.windowSetState(.detailed)
+                    }
+                    else {
+                        self.windowSetState(.revealed)
+
+                    }
                     
                 }
                 
             }
             
+            $state.sink { state in
+                if state == .dismissed {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                        WindowManager.shared.windowClose(.alert)
+                        
+                    }
+                    
+                }
+                else if state == .progress {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self.windowSetState(.revealed)
+                        
+                    }
+                    
+                }
+                else if state == .revealed && AppManager.shared.alert?.timeout == false {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.windowSetState(.detailed)
+                        
+                    }
+                    
+                }
+                
 
-        }.store(in: &updates)
-                
-    }
+            }.store(in: &updates)
+                    
+        }
         
-    public func windowSetState(_ state:SystemAlertState, animated:Bool = true) {
-        if self.state != state {
-            withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.7, blendDuration: 1.0)) {
-                self.state = state
+        public func windowSetState(_ state:SystemAlertState, animated:Bool = true) {
+            if self.state != state {
+                withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.7, blendDuration: 1.0)) {
+                    self.state = state
+                    
+                }
                 
             }
             
         }
         
-    }
-    
-    public func windowIsVisible(_ type:SystemAlertTypes) -> Bool {
-        if let window = self.windowExists(.alert, alert:type) {
-            if CGFloat(window.alphaValue) > 0.5 {
-                return true
+        public func windowIsVisible(_ type:SystemAlertTypes) -> Bool {
+            if let window = self.windowExists(.alert, alert:type) {
+                if CGFloat(window.alphaValue) > 0.5 {
+                    return true
+                    
+                }
                 
             }
             
+            return false
+            
         }
         
-        return false
-        
-    }
-    
-    public func windowOpen(_ type:WindowTypes = .alert, alert:SystemAlertTypes = .userInitiated, device:SystemDeviceObject?) {
-        var type = type
-        if OnboardingManager.shared.state != .complete {
-            if type == .alert {
-                type = .onboarding
-                
-            }
+        public func windowOpen(_ type:WindowTypes = .alert, alert:SystemAlertTypes = .userInitiated, device:SystemDeviceObject?) {
+            var type = type
+            if OnboardingManager.shared.state != .complete {
+                if type == .alert {
+                    type = .onboarding
+                    
+                }
 
-        }
-        
-        if let window = self.windowExists(type, alert:alert) {
-            var hosting: (any View)?
-            switch type {
-                case .onboarding : hosting = OnboardingHost()
-                default : hosting = HUDParent(alert, device: device)
-                
-            }
-            
-            if let hosting = hosting {
-                window.contentView = WindowHostingView(rootView: AnyView(hosting))
-                
             }
             
             DispatchQueue.main.async {
-                if window.canBecomeKeyWindow {
-                    window.makeKeyAndOrderFront(nil)
-                    window.alphaValue = 1.0
+                if let window = self.windowExists(type, alert:alert) {
+                    var hosting: (any View)?
+                    switch type {
+                        case .onboarding : hosting = OnboardingHost()
+                        default : hosting = HUDParent(alert, device: device)
+                        
+                    }
                     
-                    
-                    if AppManager.shared.alert == nil {
-                        if let sfx = alert.sfx {
-                            sfx.play()
+                    if let hosting = hosting {
+                        if window.contentView != hosting as? NSView {
+                            window.contentView = WindowHostingView(rootView: AnyView(hosting))
                             
                         }
                         
                     }
                     
-                    //AppManager.shared.device = device
-                    AppManager.shared.alert = alert
-                    
-                    self.windowSetState(.progress)
+                    if window.canBecomeKeyWindow {
+                        window.makeKeyAndOrderFront(nil)
+                        window.alphaValue = 1.0
+                        
+                        if AppManager.shared.alert == nil {
+                            if let sfx = alert.sfx {
+                                sfx.play()
+                                
+                            }
+                            
+                        }
+                        
+                        AppManager.shared.selected = device
+                        AppManager.shared.alert = alert
+                        
+                        self.windowSetState(.progress)
+                        
+                    }
                     
                 }
                 
@@ -275,102 +282,102 @@ class WindowManager: ObservableObject {
             
         }
         
-    }
-    
-    public func windowClose(_ type:WindowTypes) {
-        if let window = NSApplication.shared.windows.filter({$0.title == type.rawValue}).first {
-            if type == .alert {
-                if AppManager.shared.alert != nil {
-                    AppManager.shared.alert = nil
-                    AppManager.shared.selected = nil
-                    
-                    self.state = .hidden
-                    
-                    window.alphaValue = 0.0
+        public func windowClose(_ type:WindowTypes) {
+            if let window = NSApplication.shared.windows.filter({$0.title == type.rawValue}).first {
+                if type == .alert {
+                    if AppManager.shared.alert != nil {
+                        AppManager.shared.alert = nil
+                        AppManager.shared.selected = nil
+                        
+                        self.state = .hidden
+                        
+                        window.alphaValue = 0.0
+                        
+                    }
                     
                 }
-                
-            }
-            else {
-                window.close()
+                else {
+                    window.close()
+
+                }
 
             }
-
+            
         }
         
-    }
-    
-    private func windowClosable(_ type:WindowTypes) -> NSWindow? {
-        let bounds = WindowScreenSize()
-        var window:NSWindow?
-        
-        window = NSWindow()
-        window?.styleMask = [.titled, .closable, .miniaturizable, .fullSizeContentView]
-        window?.level = .normal
-        window?.contentView?.translatesAutoresizingMaskIntoConstraints = false
-        window?.center()
-        window?.title = type.rawValue
-        window?.collectionBehavior = [.ignoresCycle]
-        window?.isMovableByWindowBackground = true
-        window?.backgroundColor = .clear
-        window?.setFrame(NSRect(x: (bounds.width / 2) - (type.size.width / 2), y: (bounds.height / 2) - (type.size.height / 2), width: type.size.width, height: type.size.height), display: false)
-        window?.titlebarAppearsTransparent = true
-        window?.titleVisibility = .hidden
-        window?.toolbarStyle = .unifiedCompact
-        window?.isReleasedWhenClosed = false
-        window?.alphaValue = 0.0
-                     
-        NSAnimationContext.runAnimationGroup({ (context) -> Void in
-            context.duration = 0.2
+        private func windowClosable(_ type:WindowTypes) -> NSWindow? {
+            let bounds = WindowScreenSize()
+            var window:NSWindow?
             
-            window?.animator().alphaValue = 1.0
+            window = NSWindow()
+            window?.styleMask = [.titled, .closable, .miniaturizable, .fullSizeContentView]
+            window?.level = .normal
+            window?.contentView?.translatesAutoresizingMaskIntoConstraints = false
+            window?.center()
+            window?.title = type.rawValue
+            window?.collectionBehavior = [.ignoresCycle]
+            window?.isMovableByWindowBackground = true
+            window?.backgroundColor = .clear
+            window?.setFrame(NSRect(x: (bounds.width / 2) - (type.size.width / 2), y: (bounds.height / 2) - (type.size.height / 2), width: type.size.width, height: type.size.height), display: false)
+            window?.titlebarAppearsTransparent = true
+            window?.titleVisibility = .hidden
+            window?.toolbarStyle = .unifiedCompact
+            window?.isReleasedWhenClosed = false
+            window?.alphaValue = 0.0
+                         
+            NSAnimationContext.runAnimationGroup({ (context) -> Void in
+                context.duration = 0.2
+                
+                window?.animator().alphaValue = 1.0
+                
+            }, completionHandler: nil)
             
-        }, completionHandler: nil)
-        
-        return window
-        
-    }
-
-    private func windowDefault(_ type:SystemAlertTypes) -> NSWindow? {
-        let bounds = WindowScreenSize()
-        let type = WindowTypes.alert
-        var window:NSWindow?
-        
-        window = NSWindow()
-        window?.styleMask = [.borderless, .miniaturizable]
-        window?.level = .statusBar
-        window?.contentView?.translatesAutoresizingMaskIntoConstraints = false
-        window?.center()
-        window?.title = type.rawValue
-        window?.isMovableByWindowBackground = true
-        window?.backgroundColor = .clear
-        window?.setFrame(NSRect(x: (bounds.width / 2) - (type.size.width / 2), y: (bounds.height / 2) - (type.size.height / 2), width: type.size.width, height: type.size.height), display: false)
-        window?.titlebarAppearsTransparent = true
-        window?.titleVisibility = .hidden
-        window?.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
-        window?.toolbarStyle = .unifiedCompact
-        window?.isReleasedWhenClosed = false
-        window?.alphaValue = 0.0
-        
-        return window
-        
-    }
-    
-    private func windowExists(_ type:WindowTypes, alert:SystemAlertTypes) -> NSWindow? {
-        if let window = NSApplication.shared.windows.filter({$0.title == type.rawValue}).first {
             return window
             
         }
-        else {
-            switch type {
-                case .alert : return self.windowDefault(alert)
-                default : return self.windowClosable(type)
 
-            }
+        private func windowDefault(_ type:SystemAlertTypes) -> NSWindow? {
+            let bounds = WindowScreenSize()
+            let type = WindowTypes.alert
+            var window:NSWindow?
+            
+            window = NSWindow()
+            window?.styleMask = [.borderless, .miniaturizable]
+            window?.level = .statusBar
+            window?.contentView?.translatesAutoresizingMaskIntoConstraints = false
+            window?.center()
+            window?.title = type.rawValue
+            window?.isMovableByWindowBackground = true
+            window?.backgroundColor = .clear
+            window?.setFrame(NSRect(x: (bounds.width / 2) - (type.size.width / 2), y: bounds.height - (type.size.height + 50), width: type.size.width, height: type.size.height), display: false)
+            window?.titlebarAppearsTransparent = true
+            window?.titleVisibility = .hidden
+            window?.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
+            window?.toolbarStyle = .unifiedCompact
+            window?.isReleasedWhenClosed = false
+            window?.alphaValue = 0.0
+            
+            return window
             
         }
         
-    }
+        private func windowExists(_ type:WindowTypes, alert:SystemAlertTypes) -> NSWindow? {
+            if let window = NSApplication.shared.windows.filter({$0.title == type.rawValue}).first {
+                return window
+                
+            }
+            else {
+                switch type {
+                    case .alert : return self.windowDefault(alert)
+                    default : return self.windowClosable(type)
+
+                }
+                
+            }
+            
+        }
+    
+    #endif
         
 }
 

@@ -65,7 +65,7 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
             
             if let disconnected = found.first(where: { $0.state == .disconnected }) {
                 if let match = self.peripheralMatchDevice(disconnected.peripheral) {
-                    AppManager.shared.appStoreEvent(.disconnected, device: match)
+                    //AppManager.shared.appStoreEvent(.disconnected, device: match)
                     
                 }
                 
@@ -318,6 +318,7 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
         var findmy:Bool = false
         var appearance:String? = nil
         var hardware:String? = nil
+        var battery:Int? = nil
 
         if let index = self.broadcasting.firstIndex(where: { $0.peripheral == peripheral }) {
             for characteristic in self.broadcasting[index].characteristics {
@@ -326,14 +327,6 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
                     
                     if let data = characteristic.value, let string = String(data: data, encoding: .utf8) {
                         print("Find My Data for \(peripheral.name!):", string)
-                        
-                    }
-                    
-                }
-                
-                if characteristic.uuid == BluetoothUUID.system.uuid {
-                    if let data = characteristic.value, let string = String(data: data, encoding: .utf8) {
-                        print("System Name for \(peripheral.name!):", string)
                         
                     }
                     
@@ -381,6 +374,18 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
                     
                 }
                 
+                if characteristic.uuid == BluetoothUUID.audiosink.uuid {
+                    
+                }
+                
+                if characteristic.uuid == BluetoothUUID.battery.uuid {
+                    if let value = characteristic.value?.first.map(Int.init) {
+                        battery = value
+
+                    }
+                    
+                }
+                
                 if characteristic.uuid == BluetoothUUID.serial.uuid {
                     if let data = characteristic.value, let string = String(data: data, encoding: .utf8) {
                         serial = string
@@ -394,7 +399,9 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
         }
         
         if let name = peripheral.name, let model = model {
-            return .init(peripheral.identifier, name: name, profile:.init(model: model, vendor: vendor, serial: serial, hardware: hardware, apperance: appearance, findmy: findmy))
+            let device:SystemDeviceObject = .init(peripheral.identifier, name: name, profile:.init(model: model, vendor: vendor, serial: serial, hardware: hardware, apperance: appearance, findmy: findmy))
+            
+            return device
             
         }
         else {
@@ -418,7 +425,7 @@ class BluetoothManager:NSObject, ObservableObject, CBCentralManagerDelegate, CBP
         
         if characteristic.uuid == BluetoothUUID.battery.uuid {
             if let value = characteristic.value?.first.map(Int.init) {
-                AppManager.shared.appStoreEvent(.depleted, device: match, battery: value)
+                BatteryManager.shared.powerStoreEvent(match, battery: value)
 
             }
             

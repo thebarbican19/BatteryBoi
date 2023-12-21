@@ -10,7 +10,6 @@ import Foundation
 enum StatsNotificationType:String {
     case alert
     case background
-    case none
     
 }
 

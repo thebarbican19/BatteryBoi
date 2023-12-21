@@ -70,34 +70,40 @@ class SettingsManager:ObservableObject {
         }
         
         set {
-            if self.enabledAutoLaunch != .undetermined {
-                if #available(macOS 13.0, *) {
-                    do {
-                        if newValue == .disabled {
-                            if SMAppService.mainApp.status == .enabled {
-                               try SMAppService.mainApp.unregister()
-                                
-                           }
-                    
-                        }
-                        else {
-                            if SMAppService.mainApp.status != .enabled {
-                                try SMAppService.mainApp.register()
-                                
-                            }
+            if #available(macOS 13.0, *) {
+                do {
+                    if newValue == .disabled {
+                        if SMAppService.mainApp.status == .enabled {
+                           try SMAppService.mainApp.unregister()
+                            
+                       }
+                
+                    }
+                    else {
+                        if SMAppService.mainApp.status != .enabled {
+                            try SMAppService.mainApp.register()
                             
                         }
                         
-                        UserDefaults.save(.enabledLogin, value: newValue.enabled)
-                        
                     }
-                    catch {
-                        EnalogManager.main.ingest(SystemEvents.fatalError, description: error.localizedDescription)
-                        
-                    }
+                    
+                    UserDefaults.save(.enabledLogin, value: newValue.enabled)
+                    
+                }
+                catch {
+                    print("Error" ,error)
+                    UserDefaults.save(.enabledLogin, value: SettingsStateValue.restricted)
+
+                    EnalogManager.main.ingest(SystemEvents.fatalError, description: error.localizedDescription)
                     
                 }
                 
+            }
+            else {
+                UserDefaults.save(.enabledLogin, value: SettingsStateValue.restricted)
+
+                EnalogManager.main.ingest(SystemEvents.fatalError, description: "Unsupported Mac Version")
+
             }
            
         }

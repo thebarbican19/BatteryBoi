@@ -140,6 +140,7 @@ enum MenubarStyle:String,CaseIterable {
 enum MenubarDisplayType:String,CaseIterable {
     case countdown
     case empty
+    case temprature
     case percent
     case voltage
     case cycle
@@ -149,6 +150,7 @@ enum MenubarDisplayType:String,CaseIterable {
         switch self {
             case .countdown : return "SettingsDisplayEstimateLabel".localise()
             case .percent : return "SettingsDisplayPercentLabel".localise()
+            case .temprature : return "SettingsDisplayTempratureLabel".localise()
             case .empty : return "SettingsDisplayNoneLabel".localise()
             case .cycle : return "SettingsDisplayCycleLabel".localise()
             case .voltage : return "SettingsDisplayVoltageLabel".localise()
@@ -162,6 +164,7 @@ enum MenubarDisplayType:String,CaseIterable {
         switch self {
             case .countdown : return "TimeIcon"
             case .percent : return "PercentIcon"
+            case .temprature : return "OverheatIcon"
             case .cycle : return "CycleIcon"
             case .voltage : return "CycleIcon"
             case .empty : return "EmptyIcon"
@@ -240,7 +243,7 @@ class MenubarManager:ObservableObject {
 
         }.store(in: &updates)
 
-        BatteryManager.shared.$temperature.receive(on: DispatchQueue.main).sink() { newValue in
+        BatteryManager.shared.$thermal.receive(on: DispatchQueue.main).sink() { newValue in
             self.menubarUpdateValues()
 
         }.store(in: &updates)
@@ -258,6 +261,8 @@ class MenubarManager:ObservableObject {
     }
     
     private func menubarUpdateValues() {
+        let thermal = BatteryManager.shared.thermal
+        let health = BatteryManager.shared.health
         let percentage = BatteryManager.shared.percentage
         let primary = self.menubarPrimaryDisplay
         let seconary = self.menubarSecondaryDisplay
@@ -265,7 +270,8 @@ class MenubarManager:ObservableObject {
         switch primary {
             case .percent : self.primary = "\(Int(percentage))"
             case .voltage : self.primary = "v"
-            case .cycle : self.primary = "c"
+            case .temprature : self.primary = "\(thermal.formatted)"
+            case .cycle : self.seconary = "\(health?.cycles ?? 0)"
             case .countdown : self.primary = "TBA"
             case .hidden : self.primary = nil
             default : self.primary = ""
@@ -275,7 +281,8 @@ class MenubarManager:ObservableObject {
         switch seconary {
             case .percent : self.seconary = "\(Int(percentage))"
             case .voltage : self.seconary = "v"
-            case .cycle : self.seconary = "c"
+            case .temprature : self.seconary = "\(thermal.formatted)"
+            case .cycle : self.seconary = "\(health?.cycles ?? 0)"
             case .countdown : self.seconary = "TBA"
             case .hidden : self.seconary = nil
             default : self.seconary = ""

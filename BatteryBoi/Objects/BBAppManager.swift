@@ -20,12 +20,13 @@ import CoreBluetooth
 class AppManager:ObservableObject {
     static var shared = AppManager()
     
+    @Published var sessionid:UUID = UUID()
     @Published var counter = 0
     @Published var devices = Array<SystemDeviceObject>()
     @Published var selected:SystemDeviceObject? = nil
-    @Published var events = Array<SystemEventObject>()
     @Published var updated:Date? = nil
-        
+    @Published var distribution:SystemDistribution = .direct
+
     #if os(macOS)
         @Published var menu:SystemMenuView = .devices
         @Published var alert:SystemAlertTypes? = nil
@@ -54,14 +55,11 @@ class AppManager:ObservableObject {
                 
         self.timer?.store(in: &updates)
         
-        $updated.receive(on: DispatchQueue.global()).debounce(for: .seconds(3), scheduler: RunLoop.main).sink { _ in
-            if CloudManager.shared.syncing == .completed {
-                self.appListDevices()
-                self.appEventsDevices()
-
-            }
-
-        }.store(in: &updates)
+        if let receipt = Bundle.main.appStoreReceiptURL,
+           FileManager.default.fileExists(atPath: receipt.path) {
+            self.distribution = .appstore
+            
+        }
         
         $devices.receive(on: DispatchQueue.global()).debounce(for: .seconds(3), scheduler: RunLoop.main).sink { _ in
             self.appStoreDevice()
@@ -74,88 +72,6 @@ class AppManager:ObservableObject {
         self.timer?.cancel()
         self.updates.forEach { $0.cancel() }
  
-    }
-
-    public func appStoreEvent(_ state:StatsStateType, device:SystemDeviceObject?, battery:Int? = nil) {
-        if let context = self.appStorageContext() {
-            context.performAndWait {
-                var notify:StatsNotificationType = .background
-        
-                if let last = self.appLatestEvent(state, device: device, context: context) {
-                    if let battery = battery {
-                        switch battery {
-                            case 25 : notify = .alert
-                            case 15 : notify = .alert
-                            case 10 : notify = .alert
-                            case 5 : notify = .alert
-                            case 1 : notify = .alert
-                            default :notify = .none
-
-                        }
-                        
-                        if battery != last.charge {
-                            notify = .background
-                            
-                        }
-
-                    }
-                    
-                    if let last = StatsStateType(rawValue: last.state ?? "") {
-                        if last != state {
-                            notify = .alert
-                            
-                        }
-                        
-                    }
-                    
-                }
-                
-                let store = Events(context: context) as Events
-                store.id = UUID()
-                store.timestamp = Date()
-                store.notify = notify.rawValue
-                store.state = state.rawValue
-                
-                if let version = Float(SystemDeviceTypes.os.replacingOccurrences(of: ".", with: "")) {
-                    store.version = version
-                    
-                }
-
-                if let device = device {
-                    if let match = self.appDevice(device, context: context), let battery = battery {
-                        store.charge = Int64(battery)
-                        store.device = match
-                        store.reporter = self.appDevice(nil, context: context)
-                        store.mode = BatteryModeType.normal.rawValue
-                        
-                    }
-                    
-                }
-                else {
-                    if let device = self.appDevice(nil, context: context) {
-                        store.charge = Int64(BatteryManager.shared.percentage)
-                        store.temprature = Float(BatteryManager.shared.temperature.value)
-                        store.device = device
-                        store.reporter = device
-                        store.mode = BatteryManager.shared.mode.rawValue
-                        
-                    }
-                    
-                }
-                
-                if store.device != nil {
-                    try? context.save()
-
-                }
-                else {
-                    print("")
-                    
-                }
-
-            }
-            
-        }
-        
     }
       
     public func appTimer(_ multiple: Int) -> AnyPublisher<Int, Never> {
@@ -233,9 +149,10 @@ class AppManager:ObservableObject {
     private func appListDevices() {
         if let context = self.appStorageContext() {
             let fetch: NSFetchRequest<Devices> = Devices.fetchRequest()
+            fetch.includesPendingChanges = true
             
             do {
-                let list = try context.fetch(fetch)                
+                let list = try context.fetch(fetch)
                 let mapped:[SystemDeviceObject] = list.compactMap({ .init($0) })
 
                 DispatchQueue.main.async {
@@ -252,85 +169,10 @@ class AppManager:ObservableObject {
         }
         
     }
-    
-    private func appEventsDevices() {
-        if let context = self.appStorageContext() {
-            let fetch: NSFetchRequest<Events> = Events.fetchRequest()
-            
-            do {
-                let list = try context.fetch(fetch)
-                let mapped:[SystemEventObject] = list.compactMap({ .init($0) })
 
-                DispatchQueue.main.async {
-                    self.events = mapped
-                    
-                }
-                
-            }
-            catch {
-                print("Error fetching Trained records: \(error)")
-                
-            }
-            
-        }
-        
-    }
-
-    
-    public func appListEvents(_ limit:Int?) -> [Events] {
-        if let context = self.appStorageContext() {
-            let fetch: NSFetchRequest<Events> = Events.fetchRequest()
-            fetch.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
-            
-            if let limit = limit {
-                fetch.fetchLimit = limit
-                
-            }
-            
-            do {
-                let list = try context.fetch(fetch)
-                return list
-                
-            }
-            catch {
-                
-            }
-            
-        }
-        
-        return []
-        
-    }
-
-    private func appLatestEvent(_ state:StatsStateType, device:SystemDeviceObject?, context:NSManagedObjectContext) -> Events? {
-        var predicates = Array<NSPredicate>()
-        
-        if let match = SystemDeviceObject.match(device, context: context) {
-            predicates.append(NSPredicate(format: "SELF.device.id == %@", match.id as CVarArg))
-            predicates.append(NSPredicate(format: "SELF.state == %@", state.rawValue))
-            
-            let fetch = Events.fetchRequest() as NSFetchRequest<Events>
-            fetch.includesPendingChanges = true
-            fetch.fetchLimit = 1
-            fetch.predicate = NSCompoundPredicate(type: .and, subpredicates: predicates)
-            
-            if predicates.isEmpty == false {
-                if let existing = try? context.fetch(fetch).first {
-                    return existing
-                    
-                }
-                
-            }
-            
-        }
-    
-        return nil
-                
-    }
-    
     public func appStoreDevice(_ device:SystemDeviceObject? = nil) {
         if let context = self.appStorageContext() {
-            context.performAndWait {
+            context.perform {
                 if let match = SystemDeviceObject.match(device, context: context) {
                     let fetch = Devices.fetchRequest() as NSFetchRequest<Devices>
                     fetch.includesPendingChanges = true

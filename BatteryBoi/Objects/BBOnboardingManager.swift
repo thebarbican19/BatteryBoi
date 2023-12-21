@@ -26,7 +26,7 @@ class OnboardingManager:ObservableObject {
 
     init() {
         UserDefaults.changed.receive(on: DispatchQueue.main).sink { key in
-            if key == .onboardingStep {
+            if key == .onboardingStep || key == .enabledLogin {
                 self.onboardingSetup()
 
             }
@@ -72,13 +72,19 @@ class OnboardingManager:ObservableObject {
 
         }
         else if CloudManager.shared.state != .enabled && CloudManager.shared.state != .unknown {
-            switch CloudManager.shared.state {
-                case .disabled : self.state = .cloud
-                case .blocked : self.state = .notifications
-                default : break
-                
-            }
-                        
+            #if os(macOS)
+                self.state = .cloud
+            
+            #else
+                switch CloudManager.shared.state {
+                    case .disabled : self.state = .cloud
+                    case .blocked : self.state = .notifications
+                    default : break
+                    
+                }
+            
+            #endif
+           
             self.updated = Date()
 
         }
@@ -91,6 +97,11 @@ class OnboardingManager:ObservableObject {
 //                }
                 if ProcessManager.shared.helper.flag == false {
                     self.state = .process
+                    self.updated = Date()
+                    
+                }
+                else if SettingsManager.shared.enabledAutoLaunch == .undetermined {
+                    self.state = .loginatlaunch
                     self.updated = Date()
                     
                 }
@@ -110,7 +121,7 @@ class OnboardingManager:ObservableObject {
         
     }
     
-    public func onboardingAction() {
+    public func onboardingAction(_ type:OnboardingActionType) {
         if state == .intro {
             _ = self.onboardingStep(.intro, insert: true)
             
@@ -134,22 +145,34 @@ class OnboardingManager:ObservableObject {
 
         }
         
-        if state == .notifications {
-            switch CloudManager.shared.state {
-                case .blocked : CloudManager.shared.cloudAllowNotifications()
-                case .disabled : self.onboardingPermissionsUpdate(.notifications)
-                default : self.onboardingPermissionsUpdate(.cloud)
-
+        #if os(iOS)
+            if state == .notifications {
+                switch CloudManager.shared.state {
+                    case .blocked : CloudManager.shared.cloudAllowNotifications()
+                    case .disabled : self.onboardingPermissionsUpdate(.notifications)
+                    default : self.onboardingPermissionsUpdate(.cloud)
+                    
+                }
+                
             }
-            
-        }
+        
+        #endif
 
         #if os(macOS)
+            if state == .loginatlaunch {
+                switch type {
+                    case .primary : SettingsManager.shared.enabledAutoLaunch = .enabled
+                    case .secondary : SettingsManager.shared.enabledAutoLaunch = .disabled
+                    
+                }
+                
+            }
+            
             if state == .process {
                 ProcessManager.shared.processInstallHelper()
                 
             }
-            
+    
         #endif
         
     }
@@ -160,7 +183,6 @@ class OnboardingManager:ObservableObject {
             switch step {
                 case .bluetooth : url = URL(fileURLWithPath: "/System/Library/PreferencePanes/Bluetooth.prefPane")
                 case .cloud : url = URL(string: "x-apple.systempreferences:com.apple.preferences.icloud")
-                case .notifications:url = URL(string: "x-apple.systempreferences:com.apple.preference.notifications")
                 default : break
                 
             }

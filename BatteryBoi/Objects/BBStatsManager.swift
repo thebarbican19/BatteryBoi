@@ -30,7 +30,7 @@ class StatsManager:ObservableObject {
             #endif
                            
         }.store(in: &updates)
-        
+                
         BatteryManager.shared.$percentage.removeDuplicates().receive(on: DispatchQueue.main).sink() { newValue in
             #if os(macOS)
                self.title = self.statsTitle
@@ -59,7 +59,7 @@ class StatsManager:ObservableObject {
         #endif
 
         #if os(macOS)
-            BatteryManager.shared.$temperature.receive(on: DispatchQueue.main).sink() { newValue in
+            BatteryManager.shared.$thermal.receive(on: DispatchQueue.main).sink() { newValue in
                 self.title = self.statsTitle
                 self.subtitle = self.statsSubtitle
                 
@@ -88,37 +88,33 @@ class StatsManager:ObservableObject {
     }
     
     public func statsAverageDepletionTime(_ device:SystemDeviceObject?) {
-        var matches = [SystemEventObject]()
-        if let device = device {
-            matches = AppManager.shared.events.filter({ $0.device == device && $0.state == .depleted && $0.notify != .none })
-
-        }
-        else {
-            matches = AppManager.shared.events.filter({ $0.device?.system == true && $0.state == .depleted && $0.notify != .none })
-
-        }
+//        var matches = [SystemEventObject]()
+//        if let device = device {
+//            matches = AppManager.shared.events.filter({ $0.device == device && $0.state == .depleted && $0.notify != .none })
+//
+//        }
+//        else {
+//            matches = AppManager.shared.events.filter({ $0.device?.system == true && $0.state == .depleted && $0.notify != .none })
+//
+//        }
         
-        if matches.isEmpty == false {
-            
-        }
+//        if matches.isEmpty == false {
+//            
+//        }
         
     }
     
     public func statsAverageChargeTime(_ device:SystemDeviceObject?) {
-        if let device = device {
-            let matches = AppManager.shared.events.filter({ $0.device == device && $0.state == .charging && $0.notify != .none }).prefix(30)
-            
-        }
-        else {
-            
-        }
+//        if let device = device {
+//            let matches = AppManager.shared.events.filter({ $0.device == device && $0.state == .charging && $0.notify != .none }).prefix(30)
+//            
+//        }
+//        else {
+//            
+//        }
 
     }
-    
-    public func statsSystemDevicesTypes() {
-        //AppManager.shared.devices.map({ $0.})
-    }
-    
+
     private var statsCountdown:String? {
         #if os(macOS)
             if let remaining = BatteryManager.shared.remaining, let hour = remaining.hours, let minute = remaining.minutes {
@@ -148,7 +144,7 @@ class StatsManager:ObservableObject {
             if let device = AppManager.shared.selected {
                 switch AppManager.shared.alert {
                     case .deviceConnected:return "AlertDeviceConnectedTitle".localise()
-                    case .deviceRemoved:return "AlertDeviceDisconnectedTitle".localise()
+                    case .deviceDisconnected:return "AlertDeviceDisconnectedTitle".localise()
                     default : return device.name
                     
                 }
@@ -162,14 +158,10 @@ class StatsManager:ObservableObject {
                     case .chargingComplete:return "AlertChargingCompleteTitle".localise()
                     case .chargingBegan:return "AlertChargingTitle".localise()
                     case .chargingStopped:return "AlertChargingStoppedTitle".localise()
-                    case .percentFive:return "AlertSomePercentTitle".localise([percent])
-                    case .percentTen:return "AlertSomePercentTitle".localise([percent])
-                    case .percentTwentyFive:return "AlertSomePercentTitle".localise([percent])
-                    case .percentOne:return "AlertOnePercentTitle".localise()
+                    case .deviceDepleting:return "AlertSomePercentTitle".localise([percent])
                     case .deviceConnected:return "AlertDeviceConnectedTitle".localise()
-                    case .deviceRemoved:return "AlertDeviceDisconnectedTitle".localise()
+                    case .deviceDisconnected:return "AlertDeviceDisconnectedTitle".localise()
                     case .deviceOverheating:return "AlertOverheatingTitle".localise()
-                    case .userEvent:return "AlertLimitedTitle".localise()
                     default : break
                     
                 }
@@ -209,17 +201,12 @@ class StatsManager:ObservableObject {
             let state = BatteryManager.shared.charging
             let percent = Int(BatteryManager.shared.percentage)
             let remaining = BatteryManager.shared.remaining
-            let full = BatteryManager.shared.powerUntilFull
 
             switch AppManager.shared.alert {
                 case .chargingComplete:return "AlertChargedSummary".localise()
-                case .chargingBegan:return "AlertStartedChargeSummary".localise([full?.time ?? "AlertDeviceUnknownTitle".localise()])
+                case .chargingBegan:return "AlertStartedChargeSummary".localise([ "AlertDeviceUnknownTitle".localise()])
                 case .chargingStopped:return "AlertEstimateSummary".localise([remaining?.formatted ?? "AlertDeviceUnknownTitle".localise()])
-                case .percentFive:return "AlertPercentSummary".localise()
-                case .percentTen:return "AlertPercentSummary".localise()
-                case .percentTwentyFive:return "AlertPercentSummary".localise()
-                case .percentOne:return "AlertPercentSummary".localise()
-    //                case .userEvent:return "AlertLimitedSummary".localise([event?.name ?? "Unknown Event"])
+                case .deviceDepleting:return "AlertPercentSummary".localise()
                 case .deviceOverheating:return "AlertOverheatingSummary".localise()
                 default : break
                 
@@ -228,7 +215,7 @@ class StatsManager:ObservableObject {
             if state == .charging {
                 switch percent {
                     case 100 : return "AlertChargedSummary".localise()
-                    default : return "AlertStartedChargeSummary".localise([full?.time ?? "AlertDeviceUnknownTitle".localise()])
+                    default : return "AlertStartedChargeSummary".localise(["AlertDeviceUnknownTitle".localise()])
                     
                 }
                 
@@ -250,7 +237,6 @@ class StatsManager:ObservableObject {
 //            else {
                 switch AppManager.shared.alert {
                     case .deviceOverheating : return .init(name: "OverheatIcon", system: false)
-                    case .userEvent : return .init(name: "EventIcon", system: false)
                     default : return .init(name: "ChargingIcon", system: false)
 
                 }

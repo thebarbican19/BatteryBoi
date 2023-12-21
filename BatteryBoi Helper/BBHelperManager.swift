@@ -102,6 +102,31 @@ final class HelperManager: NSObject, HelperProtocol {
         
     }
     
+    func helperWriteData(key: String, value: UInt8, completion: @escaping (HelperWriteDataStatus) -> Void) {
+        do {
+            try SMCKit.open()
+            
+            let key = SMCKit.getKey(key, type: DataTypes.UInt8)
+            let bytes: SMCBytes = (value, UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                                   UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                                   UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                                   UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                                   UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0), UInt8(0),
+                                   UInt8(0), UInt8(0))
+            
+            try SMCKit.writeData(key, data: bytes)
+           
+            completion(.okay)
+            
+        }
+        catch {
+            print("powerWriteData error" ,error)
+            completion(.unauthorized)
+
+        }
+        
+    }
+    
     func helperRetriveDeviceCache(completion: @escaping (String) -> Void) {
         if let directory = self.directory {
             self.helperProcessTaskWithArguments(.launch, path: "/bin/bash", arguments: ["-c", "\(directory)/cache.sh"]) { xml in

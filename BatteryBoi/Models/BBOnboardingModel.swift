@@ -7,11 +7,16 @@
 
 import Foundation
 
+public enum OnboardingActionType {
+    case primary
+    case secondary
+    
+}
+
 #if os(macOS)
     public enum OnboardingViewType:String {
         case intro
         case cloud
-        case notifications
         case bluetooth
         case process
         case nobatt
@@ -23,7 +28,6 @@ import Foundation
             switch self {
                 case .intro : return true
                 case .cloud : return true
-                case .notifications : return true
                 case .process : return true
                 case .nobatt : return true
                 case .bluetooth : return true

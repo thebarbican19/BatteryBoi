@@ -1,15 +1,6 @@
 {
   "pins" : [
     {
-      "identity" : "bclm",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/zackelia/bclm.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "4b4d1350aeb6389bddcc63dd89652ed6fb51930b"
-      }
-    },
-    {
       "identity" : "deviice",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/andrealufino/Deviice",
@@ -46,6 +37,15 @@
       }
     },
     {
+      "identity" : "flyingfox",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swhitty/FlyingFox.git",
+      "state" : {
+        "revision" : "00e4d51c57b4fbe4f011650f2f965d3bea1ba7c1",
+        "version" : "0.13.0"
+      }
+    },
+    {
       "identity" : "keyboardshortcuts",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sindresorhus/KeyboardShortcuts",
@@ -64,21 +64,21 @@
       }
     },
     {
+      "identity" : "rateboi",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/thebarbican19/RateBoi/",
+      "state" : {
+        "branch" : "main",
+        "revision" : "77cad34a446580e437b66e2e08111cf3a879a093"
+      }
+    },
+    {
       "identity" : "sparkle",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sparkle-project/Sparkle",
       "state" : {
         "revision" : "87e4fcbac39912f9cdb9a9acf205cad60e1ca3bc",
         "version" : "2.4.2"
-      }
-    },
-    {
-      "identity" : "splitview",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/stevengharris/SplitView",
-      "state" : {
-        "revision" : "a21ca4f408909f49353cc92636654b2dfe5a5f19",
-        "version" : "3.4.0"
       }
     }
   ],

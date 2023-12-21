@@ -9,6 +9,7 @@ import Foundation
 
 enum ProcessPrimaryCommands:String,CaseIterable {
     case menubar = "mbar"
+    case notifications = "notify"
     case battery = "batt"
     case debug = "debug"
     case settings = "settings"
@@ -20,6 +21,7 @@ enum ProcessPrimaryCommands:String,CaseIterable {
     var description:String {
         switch self {
             case .menubar : return "Settings & Customization for the Menu Bar Icon"
+            case .notifications : return "Notifications Settings"
             case .battery : return "Battery Information for System & Setting Max Charge Limit"
             case .debug : return "App System Status & Debugging Information"
             case .devices : return "List & Append Device Information"
@@ -35,6 +37,7 @@ enum ProcessPrimaryCommands:String,CaseIterable {
     var secondary:[ProcessSecondaryCommands] {
         switch self {
             case .menubar : return [.info, .set, .reset]
+            case .notifications : return [.info, .set, .reset]
             case .battery : return [.info, .set]
             case .debug : return [.info, .reset]
             case .devices : return [.list, .reset]
@@ -112,6 +115,7 @@ enum ProcessPermissionState:String {
             default : return false
             
         }
+        
     }
     
 }

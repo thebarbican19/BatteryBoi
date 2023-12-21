@@ -35,22 +35,22 @@ struct DebugDeviceCell: View {
             .background(.gray)
             
             if revealed == true {
-                ForEach(manager.events.filter({ $0.device == device }).prefix(5), id: \.self) { event in
-                    HStack {
-                        Text("Charge: \(event.battery)")
-                        
-                        Text("Timestamp: \(event.created.formatted)")
-                        
-                        if let state = event.state {
-                            Text("State: \(state.rawValue)")
-                            
-                        }
-                        
-                    }
-                    .background(event.notify == .alert ? .blue.opacity(0.4) : .gray.opacity(0.2))
-                    .padding(.leading, 30)
-                    
-                }
+//                ForEach(manager.events.filter({ $0.device == device }).prefix(5), id: \.self) { event in
+//                    HStack {
+//                        Text("Charge: \(event.battery)")
+//                        
+//                        Text("Timestamp: \(event.created.formatted)")
+//                        
+//                        if let state = event.state {
+//                            Text("State: \(state.rawValue)")
+//                            
+//                        }
+//                        
+//                    }
+//                    .background(event.notify == .alert ? .blue.opacity(0.4) : .gray.opacity(0.2))
+//                    .padding(.leading, 30)
+//                    
+//                }
                 
             }
             

@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22225" systemVersion="23C63" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Alerts" representedClassName="Alerts" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="local" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="owner" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="triggered_on" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <attribute name="viewed" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="event" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Battery" inverseName="alert" inverseEntity="Battery"/>
+    </entity>
+    <entity name="Battery" representedClassName="Battery" syncable="YES" codeGenerationType="class">
+        <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="cycles" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="mode" optional="YES" attributeType="String"/>
+        <attribute name="os" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="percent" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="session" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="state" optional="YES" attributeType="String"/>
+        <attribute name="temprature" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="alert" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Alerts" inverseName="event" inverseEntity="Alerts"/>
+        <relationship name="device" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Devices" inverseName="events" inverseEntity="Devices"/>
+    </entity>
     <entity name="Devices" representedClassName="Devices" syncable="YES" codeGenerationType="class">
         <attribute name="added_on" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="address" optional="YES" attributeType="String"/>
@@ -21,20 +43,14 @@
         <attribute name="subtype" optional="YES" attributeType="String"/>
         <attribute name="type" optional="YES" attributeType="String"/>
         <attribute name="vendor" optional="YES" attributeType="String"/>
-        <relationship name="connected" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Devices" inverseName="connected" inverseEntity="Devices"/>
-        <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Events" inverseName="device" inverseEntity="Events"/>
-        <relationship name="reported" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Events" inverseName="reporter" inverseEntity="Events"/>
+        <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Battery" inverseName="device" inverseEntity="Battery"/>
     </entity>
-    <entity name="Events" representedClassName="Events" syncable="YES" codeGenerationType="class">
-        <attribute name="charge" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+    <entity name="Push" representedClassName="Push" syncable="YES" codeGenerationType="class">
+        <attribute name="added_on" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="custom" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="mode" optional="YES" attributeType="String"/>
-        <attribute name="notify" optional="YES" attributeType="String"/>
-        <attribute name="state" optional="YES" attributeType="String"/>
-        <attribute name="temprature" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="version" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <relationship name="device" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Devices" inverseName="events" inverseEntity="Devices"/>
-        <relationship name="reporter" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Devices" inverseName="reported" inverseEntity="Devices"/>
+        <attribute name="percent" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <attribute name="updated_on" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
 </model>

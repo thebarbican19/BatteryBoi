@@ -42,6 +42,7 @@
 "SettingsDisplayCycleLabel" = "Cycle Count";
 "SettingsDisplayVoltageLabel" = "Voltage";
 "SettingsDisplayPercentLabel" = "Percentage";
+"SettingsDisplayTempratureLabel" = "Temprature";
 "SettingsDisplayEstimateLabel" = "Time";
 "SettingsDisplayNoneLabel" = "Empty";
 "SettingsDisplayHiddenLabel" = "Hidden";

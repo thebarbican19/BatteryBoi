@@ -170,7 +170,7 @@ private struct BatteryStatus: View {
             }
             
         }
-        .onChange(of: manager.temperature.state) { newValue in
+        .onChange(of: manager.thermal.state) { newValue in
             if newValue == .suboptimal {
                 self.icon = "OverheatIcon"
 
@@ -376,7 +376,7 @@ struct BatteryTransparent: View {
             RoundedRectangle(cornerRadius: menubar.radius, style: .continuous)
                 .fill(color)
                 .opacity(menubar.style.foreground)
-                .frame(width:(menubar.style.size.width / 100) * Double(manager.percentage), height: menubar.style.size.height)
+                .frame(width:(menubar.style.size.width / CGFloat(manager.max)) * CGFloat(manager.percentage), height: menubar.style.size.height)
             
         }
         .mask(

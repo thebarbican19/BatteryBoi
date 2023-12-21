@@ -28,6 +28,13 @@ import Foundation
     
 }
 
+@objc enum HelperWriteDataStatus:Int {
+    case unauthorized
+    case okay
+    case unknown
+    
+}
+
 @objc enum HelperInstallerStatus:Int {
     case unknown = 0
     case okay = 200
@@ -74,5 +81,5 @@ import Foundation
     func helperVersion(completion:@escaping(NSNumber?) -> Void)
     func helperProcessTaskWithArguments(_ type:HelperProcessType, path:String, arguments:[String], whitespace:Bool, completion:@escaping(String?) -> Void)
     func helperRetriveDeviceCache(completion: @escaping (String) -> Void)
-    
+    func helperWriteData(key: String, value: UInt8, completion: @escaping (HelperWriteDataStatus) -> Void)
 }

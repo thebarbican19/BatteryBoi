@@ -10,6 +10,7 @@ import EnalogSwift
 import Sparkle
 import Combine
 import Foundation
+import UserNotifications
 
 @main
 struct BatteryBoiApp: App {
@@ -78,39 +79,27 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
 
     }
     
-    func applicationDidFinishLaunching(_ notification: Notification) {
+    final func applicationDidFinishLaunching(_ notification: Notification) {
         self.status = NSStatusBar.system.statusItem(withLength: 45)
         self.hosting.frame.size = NSSize(width: 45, height: 22)
         
-        //self.status = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-
-                // Immediate check to ensure status item and its button are available.
         guard let status = self.status else {
             print("Failed to create status item.")
             return
             
         }
-
-        if status.button == nil {
-            print("Status item created, but its button is nil.")
-        } 
-        else {
-            print("Status item and its button are initialized successfully.")
-        }
         
         if let window = NSApplication.shared.windows.first {
             window.close()
-
+            
         }
         
         if let channel = Bundle.main.infoDictionary?["SD_SLACK_CHANNEL"] as? String  {
             #if !DEBUG
                 EnalogManager.main.user(SystemDeviceTypes.identifyer)
-                EnalogManager.main.crash(SystemEvents.fatalError, channel: .init(.slack, id:channel))
+                EnalogManager.main.crash(SystemEvents.fatalError, channel: .init(.slack, id: channel))
                 EnalogManager.main.ingest(SystemEvents.userLaunched, description: "Launched BatteryBoi")
-            
             #endif
-
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
@@ -126,33 +115,22 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
             MenubarManager.shared.$primary.removeDuplicates().sink { type in
                 if type == nil {
                     self.applicationMenuBarIcon(false)
-                    
-                }
-                else {
+                } else {
                     self.applicationMenuBarIcon(true)
-                    
                 }
-               
             }.store(in: &self.updates)
             
-            if #available(macOS 13.0, *) {
-                if SettingsManager.shared.enabledAutoLaunch == .undetermined {
-                    SettingsManager.shared.enabledAutoLaunch = .enabled
-                    
-                }
-                
-            }
-                        
         }
         
         NSAppleEventManager.shared().setEventHandler(self, andSelector: #selector(applicationHandleURLEvent(event:reply:)), forEventClass: AEEventClass(kInternetEventClass), andEventID: AEEventID(kAEGetURL))
 
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(applicationDidWakeNotification(_:)), name: NSWorkspace.didWakeNotification, object: nil)
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(applicationDidWakeNotification(_:)), name: NSWorkspace.sessionDidBecomeActiveNotification, object: nil)
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(applicationDidSleepNotification(_:)), name: NSWorkspace.screensDidSleepNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationFocusDidMove(notification:)), name: NSWindow.didMoveNotification, object:nil)
-        
-        self.applicationMessagePortHandle()
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationFocusDidMove(notification:)), name: NSWindow.didMoveNotification, object: nil)
 
+        self.applicationMessagePortHandle()
+        
     }
     
     private func applicationMessagePortHandle() {
@@ -239,6 +217,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
     
     @objc private func applicationDidWakeNotification(_ notification: Notification) {
         BatteryManager.shared.powerForceRefresh()
+        AppManager.shared.sessionid = UUID()
         
     }
     

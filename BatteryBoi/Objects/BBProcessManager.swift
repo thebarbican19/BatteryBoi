@@ -111,23 +111,30 @@ class ProcessManager:ObservableObject {
     }
     
     private func processInstallInterface() {
-        #if MAINTARGET
-            if ToolInstaller.install() == true {
-                DispatchQueue.main.async {
-                    self.interface = .allowed
+        if AppManager.shared.distribution == .direct {
+            #if MAINTARGET
+                if ToolInstaller.install() == true {
+                    DispatchQueue.main.async {
+                        self.interface = .allowed
+                        
+                    }
                     
                 }
-
-            }
-            else {
-                DispatchQueue.main.async {
-                    self.interface = .denied
+                else {
+                    DispatchQueue.main.async {
+                        self.interface = .denied
+                        
+                    }
                     
                 }
                 
-            }
-        
-        #endif
+            #endif
+            
+        }
+        else {
+            self.interface = .denied
+
+        }
         
     }
     
@@ -180,8 +187,8 @@ class ProcessManager:ObservableObject {
         
         if let subcommand = subcommand {
             guard let prompt = command.secondary.first(where: { $0 == subcommand}) else {
-                output.append(self.processHeaderOutput("UNSUPPORTED", state:.error))
-                
+                output.append("\n----------COMMANDS----------\n\n")
+
                 for supported in command.secondary {
                     output.append(self.processValueOutput(supported.rawValue, value: .init(nil)))
                     
@@ -352,6 +359,39 @@ class ProcessManager:ObservableObject {
             }
             
         }
+        else if command == .notifications {
+            if secondary == .info {
+                output.append("\n----------AT PERCENTAGE----------\n\n")
+                
+                for alert in AlertManager.shared.alerts.filter({ $0.percentage != nil }) {
+                    if let percent = alert.percentage {
+                        output.append(self.processValueOutput("\(alert.type.rawValue)", value:.init("At \(percent)%")))
+                        
+                    }
+                    
+                }
+                
+                output.append("\n----------OTHER----------\n\n")
+
+                for alert in AlertManager.shared.alerts.filter({ $0.percentage == nil }) {
+                    output.append(self.processValueOutput(alert.type.description, value:.init("\(alert.type.rawValue)"), reverse: true))
+
+                }
+                
+            }
+            else if secondary == .reset {
+                AlertManager.shared.alertReset()
+                
+                output.append(self.processHeaderOutput("RESET TO DEFAULT", state:.sucsess))
+                
+                
+            }
+            else {
+                output.append(self.processHeaderOutput("NOT AVAILABLE IN THIS VERSION", state:.warning))
+
+            }
+            
+        }
         else if command == .battery {
             if secondary == .info {
                 BatteryManager.shared.powerForceRefresh()
@@ -381,9 +421,14 @@ class ProcessManager:ObservableObject {
                     
                 }
                 
-                output.append(self.processValueOutput("Charge To", value: .init("100%")))
                 output.append(self.processValueOutput("Low Power Mode", value:.init( BatteryManager.shared.mode.flag.string(.enabled), type: BatteryManager.shared.mode.flag ? .sucsess : .normal)))
-                
+                output.append(self.processValueOutput("Charge To", value: .init("\(BatteryManager.shared.max)%")))
+   
+                if let powered = BatteryManager.shared.info?.powered {
+                    output.append(self.processValueOutput("Connected to Power", value:.init( powered.string(.enabled), type:.normal)))
+                    
+                }
+
                 if BatteryManager.shared.charging == .charging {
                     output.append(self.processValueOutput("Time Until Fully Charged", value:.init( "32 Minutes")))
                     
@@ -411,15 +456,16 @@ class ProcessManager:ObservableObject {
                 
                 output.append("\n----------TEMPRATURE----------\n\n")
                 
-                output.append(self.processValueOutput("Overheating", value: .init(BatteryManager.shared.temperature.state.flag.string(.yes), type: BatteryManager.shared.temperature.state.warning)))
-                output.append(self.processValueOutput("Battery Temprature", value: .init(BatteryManager.shared.temperature.formatted)))
+                output.append(self.processValueOutput("Overheating", value: .init(BatteryManager.shared.thermal.state.flag.string(.yes), type: BatteryManager.shared.thermal.state.warning)))
+                output.append(self.processValueOutput("Battery Temprature", value: .init(BatteryManager.shared.thermal.formatted)))
                 
                 output.append("\n----------OTHER----------\n\n")
                 
                 if let info = BatteryManager.shared.info {
                     output.append(self.processValueOutput("Battery Manufacturer", value: .init(info.manufacturer)))
                     output.append(self.processValueOutput("Serial Number", value: .init(info.serial)))
-                    
+                    output.append(self.processValueOutput("Total Batteries", value: .init("\(info.batteries ?? 1)")))
+
                     if let accumulated = info.accumulated {
                         output.append(self.processValueOutput("Accumulated Usage", value: .init("\(accumulated) kWh")))
                         
@@ -457,6 +503,19 @@ class ProcessManager:ObservableObject {
                                 
                             }
                             
+                        }
+                        
+                    }
+                    else if flags[1] == "-l" {
+                        if let value = Int(flags[2]) {
+                            BatteryManager.shared.powerChargeLimit(value)
+                            
+                            output.append(self.processHeaderOutput("SAVED", state:.sucsess))
+
+                        }
+                        else {
+                            output.append(self.processHeaderOutput("INVALID TYPE", state:.error))
+
                         }
                         
                     }
@@ -509,12 +568,12 @@ class ProcessManager:ObservableObject {
 
                 output.append("\n----------RECENT EVENTS----------\n\n")
 
-                for event in AppManager.shared.appListEvents(20) {
-                    output.append(self.processValueOutput("Notify", value: .init(event.notify)))
-                    output.append(self.processValueOutput("State", value: .init(event.state)))
-                    output.append(self.processValueOutput("Charge", value: .init("\(event.charge)")))
-
-                }
+//                for event in AppManager.shared.appListEvents(20) {
+//                    output.append(self.processValueOutput("Notify", value: .init(event.notify)))
+//                    output.append(self.processValueOutput("State", value: .init(event.state)))
+//                    output.append(self.processValueOutput("Charge", value: .init("\(event.charge)")))
+//
+//                }
                 
             }
             
@@ -650,26 +709,16 @@ class ProcessManager:ObservableObject {
             
         }
         else if command == .beta {
-            if flags.indices.contains(1) == false {
-                
-                
-                SettingsManager.shared.enabledBeta = .disabled
+            if flags.first?.boolean == true {
+                SettingsManager.shared.enabledBeta = .enabled
 
-            
+                output.append(self.processHeaderOutput("BETA ENABLED", state:.sucsess))
+
             }
             else {
-                if flags[1].boolean == true {
-                    SettingsManager.shared.enabledBeta = .enabled
+                SettingsManager.shared.enabledBeta = .disabled
 
-                    output.append(self.processHeaderOutput("BETA ENABLED", state:.sucsess))
-
-                }
-                else {
-                    SettingsManager.shared.enabledBeta = .disabled
-
-                    output.append(self.processHeaderOutput("BETA DISABLED", state:.sucsess))
-                    
-                }
+                output.append(self.processHeaderOutput("BETA DISABLED", state:.sucsess))
                 
             }
             

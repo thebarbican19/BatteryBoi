@@ -38,11 +38,7 @@
 		D83701272B1F936B00B1206E /* BBStatsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E585F92B1962AA002C11FF /* BBStatsModel.swift */; };
 		D83701282B1F936E00B1206E /* BBProcessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDC412B1EAA7E00C077ED /* BBProcessModel.swift */; };
 		D83701292B1F937000B1206E /* BBAnimationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83701112B1F8E4C00B1206E /* BBAnimationModel.swift */; };
-		D837012A2B1F937500B1206E /* BBAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5CA2A8403D300E295FA /* BBAppManager.swift */; };
-		D837012C2B1F937C00B1206E /* BBBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DFD5922A956D2C00732635 /* BBBluetoothManager.swift */; };
-		D837012D2B1F938000B1206E /* BBBatteryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5AE2A7DF68C00E295FA /* BBBatteryManager.swift */; };
 		D837012E2B1F938A00B1206E /* BBExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5B82A80646E00E295FA /* BBExtensions.swift */; };
-		D837012F2B1F939400B1206E /* BBCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2312B0D6ABF00D13DE6 /* BBCloudManager.swift */; };
 		D83701302B1F939E00B1206E /* BBDataObject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D851F8042AB214E8003FCA79 /* BBDataObject.xcdatamodeld */; };
 		D83701322B1F93C300B1206E /* BBSettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5B42A7F383600E295FA /* BBSettingsManager.swift */; };
 		D83701342B1F954600B1206E /* EnalogSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D83701332B1F954600B1206E /* EnalogSwift */; };
@@ -54,7 +50,6 @@
 		D83701482B20F6FC00B1206E /* BBAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891134C2AAC34DC00B5E4F5 /* BBAnimationManager.swift */; };
 		D83701492B20F6FC00B1206E /* BBAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891134C2AAC34DC00B5E4F5 /* BBAnimationManager.swift */; };
 		D837014B2B2100DE00B1206E /* BBMenubarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D837014A2B2100DE00B1206E /* BBMenubarManager.swift */; };
-		D837014C2B2100DE00B1206E /* BBMenubarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D837014A2B2100DE00B1206E /* BBMenubarManager.swift */; };
 		D83C2C2C2B25329400B78456 /* BBHelperManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83C2C2B2B25329400B78456 /* BBHelperManager.swift */; };
 		D83C2C2E2B253DBD00B78456 /* BBHelperModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83C2C2D2B253DBD00B78456 /* BBHelperModel.swift */; };
 		D83C2C2F2B253DBD00B78456 /* BBHelperModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83C2C2D2B253DBD00B78456 /* BBHelperModel.swift */; };
@@ -68,7 +63,6 @@
 		D851F8022AB152B7003FCA79 /* BBUpdateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D851F8012AB152B7003FCA79 /* BBUpdateView.swift */; };
 		D851F8062AB214E8003FCA79 /* BBDataObject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D851F8042AB214E8003FCA79 /* BBDataObject.xcdatamodeld */; };
 		D851F80A2ABA29A0003FCA79 /* BBNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D851F8092ABA299F003FCA79 /* BBNavigationView.swift */; };
-		D8577A152B223F7E00366B51 /* RateBoi.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8577A142B223F7E00366B51 /* RateBoi.swift */; };
 		D8577A412B23B3A200366B51 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8577A402B23B3A200366B51 /* main.swift */; };
 		D8577A462B23B4C000366B51 /* helperboi in CopyFiles */ = {isa = PBXBuildFile; fileRef = D8577A3E2B23B3A000366B51 /* helperboi */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		D8577A472B23B71600366B51 /* Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = D8577A452B23B3CC00366B51 /* Info.plist */; };
@@ -90,17 +84,41 @@
 		D8BEDB512B27A101004D3EB1 /* DynamicColor in Frameworks */ = {isa = PBXBuildFile; productRef = D8BEDB502B27A101004D3EB1 /* DynamicColor */; };
 		D8BEDB522B27B33D004D3EB1 /* BBProcessManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8228E382AC387010014DC85 /* BBProcessManager.swift */; };
 		D8BEDB532B27B379004D3EB1 /* BBHelperModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83C2C2D2B253DBD00B78456 /* BBHelperModel.swift */; };
-		D8BEDB552B27B398004D3EB1 /* BBOnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6198C2B16F13D0023D5E0 /* BBOnboardingManager.swift */; };
 		D8BEDB852B2C0DD6004D3EB1 /* airpods.sh in Resources */ = {isa = PBXBuildFile; fileRef = D8BEDB842B2C0DD5004D3EB1 /* airpods.sh */; };
 		D8BEDB872B2CEA82004D3EB1 /* cache.sh in Resources */ = {isa = PBXBuildFile; fileRef = D8BEDB862B2CEA81004D3EB1 /* cache.sh */; };
+		D8BEDB892B2EB730004D3EB1 /* BBBatteryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8BEDB882B2EB730004D3EB1 /* BBBatteryModel.swift */; };
+		D8BEDB8A2B2EB730004D3EB1 /* BBBatteryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8BEDB882B2EB730004D3EB1 /* BBBatteryModel.swift */; };
+		D8BEDB8B2B2EB730004D3EB1 /* BBBatteryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8BEDB882B2EB730004D3EB1 /* BBBatteryModel.swift */; };
+		D8BEDB8C2B2EB730004D3EB1 /* BBBatteryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8BEDB882B2EB730004D3EB1 /* BBBatteryModel.swift */; };
+		D8BEDB8D2B2EC558004D3EB1 /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83701432B1FD27500B1206E /* SMC.swift */; };
+		D8BEDB902B315CEC004D3EB1 /* FlyingFox in Frameworks */ = {isa = PBXBuildFile; productRef = D8BEDB8F2B315CEC004D3EB1 /* FlyingFox */; };
+		D8BEDB922B315CEC004D3EB1 /* FlyingSocks in Frameworks */ = {isa = PBXBuildFile; productRef = D8BEDB912B315CEC004D3EB1 /* FlyingSocks */; };
 		D8C7849F2B1E815300EBD52A /* BBNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C7849D2B1E815300EBD52A /* BBNavigationView.swift */; };
-		D8C784A22B1E84B100EBD52A /* SplitView in Frameworks */ = {isa = PBXBuildFile; productRef = D8C784A12B1E84B100EBD52A /* SplitView */; };
 		D8C784AA2B1E8A8E00EBD52A /* ToolInstaller.m in Sources */ = {isa = PBXBuildFile; fileRef = D8C784A92B1E8A8E00EBD52A /* ToolInstaller.m */; };
 		D8C784B82B1E8B3D00EBD52A /* install.sh in Resources */ = {isa = PBXBuildFile; fileRef = D8C784B72B1E8B3D00EBD52A /* install.sh */; };
 		D8C784B92B1E8B3D00EBD52A /* install.sh in Resources */ = {isa = PBXBuildFile; fileRef = D8C784B72B1E8B3D00EBD52A /* install.sh */; };
 		D8C784BB2B1E902400EBD52A /* install.sh in CopyFiles */ = {isa = PBXBuildFile; fileRef = D8C784B72B1E8B3D00EBD52A /* install.sh */; };
 		D8CDA7FD2AA249F800FAD41E /* highnote.wav in Resources */ = {isa = PBXBuildFile; fileRef = D8CDA7FB2AA249F800FAD41E /* highnote.wav */; };
 		D8CDA7FE2AA249F800FAD41E /* lownote.wav in Resources */ = {isa = PBXBuildFile; fileRef = D8CDA7FC2AA249F800FAD41E /* lownote.wav */; };
+		D8D52B742B322ED3004C7E5C /* RateBoi in Frameworks */ = {isa = PBXBuildFile; productRef = D8D52B732B322ED3004C7E5C /* RateBoi */; };
+		D8D52B762B322F4D004C7E5C /* BBAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B752B322F4D004C7E5C /* BBAlertManager.swift */; };
+		D8D52B772B322F4D004C7E5C /* BBAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B752B322F4D004C7E5C /* BBAlertManager.swift */; };
+		D8D52B782B322F4D004C7E5C /* BBAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B752B322F4D004C7E5C /* BBAlertManager.swift */; };
+		D8D52B7B2B325663004C7E5C /* BBPeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B7A2B325663004C7E5C /* BBPeerManager.swift */; };
+		D8D52B7C2B325663004C7E5C /* BBPeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B7A2B325663004C7E5C /* BBPeerManager.swift */; };
+		D8D52B7D2B325663004C7E5C /* BBPeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B7A2B325663004C7E5C /* BBPeerManager.swift */; };
+		D8D52B7E2B325663004C7E5C /* BBPeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B7A2B325663004C7E5C /* BBPeerManager.swift */; };
+		D8D52B872B3295BE004C7E5C /* BBAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5CA2A8403D300E295FA /* BBAppManager.swift */; };
+		D8D52B882B3295F8004C7E5C /* BBCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2312B0D6ABF00D13DE6 /* BBCloudManager.swift */; };
+		D8D52B892B32960C004C7E5C /* BBMenubarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D837014A2B2100DE00B1206E /* BBMenubarManager.swift */; };
+		D8D52B8A2B329621004C7E5C /* BBBatteryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5AE2A7DF68C00E295FA /* BBBatteryManager.swift */; };
+		D8D52B8B2B329630004C7E5C /* BBAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B752B322F4D004C7E5C /* BBAlertManager.swift */; };
+		D8D52B8C2B329642004C7E5C /* BBOnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6198C2B16F13D0023D5E0 /* BBOnboardingManager.swift */; };
+		D8D52B8E2B32965E004C7E5C /* BBBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DFD5922A956D2C00732635 /* BBBluetoothManager.swift */; };
+		D8D52B922B329698004C7E5C /* BBAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891134C2AAC34DC00B5E4F5 /* BBAnimationManager.swift */; };
+		D8D52B932B3296A4004C7E5C /* BBStatsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83DD3F92A9D62AF00FCC534 /* BBStatsManager.swift */; };
+		D8D52B9A2B33E3F0004C7E5C /* BBBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DFD5922A956D2C00732635 /* BBBluetoothManager.swift */; };
+		D8D52B9B2B33EEB5004C7E5C /* BBOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E619892B167C5C0023D5E0 /* BBOnboardingView.swift */; };
 		D8D9E5A02A7DE7AB00E295FA /* BatteryBoiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E59F2A7DE7AB00E295FA /* BatteryBoiApp.swift */; };
 		D8D9E5A42A7DE7AE00E295FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8D9E5A32A7DE7AE00E295FA /* Assets.xcassets */; };
 		D8D9E5A72A7DE7AE00E295FA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8D9E5A62A7DE7AE00E295FA /* Preview Assets.xcassets */; };
@@ -141,7 +159,6 @@
 		D8E619852B16704A0023D5E0 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = D8E619842B16704A0023D5E0 /* RevenueCat */; };
 		D8E619872B16704A0023D5E0 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = D8E619862B16704A0023D5E0 /* RevenueCatUI */; };
 		D8E6198A2B167C5C0023D5E0 /* BBOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E619892B167C5C0023D5E0 /* BBOnboardingView.swift */; };
-		D8E6198B2B167C5C0023D5E0 /* BBOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E619892B167C5C0023D5E0 /* BBOnboardingView.swift */; };
 		D8E6198D2B16F13D0023D5E0 /* BBOnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6198C2B16F13D0023D5E0 /* BBOnboardingManager.swift */; };
 		D8E6198E2B16F13D0023D5E0 /* BBOnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6198C2B16F13D0023D5E0 /* BBOnboardingManager.swift */; };
 		D8E619912B1707750023D5E0 /* BBOnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E619902B1707750023D5E0 /* BBOnboardingModel.swift */; };
@@ -249,7 +266,6 @@
 		D851F8092ABA299F003FCA79 /* BBNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBNavigationView.swift; sourceTree = "<group>"; };
 		D851F8172ABCA443003FCA79 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
 		D851F8222ABDF99D003FCA79 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
-		D8577A142B223F7E00366B51 /* RateBoi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateBoi.swift; sourceTree = "<group>"; };
 		D8577A162B239AA000366B51 /* cliboi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = cliboi.entitlements; sourceTree = "<group>"; };
 		D8577A3E2B23B3A000366B51 /* helperboi */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = helperboi; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8577A402B23B3A200366B51 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -271,6 +287,7 @@
 		D89CFD3E2B0C08DC006342CD /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		D8BEDB842B2C0DD5004D3EB1 /* airpods.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = airpods.sh; sourceTree = "<group>"; };
 		D8BEDB862B2CEA81004D3EB1 /* cache.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = cache.sh; sourceTree = "<group>"; };
+		D8BEDB882B2EB730004D3EB1 /* BBBatteryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBBatteryModel.swift; sourceTree = "<group>"; };
 		D8C7849D2B1E815300EBD52A /* BBNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBNavigationView.swift; sourceTree = "<group>"; };
 		D8C784A62B1E8A8C00EBD52A /* BatteryBoi-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BatteryBoi-Bridging-Header.h"; sourceTree = "<group>"; };
 		D8C784A82B1E8A8D00EBD52A /* ToolInstaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolInstaller.h; sourceTree = "<group>"; };
@@ -281,6 +298,8 @@
 		D8CDA7F72AA2448D00FAD41E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LocalizableMain.strings"; sourceTree = "<group>"; };
 		D8CDA7FB2AA249F800FAD41E /* highnote.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = highnote.wav; sourceTree = "<group>"; };
 		D8CDA7FC2AA249F800FAD41E /* lownote.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lownote.wav; sourceTree = "<group>"; };
+		D8D52B752B322F4D004C7E5C /* BBAlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBAlertManager.swift; sourceTree = "<group>"; };
+		D8D52B7A2B325663004C7E5C /* BBPeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBPeerManager.swift; sourceTree = "<group>"; };
 		D8D9E59C2A7DE7AB00E295FA /* BatteryBoi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BatteryBoi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8D9E59F2A7DE7AB00E295FA /* BatteryBoiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryBoiApp.swift; sourceTree = "<group>"; };
 		D8D9E5A32A7DE7AE00E295FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -320,7 +339,6 @@
 				D8E619852B16704A0023D5E0 /* RevenueCat in Frameworks */,
 				D804F2262B0D63BD00D13DE6 /* EnalogSwift in Frameworks */,
 				D8E619872B16704A0023D5E0 /* RevenueCatUI in Frameworks */,
-				D8C784A22B1E84B100EBD52A /* SplitView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,10 +378,13 @@
 				D84F4E182A85A66900668582 /* Sparkle in Frameworks */,
 				D8D9E5C62A81B27D00E295FA /* DynamicColor in Frameworks */,
 				D8E619832B16702B0023D5E0 /* RevenueCatUI in Frameworks */,
+				D8D52B742B322ED3004C7E5C /* RateBoi in Frameworks */,
 				D8E619812B16702B0023D5E0 /* RevenueCat in Frameworks */,
 				D8D9E5C02A81565000E295FA /* FluidGradient in Frameworks */,
 				D8DFD58E2A8D83B500732635 /* EnalogSwift in Frameworks */,
 				D84F4E1B2A85A6A800668582 /* KeyboardShortcuts in Frameworks */,
+				D8BEDB922B315CEC004D3EB1 /* FlyingSocks in Frameworks */,
+				D8BEDB902B315CEC004D3EB1 /* FlyingFox in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,6 +414,7 @@
 			children = (
 				D804F2282B0D640A00D13DE6 /* BBSystemModel.swift */,
 				D804F22E2B0D64DE00D13DE6 /* BBSettingsModel.swift */,
+				D8BEDB882B2EB730004D3EB1 /* BBBatteryModel.swift */,
 				D804F2362B0D6F1500D13DE6 /* BBBluetoothModel.swift */,
 				D8598C962B156198006F36B2 /* BBCloudModel.swift */,
 				D8E619902B1707750023D5E0 /* BBOnboardingModel.swift */,
@@ -571,8 +593,9 @@
 		D8D9E5BB2A8064A000E295FA /* Objects */ = {
 			isa = PBXGroup;
 			children = (
-				D8577A142B223F7E00366B51 /* RateBoi.swift */,
 				D8D9E5CA2A8403D300E295FA /* BBAppManager.swift */,
+				D8D52B7A2B325663004C7E5C /* BBPeerManager.swift */,
+				D8D52B752B322F4D004C7E5C /* BBAlertManager.swift */,
 				D8E6198C2B16F13D0023D5E0 /* BBOnboardingManager.swift */,
 				D8DFD5922A956D2C00732635 /* BBBluetoothManager.swift */,
 				D8D9E5AE2A7DF68C00E295FA /* BBBatteryManager.swift */,
@@ -670,7 +693,6 @@
 				D8E619842B16704A0023D5E0 /* RevenueCat */,
 				D8E619862B16704A0023D5E0 /* RevenueCatUI */,
 				D8E464392B181C1700A18F76 /* Deviice */,
-				D8C784A12B1E84B100EBD52A /* SplitView */,
 			);
 			productName = "BatteryBoi (iOS)";
 			productReference = D8228E0D2AC1EA790014DC85 /* BatteryBoi (iOS).app */;
@@ -759,6 +781,9 @@
 				D8DFD58D2A8D83B500732635 /* EnalogSwift */,
 				D8E619802B16702B0023D5E0 /* RevenueCat */,
 				D8E619822B16702B0023D5E0 /* RevenueCatUI */,
+				D8BEDB8F2B315CEC004D3EB1 /* FlyingFox */,
+				D8BEDB912B315CEC004D3EB1 /* FlyingSocks */,
+				D8D52B732B322ED3004C7E5C /* RateBoi */,
 			);
 			productName = BatteryBoi;
 			productReference = D8D9E59C2A7DE7AB00E295FA /* BatteryBoi.app */;
@@ -826,8 +851,8 @@
 				D8DFD58C2A8D83B500732635 /* XCRemoteSwiftPackageReference "EnalogSwift" */,
 				D8E6197F2B16702B0023D5E0 /* XCRemoteSwiftPackageReference "purchases-ios" */,
 				D8E464382B181C1700A18F76 /* XCRemoteSwiftPackageReference "Deviice" */,
-				D8C784A02B1E84B100EBD52A /* XCRemoteSwiftPackageReference "SplitView" */,
-				D8BEDB562B27C732004D3EB1 /* XCRemoteSwiftPackageReference "bclm" */,
+				D8BEDB8E2B315CEC004D3EB1 /* XCRemoteSwiftPackageReference "FlyingFox" */,
+				D8D52B722B322ED3004C7E5C /* XCRemoteSwiftPackageReference "RateBoi" */,
 			);
 			productRefGroup = D8D9E59D2A7DE7AB00E295FA /* Products */;
 			projectDirPath = "";
@@ -907,16 +932,19 @@
 			files = (
 				D8E585D82B194009002C11FF /* BBPurchaseManager.swift in Sources */,
 				D804F23B2B0D715E00D13DE6 /* BBAppManager.swift in Sources */,
+				D8D52B9B2B33EEB5004C7E5C /* BBOnboardingView.swift in Sources */,
 				D804F23A2B0D6FB500D13DE6 /* BBStatsManager.swift in Sources */,
 				D804F2392B0D6F3800D13DE6 /* BBBluetoothManager.swift in Sources */,
+				D8BEDB8A2B2EB730004D3EB1 /* BBBatteryModel.swift in Sources */,
 				D804F2302B0D650300D13DE6 /* BBSettingsModel.swift in Sources */,
+				D8D52B772B322F4D004C7E5C /* BBAlertManager.swift in Sources */,
 				D804F2332B0D6B3700D13DE6 /* BBCloudManager.swift in Sources */,
 				D8E619922B1707750023D5E0 /* BBOnboardingModel.swift in Sources */,
 				D804F22A2B0D641D00D13DE6 /* BBSystemModel.swift in Sources */,
 				D83701462B20F65B00B1206E /* BBAnimationModel.swift in Sources */,
 				D8E6198E2B16F13D0023D5E0 /* BBOnboardingManager.swift in Sources */,
 				D804F22C2B0D646600D13DE6 /* BBSettingsManager.swift in Sources */,
-				D8E6198B2B167C5C0023D5E0 /* BBOnboardingView.swift in Sources */,
+				D8D52B7C2B325663004C7E5C /* BBPeerManager.swift in Sources */,
 				D8598C982B1561B8006F36B2 /* BBCloudModel.swift in Sources */,
 				D8C7849F2B1E815300EBD52A /* BBNavigationView.swift in Sources */,
 				D804F2272B0D63CE00D13DE6 /* BBExtensions.swift in Sources */,
@@ -934,27 +962,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8D52B8B2B329630004C7E5C /* BBAlertManager.swift in Sources */,
 				D83701452B1FD27500B1206E /* SMC.swift in Sources */,
+				D8D52B8A2B329621004C7E5C /* BBBatteryManager.swift in Sources */,
 				D83701322B1F93C300B1206E /* BBSettingsManager.swift in Sources */,
-				D8BEDB552B27B398004D3EB1 /* BBOnboardingManager.swift in Sources */,
-				D837012C2B1F937C00B1206E /* BBBluetoothManager.swift in Sources */,
+				D8BEDB8C2B2EB730004D3EB1 /* BBBatteryModel.swift in Sources */,
 				D8BEDB522B27B33D004D3EB1 /* BBProcessManager.swift in Sources */,
+				D8D52B8E2B32965E004C7E5C /* BBBluetoothManager.swift in Sources */,
 				D83701272B1F936B00B1206E /* BBStatsModel.swift in Sources */,
 				D837012E2B1F938A00B1206E /* BBExtensions.swift in Sources */,
-				D837012F2B1F939400B1206E /* BBCloudManager.swift in Sources */,
 				D83701252B1F936600B1206E /* BBCloudModel.swift in Sources */,
 				D83701302B1F939E00B1206E /* BBDataObject.xcdatamodeld in Sources */,
+				D8D52B872B3295BE004C7E5C /* BBAppManager.swift in Sources */,
+				D8D52B882B3295F8004C7E5C /* BBCloudManager.swift in Sources */,
 				D83701242B1F936300B1206E /* BBBluetoothModel.swift in Sources */,
 				D83701282B1F936E00B1206E /* BBProcessModel.swift in Sources */,
+				D8D52B7E2B325663004C7E5C /* BBPeerManager.swift in Sources */,
+				D8D52B932B3296A4004C7E5C /* BBStatsManager.swift in Sources */,
+				D8D52B922B329698004C7E5C /* BBAnimationManager.swift in Sources */,
+				D8D52B892B32960C004C7E5C /* BBMenubarManager.swift in Sources */,
 				D83701262B1F936900B1206E /* BBOnboardingModel.swift in Sources */,
 				D83701292B1F937000B1206E /* BBAnimationModel.swift in Sources */,
 				D83701222B1F935C00B1206E /* BBSystemModel.swift in Sources */,
-				D837014C2B2100DE00B1206E /* BBMenubarManager.swift in Sources */,
-				D837012D2B1F938000B1206E /* BBBatteryManager.swift in Sources */,
 				D837013D2B1FC15B00B1206E /* ToolInstaller.m in Sources */,
 				D83701232B1F935F00B1206E /* BBSettingsModel.swift in Sources */,
 				D837011D2B1F932900B1206E /* main.swift in Sources */,
-				D837012A2B1F937500B1206E /* BBAppManager.swift in Sources */,
+				D8D52B8C2B329642004C7E5C /* BBOnboardingManager.swift in Sources */,
 				D8BEDB532B27B379004D3EB1 /* BBHelperModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -964,6 +997,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8577A472B23B71600366B51 /* Info.plist in Sources */,
+				D8BEDB8D2B2EC558004D3EB1 /* SMC.swift in Sources */,
 				D8577A412B23B3A200366B51 /* main.swift in Sources */,
 				D83C2C2C2B25329400B78456 /* BBHelperManager.swift in Sources */,
 				D83C2C2F2B253DBD00B78456 /* BBHelperModel.swift in Sources */,
@@ -975,10 +1009,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8E585FE2B196384002C11FF /* BBSettingsModel.swift in Sources */,
+				D8BEDB8B2B2EB730004D3EB1 /* BBBatteryModel.swift in Sources */,
+				D8D52B7D2B325663004C7E5C /* BBPeerManager.swift in Sources */,
 				D8E585FF2B19639C002C11FF /* BBExtensions.swift in Sources */,
 				D8E585F82B1960BC002C11FF /* BBSystemModel.swift in Sources */,
 				D83701472B20F6B000B1206E /* BBAnimationModel.swift in Sources */,
 				D8E586002B1963B6002C11FF /* BBSettingsManager.swift in Sources */,
+				D8D52B782B322F4D004C7E5C /* BBAlertManager.swift in Sources */,
 				D8598C902B156085006F36B2 /* BBDataObject.xcdatamodeld in Sources */,
 				D8598C992B1561B8006F36B2 /* BBCloudModel.swift in Sources */,
 				D8E585FC2B1962AE002C11FF /* BBStatsModel.swift in Sources */,
@@ -991,6 +1028,7 @@
 				D8E585F72B195619002C11FF /* BBStandardWidget.swift in Sources */,
 				D8E586042B19646F002C11FF /* BBBluetoothModel.swift in Sources */,
 				D85DEE3A2B0C0EAE00E53109 /* BBDynamicIslandWidget.swift in Sources */,
+				D8D52B9A2B33E3F0004C7E5C /* BBBluetoothManager.swift in Sources */,
 				D8E5860A2B19681B002C11FF /* BBCloudManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1018,8 +1056,8 @@
 				D8D9E5B52A7F383600E295FA /* BBSettingsManager.swift in Sources */,
 				D83DD3F52A9908E600FCC534 /* BBUpdateManager.swift in Sources */,
 				D851F8022AB152B7003FCA79 /* BBUpdateView.swift in Sources */,
+				D8D52B762B322F4D004C7E5C /* BBAlertManager.swift in Sources */,
 				D8598C972B156199006F36B2 /* BBCloudModel.swift in Sources */,
-				D8577A152B223F7E00366B51 /* RateBoi.swift in Sources */,
 				D8E6198A2B167C5C0023D5E0 /* BBOnboardingView.swift in Sources */,
 				D8D9E5CB2A8403D300E295FA /* BBAppManager.swift in Sources */,
 				D83C2C2E2B253DBD00B78456 /* BBHelperModel.swift in Sources */,
@@ -1027,12 +1065,14 @@
 				D8DFD5822A8BD7E800732635 /* BBProgressView.swift in Sources */,
 				D83701442B1FD27500B1206E /* SMC.swift in Sources */,
 				D8D9E5AF2A7DF68C00E295FA /* BBBatteryManager.swift in Sources */,
+				D8BEDB892B2EB730004D3EB1 /* BBBatteryModel.swift in Sources */,
 				D804F2292B0D640A00D13DE6 /* BBSystemModel.swift in Sources */,
 				D8D9E5A02A7DE7AB00E295FA /* BatteryBoiApp.swift in Sources */,
 				D8228E392AC387020014DC85 /* BBProcessManager.swift in Sources */,
 				D83CD7452AA8F693004223D7 /* BBBluetoothView.swift in Sources */,
 				D804F22F2B0D64DE00D13DE6 /* BBSettingsModel.swift in Sources */,
 				D8E6198D2B16F13D0023D5E0 /* BBOnboardingManager.swift in Sources */,
+				D8D52B7B2B325663004C7E5C /* BBPeerManager.swift in Sources */,
 				D837014B2B2100DE00B1206E /* BBMenubarManager.swift in Sources */,
 				D8D9E5B92A80646E00E295FA /* BBExtensions.swift in Sources */,
 			);
@@ -1630,20 +1670,20 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		D8BEDB562B27C732004D3EB1 /* XCRemoteSwiftPackageReference "bclm" */ = {
+		D8BEDB8E2B315CEC004D3EB1 /* XCRemoteSwiftPackageReference "FlyingFox" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/zackelia/bclm.git";
+			repositoryURL = "https://github.com/swhitty/FlyingFox.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.13.0;
+			};
+		};
+		D8D52B722B322ED3004C7E5C /* XCRemoteSwiftPackageReference "RateBoi" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/thebarbican19/RateBoi/";
 			requirement = {
 				branch = main;
 				kind = branch;
-			};
-		};
-		D8C784A02B1E84B100EBD52A /* XCRemoteSwiftPackageReference "SplitView" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/stevengharris/SplitView";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.4.0;
 			};
 		};
 		D8D9E5BE2A81565000E295FA /* XCRemoteSwiftPackageReference "FluidGradient" */ = {
@@ -1714,10 +1754,20 @@
 			package = D8D9E5C42A81B27D00E295FA /* XCRemoteSwiftPackageReference "DynamicColor" */;
 			productName = DynamicColor;
 		};
-		D8C784A12B1E84B100EBD52A /* SplitView */ = {
+		D8BEDB8F2B315CEC004D3EB1 /* FlyingFox */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D8C784A02B1E84B100EBD52A /* XCRemoteSwiftPackageReference "SplitView" */;
-			productName = SplitView;
+			package = D8BEDB8E2B315CEC004D3EB1 /* XCRemoteSwiftPackageReference "FlyingFox" */;
+			productName = FlyingFox;
+		};
+		D8BEDB912B315CEC004D3EB1 /* FlyingSocks */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D8BEDB8E2B315CEC004D3EB1 /* XCRemoteSwiftPackageReference "FlyingFox" */;
+			productName = FlyingSocks;
+		};
+		D8D52B732B322ED3004C7E5C /* RateBoi */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D8D52B722B322ED3004C7E5C /* XCRemoteSwiftPackageReference "RateBoi" */;
+			productName = RateBoi;
 		};
 		D8D9E5BF2A81565000E295FA /* FluidGradient */ = {
 			isa = XCSwiftPackageProductDependency;

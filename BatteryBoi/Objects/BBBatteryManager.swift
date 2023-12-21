@@ -8,269 +8,18 @@
 import Foundation
 import Combine
 import EnalogSwift
+import CoreData
 
 #if os(macOS)
     import IOKit.pwr_mgt
     import IOKit.ps
     import IOKit
+    import AppKit
 
 #elseif os(iOS)
     import UIKit
 
 #endif
-
-enum BatteryTriggerType {
-    case lowpower
-    case limit
-    
-}
-
-struct BatteryInformationObject {
-    var available:Double
-    var capacity:Double
-    var charger:String?
-    var manufacturer:String?
-    var accumulated:Double?
-    var serial:String?
-    var watts:Double?
-    var powered:Bool? = nil
-    var batteries:Int? = nil
-
-    init?(available:Double?, capacity:Double?, voltage:Double?, charger:String?, manufacturer:String?, accumulated:Double?, serial:String?, watts:Double?) {
-        if let available = available, let capacity = capacity {
-            self.available = available
-            self.capacity = capacity
-            self.manufacturer = manufacturer?.replacingOccurrences(of: ")", with: "")
-            self.charger = charger
-            self.serial = serial
-            self.watts = watts
-
-            if let accumulated = accumulated {
-                self.accumulated = accumulated / 3600000 // (kWh)
-
-            }
-
-        }
-        else {
-            return nil
-            
-        }
-        
-    }
-    
-}
-
-struct BatteryThemalObject:Equatable {
-    var state:BatteryThemalState
-    var formatted:String
-    var value:Double
-
-    init(_ value:Double) {
-        let formatter = MeasurementFormatter()
-        formatter.locale = Locale.current
-        formatter.unitStyle = .medium
-        
-        let temperature = Measurement(value: value, unit: UnitTemperature.fahrenheit)
-                
-        self.value = value
-        self.formatted = formatter.string(from: temperature)
-        self.state = value > 95 ? .suboptimal : .optimal
-        
-    }
-    
-}
-
-enum BatteryThemalState {
-    case optimal
-    case suboptimal
-    
-    var flag:Bool {
-        switch self {
-            case .optimal : return false
-            case .suboptimal : return true
-            
-        }
-        
-    }
-    
-    #if os(macOS)
-        var warning:ProcessResponseHeaderType {
-            switch self {
-                case .optimal : return .normal
-                case .suboptimal : return .error
-                
-            }
-            
-        }
-    
-    #endif
-    
-}
-
-struct BatteryHealthObject {
-    var state:BatteryHealthState
-    var capacity:Double
-    var available:Double
-    var percentage:Double
-    var cycles:Int
-    
-    init?(available:Double?, capacity:Double?, cycles:Int?) {
-        if let available = available, let capacity = capacity, let cycles = cycles {
-            self.capacity = capacity
-            self.available = available
-            self.percentage = available / capacity * 100
-            self.cycles = (cycles / (100 - Int(self.percentage))) * (Int(self.percentage) - 50)
-
-            switch self.percentage {
-                case 81...: self.state = .optimal
-                case 65...80: self.state = .suboptimal
-                default: self.state = .malfunctioning
-                
-            }
-        
-        }
-        else {
-            return nil
-            
-        }
-      
-    }
-    
-    
-}
-
-enum BatteryHealthState: String {
-    case optimal = "Normal"
-    case suboptimal = "Suboptimal"
-    case malfunctioning = "Service Battery"
-    case unknown = "Unknown"
-    
-    #if os(macOS)
-        var warning:ProcessResponseHeaderType {
-            switch self {
-                case .optimal : return .sucsess
-                case .suboptimal : return .warning
-                case .unknown : return .normal
-                default : return .error
-                
-            }
-            
-        }
-    
-    #endif
-        
-}
-
-enum BatteryModeType:String,CaseIterable {
-    case normal
-    case efficient
-    case unavailable
-    
-    var flag:Bool {
-        switch self {
-            case .normal : return false
-            case .efficient : return true
-            case .unavailable : return false
-            
-        }
-        
-    }
-    
-}
-
-enum BatteryChargingState:String {
-    case charging
-    case battery
-    
-    public var charging:Bool {
-        switch self {
-            case .charging : return true
-            case .battery : return false
-            
-        }
-        
-    }
-    
-    public func progress(_ percent:Int, width:CGFloat) -> CGFloat {
-        if percent > 0 && percent < 10 {
-            return min(CGFloat(10 / 100) * (width - 2.6), (width - 2.6))
-
-        }
-        else if percent >= 90 && percent < 100 {
-            return min(CGFloat(90 / 100) * (width - 2.6), (width - 2.6))
-
-        }
-        else {
-            return min(CGFloat(percent / 100) * (width - 2.6), (width - 2.6))
-            
-        }
-        
-    }
-    
-}
-
-struct BatteryRemaining:Equatable {
-    static func == (lhs: BatteryRemaining, rhs: BatteryRemaining) -> Bool {
-        return lhs.date == rhs.date
-        
-    }
-    
-    var date:Date
-    var hours:Int? = nil
-    var minutes:Int? = nil
-    var formatted:String?
-    
-    init(hour: Int, minute:Int) {
-        self.hours = hour
-        self.minutes = minute
-        self.date = Date(timeIntervalSinceNow: 60*2)
-
-        var components = DateComponents()
-        components.hour = hour
-        components.minute = minute
-        
-        if let date = Calendar.current.date(byAdding: components, to: Date()) {
-            let units = Calendar.current.dateComponents([.minute, .hour], from: Date(), to: date)
-            
-            if let hours = units.hour, let minutes = units.minute {
-                if hours == 0 && minutes == 0 {
-                    self.formatted = "AlertDeviceCalculatingTitle".localise()
-                    
-                }
-                else if hours != 0 && minutes != 0 {
-                    self.formatted = "\("TimestampHourFullLabel".localise([hours]))  \("TimestampMinuteFullLabel".localise([minutes]))"
-                    
-                }
-                else if hours == 0 {
-                    self.formatted = "TimestampMinuteFullLabel".localise([minutes])
-                    
-                }
-                else if minute == 0 {
-                    self.formatted = "TimestampHourFullLabel".localise([hour])
-                    
-                }
-                
-            }
-            
-            self.date = date
-
-        }
-        
-    }
-    
-}
-
-struct BatteryEstimateObject {
-    var timestamp:Date
-    var percent:Double
-    
-    init(_ percent: Double) {
-        self.timestamp = Date()
-        self.percent = percent
-        
-    }
-    
-}
 
 class BatteryManager:ObservableObject {
     static var shared = BatteryManager()
@@ -279,12 +28,13 @@ class BatteryManager:ObservableObject {
     @Published var percentage:Int = 100
     @Published var remaining:BatteryRemaining? = nil
     @Published var mode:BatteryModeType = .unavailable
+    @Published var max:Int = 100
 
     #if os(macOS)
         @Published var health:BatteryHealthObject? = nil
-        @Published var temperature:BatteryThemalObject = .init(20)
+        @Published var thermal:BatteryThemalObject = .init(20)
         @Published var info:BatteryInformationObject? = nil
-    
+
     #endif
     
     #if os(macOS)
@@ -304,16 +54,10 @@ class BatteryManager:ObservableObject {
             
         }
         
-        AppManager.shared.appTimer(1).dropFirst(5).sink { _ in
+        AppManager.shared.appTimer(1).dropFirst(2).sink { _ in
             self.powerStatus()
             self.counter = nil
             
-        }.store(in: &updates)
-        
-        AppManager.shared.appTimer(6).sink { _ in
-            self.powerStatus()
-            self.counter = nil
-
         }.store(in: &updates)
         
         #if DEBUG && os(macOS)
@@ -334,32 +78,42 @@ class BatteryManager:ObservableObject {
 
         }.store(in: &updates)
         
-        $percentage.removeDuplicates().receive(on: DispatchQueue.global()).sink() { newValue in
-            if BatteryManager.shared.charging == .battery {
-                AppManager.shared.appStoreEvent(.depleted, device: nil, battery: newValue)
-               
-            }
+        $percentage.removeDuplicates().sink() { newValue in
+            self.powerStoreEvent(nil)
 
         }.store(in: &updates)
         
-        $charging.removeDuplicates().receive(on: DispatchQueue.global()).sink() { newValue in
+        $charging.dropFirst().removeDuplicates().sink() { newValue in
             switch newValue {
-                case .battery : AppManager.shared.appStoreEvent(.battery, device: nil)
-                case .charging : AppManager.shared.appStoreEvent(.charging, device: nil)
-
-            }
-
-        }.store(in: &updates)
-        
-        $temperature.removeDuplicates().receive(on: DispatchQueue.global()).sink() { newValue in
-            if newValue.state == .suboptimal {
-                AppManager.shared.appStoreEvent(.overheating, device: nil)
+                case .battery : self.powerStoreEvent(nil, force: .chargingStopped)
+                case .charging : self.powerStoreEvent(nil, force: .chargingBegan)
                 
             }
-            
+
         }.store(in: &updates)
         
-        #if os(iOS)
+      
+        
+        $mode.dropFirst().removeDuplicates().sink() { newValue in
+            self.powerStoreEvent(nil)
+                
+        }.store(in: &updates)
+        
+        #if os(macOS)
+            $thermal.dropFirst().removeDuplicates().receive(on: DispatchQueue.global()).sink() { newValue in
+                self.powerStoreEvent(nil, force: .deviceOverheating)
+
+            }.store(in: &updates)
+
+        #endif
+        
+        #if os(macOS)
+            if #available(macOS 12.0, *) {
+                NotificationCenter.default.addObserver(self, selector: #selector(self.powerStateNotification(notification:)), name:  NSNotification.Name.NSProcessInfoPowerStateDidChange, object: nil)
+                
+            }
+        
+        #else
             UIDevice.current.isBatteryMonitoringEnabled = true
 
             NotificationCenter.default.addObserver(self, selector: #selector(self.powerStateNotification(notification:)), name: UIDevice.batteryLevelDidChangeNotification, object: nil)
@@ -436,6 +190,31 @@ class BatteryManager:ObservableObject {
         
     }
     
+    #if os(macOS)
+        public func powerChargeLimit(_ upper:Int) {
+            if AppManager.shared.distribution == .direct {
+                if let value = UInt8(exactly: upper), let context = ProcessManager.shared.processHelperContext() {
+                    var limit:UInt8
+                    switch value {
+                        case let x where x < 50 :  limit = 50
+                        case let x where x > 100 : limit = 100
+                        default : limit = value
+                        
+                    }
+                    
+                    context.helperWriteData(key: "BCLM", value: limit) { state in
+                        print("state" ,state)
+                        
+                    }
+                    
+                }
+                
+            }
+
+        }
+    
+    #endif
+    
     private func powerUpdaterFallback() {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             if let counter = self.counter {
@@ -457,15 +236,15 @@ class BatteryManager:ObservableObject {
         
     }
     
-    @objc private func powerStateNotification(notification: Notification) {
+    @objc private func powerStateNotification(notification: Notification?) {
         self.powerForceRefresh()
         
     }
     
     private func powerStatus() {
         #if os(macOS)
-            if let battery = try? SMCKit.batteryInformation() {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                if let battery = try? SMCKit.batteryInformation() {
                     switch battery.isCharging {
                         case true : self.charging = .charging
                         case false : self.charging =  .battery
@@ -474,6 +253,11 @@ class BatteryManager:ObservableObject {
                     
                     self.info?.powered = battery.isACPresent
                     self.info?.batteries = battery.batteryCount
+                    
+                    if let max = self.powerReadData("BCLM", type: nil) {
+                        self.max = Int(max)
+                        
+                    }
                     
                     guard let snapshot = IOPSCopyPowerSourcesInfo()?.takeRetainedValue() else {
                         return
@@ -514,9 +298,125 @@ class BatteryManager:ObservableObject {
         #endif
         
     }
+    
+    public func powerStoreEvent(_ device:SystemDeviceObject?, battery:Int? = nil, force:SystemAlertTypes? = nil) {
+        if let context = AppManager.shared.appStorageContext() {
+            var predicates = Array<NSPredicate>()
+            predicates.append(NSPredicate(format: "session != %@", AppManager.shared.sessionid as CVarArg))
             
-    public var powerUntilFull:Date? {
-        return Date()
+            guard let system = UserDefaults.main.object(forKey: SystemDefaultsKeys.deviceIdentifyer.rawValue) as? String else {
+                return
+                
+            }
+            
+            if let device = device?.id {
+                guard let battery = battery else {
+                    return
+                    
+                }
+                
+                predicates.append(NSPredicate(format: "SELF.device.id == %@", device as CVarArg))
+                predicates.append(NSPredicate(format: "percent == %d" ,Int16(battery)))
+                predicates.append(NSPredicate(format: "created > %@", Date(timeIntervalSinceNow: -10 * 60 * 60) as NSDate))
+
+            }
+            else if let system = UUID(uuidString: system) {
+                predicates.append(NSPredicate(format: "SELF.device.id == %@", system as CVarArg))
+                predicates.append(NSPredicate(format: "percent == %d" ,Int16(self.percentage)))
+                predicates.append(NSPredicate(format: "created > %@", Date(timeIntervalSinceNow: -2 * 60 * 60) as NSDate))
+
+            }
+               
+            
+            print("\n\npredicates" ,predicates)
+            
+            let fetch = Battery.fetchRequest() as NSFetchRequest<Battery>
+            fetch.includesPendingChanges = true
+            fetch.predicate = NSCompoundPredicate(type: .and, subpredicates: predicates)
+            fetch.fetchLimit = 1
+            fetch.sortDescriptors = [NSSortDescriptor(key: "created", ascending: false)]
+
+            do {
+                if let last = try context.fetch(fetch).first {
+                    if let converted = SystemEventObject(last) {
+                        AlertManager.shared.alertCreate(event: converted, force: force, context: context)
+                        
+                    }
+                    
+                }
+                else {
+                    let store = Battery(context: context) as Battery
+                    store.id = UUID()
+                    store.created = Date()
+                    store.device = self.appDevice(device, context: context)
+                    store.session = AppManager.shared.sessionid
+                    
+                    if device != nil {
+                        guard let battery = battery else {
+                            return
+                            
+                        }
+                        
+                        store.mode = BatteryModeType.normal.rawValue
+                        store.state = BatteryChargingState.battery.rawValue
+                        store.percent = Int16(battery)
+
+                    }
+                    else {
+                        store.percent = Int16(self.percentage)
+                        store.state = self.charging.rawValue
+                        store.mode = self.mode.rawValue
+                        
+                        #if os(macOS)
+                            store.temprature = Int16(self.thermal.value)
+
+                            if let cycles = self.health?.cycles {
+                                store.cycles = Int16(cycles)
+
+                            }
+                        
+                        #endif
+                        
+                        if let version = Float(SystemDeviceTypes.os.replacingOccurrences(of: ".", with: "")) {
+                            store.os = Int16(version)
+                            
+                        }
+
+                        if let converted = SystemEventObject(store) {
+                            AlertManager.shared.alertCreate(event: converted, force: force, context: context)
+                            
+                        }
+
+                    }
+                   
+                    try context.save()
+                    
+                }
+                
+            }
+            catch {
+                
+            }
+            
+        }
+
+    }
+    
+    private func appDevice(_ device:SystemDeviceObject? ,context:NSManagedObjectContext) -> Devices? {
+        if let match = SystemDeviceObject.match(device, context: context) {
+            let fetch = Devices.fetchRequest() as NSFetchRequest<Devices>
+            fetch.includesPendingChanges = true
+            fetch.fetchLimit = 1
+            fetch.predicate = NSPredicate(format: "id == %@", match.id as CVarArg)
+            
+            if let device = try? context.fetch(fetch).first {
+                return device
+                
+            }
+            
+        }
+        
+        return nil
         
     }
     
@@ -524,7 +424,7 @@ class BatteryManager:ObservableObject {
         private func powerTempratureCheck() {
             if let value = self.powerReadData("TB0T", type: DataTypes.UInt16) {
                 DispatchQueue.main.async {
-                    self.temperature = .init(Double(value / 100))
+                    self.thermal = .init(Double(value / 100))
                    
                 }
                 
