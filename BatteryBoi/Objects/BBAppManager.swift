@@ -63,9 +63,11 @@ class AppManager:ObservableObject {
         
         $devices.receive(on: DispatchQueue.global()).debounce(for: .seconds(3), scheduler: RunLoop.main).sink { _ in
             self.appStoreDevice()
-            
+
         }.store(in: &updates)
-            
+
+        self.setupCLISymlink()
+
     }
     
     deinit {
@@ -82,17 +84,140 @@ class AppManager:ObservableObject {
     public var appInstalled:Date {
         if let date = UserDefaults.main.object(forKey: SystemDefaultsKeys.versionInstalled.rawValue) as? Date {
             return date
-            
+
         }
         else {
             UserDefaults.save(.versionInstalled, value: Date())
-            
+
             EnalogManager.main.ingest(SystemEvents.userInstalled, description: "Installed App")
-  
+
+            self.createCLISymlink()
+
             return Date()
-            
+
         }
-        
+
+    }
+
+    private func createCLISymlink() {
+        #if os(macOS)
+        DispatchQueue.global(qos: .background).async {
+            self.setupCLISymlink()
+        }
+        #endif
+    }
+
+    public func setupCLISymlink() {
+        #if os(macOS)
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            print("🔧 CLI Symlink - Starting setup on background queue")
+            fflush(stdout)
+            self?.createSymlinkIfNeeded()
+        }
+        #endif
+    }
+
+    private func createSymlinkIfNeeded() {
+        #if os(macOS)
+        let fileManager = FileManager.default
+        let possibleSymlinkPaths = [
+            "/usr/local/bin/cliboi",
+            FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".local/bin/cliboi").path
+        ]
+
+        let possibleCliPaths = [
+            Bundle.main.bundlePath + "/Contents/SharedSupport/cliboi",
+            "/Applications/BatteryBoi.app/Contents/SharedSupport/cliboi",
+            Bundle.main.bundlePath + "/Contents/MacOS/cliboi",
+            "/Applications/BatteryBoi.app/Contents/MacOS/cliboi",
+            Bundle.main.bundlePath + "/Contents/Executables/cliboi",
+            "/Applications/BatteryBoi.app/Contents/Executables/cliboi"
+        ]
+
+        var foundCLI: String? = nil
+        for cliPath in possibleCliPaths {
+            if fileManager.fileExists(atPath: cliPath) {
+                foundCLI = cliPath
+                break
+            }
+        }
+
+        guard let cliBinaryPath = foundCLI else {
+            print("⚠️ CLI binary not found in any expected location")
+            print("   Checked paths:")
+            for path in possibleCliPaths {
+                print("     - \(path)")
+            }
+            fflush(stdout)
+            return
+        }
+
+        for symlinkPath in possibleSymlinkPaths {
+            if fileManager.fileExists(atPath: symlinkPath) {
+                print("ℹ️ CLI symlink already exists at: \(symlinkPath)")
+                self.ensureLocalBinInPath()
+                fflush(stdout)
+                return
+            }
+
+            do {
+                let symlinkDir = (symlinkPath as NSString).deletingLastPathComponent
+                if !fileManager.fileExists(atPath: symlinkDir) {
+                    try fileManager.createDirectory(atPath: symlinkDir, withIntermediateDirectories: true, attributes: nil)
+                }
+
+                try fileManager.createSymbolicLink(atPath: symlinkPath, withDestinationPath: cliBinaryPath)
+                print("✅ Created CLI symlink: \(symlinkPath) → \(cliBinaryPath)")
+                self.ensureLocalBinInPath()
+                fflush(stdout)
+                return
+            }
+            catch {
+                continue
+            }
+        }
+
+        print("⚠️ Could not create CLI symlink in any location")
+        print("   Try running this command manually with sudo:")
+        print("   sudo ln -s \(cliBinaryPath) /usr/local/bin/cliboi")
+        fflush(stdout)
+        #endif
+    }
+
+    private func ensureLocalBinInPath() {
+        #if os(macOS)
+        let fileManager = FileManager.default
+        let homeDir = fileManager.homeDirectoryForCurrentUser.path
+        let localBinPath = homeDir + "/.local/bin"
+        let shellConfigFiles = [
+            homeDir + "/.zshrc",
+            homeDir + "/.bash_profile",
+            homeDir + "/.bashrc"
+        ]
+
+        let pathExportLine = "export PATH=\"\(localBinPath):$PATH\""
+
+        for configFile in shellConfigFiles {
+            guard fileManager.fileExists(atPath: configFile) == true else {
+                continue
+            }
+
+            do {
+                let content = try String(contentsOfFile: configFile, encoding: .utf8)
+                if content.contains(localBinPath) {
+                    continue
+                }
+
+                let newContent = content.trimmingCharacters(in: .whitespacesAndNewlines) + "\n\n" + pathExportLine + "\n"
+                try newContent.write(toFile: configFile, atomically: true, encoding: .utf8)
+                print("ℹ️ Added \(localBinPath) to PATH in \(configFile)")
+                fflush(stdout)
+            }
+            catch {
+                continue
+            }
+        }
+        #endif
     }
     
     public func appUsageTracker() {
