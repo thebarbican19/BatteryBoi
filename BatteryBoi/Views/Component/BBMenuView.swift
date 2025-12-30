@@ -192,10 +192,10 @@ private struct BatteryStatus: View {
 private struct BatteryStub: View {
     @EnvironmentObject var menubar:MenubarManager
 
-    @State private var proxy:GeometryProxy
+    let proxy:GeometryProxy
 
     init(_ proxy: GeometryProxy) {
-        self._proxy = State(initialValue: proxy)
+        self.proxy = proxy
         
     }
     

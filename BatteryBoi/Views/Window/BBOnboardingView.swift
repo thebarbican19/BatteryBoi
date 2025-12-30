@@ -7,6 +7,64 @@
 
 import SwiftUI
 
+struct OnboardingPage: View {
+    var icon: String
+    var title: String
+    var subtitle: String
+    var primary: String
+    var secondary: String? = nil
+    var action: (OnboardingActionType) -> Void
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            Image(systemName: icon)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 60, height: 60)
+                .foregroundColor(.white)
+            
+            VStack(spacing: 8) {
+                Text(title)
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                
+                Text(subtitle)
+                    .font(.system(size: 14, weight: .regular))
+                    .foregroundColor(.white.opacity(0.8))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 40)
+            }
+            
+            VStack(spacing: 12) {
+                Button(action: { action(.primary) }) {
+                    Text(primary)
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(Color("BatteryDefault"))
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(Color.white)
+                        .cornerRadius(10)
+                }
+                .buttonStyle(PlainButtonStyle())
+                
+                if let secondary = secondary {
+                    Button(action: { action(.secondary) }) {
+                        Text(secondary)
+                            .font(.system(size: 14, weight: .regular))
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 12)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
+            }
+            .padding(.horizontal, 40)
+            .padding(.top, 20)
+        }
+    }
+}
+
 struct OnboardingContainer: View {
     @EnvironmentObject var manager:AppManager
     @EnvironmentObject var bluetooth:BluetoothManager
@@ -15,13 +73,67 @@ struct OnboardingContainer: View {
         
     var body: some View {
         VStack {
-            Text(onboarding.state.rawValue).onTapGesture {
-                onboarding.onboardingAction(.primary)
-                
+            if onboarding.state == .complete {
+                Text("OnboardingCompleteLabel".localise())
+                    .foregroundColor(.white)
             }
-            
+            else {
+                switch onboarding.state {
+                case .intro:
+                    OnboardingPage(
+                        icon: "battery.100",
+                        title: "OnboardingIntroTitle".localise(),
+                        subtitle: "OnboardingIntroSubtitle".localise(),
+                        primary: "OnboardingIntroButton".localise(),
+                        action: onboarding.onboardingAction
+                    )
+                case .bluetooth:
+                    OnboardingPage(
+                        icon: "antenna.radiowaves.left.and.right",
+                        title: "OnboardingBluetoothTitle".localise(),
+                        subtitle: "OnboardingBluetoothSubtitle".localise(),
+                        primary: "OnboardingBluetoothButton".localise(),
+                        action: onboarding.onboardingAction
+                    )
+                case .cloud:
+                    OnboardingPage(
+                        icon: "icloud",
+                        title: "OnboardingCloudTitle".localise(),
+                        subtitle: "OnboardingCloudSubtitle".localise(),
+                        primary: "OnboardingCloudButton".localise(),
+                        action: onboarding.onboardingAction
+                    )
+                case .process:
+                    OnboardingPage(
+                        icon: "gearshape.2",
+                        title: "OnboardingProcessTitle".localise(),
+                        subtitle: "OnboardingProcessSubtitle".localise(),
+                        primary: "OnboardingProcessButton".localise(),
+                        action: onboarding.onboardingAction
+                    )
+                case .loginatlaunch:
+                    OnboardingPage(
+                        icon: "arrow.right.circle",
+                        title: "OnboardingLoginTitle".localise(),
+                        subtitle: "OnboardingLoginSubtitle".localise(),
+                        primary: "OnboardingLoginPrimaryButton".localise(),
+                        secondary: "OnboardingLoginSecondaryButton".localise(),
+                        action: onboarding.onboardingAction
+                    )
+                case .nobatt:
+                    OnboardingPage(
+                        icon: "battery.0",
+                        title: "OnboardingNoBatteryTitle".localise(),
+                        subtitle: "OnboardingNoBatterySubtitle".localise(),
+                        primary: "OnboardingNoBatteryButton".localise(),
+                        action: onboarding.onboardingAction
+                    )
+                default:
+                    EmptyView()
+                }
+            }
         }
-    
+        .padding(.top, 40)
     }
     
 }

@@ -7,7 +7,6 @@
 
 import Foundation
 import Combine
-import EnalogSwift
 import CoreData
 
 #if os(macOS)
@@ -46,36 +45,16 @@ class BatteryManager:ObservableObject {
     private var updates = Set<AnyCancellable>()
 
     init() {
-        Timer.scheduledTimer(withTimeInterval: 10, repeats: false) { _ in
-            if self.counter == nil {
-                self.powerUpdaterFallback()
-
-            }
+        Timer.publish(every: 60, on: .main, in: .common).autoconnect().sink { [weak self] _ in
+            self?.powerStatus()
             
-        }
-        
-        AppManager.shared.appTimer(1).dropFirst(2).sink { _ in
-            self.powerStatus()
-            self.counter = nil
-            
-        }.store(in: &updates)
-        
-        #if DEBUG && os(macOS)
-            AppManager.shared.appTimer(90).sink { _ in
-                self.powerTempratureCheck()
-             
-            }.store(in: &updates)
-        
-        #endif
-        
-        AppManager.shared.appTimer(60).sink { _ in
             #if os(macOS)
-                self.powerMetrics()
-
+            self?.powerMetrics()
+            self?.powerTempratureCheck()
             #endif
             
-            self.counter = nil
-
+            self?.counter = nil
+            
         }.store(in: &updates)
         
         $percentage.removeDuplicates().sink() { newValue in
@@ -112,6 +91,8 @@ class BatteryManager:ObservableObject {
                 NotificationCenter.default.addObserver(self, selector: #selector(self.powerStateNotification(notification:)), name:  NSNotification.Name.NSProcessInfoPowerStateDidChange, object: nil)
                 
             }
+            
+            NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.powerStateNotification(notification:)), name: NSWorkspace.didWakeNotification, object: nil)
         
         #else
             UIDevice.current.isBatteryMonitoringEnabled = true
@@ -215,26 +196,6 @@ class BatteryManager:ObservableObject {
     
     #endif
     
-    private func powerUpdaterFallback() {
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            if let counter = self.counter {
-                if counter.isMultiple(of: 1) {
-                    self.powerStatus()
-                    
-                }
-                
-                if counter.isMultiple(of: 6) {
-                    //self.remaining = self.powerRemaing
-                    
-                }
-                
-            }
-            
-            self.counter = (self.counter ?? 0) + 1
-            
-        }
-        
-    }
     
     @objc private func powerStateNotification(notification: Notification?) {
         self.powerForceRefresh()
@@ -436,60 +397,48 @@ class BatteryManager:ObservableObject {
     
     #if os(macOS)
         private func powerMetrics() {
-            if let context = ProcessManager.shared.processHelperContext() {
-                let path:String = "/bin/zsh"
-                let arguments = ["-c", "ioreg -l | grep Voltage | tr ',' '\\n' | sed 's/[{}]//g' | sed 's/\"//g'"]
-
-                var charger:String?
-                var voltage:Double?
-                var manufacture:String?
-                var accumulated:Double?
-                var cycles:Int?
-                var capacity:Double?
-                var serial:String?
-                var available:Double?
-                var watts:Double?
-
-                context.helperProcessTaskWithArguments(.launch, path: path, arguments: arguments, whitespace: false) { response in
-                    guard let response = response else {
-                        return
+            var iterator = io_iterator_t()
+            let port: mach_port_t
+            if #available(macOS 12.0, *) {
+                port = kIOMainPortDefault
+            } else {
+                port = kIOMasterPortDefault
+            }
+            
+            let result = IOServiceGetMatchingServices(port, IOServiceMatching("AppleSmartBattery"), &iterator)
+            
+            if result == KERN_SUCCESS {
+                var service = IOIteratorNext(iterator)
+                while service != 0 {
+                    var properties: Unmanaged<CFMutableDictionary>?
+                    if IORegistryEntryCreateCFProperties(service, &properties, kCFAllocatorDefault, 0) == KERN_SUCCESS,
+                       let dict = properties?.takeRetainedValue() as? [String: Any] {
                         
-                    }
-                    
-                    for line in response.components(separatedBy: "\n") {
-                        let components = line.components(separatedBy: "=")
-
-                        if components.count == 2 {
-                            switch components[0] {
-                                case "Name" : charger = components[1]
-                                case "AdapterVoltage" : voltage = Double(components[1])
-                                case "Manufacturer" : manufacture = components[1]
-                                case "AccumulatedWallEnergyEstimate" : accumulated = Double(components[1])
-                                case "Watts" : watts = Double(components[1])
-                                case "CycleCount" : cycles = Int(components[1])
-                                case "DesignCapacity" : capacity = Double(components[1])
-                                case "Capacity" : available = Double(components[1])
-                                case "Serial" : serial = components[1]
-                                default : break
-                                
-                            }
-                            
+                        let charger = dict["DeviceName"] as? String ?? dict["Name"] as? String
+                        let voltage = dict["Voltage"] as? Double
+                        let manufacture = dict["Manufacturer"] as? String
+                        let accumulated = dict["AccumulatedWallEnergyEstimate"] as? Double
+                        let cycles = dict["CycleCount"] as? Int
+                        let capacity = dict["DesignCapacity"] as? Double
+                        let available = dict["MaxCapacity"] as? Double ?? dict["CurrentCapacity"] as? Double
+                        let serial = dict["Serial"] as? String ?? dict["SerialNumber"] as? String
+                        
+                        var watts: Double? = dict["Watts"] as? Double
+                        if watts == nil, let v = voltage, let a = dict["Amperage"] as? Double {
+                            watts = (v * a) / 1000000.0
                         }
                         
+                        DispatchQueue.main.async {
+                            self.info = .init(available: available, capacity: capacity, voltage: voltage, charger: charger, manufacturer:manufacture, accumulated:accumulated, serial: serial, watts: watts)
+                            self.health = .init(available: available, capacity: capacity, cycles: cycles)
+                        }
                     }
-                
-                    DispatchQueue.main.async {
-                        self.info = .init(available: available, capacity: capacity, voltage: voltage, charger: charger, manufacturer:manufacture, accumulated:accumulated, serial: serial, watts: watts)
-                        self.health = .init(available: available, capacity: capacity, cycles: cycles)
-                        
-                    }
-                    
+                    IOObjectRelease(service)
+                    service = IOIteratorNext(iterator)
                 }
-            
+                IOObjectRelease(iterator)
             }
-                    
         }
-                
     #endif
     
     #if os(macOS)

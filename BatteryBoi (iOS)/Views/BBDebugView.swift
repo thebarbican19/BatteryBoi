@@ -161,11 +161,11 @@ struct DebugBroadcastView: View {
         }
         
         LazyVGrid(columns: layout, alignment: .leading, spacing:10) {
-            ForEach(bluetooth.broadcasting, id: \.self) { device in
+            ForEach(bluetooth.broadcasting) { device in
                 DebugBroadcastCell(device)
-                
+
             }
-            
+
         }
         
     }

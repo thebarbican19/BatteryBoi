@@ -8,19 +8,19 @@
 import Foundation
 import CoreBluetooth
 
-struct BluetoothBroadcastItem:Identifiable,Equatable,Hashable {
+struct BluetoothBroadcastItem:Identifiable,Equatable {
     static func == (lhs: BluetoothBroadcastItem, rhs: BluetoothBroadcastItem) -> Bool {
         lhs.id == rhs.id && lhs.state == rhs.state && lhs.proximity == rhs.proximity
 
     }
-    
+
     var peripheral:CBPeripheral
     var state:BluetoothConnectionState
     var id:UUID
     var characteristics:[CBCharacteristic]
     var services:[CBService]
     var proximity:SystemDeviceDistanceType = .unknown
-    
+
     init(_ peripheral:CBPeripheral, proximity:SystemDeviceDistanceType = .unknown, state:BluetoothConnectionState = .queued) {
         self.peripheral = peripheral
         self.state = state
@@ -28,25 +28,18 @@ struct BluetoothBroadcastItem:Identifiable,Equatable,Hashable {
         self.characteristics = []
         self.services = []
         self.proximity = proximity
-        
+
         if peripheral.name == nil {
             self.state = .unavailable
-            
+
         }
         else {
             self.state = state
 
         }
-        
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-        hasher.combine(state)
-        hasher.combine(proximity)
 
     }
-    
+
 }
 
 enum BluetoothPermissionState:String {
@@ -121,20 +114,15 @@ enum BluetoothUUID:String,Hashable,CaseIterable {
         if self != .findmy && self != .nearby && self != .continuity {
             if let short = self.rawValue.components(separatedBy: "-").first?.suffix(4) {
                 return CBUUID(string: String(short))
-                
+
             }
-            
+
         }
-        
+
         return CBUUID(string: self.rawValue)
 
     }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(self)
-        
-    }
-    
+
 }
 
 enum BluetoothConnectionState:String {

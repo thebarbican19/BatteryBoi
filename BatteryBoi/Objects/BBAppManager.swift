@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import EnalogSwift
 import Combine
 import SwiftUI
 import CoreData
@@ -34,26 +33,8 @@ class AppManager:ObservableObject {
     #endif
 
     private var updates = Set<AnyCancellable>()
-    private var timer: AnyCancellable?
-
     init() {
-        self.timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect().sink { [weak self] _ in
-            
-            guard let self = self else {
-                return
-                
-            }
-            
-            if self.counter > 999 {
-                self.appUsageTracker()
-                
-            }
-                        
-            self.counter += 1
-            
-        }
-                
-        self.timer?.store(in: &updates)
+        self.appUsageTracker()
         
         if let receipt = Bundle.main.appStoreReceiptURL,
            FileManager.default.fileExists(atPath: receipt.path) {
@@ -71,16 +52,10 @@ class AppManager:ObservableObject {
     }
     
     deinit {
-        self.timer?.cancel()
         self.updates.forEach { $0.cancel() }
  
     }
       
-    public func appTimer(_ multiple: Int) -> AnyPublisher<Int, Never> {
-        self.$counter.filter { $0 % multiple == 0 }.eraseToAnyPublisher()
-        
-    }
-    
     public var appInstalled:Date {
         if let date = UserDefaults.main.object(forKey: SystemDefaultsKeys.versionInstalled.rawValue) as? Date {
             return date
@@ -89,7 +64,7 @@ class AppManager:ObservableObject {
         else {
             UserDefaults.save(.versionInstalled, value: Date())
 
-            EnalogManager.main.ingest(SystemEvents.userInstalled, description: "Installed App")
+//            EnalogManager.main.ingest(SystemEvents.userInstalled, description: "Installed App")
 
             self.createCLISymlink()
 
@@ -263,7 +238,7 @@ class AppManager:ObservableObject {
                 UserDefaults.save(.usageDay, value: newValue.day)
                 UserDefaults.save(.usageTimestamp, value: newValue.timestamp)
 
-                EnalogManager.main.ingest(SystemEvents.userActive, description: "\(newValue.day) Days Active")
+//                EnalogManager.main.ingest(SystemEvents.userActive, description: "\(newValue.day) Days Active")
                 
             }
             

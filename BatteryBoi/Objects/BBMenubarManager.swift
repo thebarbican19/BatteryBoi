@@ -266,7 +266,9 @@ class MenubarManager:ObservableObject {
         let percentage = BatteryManager.shared.percentage
         let primary = self.menubarPrimaryDisplay
         let seconary = self.menubarSecondaryDisplay
-        
+
+        print("🔍 Menubar Update - Primary Display Type: \(primary), Percentage: \(Int(percentage))")
+
         switch primary {
             case .percent : self.primary = "\(Int(percentage))"
             case .voltage : self.primary = "v"
@@ -275,8 +277,10 @@ class MenubarManager:ObservableObject {
             case .countdown : self.primary = "TBA"
             case .hidden : self.primary = nil
             default : self.primary = ""
-            
+
         }
+
+        print("🔍 Menubar Update - Set primary to: \(self.primary ?? "nil")")
         
         switch seconary {
             case .percent : self.seconary = "\(Int(percentage))"

@@ -113,9 +113,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
             WindowManager.shared.windowOpen(.alert, alert: .userInitiated, device: nil)
             
             MenubarManager.shared.$primary.removeDuplicates().sink { type in
+                print("🔍 Primary value changed to: \(type ?? "nil")")
                 if type == nil {
                     self.applicationMenuBarIcon(false)
-                } else {
+                }
+                else {
                     self.applicationMenuBarIcon(true)
                 }
             }.store(in: &self.updates)
@@ -153,17 +155,24 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
     }
     
     private func applicationMenuBarIcon(_ visible:Bool) {
+        print("🔍 Menu Bar Icon - Setting visibility to: \(visible)")
+
         if visible == true {
             if let button = self.status?.button {
                 button.title = ""
                 button.addSubview(self.hosting)
                 button.action = #selector(applicationStatusBarButtonClicked(sender:))
                 button.target = self
-                
+
                 SettingsManager.shared.enabledPinned = .disabled
-                
+
+                print("✅ Menu Bar Icon - Added to status bar")
+
             }
-            
+            else {
+                print("❌ Menu Bar Icon - No status button available")
+            }
+
         }
         else {
             if let button = self.status?.button {

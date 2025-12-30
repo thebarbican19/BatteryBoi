@@ -89,6 +89,22 @@ enum WindowPosition:String {
     
 }
 
+#if os(macOS)
+@objc(BBWindow)
+class BBWindow: NSWindow {
+    override var canBecomeKey: Bool {
+        return true
+        
+    }
+    
+    override var canBecomeMain: Bool {
+        return true
+        
+    }
+    
+}
+#endif
+
 class WindowManager: ObservableObject {
     static var shared = WindowManager()
     
@@ -257,7 +273,7 @@ class WindowManager: ObservableObject {
                         
                     }
                     
-                    if window.canBecomeKeyWindow {
+                    if window.canBecomeKey {
                         window.makeKeyAndOrderFront(nil)
                         window.alphaValue = 1.0
                         
@@ -318,6 +334,7 @@ class WindowManager: ObservableObject {
             window?.collectionBehavior = [.ignoresCycle]
             window?.isMovableByWindowBackground = true
             window?.backgroundColor = .clear
+            window?.isRestorable = false
             window?.setFrame(NSRect(x: (bounds.width / 2) - (type.size.width / 2), y: (bounds.height / 2) - (type.size.height / 2), width: type.size.width, height: type.size.height), display: false)
             window?.titlebarAppearsTransparent = true
             window?.titleVisibility = .hidden
@@ -341,7 +358,7 @@ class WindowManager: ObservableObject {
             let type = WindowTypes.alert
             var window:NSWindow?
             
-            window = NSWindow()
+            window = BBWindow()
             window?.styleMask = [.borderless, .miniaturizable]
             window?.level = .statusBar
             window?.contentView?.translatesAutoresizingMaskIntoConstraints = false
@@ -349,6 +366,7 @@ class WindowManager: ObservableObject {
             window?.title = type.rawValue
             window?.isMovableByWindowBackground = true
             window?.backgroundColor = .clear
+            window?.isRestorable = false
             window?.setFrame(NSRect(x: (bounds.width / 2) - (type.size.width / 2), y: bounds.height - (type.size.height + 50), width: type.size.width, height: type.size.height), display: false)
             window?.titlebarAppearsTransparent = true
             window?.titleVisibility = .hidden

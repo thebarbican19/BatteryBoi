@@ -521,15 +521,77 @@ class ProcessManager:ObservableObject {
                     }
                     else {
                         output.append(self.processHeaderOutput("MISSING FLAG", state:.error))
-                        
+
                         output.append(self.processValueOutput("Low Power Mode", value: .init("-m"), reverse:true))
-                        
+
                     }
-                    
+
                 }
-                
+
             }
-            
+            else if secondary == .health {
+                let hasBattery = (BatteryManager.shared.info?.batteries ?? 0) > 0
+                output.append("\n----------BATTERY HEALTH----------\n\n")
+
+                if hasBattery == false {
+                    output.append(self.processValueOutput("Status", value:.init("No battery installed")))
+                    output.append("\n\u{001B}[90mThis device runs on AC power only.\u{001B}[0m\n")
+                }
+                else if let heath = BatteryManager.shared.health {
+                    output.append(self.processValueOutput("Health State", value:.init(heath.state.rawValue, type: heath.state.warning)))
+                    output.append(self.processValueOutput("Health Percentage", value:.init("\(Int(heath.percentage))%", type: heath.state.warning)))
+                    output.append(self.processValueOutput("Cycle Count", value:.init("\(heath.cycles)")))
+                    output.append(self.processValueOutput("Original Capacity", value:.init("\(Int(heath.capacity)) mAh")))
+                    output.append(self.processValueOutput("Current Capacity", value:.init("\(Int(heath.available)) mAh")))
+                }
+                else {
+                    output.append(self.processValueOutput("Health", value:.init("Unknown")))
+                }
+
+            }
+            else if secondary == .thermal {
+                let hasBattery = (BatteryManager.shared.info?.batteries ?? 0) > 0
+                output.append("\n----------BATTERY TEMPERATURE----------\n\n")
+
+                if hasBattery == false {
+                    output.append(self.processValueOutput("Status", value:.init("No battery installed")))
+                    output.append("\n\u{001B}[90mTemperature monitoring requires a battery.\u{001B}[0m\n")
+                }
+                else {
+                    output.append(self.processValueOutput("Temperature", value:.init(BatteryManager.shared.thermal.formatted, type: BatteryManager.shared.thermal.state.warning)))
+                    output.append(self.processValueOutput("Overheating", value:.init(BatteryManager.shared.thermal.state.flag.string(.yes), type: BatteryManager.shared.thermal.state.warning)))
+                }
+
+            }
+            else if secondary == .time {
+                let hasBattery = (BatteryManager.shared.info?.batteries ?? 0) > 0
+                output.append("\n----------TIME REMAINING----------\n\n")
+
+                if hasBattery == false {
+                    output.append(self.processValueOutput("Status", value:.init("No battery installed")))
+                    output.append("\n\u{001B}[90mThis device is always connected to power.\u{001B}[0m\n")
+                }
+                else if BatteryManager.shared.charging == .charging {
+                    if let remaining = BatteryManager.shared.remaining {
+                        output.append(self.processValueOutput("Time Until Full", value:.init(remaining.formatted ?? "Calculating...")))
+                    }
+                    else {
+                        output.append(self.processValueOutput("Time Until Full", value:.init("Calculating...")))
+                    }
+                    output.append(self.processValueOutput("Current Charge", value:.init("\(BatteryManager.shared.percentage)%")))
+                }
+                else {
+                    if let remaining = BatteryManager.shared.remaining {
+                        output.append(self.processValueOutput("Time Until Empty", value:.init(remaining.formatted ?? "Calculating...")))
+                    }
+                    else {
+                        output.append(self.processValueOutput("Time Until Empty", value:.init("Calculating...")))
+                    }
+                    output.append(self.processValueOutput("Current Charge", value:.init("\(BatteryManager.shared.percentage)%")))
+                }
+
+            }
+
         }
         else if command == .debug {
             if secondary == .info {
@@ -580,17 +642,23 @@ class ProcessManager:ObservableObject {
         }
         else if command == .devices {
             if secondary == .list {
-                for device in AppManager.shared.devices {
-                    output.append("\n----------DEVICE #\(device.order + 1)----------\n\n")
-                    
-                    output.append(self.processValueOutput("ID", value:.init(device.id.uuidString)))
-                    output.append(self.processValueOutput("Name", value: .init(device.name)))
-                    output.append(self.processValueOutput("Added", value:.init( "\(device.added?.formatted ?? "Unknown")")))
-                    output.append(self.processValueOutput("Favourited", value: .init(device.favourite.string(.yes))))
-//                    output.append(self.processValueOutput("Events", value: .init("\(device.events.count)")))
-                    
+                if AppManager.shared.devices.isEmpty {
+                    output.append("\n----------DEVICES----------\n\n")
+                    output.append(self.processValueOutput("Status", value:.init("No devices found")))
+                    output.append("\n\u{001B}[90mConnect Bluetooth devices to see them here.\u{001B}[0m\n")
                 }
-                
+                else {
+                    for device in AppManager.shared.devices {
+                        output.append("\n----------DEVICE #\(device.order + 1)----------\n\n")
+
+                        output.append(self.processValueOutput("ID", value:.init(device.id.uuidString)))
+                        output.append(self.processValueOutput("Name", value: .init(device.name)))
+                        output.append(self.processValueOutput("Added", value:.init("\(device.added?.formatted ?? "Unknown")")))
+                        output.append(self.processValueOutput("Favourited", value: .init(device.favourite.string(.yes))))
+
+                    }
+                }
+
             }
             else if secondary == .set || secondary == .remove {
                 if flags.indices.contains(1) == false || flags.indices.contains(2) == false{
@@ -719,11 +787,109 @@ class ProcessManager:ObservableObject {
                 SettingsManager.shared.enabledBeta = .disabled
 
                 output.append(self.processHeaderOutput("BETA DISABLED", state:.sucsess))
-                
+
             }
-            
+
         }
-        
+        else if command == .status {
+            BatteryManager.shared.powerForceRefresh()
+
+            let hasBattery = (BatteryManager.shared.info?.batteries ?? 0) > 0
+            let deviceName = SystemDeviceTypes.name()
+
+            output.append("\n\u{001B}[1;36m╔══════════════════════════════════════╗\u{001B}[0m\n")
+            output.append("\u{001B}[1;36m║\u{001B}[0m       \u{001B}[1mBATTERY STATUS\u{001B}[0m              \u{001B}[1;36m║\u{001B}[0m\n")
+            output.append("\u{001B}[1;36m╚══════════════════════════════════════╝\u{001B}[0m\n\n")
+
+            output.append(self.processValueOutput("💻 Device", value:.init(deviceName)))
+
+            if hasBattery {
+                output.append(self.processValueOutput("🔌 Power Source", value:.init("Battery Powered")))
+
+                let chargeIcon = BatteryManager.shared.charging == .charging ? "⚡" : "🔋"
+                let chargeColor: ProcessResponseHeaderType
+                if BatteryManager.shared.percentage <= 18 {
+                    chargeColor = .error
+                }
+                else if BatteryManager.shared.percentage <= 25 {
+                    chargeColor = .warning
+                }
+                else if BatteryManager.shared.charging == .charging {
+                    chargeColor = .sucsess
+                }
+                else {
+                    chargeColor = .normal
+                }
+                output.append(self.processValueOutput("\(chargeIcon) Charge", value:.init("\(BatteryManager.shared.percentage)%", type: chargeColor)))
+
+                if BatteryManager.shared.charging == .charging {
+                    output.append(self.processValueOutput("⏳ Status", value:.init("Charging", type: .sucsess)))
+                    if let remaining = BatteryManager.shared.remaining, let formatted = remaining.formatted {
+                        output.append(self.processValueOutput("⏱  Time to Full", value:.init(formatted)))
+                    }
+                }
+                else {
+                    output.append(self.processValueOutput("📊 Status", value:.init("On Battery")))
+                    if let remaining = BatteryManager.shared.remaining, let formatted = remaining.formatted {
+                        output.append(self.processValueOutput("⏱  Time Remaining", value:.init(formatted)))
+                    }
+                }
+
+                output.append("\n")
+
+                if let heath = BatteryManager.shared.health {
+                    output.append(self.processValueOutput("❤️  Health", value:.init("\(Int(heath.percentage))% (\(heath.state.rawValue))", type: heath.state.warning)))
+                    output.append(self.processValueOutput("🔄 Cycles", value:.init("\(heath.cycles)")))
+                }
+
+                output.append(self.processValueOutput("🌡  Temperature", value:.init(BatteryManager.shared.thermal.formatted, type: BatteryManager.shared.thermal.state.warning)))
+                output.append(self.processValueOutput("⚡ Power Mode", value:.init(BatteryManager.shared.mode.flag ? "Low Power" : "Normal", type: BatteryManager.shared.mode.flag ? .sucsess : .normal)))
+            }
+            else {
+                output.append(self.processValueOutput("🔌 Power Source", value:.init("AC Power (No Battery)", type: .sucsess)))
+                output.append(self.processValueOutput("📊 Status", value:.init("Always Connected", type: .sucsess)))
+            }
+
+            output.append("\n")
+
+            let storedDevices = AppManager.shared.devices.count
+            let activeDevices = BluetoothManager.shared.broadcasting.filter({ $0.state == .connected }).count
+            let totalDevices = max(storedDevices, activeDevices)
+            output.append(self.processValueOutput("📱 Devices", value:.init("\(totalDevices) connected")))
+
+            if totalDevices > 0 {
+                for device in AppManager.shared.devices.prefix(3) {
+                    output.append("    \u{001B}[90m• \(device.name)\u{001B}[0m\n")
+                }
+                if storedDevices > 3 {
+                    output.append("    \u{001B}[90m... and \(storedDevices - 3) more\u{001B}[0m\n")
+                }
+            }
+
+        }
+        else if command == .power {
+            if secondary == .mode {
+                output.append("\n----------POWER MODE----------\n\n")
+
+                output.append(self.processValueOutput("Low Power Mode", value:.init(BatteryManager.shared.mode.flag.string(.enabled), type: BatteryManager.shared.mode.flag ? .sucsess : .normal)))
+                output.append(self.processValueOutput("Current Mode", value:.init(BatteryManager.shared.mode.rawValue)))
+
+            }
+            else if secondary == .toggle {
+                let newState = BatteryManager.shared.mode.flag == false
+                BatteryManager.shared.powerEfficiencyMode(newState ? .efficient : .normal)
+
+                if newState {
+                    output.append(self.processHeaderOutput("LOW POWER MODE ENABLED", state:.sucsess))
+                }
+                else {
+                    output.append(self.processHeaderOutput("LOW POWER MODE DISABLED", state:.sucsess))
+                }
+
+            }
+
+        }
+
         if output.isEmpty {
             return nil
             

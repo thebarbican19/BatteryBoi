@@ -36,7 +36,7 @@
 	<key>SMPrivilegedExecutables</key>
 	<dict>
 		<key>com.ovatar.batteryapp.helperboi</key>
-		<string>identifier &quot;com.ovatar.batteryapp.helperboi&quot; and anchor apple generic and certificate leaf[subject.CN] = &quot;Apple Development: Joe Barbour (9292KA78DX)&quot; and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
+		<string>identifier &quot;com.ovatar.batteryapp.helperboi&quot; and anchor apple generic and certificate leaf[subject.OU] = &quot;QYKKXLKZD6&quot; and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
 	</dict>
 </dict>
 </plist>

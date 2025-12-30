@@ -1,4 +1,5 @@
 {
+  "originHash" : "47159b73c81efa106bc3d6f8c03f7bb3fa9eb8b41680e325e869950f2540d64e",
   "pins" : [
     {
       "identity" : "deviice",
@@ -16,15 +17,6 @@
       "state" : {
         "revision" : "d9beca13ca85baa50ee29832d0db5129fba69630",
         "version" : "5.0.1"
-      }
-    },
-    {
-      "identity" : "enalogswift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/thebarbican19/EnalogSwift",
-      "state" : {
-        "branch" : "main",
-        "revision" : "c2d29b5a4eab661026643551adc2bab8a1bc42a7"
       }
     },
     {
@@ -55,12 +47,12 @@
       }
     },
     {
-      "identity" : "purchases-ios",
+      "identity" : "rainbow",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/RevenueCat/purchases-ios.git",
+      "location" : "https://github.com/onevcat/Rainbow.git",
       "state" : {
-        "revision" : "9d8520509574ca253cfe96d34fbef9259ddcdb3d",
-        "version" : "4.31.0"
+        "revision" : "cdf146ae671b2624917648b61c908d1244b98ca1",
+        "version" : "4.2.1"
       }
     },
     {
@@ -80,7 +72,16 @@
         "revision" : "87e4fcbac39912f9cdb9a9acf205cad60e1ca3bc",
         "version" : "2.4.2"
       }
+    },
+    {
+      "identity" : "swift-argument-parser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-argument-parser.git",
+      "state" : {
+        "revision" : "c5d11a805e765f52ba34ec7284bd4fcd6ba68615",
+        "version" : "1.7.0"
+      }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

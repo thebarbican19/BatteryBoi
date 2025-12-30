@@ -3,20 +3,16 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleIdentifier</key>
-	<string>com.ovatar.batteryapp.helperboi</string>
+	<string>com.ovatar.batteryapp.cliboi</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleVersionKey</key>
 	<string>1.01</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Ovatar Ltd</string>
-	<key>SMAuthorizedClients</key>
-	<array>
-		<string>identifier &quot;com.ovatar.batteryapp&quot; and anchor apple generic and certificate leaf[subject.OU] = &quot;QYKKXLKZD6&quot; and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
-	</array>
 	<key>CFBundleName</key>
-	<string>helperboi</string>
+	<string>cliboi</string>
 	<key>CFBundleDisplayName</key>
-	<string>helperboi</string>
+	<string>cliboi</string>
 </dict>
 </plist>

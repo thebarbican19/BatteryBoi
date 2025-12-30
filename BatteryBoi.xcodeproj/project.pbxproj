@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D804F2262B0D63BD00D13DE6 /* EnalogSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D804F2252B0D63BD00D13DE6 /* EnalogSwift */; };
+		C0669B052F0337D000EF6308 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = C0669B042F0337D000EF6308 /* ArgumentParser */; };
+		C0669B082F0337E700EF6308 /* Rainbow in Frameworks */ = {isa = PBXBuildFile; productRef = C0669B072F0337E700EF6308 /* Rainbow */; };
 		D804F2272B0D63CE00D13DE6 /* BBExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5B82A80646E00E295FA /* BBExtensions.swift */; };
 		D804F2292B0D640A00D13DE6 /* BBSystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2282B0D640A00D13DE6 /* BBSystemModel.swift */; };
 		D804F22A2B0D641D00D13DE6 /* BBSystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2282B0D640A00D13DE6 /* BBSystemModel.swift */; };
@@ -30,21 +31,7 @@
 		D83701122B1F8E4C00B1206E /* BBAnimationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83701112B1F8E4C00B1206E /* BBAnimationModel.swift */; };
 		D837011D2B1F932900B1206E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D837011C2B1F932900B1206E /* main.swift */; };
 		D83701212B1F933A00B1206E /* cliboi in CopyFiles */ = {isa = PBXBuildFile; fileRef = D837011A2B1F932900B1206E /* cliboi */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		D83701222B1F935C00B1206E /* BBSystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2282B0D640A00D13DE6 /* BBSystemModel.swift */; };
-		D83701232B1F935F00B1206E /* BBSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F22E2B0D64DE00D13DE6 /* BBSettingsModel.swift */; };
-		D83701242B1F936300B1206E /* BBBluetoothModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2362B0D6F1500D13DE6 /* BBBluetoothModel.swift */; };
-		D83701252B1F936600B1206E /* BBCloudModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8598C962B156198006F36B2 /* BBCloudModel.swift */; };
-		D83701262B1F936900B1206E /* BBOnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E619902B1707750023D5E0 /* BBOnboardingModel.swift */; };
-		D83701272B1F936B00B1206E /* BBStatsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E585F92B1962AA002C11FF /* BBStatsModel.swift */; };
-		D83701282B1F936E00B1206E /* BBProcessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDC412B1EAA7E00C077ED /* BBProcessModel.swift */; };
-		D83701292B1F937000B1206E /* BBAnimationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83701112B1F8E4C00B1206E /* BBAnimationModel.swift */; };
-		D837012E2B1F938A00B1206E /* BBExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5B82A80646E00E295FA /* BBExtensions.swift */; };
-		D83701302B1F939E00B1206E /* BBDataObject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D851F8042AB214E8003FCA79 /* BBDataObject.xcdatamodeld */; };
-		D83701322B1F93C300B1206E /* BBSettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5B42A7F383600E295FA /* BBSettingsManager.swift */; };
-		D83701342B1F954600B1206E /* EnalogSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D83701332B1F954600B1206E /* EnalogSwift */; };
-		D837013D2B1FC15B00B1206E /* ToolInstaller.m in Sources */ = {isa = PBXBuildFile; fileRef = D8C784A92B1E8A8E00EBD52A /* ToolInstaller.m */; };
 		D83701442B1FD27500B1206E /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83701432B1FD27500B1206E /* SMC.swift */; };
-		D83701452B1FD27500B1206E /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83701432B1FD27500B1206E /* SMC.swift */; };
 		D83701462B20F65B00B1206E /* BBAnimationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83701112B1F8E4C00B1206E /* BBAnimationModel.swift */; };
 		D83701472B20F6B000B1206E /* BBAnimationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83701112B1F8E4C00B1206E /* BBAnimationModel.swift */; };
 		D83701482B20F6FC00B1206E /* BBAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891134C2AAC34DC00B5E4F5 /* BBAnimationManager.swift */; };
@@ -65,7 +52,6 @@
 		D851F80A2ABA29A0003FCA79 /* BBNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D851F8092ABA299F003FCA79 /* BBNavigationView.swift */; };
 		D8577A412B23B3A200366B51 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8577A402B23B3A200366B51 /* main.swift */; };
 		D8577A462B23B4C000366B51 /* helperboi in CopyFiles */ = {isa = PBXBuildFile; fileRef = D8577A3E2B23B3A000366B51 /* helperboi */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		D8577A472B23B71600366B51 /* Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = D8577A452B23B3CC00366B51 /* Info.plist */; };
 		D8598C902B156085006F36B2 /* BBDataObject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D851F8042AB214E8003FCA79 /* BBDataObject.xcdatamodeld */; };
 		D8598C972B156199006F36B2 /* BBCloudModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8598C962B156198006F36B2 /* BBCloudModel.swift */; };
 		D8598C982B1561B8006F36B2 /* BBCloudModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8598C962B156198006F36B2 /* BBCloudModel.swift */; };
@@ -77,19 +63,14 @@
 		D85DEE402B0C0EB100E53109 /* BatteryBoy (Activity)Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D85DEE332B0C0EAE00E53109 /* BatteryBoy (Activity)Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D86FDC422B1EAA7E00C077ED /* BBProcessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDC412B1EAA7E00C077ED /* BBProcessModel.swift */; };
 		D88C19B12AF1735B003C3A0C /* BBDataObject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D851F8042AB214E8003FCA79 /* BBDataObject.xcdatamodeld */; };
-		D88C19B22AF1736D003C3A0C /* highnote.wav in Resources */ = {isa = PBXBuildFile; fileRef = D8CDA7FB2AA249F800FAD41E /* highnote.wav */; };
-		D88C19B32AF1736D003C3A0C /* lownote.wav in Resources */ = {isa = PBXBuildFile; fileRef = D8CDA7FC2AA249F800FAD41E /* lownote.wav */; };
 		D891134D2AAC34DC00B5E4F5 /* BBAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891134C2AAC34DC00B5E4F5 /* BBAnimationManager.swift */; };
 		D89CCFEE2A9FF97900D9531A /* BBAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89CCFED2A9FF97900D9531A /* BBAboutView.swift */; };
 		D8BEDB512B27A101004D3EB1 /* DynamicColor in Frameworks */ = {isa = PBXBuildFile; productRef = D8BEDB502B27A101004D3EB1 /* DynamicColor */; };
-		D8BEDB522B27B33D004D3EB1 /* BBProcessManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8228E382AC387010014DC85 /* BBProcessManager.swift */; };
-		D8BEDB532B27B379004D3EB1 /* BBHelperModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83C2C2D2B253DBD00B78456 /* BBHelperModel.swift */; };
 		D8BEDB852B2C0DD6004D3EB1 /* airpods.sh in Resources */ = {isa = PBXBuildFile; fileRef = D8BEDB842B2C0DD5004D3EB1 /* airpods.sh */; };
 		D8BEDB872B2CEA82004D3EB1 /* cache.sh in Resources */ = {isa = PBXBuildFile; fileRef = D8BEDB862B2CEA81004D3EB1 /* cache.sh */; };
 		D8BEDB892B2EB730004D3EB1 /* BBBatteryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8BEDB882B2EB730004D3EB1 /* BBBatteryModel.swift */; };
 		D8BEDB8A2B2EB730004D3EB1 /* BBBatteryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8BEDB882B2EB730004D3EB1 /* BBBatteryModel.swift */; };
 		D8BEDB8B2B2EB730004D3EB1 /* BBBatteryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8BEDB882B2EB730004D3EB1 /* BBBatteryModel.swift */; };
-		D8BEDB8C2B2EB730004D3EB1 /* BBBatteryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8BEDB882B2EB730004D3EB1 /* BBBatteryModel.swift */; };
 		D8BEDB8D2B2EC558004D3EB1 /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83701432B1FD27500B1206E /* SMC.swift */; };
 		D8BEDB902B315CEC004D3EB1 /* FlyingFox in Frameworks */ = {isa = PBXBuildFile; productRef = D8BEDB8F2B315CEC004D3EB1 /* FlyingFox */; };
 		D8BEDB922B315CEC004D3EB1 /* FlyingSocks in Frameworks */ = {isa = PBXBuildFile; productRef = D8BEDB912B315CEC004D3EB1 /* FlyingSocks */; };
@@ -98,8 +79,6 @@
 		D8C784B82B1E8B3D00EBD52A /* install.sh in Resources */ = {isa = PBXBuildFile; fileRef = D8C784B72B1E8B3D00EBD52A /* install.sh */; };
 		D8C784B92B1E8B3D00EBD52A /* install.sh in Resources */ = {isa = PBXBuildFile; fileRef = D8C784B72B1E8B3D00EBD52A /* install.sh */; };
 		D8C784BB2B1E902400EBD52A /* install.sh in CopyFiles */ = {isa = PBXBuildFile; fileRef = D8C784B72B1E8B3D00EBD52A /* install.sh */; };
-		D8CDA7FD2AA249F800FAD41E /* highnote.wav in Resources */ = {isa = PBXBuildFile; fileRef = D8CDA7FB2AA249F800FAD41E /* highnote.wav */; };
-		D8CDA7FE2AA249F800FAD41E /* lownote.wav in Resources */ = {isa = PBXBuildFile; fileRef = D8CDA7FC2AA249F800FAD41E /* lownote.wav */; };
 		D8D52B742B322ED3004C7E5C /* RateBoi in Frameworks */ = {isa = PBXBuildFile; productRef = D8D52B732B322ED3004C7E5C /* RateBoi */; };
 		D8D52B762B322F4D004C7E5C /* BBAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B752B322F4D004C7E5C /* BBAlertManager.swift */; };
 		D8D52B772B322F4D004C7E5C /* BBAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B752B322F4D004C7E5C /* BBAlertManager.swift */; };
@@ -107,16 +86,6 @@
 		D8D52B7B2B325663004C7E5C /* BBPeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B7A2B325663004C7E5C /* BBPeerManager.swift */; };
 		D8D52B7C2B325663004C7E5C /* BBPeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B7A2B325663004C7E5C /* BBPeerManager.swift */; };
 		D8D52B7D2B325663004C7E5C /* BBPeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B7A2B325663004C7E5C /* BBPeerManager.swift */; };
-		D8D52B7E2B325663004C7E5C /* BBPeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B7A2B325663004C7E5C /* BBPeerManager.swift */; };
-		D8D52B872B3295BE004C7E5C /* BBAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5CA2A8403D300E295FA /* BBAppManager.swift */; };
-		D8D52B882B3295F8004C7E5C /* BBCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2312B0D6ABF00D13DE6 /* BBCloudManager.swift */; };
-		D8D52B892B32960C004C7E5C /* BBMenubarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D837014A2B2100DE00B1206E /* BBMenubarManager.swift */; };
-		D8D52B8A2B329621004C7E5C /* BBBatteryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5AE2A7DF68C00E295FA /* BBBatteryManager.swift */; };
-		D8D52B8B2B329630004C7E5C /* BBAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B752B322F4D004C7E5C /* BBAlertManager.swift */; };
-		D8D52B8C2B329642004C7E5C /* BBOnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6198C2B16F13D0023D5E0 /* BBOnboardingManager.swift */; };
-		D8D52B8E2B32965E004C7E5C /* BBBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DFD5922A956D2C00732635 /* BBBluetoothManager.swift */; };
-		D8D52B922B329698004C7E5C /* BBAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891134C2AAC34DC00B5E4F5 /* BBAnimationManager.swift */; };
-		D8D52B932B3296A4004C7E5C /* BBStatsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83DD3F92A9D62AF00FCC534 /* BBStatsManager.swift */; };
 		D8D52B9A2B33E3F0004C7E5C /* BBBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DFD5922A956D2C00732635 /* BBBluetoothManager.swift */; };
 		D8D52B9B2B33EEB5004C7E5C /* BBOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E619892B167C5C0023D5E0 /* BBOnboardingView.swift */; };
 		D8D9E5A02A7DE7AB00E295FA /* BatteryBoiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E59F2A7DE7AB00E295FA /* BatteryBoiApp.swift */; };
@@ -132,7 +101,6 @@
 		D8D9E5CB2A8403D300E295FA /* BBAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5CA2A8403D300E295FA /* BBAppManager.swift */; };
 		D8DFD5822A8BD7E800732635 /* BBProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DFD5812A8BD7E800732635 /* BBProgressView.swift */; };
 		D8DFD5842A8C26F300732635 /* BBSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DFD5832A8C26F300732635 /* BBSettingsView.swift */; };
-		D8DFD58E2A8D83B500732635 /* EnalogSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D8DFD58D2A8D83B500732635 /* EnalogSwift */; };
 		D8DFD5932A956D2C00732635 /* BBBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DFD5922A956D2C00732635 /* BBBluetoothManager.swift */; };
 		D8E4643A2B181C1700A18F76 /* Deviice in Frameworks */ = {isa = PBXBuildFile; productRef = D8E464392B181C1700A18F76 /* Deviice */; };
 		D8E585D02B190FEF002C11FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8E585CF2B190FEF002C11FF /* Assets.xcassets */; };
@@ -151,13 +119,8 @@
 		D8E586092B196817002C11FF /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E586082B196817002C11FF /* UserNotifications.framework */; };
 		D8E5860A2B19681B002C11FF /* BBCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2312B0D6ABF00D13DE6 /* BBCloudManager.swift */; };
 		D8E5860B2B196871002C11FF /* BBAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5CA2A8403D300E295FA /* BBAppManager.swift */; };
-		D8E5860D2B196896002C11FF /* EnalogSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D8E5860C2B196896002C11FF /* EnalogSwift */; };
 		D8E5860F2B1968A1002C11FF /* Deviice in Frameworks */ = {isa = PBXBuildFile; productRef = D8E5860E2B1968A1002C11FF /* Deviice */; };
 		D8E586102B1968E1002C11FF /* BBBatteryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5AE2A7DF68C00E295FA /* BBBatteryManager.swift */; };
-		D8E619812B16702B0023D5E0 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = D8E619802B16702B0023D5E0 /* RevenueCat */; };
-		D8E619832B16702B0023D5E0 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = D8E619822B16702B0023D5E0 /* RevenueCatUI */; };
-		D8E619852B16704A0023D5E0 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = D8E619842B16704A0023D5E0 /* RevenueCat */; };
-		D8E619872B16704A0023D5E0 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = D8E619862B16704A0023D5E0 /* RevenueCatUI */; };
 		D8E6198A2B167C5C0023D5E0 /* BBOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E619892B167C5C0023D5E0 /* BBOnboardingView.swift */; };
 		D8E6198D2B16F13D0023D5E0 /* BBOnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6198C2B16F13D0023D5E0 /* BBOnboardingManager.swift */; };
 		D8E6198E2B16F13D0023D5E0 /* BBOnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6198C2B16F13D0023D5E0 /* BBOnboardingManager.swift */; };
@@ -296,8 +259,6 @@
 		D8CDA7F52AA10E5F00FAD41E /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
 		D8CDA7F62AA243E600FAD41E /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LocalizableMain.strings"; sourceTree = "<group>"; };
 		D8CDA7F72AA2448D00FAD41E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LocalizableMain.strings"; sourceTree = "<group>"; };
-		D8CDA7FB2AA249F800FAD41E /* highnote.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = highnote.wav; sourceTree = "<group>"; };
-		D8CDA7FC2AA249F800FAD41E /* lownote.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lownote.wav; sourceTree = "<group>"; };
 		D8D52B752B322F4D004C7E5C /* BBAlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBAlertManager.swift; sourceTree = "<group>"; };
 		D8D52B7A2B325663004C7E5C /* BBPeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBPeerManager.swift; sourceTree = "<group>"; };
 		D8D9E59C2A7DE7AB00E295FA /* BatteryBoi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BatteryBoi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -318,7 +279,6 @@
 		D8DFD5852A8D510200732635 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
 		D8DFD5922A956D2C00732635 /* BBBluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBBluetoothManager.swift; sourceTree = "<group>"; };
 		D8E585CF2B190FEF002C11FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "BatteryBoi (iOS)/Assets.xcassets"; sourceTree = SOURCE_ROOT; };
-		D8E585D12B19101A002C11FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "BatteryBoy (Activity)/Assets.xcassets"; sourceTree = SOURCE_ROOT; };
 		D8E585D72B194009002C11FF /* BBPurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBPurchaseManager.swift; sourceTree = "<group>"; };
 		D8E585D92B1953C5002C11FF /* BBTimelineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBTimelineManager.swift; sourceTree = "<group>"; };
 		D8E585F42B1955F7002C11FF /* BBStandardWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBStandardWidget.swift; sourceTree = "<group>"; };
@@ -336,9 +296,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8E4643A2B181C1700A18F76 /* Deviice in Frameworks */,
-				D8E619852B16704A0023D5E0 /* RevenueCat in Frameworks */,
-				D804F2262B0D63BD00D13DE6 /* EnalogSwift in Frameworks */,
-				D8E619872B16704A0023D5E0 /* RevenueCatUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,8 +303,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0669B052F0337D000EF6308 /* ArgumentParser in Frameworks */,
+				C0669B082F0337E700EF6308 /* Rainbow in Frameworks */,
 				D8BEDB512B27A101004D3EB1 /* DynamicColor in Frameworks */,
-				D83701342B1F954600B1206E /* EnalogSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,7 +321,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8E5860F2B1968A1002C11FF /* Deviice in Frameworks */,
-				D8E5860D2B196896002C11FF /* EnalogSwift in Frameworks */,
 				D8E586092B196817002C11FF /* UserNotifications.framework in Frameworks */,
 				D8E586072B196510002C11FF /* CloudKit.framework in Frameworks */,
 				D85DEE352B0C0EAE00E53109 /* SwiftUI.framework in Frameworks */,
@@ -377,11 +334,8 @@
 			files = (
 				D84F4E182A85A66900668582 /* Sparkle in Frameworks */,
 				D8D9E5C62A81B27D00E295FA /* DynamicColor in Frameworks */,
-				D8E619832B16702B0023D5E0 /* RevenueCatUI in Frameworks */,
 				D8D52B742B322ED3004C7E5C /* RateBoi in Frameworks */,
-				D8E619812B16702B0023D5E0 /* RevenueCat in Frameworks */,
 				D8D9E5C02A81565000E295FA /* FluidGradient in Frameworks */,
-				D8DFD58E2A8D83B500732635 /* EnalogSwift in Frameworks */,
 				D84F4E1B2A85A6A800668582 /* KeyboardShortcuts in Frameworks */,
 				D8BEDB922B315CEC004D3EB1 /* FlyingSocks in Frameworks */,
 				D8BEDB902B315CEC004D3EB1 /* FlyingFox in Frameworks */,
@@ -433,17 +387,8 @@
 				D88C19B02AF16A48003C3A0C /* BatteryBoi--iOS--Info.plist */,
 				D8228E3A2AC3FD580014DC85 /* BatteryBoi (iOS).entitlements */,
 				D8228E0F2AC1EA790014DC85 /* BatteryBoi__iOS_App.swift */,
-				D8228E152AC1EA7F0014DC85 /* Preview Content */,
 			);
 			path = "BatteryBoi (iOS)";
-			sourceTree = "<group>";
-		};
-		D8228E152AC1EA7F0014DC85 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				D8E585D12B19101A002C11FF /* Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		D837011B2B1F932900B1206E /* BatteryBoi CLI */ = {
@@ -513,20 +458,10 @@
 			isa = PBXGroup;
 			children = (
 				D851F8032AB21259003FCA79 /* Database */,
-				D8CDA7F82AA248AD00FAD41E /* SFX */,
 				D83DD3F62A9BBF2E00FCC534 /* Scripts */,
 				D89CCFF02AA0F80C00D9531A /* Localization */,
 			);
 			path = Other;
-			sourceTree = "<group>";
-		};
-		D8CDA7F82AA248AD00FAD41E /* SFX */ = {
-			isa = PBXGroup;
-			children = (
-				D8CDA7FB2AA249F800FAD41E /* highnote.wav */,
-				D8CDA7FC2AA249F800FAD41E /* lownote.wav */,
-			);
-			path = SFX;
 			sourceTree = "<group>";
 		};
 		D8D9E5932A7DE7AA00E295FA = {
@@ -689,9 +624,6 @@
 			);
 			name = "BatteryBoi (iOS)";
 			packageProductDependencies = (
-				D804F2252B0D63BD00D13DE6 /* EnalogSwift */,
-				D8E619842B16704A0023D5E0 /* RevenueCat */,
-				D8E619862B16704A0023D5E0 /* RevenueCatUI */,
 				D8E464392B181C1700A18F76 /* Deviice */,
 			);
 			productName = "BatteryBoi (iOS)";
@@ -711,8 +643,9 @@
 			);
 			name = cliboi;
 			packageProductDependencies = (
-				D83701332B1F954600B1206E /* EnalogSwift */,
 				D8BEDB502B27A101004D3EB1 /* DynamicColor */,
+				C0669B042F0337D000EF6308 /* ArgumentParser */,
+				C0669B072F0337E700EF6308 /* Rainbow */,
 			);
 			productName = "BatteryBoi CLI";
 			productReference = D837011A2B1F932900B1206E /* cliboi */;
@@ -749,7 +682,6 @@
 			);
 			name = "BatteryBoy (Activity)Extension";
 			packageProductDependencies = (
-				D8E5860C2B196896002C11FF /* EnalogSwift */,
 				D8E5860E2B1968A1002C11FF /* Deviice */,
 			);
 			productName = "BatteryBoy (Activity)Extension";
@@ -778,9 +710,6 @@
 				D8D9E5C52A81B27D00E295FA /* DynamicColor */,
 				D84F4E172A85A66900668582 /* Sparkle */,
 				D84F4E1A2A85A6A800668582 /* KeyboardShortcuts */,
-				D8DFD58D2A8D83B500732635 /* EnalogSwift */,
-				D8E619802B16702B0023D5E0 /* RevenueCat */,
-				D8E619822B16702B0023D5E0 /* RevenueCatUI */,
 				D8BEDB8F2B315CEC004D3EB1 /* FlyingFox */,
 				D8BEDB912B315CEC004D3EB1 /* FlyingSocks */,
 				D8D52B732B322ED3004C7E5C /* RateBoi */,
@@ -848,11 +777,11 @@
 				D8D9E5C42A81B27D00E295FA /* XCRemoteSwiftPackageReference "DynamicColor" */,
 				D84F4E162A85A66900668582 /* XCRemoteSwiftPackageReference "Sparkle" */,
 				D84F4E192A85A6A800668582 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
-				D8DFD58C2A8D83B500732635 /* XCRemoteSwiftPackageReference "EnalogSwift" */,
-				D8E6197F2B16702B0023D5E0 /* XCRemoteSwiftPackageReference "purchases-ios" */,
 				D8E464382B181C1700A18F76 /* XCRemoteSwiftPackageReference "Deviice" */,
 				D8BEDB8E2B315CEC004D3EB1 /* XCRemoteSwiftPackageReference "FlyingFox" */,
 				D8D52B722B322ED3004C7E5C /* XCRemoteSwiftPackageReference "RateBoi" */,
+				C0669B032F0337D000EF6308 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
+				C0669B062F0337E700EF6308 /* XCRemoteSwiftPackageReference "Rainbow" */,
 			);
 			productRefGroup = D8D9E59D2A7DE7AB00E295FA /* Products */;
 			projectDirPath = "";
@@ -872,9 +801,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D88C19B22AF1736D003C3A0C /* highnote.wav in Resources */,
 				D8C784B92B1E8B3D00EBD52A /* install.sh in Resources */,
-				D88C19B32AF1736D003C3A0C /* lownote.wav in Resources */,
 				D804F2342B0D6D6B00D13DE6 /* LocalizableMain.strings in Resources */,
 				D8E585D02B190FEF002C11FF /* Assets.xcassets in Resources */,
 			);
@@ -894,9 +821,7 @@
 			files = (
 				D8BEDB852B2C0DD6004D3EB1 /* airpods.sh in Resources */,
 				D8D9E5A72A7DE7AE00E295FA /* Preview Assets.xcassets in Resources */,
-				D8CDA7FD2AA249F800FAD41E /* highnote.wav in Resources */,
 				D8C784B82B1E8B3D00EBD52A /* install.sh in Resources */,
-				D8CDA7FE2AA249F800FAD41E /* lownote.wav in Resources */,
 				D8BEDB872B2CEA82004D3EB1 /* cache.sh in Resources */,
 				D84F4E2B2A86E9E800668582 /* LocalizableMain.strings in Resources */,
 				D8D9E5A42A7DE7AE00E295FA /* Assets.xcassets in Resources */,
@@ -921,7 +846,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\nset -e # Any subsequent commands which fail will cause the shell script to exit immediately\n\necho \"Checking for Homebrew...\"\nif ! command -v brew &> /dev/null; then\n    echo \"Homebrew not installed\"\n    echo \"Checking for Stripe CLI...\"\n    if ! command -v stripe &> /dev/null; then\n        echo \"Stripe CLI not installed, installing now without Homebrew...\"\n        # Directly download and install the Stripe CLI\n        # Example for macOS:\n        curl -o- https://raw.githubusercontent.com/stripe/stripe-cli/master/install.sh | bash\n    else\n        echo \"Stripe CLI is already installed\"\n    fi\nelse\n    echo \"Homebrew is installed\"\n    echo \"Checking for Stripe CLI...\"\n    if ! command -v stripe &> /dev/null; then\n        echo \"Stripe CLI not installed, installing now with Homebrew...\"\n        brew install stripe/stripe-cli/stripe\n    else\n        echo \"Stripe CLI is already installed\"\n    fi\nfi\n";
+			shellScript = "#!/bin/bash\necho \"Skipping Stripe CLI check to fix build error\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -962,33 +887,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8D52B8B2B329630004C7E5C /* BBAlertManager.swift in Sources */,
-				D83701452B1FD27500B1206E /* SMC.swift in Sources */,
-				D8D52B8A2B329621004C7E5C /* BBBatteryManager.swift in Sources */,
-				D83701322B1F93C300B1206E /* BBSettingsManager.swift in Sources */,
-				D8BEDB8C2B2EB730004D3EB1 /* BBBatteryModel.swift in Sources */,
-				D8BEDB522B27B33D004D3EB1 /* BBProcessManager.swift in Sources */,
-				D8D52B8E2B32965E004C7E5C /* BBBluetoothManager.swift in Sources */,
-				D83701272B1F936B00B1206E /* BBStatsModel.swift in Sources */,
-				D837012E2B1F938A00B1206E /* BBExtensions.swift in Sources */,
-				D83701252B1F936600B1206E /* BBCloudModel.swift in Sources */,
-				D83701302B1F939E00B1206E /* BBDataObject.xcdatamodeld in Sources */,
-				D8D52B872B3295BE004C7E5C /* BBAppManager.swift in Sources */,
-				D8D52B882B3295F8004C7E5C /* BBCloudManager.swift in Sources */,
-				D83701242B1F936300B1206E /* BBBluetoothModel.swift in Sources */,
-				D83701282B1F936E00B1206E /* BBProcessModel.swift in Sources */,
-				D8D52B7E2B325663004C7E5C /* BBPeerManager.swift in Sources */,
-				D8D52B932B3296A4004C7E5C /* BBStatsManager.swift in Sources */,
-				D8D52B922B329698004C7E5C /* BBAnimationManager.swift in Sources */,
-				D8D52B892B32960C004C7E5C /* BBMenubarManager.swift in Sources */,
-				D83701262B1F936900B1206E /* BBOnboardingModel.swift in Sources */,
-				D83701292B1F937000B1206E /* BBAnimationModel.swift in Sources */,
-				D83701222B1F935C00B1206E /* BBSystemModel.swift in Sources */,
-				D837013D2B1FC15B00B1206E /* ToolInstaller.m in Sources */,
-				D83701232B1F935F00B1206E /* BBSettingsModel.swift in Sources */,
 				D837011D2B1F932900B1206E /* main.swift in Sources */,
-				D8D52B8C2B329642004C7E5C /* BBOnboardingManager.swift in Sources */,
-				D8BEDB532B27B379004D3EB1 /* BBHelperModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -996,7 +895,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8577A472B23B71600366B51 /* Info.plist in Sources */,
 				D8BEDB8D2B2EC558004D3EB1 /* SMC.swift in Sources */,
 				D8577A412B23B3A200366B51 /* main.swift in Sources */,
 				D83C2C2C2B25329400B78456 /* BBHelperManager.swift in Sources */,
@@ -1144,7 +1042,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1194,7 +1092,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1654,6 +1552,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		C0669B032F0337D000EF6308 /* XCRemoteSwiftPackageReference "swift-argument-parser" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-argument-parser.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.7.0;
+			};
+		};
+		C0669B062F0337E700EF6308 /* XCRemoteSwiftPackageReference "Rainbow" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Rainbow.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.2.1;
+			};
+		};
 		D84F4E162A85A66900668582 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sparkle-project/Sparkle";
@@ -1702,14 +1616,6 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		D8DFD58C2A8D83B500732635 /* XCRemoteSwiftPackageReference "EnalogSwift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/thebarbican19/EnalogSwift";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 		D8E464382B181C1700A18F76 /* XCRemoteSwiftPackageReference "Deviice" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/andrealufino/Deviice";
@@ -1718,26 +1624,18 @@
 				minimumVersion = 2.1.2;
 			};
 		};
-		D8E6197F2B16702B0023D5E0 /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.31.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D804F2252B0D63BD00D13DE6 /* EnalogSwift */ = {
+		C0669B042F0337D000EF6308 /* ArgumentParser */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D8DFD58C2A8D83B500732635 /* XCRemoteSwiftPackageReference "EnalogSwift" */;
-			productName = EnalogSwift;
+			package = C0669B032F0337D000EF6308 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+			productName = ArgumentParser;
 		};
-		D83701332B1F954600B1206E /* EnalogSwift */ = {
+		C0669B072F0337E700EF6308 /* Rainbow */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = D8DFD58C2A8D83B500732635 /* XCRemoteSwiftPackageReference "EnalogSwift" */;
-			productName = EnalogSwift;
+			package = C0669B062F0337E700EF6308 /* XCRemoteSwiftPackageReference "Rainbow" */;
+			productName = Rainbow;
 		};
 		D84F4E172A85A66900668582 /* Sparkle */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1779,45 +1677,15 @@
 			package = D8D9E5C42A81B27D00E295FA /* XCRemoteSwiftPackageReference "DynamicColor" */;
 			productName = DynamicColor;
 		};
-		D8DFD58D2A8D83B500732635 /* EnalogSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D8DFD58C2A8D83B500732635 /* XCRemoteSwiftPackageReference "EnalogSwift" */;
-			productName = EnalogSwift;
-		};
 		D8E464392B181C1700A18F76 /* Deviice */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D8E464382B181C1700A18F76 /* XCRemoteSwiftPackageReference "Deviice" */;
 			productName = Deviice;
 		};
-		D8E5860C2B196896002C11FF /* EnalogSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D8DFD58C2A8D83B500732635 /* XCRemoteSwiftPackageReference "EnalogSwift" */;
-			productName = EnalogSwift;
-		};
 		D8E5860E2B1968A1002C11FF /* Deviice */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D8E464382B181C1700A18F76 /* XCRemoteSwiftPackageReference "Deviice" */;
 			productName = Deviice;
-		};
-		D8E619802B16702B0023D5E0 /* RevenueCat */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D8E6197F2B16702B0023D5E0 /* XCRemoteSwiftPackageReference "purchases-ios" */;
-			productName = RevenueCat;
-		};
-		D8E619822B16702B0023D5E0 /* RevenueCatUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D8E6197F2B16702B0023D5E0 /* XCRemoteSwiftPackageReference "purchases-ios" */;
-			productName = RevenueCatUI;
-		};
-		D8E619842B16704A0023D5E0 /* RevenueCat */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D8E6197F2B16702B0023D5E0 /* XCRemoteSwiftPackageReference "purchases-ios" */;
-			productName = RevenueCat;
-		};
-		D8E619862B16704A0023D5E0 /* RevenueCatUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D8E6197F2B16702B0023D5E0 /* XCRemoteSwiftPackageReference "purchases-ios" */;
-			productName = RevenueCatUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 

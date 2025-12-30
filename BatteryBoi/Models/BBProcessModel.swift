@@ -8,15 +8,17 @@
 import Foundation
 
 enum ProcessPrimaryCommands:String,CaseIterable {
-    case menubar = "mbar"
+    case menubar = "menubar"
     case notifications = "notify"
-    case battery = "batt"
+    case battery = "battery"
     case debug = "debug"
     case settings = "settings"
     case devices = "devices"
     case website = "website"
     case rate = "rate"
     case beta = "beta"
+    case power = "power"
+    case status = "status"
 
     var description:String {
         switch self {
@@ -29,27 +31,31 @@ enum ProcessPrimaryCommands:String,CaseIterable {
             case .website : return "Opens BatteryBoi Website"
             case .rate : return "Rate BatteryBoi on ProductHunt"
             case .beta : return "Enable/Disable Beta Program (Note: May Cause Crashes or Unstable Performance)"
+            case .power : return "Power Mode Management & Low Power Toggle"
+            case .status : return "Complete Battery Dashboard with All Information"
 
         }
-        
+
     }
-    
+
     var secondary:[ProcessSecondaryCommands] {
         switch self {
             case .menubar : return [.info, .set, .reset]
             case .notifications : return [.info, .set, .reset]
-            case .battery : return [.info, .set]
+            case .battery : return [.info, .set, .health, .thermal, .time]
             case .debug : return [.info, .reset]
             case .devices : return [.list, .reset]
             case .settings : return [.info, .set, .reset]
             case .website : return [.open]
             case .rate : return [.open]
             case .beta : return [.set]
+            case .power : return [.mode, .toggle]
+            case .status : return [.info]
 
         }
-        
+
     }
-    
+
 }
 
 enum ProcessSecondaryCommands:String {
@@ -61,7 +67,12 @@ enum ProcessSecondaryCommands:String {
     case recent = "recent"
     case reset = "reset"
     case open = "open"
-    
+    case health = "health"
+    case thermal = "thermal"
+    case time = "time"
+    case mode = "mode"
+    case toggle = "toggle"
+
 }
 
 enum ProcessResponseHeaderType:String {

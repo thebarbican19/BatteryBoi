@@ -463,19 +463,3 @@ extension CodingUserInfoKey {
     static let connected = CodingUserInfoKey(rawValue: "connected")!
 
 }
-
-#if os(macOS)
-    extension NSWindow: SystemMainWindow {
-        var canBecomeKeyWindow: Bool {
-            return true
-            
-        }
-        
-    }
-
-#endif
-
-protocol SystemMainWindow {
-    var canBecomeKeyWindow: Bool { get }
-    
-}
