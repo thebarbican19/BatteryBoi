@@ -216,20 +216,18 @@ struct PowerCommand: ParsableCommand {
 }
 
 func printBanner() {
-    let line1 = "\(ANSIColor.cyan)\(ANSIColor.bold)"
-    let line2 = "  ____              __  __            ____        __"
-    let line3 = " / __ )____ _   __/ /_/ /____  _____/ __ )____  /"
-    let line4 = "/ __  / __ \\ | / / __/ __/ _ \\/ ___/ __  / __ \\/"
-    let line5 = "/ /_/ / /_/ / |/ / /_/ /_/  __/ /  / /_/ / /_/ /"
-    let line6 = "/_____/\\____/|__/\\__/\\__/\\___/_/  /_____/\\____/"
-    let line7 = "\(ANSIColor.reset)"
-    print(line1)
-    print(line2)
-    print(line3)
-    print(line4)
-    print(line5)
-    print(line6)
-    print(line7)
+    print("\(ANSIColor.cyan)\(ANSIColor.bold)")
+    print(" ▄████▄   ██▓     ██▓ ▄▄▄▄    ▒█████   ██▓")
+    print("▒██▀ ▀█  ▓██▒    ▓██▒▓█████▄ ▒██▒  ██▒▓██▒")
+    print("▒▓█    ▄ ▒██░    ▒██▒▒██▒ ▄██▒██░  ██▒▒██▒")
+    print("▒▓▓▄ ▄██▒▒██░    ░██░▒██░█▀  ▒██   ██░░██░")
+    print("▒ ▓███▀ ░░██████▒░██░░▓█  ▀█▓░ ████▓▒░░██░")
+    print("░ ░▒ ▒  ░░ ▒░▓  ░░▓  ░▒▓███▀▒░ ▒░▒░▒░ ░▓  ")
+    print("  ░  ▒   ░ ░ ▒  ░ ▒ ░▒░▒   ░   ░ ▒ ▒░  ▒ ░")
+    print("░          ░ ░    ▒ ░ ░    ░ ░ ░ ░ ▒   ▒ ░")
+    print("░ ░          ░  ░ ░   ░          ░ ░   ░  ")
+    print("░                          ░              ")
+    print("\(ANSIColor.reset)")
 }
 
 func formatSuccess(_ message: String) -> String {

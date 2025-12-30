@@ -1,0 +1,40 @@
+//
+//  BBOnboardingConstants.swift
+//  BatteryBoi
+//
+//  Created by Joe Barbour on 12/29/25.
+//
+
+import Foundation
+
+public enum OnboardingActionType {
+    case primary
+    case secondary
+}
+
+public enum OnboardingViewType: String {
+    case intro
+    case cloud
+    case bluetooth
+    case process
+    case nobatt
+    case notifications
+    case complete
+
+    var present: Bool {
+        switch self {
+            case .intro: return true
+            case .cloud: return true
+            case .process: return true
+            case .nobatt: return true
+            case .bluetooth: return true
+            case .notifications: return true
+            case .complete: return false
+        }
+    }
+}
+
+public enum OnboardingStepViewed {
+    case seen
+    case unseen
+}

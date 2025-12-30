@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import EnalogSwift
+//import EnalogSwift
 import Sparkle
 import Combine
 import Foundation
@@ -96,9 +96,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
         
         if let channel = Bundle.main.infoDictionary?["SD_SLACK_CHANNEL"] as? String  {
             #if !DEBUG
-                EnalogManager.main.user(SystemDeviceTypes.identifyer)
-                EnalogManager.main.crash(SystemEvents.fatalError, channel: .init(.slack, id: channel))
-                EnalogManager.main.ingest(SystemEvents.userLaunched, description: "Launched BatteryBoi")
+                //EnalogManager.main.user(SystemDeviceTypes.identifyer)
+                //EnalogManager.main.crash(SystemEvents.fatalError, channel: .init(.slack, id: channel))
+                //EnalogManager.main.ingest(SystemEvents.userLaunched, description: "Launched BatteryBoi")
             #endif
         }
         

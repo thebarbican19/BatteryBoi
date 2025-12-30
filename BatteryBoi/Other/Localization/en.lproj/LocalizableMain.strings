@@ -108,6 +108,11 @@
 "OnboardingCloudSubtitle" = "Keep your battery levels in sync across all your Apple devices using iCloud.";
 "OnboardingCloudButton" = "Enable iCloud";
 
+"OnboardingMacTitle" = "Mac App (Optional)";
+"OnboardingMacDetectedSubtitle" = "✓ Mac detected! You have access to Bluetooth devices, AirPods, and live Mac battery updates.";
+"OnboardingMacMissingSubtitle" = "Install BatteryBoi on your Mac to track Bluetooth devices, AirPods, and Mac battery. Without it, you'll only see this device's battery.";
+"OnboardingMacButton" = "Continue";
+
 "OnboardingProcessTitle" = "Helper Tool";
 "OnboardingProcessSubtitle" = "BatteryBoi requires a small helper tool to accurately read system power statistics.";
 "OnboardingProcessButton" = "Install Helper";
@@ -120,6 +125,18 @@
 "OnboardingNoBatteryTitle" = "No Internal Battery";
 "OnboardingNoBatterySubtitle" = "It looks like your Mac doesn't have an internal battery. BatteryBoi can still monitor your connected Bluetooth devices!";
 "OnboardingNoBatteryButton" = "Continue";
+
+"OnboardingNotificationsTitle" = "Notifications";
+"OnboardingNotificationsSubtitle" = "Get alerted when your devices are low on battery or have finished charging.";
+"OnboardingNotificationsButton" = "Enable Notifications";
+
+"OnboardingMacOSTitle" = "BatteryBoi for Mac";
+"OnboardingMacOSSubtitle" = "Download BatteryBoi for your Mac to sync battery levels across all your devices.";
+"OnboardingMacOSButton" = "Learn More";
+
+"OnboardingIOSTitle" = "BatteryBoi for iOS";
+"OnboardingIOSSubtitle" = "Download BatteryBoi for your iPhone or iPad to track your devices on the go.";
+"OnboardingIOSButton" = "Learn More";
 
 "OnboardingCompleteLabel" = "All set! BatteryBoi is ready to go.";
 

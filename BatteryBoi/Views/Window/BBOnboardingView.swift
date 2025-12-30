@@ -70,6 +70,118 @@ struct OnboardingContainer: View {
     @EnvironmentObject var bluetooth:BluetoothManager
     @EnvironmentObject var icloud:CloudManager
     @EnvironmentObject var onboarding:OnboardingManager
+    
+    @ViewBuilder
+    var activePage: some View {
+        if onboarding.state == .intro {
+            OnboardingPage(
+                icon: "battery.100",
+                title: "OnboardingIntroTitle".localise(),
+                subtitle: "OnboardingIntroSubtitle".localise(),
+                primary: "OnboardingIntroButton".localise(),
+                action: onboarding.onboardingAction
+            )
+        }
+        else if onboarding.state == .bluetooth {
+            OnboardingPage(
+                icon: "antenna.radiowaves.left.and.right",
+                title: "OnboardingBluetoothTitle".localise(),
+                subtitle: "OnboardingBluetoothSubtitle".localise(),
+                primary: "OnboardingBluetoothButton".localise(),
+                action: onboarding.onboardingAction
+            )
+        }
+        else if onboarding.state == .cloud {
+            #if os(iOS)
+                OnboardingPage(
+                    icon: "laptopcomputer",
+                    title: "OnboardingMacTitle".localise(),
+                    subtitle: manager.hasMacDevice ? "OnboardingMacDetectedSubtitle".localise() : "OnboardingMacMissingSubtitle".localise(),
+                    primary: "OnboardingMacButton".localise(),
+                    action: onboarding.onboardingAction
+                )
+            #else
+                OnboardingPage(
+                    icon: "icloud",
+                    title: "OnboardingCloudTitle".localise(),
+                    subtitle: "OnboardingCloudSubtitle".localise(),
+                    primary: "OnboardingCloudButton".localise(),
+                    action: onboarding.onboardingAction
+                )
+            #endif
+        }
+        else {
+            platformSpecificPage
+        }
+    }
+    
+    @ViewBuilder
+    var platformSpecificPage: some View {
+        #if os(macOS)
+        if onboarding.state == .process {
+            OnboardingPage(
+                icon: "gearshape.2",
+                title: "OnboardingProcessTitle".localise(),
+                subtitle: "OnboardingProcessSubtitle".localise(),
+                primary: "OnboardingProcessButton".localise(),
+                action: onboarding.onboardingAction
+            )
+        }
+        else if onboarding.state == .loginatlaunch {
+            OnboardingPage(
+                icon: "arrow.right.circle",
+                title: "OnboardingLoginTitle".localise(),
+                subtitle: "OnboardingLoginSubtitle".localise(),
+                primary: "OnboardingLoginPrimaryButton".localise(),
+                secondary: "OnboardingLoginSecondaryButton".localise(),
+                action: onboarding.onboardingAction
+            )
+        }
+        else if onboarding.state == .nobatt {
+            OnboardingPage(
+                icon: "battery.0",
+                title: "OnboardingNoBatteryTitle".localise(),
+                subtitle: "OnboardingNoBatterySubtitle".localise(),
+                primary: "OnboardingNoBatteryButton".localise(),
+                action: onboarding.onboardingAction
+            )
+        }
+        else if onboarding.state == .ios {
+            OnboardingPage(
+                icon: "iphone",
+                title: "OnboardingIOSTitle".localise(),
+                subtitle: "OnboardingIOSSubtitle".localise(),
+                primary: "OnboardingIOSButton".localise(),
+                action: onboarding.onboardingAction
+            )
+        }
+        else {
+            EmptyView()
+        }
+        #elseif os(iOS)
+        if onboarding.state == .notifications {
+            OnboardingPage(
+                icon: "bell.badge",
+                title: "OnboardingNotificationsTitle".localise(),
+                subtitle: "OnboardingNotificationsSubtitle".localise(),
+                primary: "OnboardingNotificationsButton".localise(),
+                action: onboarding.onboardingAction
+            )
+        }
+        else if onboarding.state == .macos {
+            OnboardingPage(
+                icon: "laptopcomputer",
+                title: "OnboardingMacOSTitle".localise(),
+                subtitle: "OnboardingMacOSSubtitle".localise(),
+                primary: "OnboardingMacOSButton".localise(),
+                action: onboarding.onboardingAction
+            )
+        }
+        else {
+            EmptyView()
+        }
+        #endif
+    }
         
     var body: some View {
         VStack {
@@ -78,59 +190,7 @@ struct OnboardingContainer: View {
                     .foregroundColor(.white)
             }
             else {
-                switch onboarding.state {
-                case .intro:
-                    OnboardingPage(
-                        icon: "battery.100",
-                        title: "OnboardingIntroTitle".localise(),
-                        subtitle: "OnboardingIntroSubtitle".localise(),
-                        primary: "OnboardingIntroButton".localise(),
-                        action: onboarding.onboardingAction
-                    )
-                case .bluetooth:
-                    OnboardingPage(
-                        icon: "antenna.radiowaves.left.and.right",
-                        title: "OnboardingBluetoothTitle".localise(),
-                        subtitle: "OnboardingBluetoothSubtitle".localise(),
-                        primary: "OnboardingBluetoothButton".localise(),
-                        action: onboarding.onboardingAction
-                    )
-                case .cloud:
-                    OnboardingPage(
-                        icon: "icloud",
-                        title: "OnboardingCloudTitle".localise(),
-                        subtitle: "OnboardingCloudSubtitle".localise(),
-                        primary: "OnboardingCloudButton".localise(),
-                        action: onboarding.onboardingAction
-                    )
-                case .process:
-                    OnboardingPage(
-                        icon: "gearshape.2",
-                        title: "OnboardingProcessTitle".localise(),
-                        subtitle: "OnboardingProcessSubtitle".localise(),
-                        primary: "OnboardingProcessButton".localise(),
-                        action: onboarding.onboardingAction
-                    )
-                case .loginatlaunch:
-                    OnboardingPage(
-                        icon: "arrow.right.circle",
-                        title: "OnboardingLoginTitle".localise(),
-                        subtitle: "OnboardingLoginSubtitle".localise(),
-                        primary: "OnboardingLoginPrimaryButton".localise(),
-                        secondary: "OnboardingLoginSecondaryButton".localise(),
-                        action: onboarding.onboardingAction
-                    )
-                case .nobatt:
-                    OnboardingPage(
-                        icon: "battery.0",
-                        title: "OnboardingNoBatteryTitle".localise(),
-                        subtitle: "OnboardingNoBatterySubtitle".localise(),
-                        primary: "OnboardingNoBatteryButton".localise(),
-                        action: onboarding.onboardingAction
-                    )
-                default:
-                    EmptyView()
-                }
+                activePage
             }
         }
         .padding(.top, 40)

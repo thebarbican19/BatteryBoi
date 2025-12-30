@@ -11,6 +11,7 @@ import CloudKit
 import CoreData
 import ActivityKit
 import BackgroundTasks
+import SwiftData
 
 @main
 struct BatteryBoi__iOS_App: App {
@@ -18,7 +19,13 @@ struct BatteryBoi__iOS_App: App {
 
     var body: some Scene {
         WindowGroup {
-            NavigationContainer()
+            if #available(iOS 17.0, *), let container = CloudManager.container?.storage as? ModelContainer {
+                NavigationContainer().modelContainer(container)
+            }
+			else {
+                NavigationContainer()
+				
+            }
             
         }
         
@@ -74,16 +81,19 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             
         }
         
-        self.applicationBackgroundPushEvent(id: "") { _ in
-            task.setTaskCompleted(success: true)
+        self.applicationBackgroundPushEvent(id: "background-refresh") { success in
+            task.setTaskCompleted(success: success)
             
         }
-        
-        task.setTaskCompleted(success: true)
         
     }
     
     func applicationBackgroundPushEvent(id:String, completion: @escaping (Bool) -> Void) {
+        print("🔍 Handling background push event for ID: \(id)")
+        
+        BatteryManager.shared.powerForceRefresh()
+        BatteryManager.shared.powerStoreEvent(nil)
+
         let fetch: NSFetchRequest<Battery> = Battery.fetchRequest()
         fetch.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
         fetch.fetchLimit = 1
@@ -106,11 +116,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             
             UNUserNotificationCenter.current().add(request) { error in
                 if let error = error {
-                    print("Error scheduling notification: \(error)")
+                    print("❌ Error scheduling notification: \(error)")
                     completion(false)
 
                 }
                 else {
+                    print("✅ Notification scheduled successfully")
                     completion(true)
                     
                 }
@@ -119,7 +130,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             
         }
         catch {
-            
+            print("❌ Error in applicationBackgroundPushEvent: \(error)")
+            completion(false)
         }
         
     }
@@ -135,7 +147,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Error" ,error)
+        print("❌ Failed to register for remote notifications: \(error)")
         
     }
     
@@ -175,15 +187,18 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 //    }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print("📩 Received remote notification: \(userInfo)")
         
         if let query = CKNotification(fromRemoteNotificationDictionary: userInfo) as? CKQueryNotification {
             AppManager.shared.updated = Date()
             if let id = query.subscriptionID {
+                print("✅ Valid CloudKit notification with subscription ID: \(id)")
                 let task = UIApplication.shared.beginBackgroundTask {
-                    
+                    print("⚠️ Background task expired")
                 }
                 
                 self.applicationBackgroundPushEvent(id: id, completion: { completion in
+                    print("🏁 Background push event completion: \(completion)")
                     UIApplication.shared.endBackgroundTask(task)
                     
                     completionHandler(.newData)
@@ -192,12 +207,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                                                     
             }
             else {
+                print("❌ Missing subscription ID in CloudKit notification")
                 completionHandler(.failed)
 
             }
             
         }
         else {
+            print("❌ Notification is not a valid CloudKit notification")
             completionHandler(.noData)
             
         }
