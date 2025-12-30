@@ -170,7 +170,8 @@ public class WindowManager: ObservableObject {
                     var hosting: (any View)?
                     switch type {
                         case .onboarding: hosting = OnboardingHost()
-                        case .overlay: hosting = BBOverlayView()
+                        case .intro: hosting = BBIntroView()
+                        case .introControl: hosting = BBIntroControlView()
                         default: hosting = HUDParent(alert, device: device)
 
                     }
@@ -289,14 +290,14 @@ public class WindowManager: ObservableObject {
 
         }
 
-        private func windowOverlay() -> NSWindow? {
+        private func windowIntro() -> NSWindow? {
             var window: NSWindow?
 
             window = BBWindow()
             window?.styleMask = [.borderless, .fullSizeContentView]
             window?.level = .floating
             window?.contentView?.translatesAutoresizingMaskIntoConstraints = false
-            window?.title = WindowTypes.overlay.rawValue
+            window?.title = WindowTypes.intro.rawValue
             window?.backgroundColor = .clear
             window?.isOpaque = false
             window?.setFrame(NSScreen.main?.frame ?? .zero, display: true)
@@ -307,6 +308,32 @@ public class WindowManager: ObservableObject {
 
         }
 
+        private func windowIntroControl() -> NSWindow? {
+            let bounds = WindowScreenSize()
+            let type = WindowTypes.introControl
+            var window: NSWindow?
+
+            window = NSWindow()
+            // Titled and Closable so user can interact, but borderless style might be desired based on 'AwesomeApp' example.
+            // User example: .windowStyle(.hiddenTitleBar) which implies borderless or fullSizeContentView.
+            // User example uses 'Window("Control Panel")' which implies a window.
+            // I'll use a borderless style with a transparent background to match the "Floating Panel" look.
+            window?.styleMask = [.titled, .fullSizeContentView] 
+            window?.level = .modalPanel // Pinned on top of floating
+            window?.contentView?.translatesAutoresizingMaskIntoConstraints = false
+            window?.center()
+            window?.title = type.rawValue
+            window?.titlebarAppearsTransparent = true
+            window?.titleVisibility = .hidden
+            window?.backgroundColor = .clear
+            window?.isMovableByWindowBackground = true
+            window?.isRestorable = false
+            window?.setFrame(NSRect(x: (bounds.width / 2) - (type.size.width / 2), y: (bounds.height / 2) - (type.size.height / 2), width: type.size.width, height: type.size.height), display: false)
+            window?.isReleasedWhenClosed = false // We handle close via onDisappear
+            
+            return window
+        }
+
         private func windowExists(_ type: WindowTypes, alert: SystemAlertTypes) -> NSWindow? {
             if let window = NSApplication.shared.windows.filter({$0.title == type.rawValue}).first {
                 return window
@@ -315,7 +342,8 @@ public class WindowManager: ObservableObject {
             else {
                 switch type {
                     case .alert: return self.windowDefault(alert)
-                    case .overlay: return self.windowOverlay()
+                    case .intro: return self.windowIntro()
+                    case .introControl: return self.windowIntroControl()
                     default: return self.windowClosable(type)
 
                 }

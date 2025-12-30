@@ -45,7 +45,7 @@ final class SystemIntegrationTests: XCTestCase {
         var payload = Data([0x4C, 0x00, 0x07, 0x19])
         payload.append(Data(repeating: 0x00, count: 11)) // Padding 0-10 (11 bytes to reach index 15)
         payload.append(Data([0x32, 0x2D, 0x50])) // 15, 16, 17 (L, R, Case) -> 50, 45, 80
-        payload.append(Data(repeating: 0x00, count: 10)) // Remaining padding
+        payload.append(Data(repeating: 0x00, count: 11)) // Remaining padding (need total length >= 29)
         
         let batteryLevel = BluetoothManager.parseContinuityManufacturerData(payload)
         

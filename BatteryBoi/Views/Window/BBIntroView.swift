@@ -1,5 +1,5 @@
 //
-//  BBOverlayView.swift
+//  BBIntroView.swift
 //  BatteryBoi
 //
 //  Created by Gemini on 12/30/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct BBOverlayView: View {
+struct BBIntroView: View {
     var body: some View {
         ZStack {
             // The semi-transparent background

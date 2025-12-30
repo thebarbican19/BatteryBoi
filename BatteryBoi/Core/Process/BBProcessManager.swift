@@ -186,7 +186,7 @@ public class ProcessManager: ObservableObject {
         
         if let subcommand = subcommand {
             guard let prompt = command.secondary.first(where: { $0 == subcommand}) else {
-                output.append("\n----------COMMANDS----------\n\n")
+                output.append(self.processBoxHeader("COMMANDS"))
 
                 for supported in command.secondary {
                     output.append(self.processValueOutput(supported.rawValue, value: .init(nil)))
@@ -204,7 +204,7 @@ public class ProcessManager: ObservableObject {
        
         if command == .menubar {
             if secondary == .info {
-                output.append("\n----------MENUBAR----------\n\n")
+                output.append(self.processBoxHeader("MENUBAR"))
                 
                 output.append(self.processValueOutput("Primary Display (-p)", value:.init(MenubarManager.shared.menubarPrimaryDisplay.type)))
                 output.append(self.processValueOutput("Secondary Display (-s)", value:.init(MenubarManager.shared.menubarSecondaryDisplay.type)))
@@ -360,7 +360,7 @@ public class ProcessManager: ObservableObject {
         }
         else if command == .notifications {
             if secondary == .info {
-                output.append("\n----------AT PERCENTAGE----------\n\n")
+                output.append(self.processBoxHeader("AT PERCENTAGE"))
                 
                 for alert in AlertManager.shared.alerts.filter({ $0.percentage != nil }) {
                     if let percent = alert.percentage {
@@ -442,7 +442,7 @@ public class ProcessManager: ObservableObject {
 
                 }
 
-                output.append("\n----------HEALTH----------\n\n")
+                output.append(self.processBoxHeader("HEALTH"))
                 
                 if let heath = BatteryManager.shared.health {
                     output.append(self.processValueOutput("Health", value:.init( heath.state.rawValue, type: heath.state.warning)))
@@ -453,7 +453,7 @@ public class ProcessManager: ObservableObject {
 
                 }
                 
-                output.append("\n----------TEMPRATURE----------\n\n")
+                output.append(self.processBoxHeader("TEMPERATURE"))
                 
                 output.append(self.processValueOutput("Overheating", value: .init(BatteryManager.shared.thermal.state.flag.string(.yes), type: BatteryManager.shared.thermal.state.warning)))
                 output.append(self.processValueOutput("Battery Temprature", value: .init(BatteryManager.shared.thermal.formatted)))
@@ -530,7 +530,7 @@ public class ProcessManager: ObservableObject {
             }
             else if secondary == .health {
                 let hasBattery = (BatteryManager.shared.info?.batteries ?? 0) > 0
-                output.append("\n----------BATTERY HEALTH----------\n\n")
+                output.append(self.processBoxHeader("BATTERY HEALTH"))
 
                 if hasBattery == false {
                     output.append(self.processValueOutput("Status", value:.init("No battery installed")))
@@ -550,7 +550,7 @@ public class ProcessManager: ObservableObject {
             }
             else if secondary == .thermal {
                 let hasBattery = (BatteryManager.shared.info?.batteries ?? 0) > 0
-                output.append("\n----------BATTERY TEMPERATURE----------\n\n")
+                output.append(self.processBoxHeader("BATTERY TEMPERATURE"))
 
                 if hasBattery == false {
                     output.append(self.processValueOutput("Status", value:.init("No battery installed")))
@@ -564,7 +564,7 @@ public class ProcessManager: ObservableObject {
             }
             else if secondary == .time {
                 let hasBattery = (BatteryManager.shared.info?.batteries ?? 0) > 0
-                output.append("\n----------TIME REMAINING----------\n\n")
+                output.append(self.processBoxHeader("TIME REMAINING"))
 
                 if hasBattery == false {
                     output.append(self.processValueOutput("Status", value:.init("No battery installed")))
@@ -607,17 +607,17 @@ public class ProcessManager: ObservableObject {
 
                 }
 
-                output.append("\n----------ONBOARDING----------\n\n")
+                output.append(self.processBoxHeader("ONBOARDING"))
                 
                 output.append(self.processValueOutput("State", value: .init(OnboardingManager.shared.state.rawValue)))
                 
-                output.append("\n----------ICLOUD----------\n\n")
+                output.append(self.processBoxHeader("ICLOUD"))
                 
                 output.append(self.processValueOutput("State", value: .init(CloudManager.shared.state.title)))
                 output.append(self.processValueOutput("Syncing", value: .init(CloudManager.shared.syncing.rawValue)))
                 output.append(self.processValueOutput("User ID", value:.init( CloudManager.shared.id ?? "PermissionsUnknownLabel".localise())))
                 
-                output.append("\n----------BLUETOOTH----------\n\n")
+                output.append(self.processBoxHeader("BLUETOOTH"))
                 
                 output.append(self.processValueOutput("State", value: .init(BluetoothManager.shared.state.title)))
                 output.append(self.processValueOutput("Discoverable Proximity", value:.init( BluetoothManager.shared.proximity.string)))
@@ -627,7 +627,7 @@ public class ProcessManager: ObservableObject {
                 output.append(self.processValueOutput("SettingsSoundEffectsLabel".localise(), value: .init(SettingsManager.shared.enabledSoundEffects.subtitle)))
                 output.append(self.processValueOutput("SettingsCustomizationThemeTitle".localise(), value: .init(SettingsManager.shared.enabledTheme.name)))
 
-                output.append("\n----------RECENT EVENTS----------\n\n")
+                output.append(self.processBoxHeader("RECENT EVENTS"))
 
 //                for event in AppManager.shared.appListEvents(20) {
 //                    output.append(self.processValueOutput("Notify", value: .init(event.notify)))
@@ -642,7 +642,7 @@ public class ProcessManager: ObservableObject {
         else if command == .devices {
             if secondary == .list {
                 if AppManager.shared.devices.isEmpty {
-                    output.append("\n----------DEVICES----------\n\n")
+                    output.append(self.processBoxHeader("DEVICES"))
                     output.append(self.processValueOutput("Status", value:.init("No devices found")))
                     output.append("\n\u{001B}[90mConnect Bluetooth devices to see them here.\u{001B}[0m\n")
                 }
@@ -868,7 +868,7 @@ public class ProcessManager: ObservableObject {
         }
         else if command == .power {
             if secondary == .mode {
-                output.append("\n----------POWER MODE----------\n\n")
+                output.append(self.processBoxHeader("POWER MODE"))
 
                 output.append(self.processValueOutput("Low Power Mode", value:.init(BatteryManager.shared.mode.flag.string(.enabled), type: BatteryManager.shared.mode.flag ? .sucsess : .normal)))
                 output.append(self.processValueOutput("Current Mode", value:.init(BatteryManager.shared.mode.rawValue)))
@@ -876,7 +876,7 @@ public class ProcessManager: ObservableObject {
             }
             else if secondary == .toggle {
                 if BatteryManager.shared.mode == .unavailable {
-                    output.append("\n----------LOW POWER MODE----------\n\n")
+                    output.append(self.processBoxHeader("LOW POWER MODE"))
                     output.append(self.processValueOutput("Status", value:.init("Unavailable", type: .warning)))
                     output.append("\n\u{001B}[90mLow Power Mode is not available on this device.\u{001B}[0m\n")
                 }
@@ -921,8 +921,25 @@ public class ProcessManager: ObservableObject {
             case .sucsess:return "\n\u{001B}[1;32m\(response)\u{001B}[0m\n"
             case .normal:return "\n\u{001B}[1m\(response)\u{001B}[0m\n"
             case .warning:return "\n\u{001B}[1;33m\(response)\u{001B}[0m\n"
-            
+
         }
+
+    }
+
+    private func processBoxHeader(_ title: String) -> String {
+        let boxWidth = 40
+        let innerWidth = boxWidth - 2
+        let titleLength = title.count
+        let totalPadding = innerWidth - titleLength
+        let leftPadding = totalPadding / 2
+        let rightPadding = totalPadding - leftPadding
+        let paddedTitle = String(repeating: " ", count: leftPadding) + title + String(repeating: " ", count: rightPadding)
+
+        var output = "\n\u{001B}[1;36m╔" + String(repeating: "═", count: innerWidth) + "╗\u{001B}[0m\n"
+        output += "\u{001B}[1;36m║\u{001B}[0m\u{001B}[1m" + paddedTitle + "\u{001B}[0m\u{001B}[1;36m║\u{001B}[0m\n"
+        output += "\u{001B}[1;36m╚" + String(repeating: "═", count: innerWidth) + "╝\u{001B}[0m\n\n"
+
+        return output
 
     }
 
