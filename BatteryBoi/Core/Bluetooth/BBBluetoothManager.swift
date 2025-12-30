@@ -133,7 +133,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
         self.fetchIOKitBatteryDevices()
     }
 
-    public static func parseIOKitDictionary(_ dict: [String: Any]) -> (name: String, battery: Int, profile: SystemDeviceProfileObject)? {
+    static func parseIOKitDictionary(_ dict: [String: Any]) -> (name: String, battery: Int, profile: SystemDeviceProfileObject)? {
         if let name = dict["Name"] as? String,
            let battery = dict["BatteryPercent"] as? Int {
 
@@ -174,7 +174,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
         #endif
     }
 
-    public func bluetoothUpdateBroadcast(state: BluetoothConnectionState, peripheral: CBPeripheral? = nil, update: BluetoothConnectionState) {
+    func bluetoothUpdateBroadcast(state: BluetoothConnectionState, peripheral: CBPeripheral? = nil, update: BluetoothConnectionState) {
         DispatchQueue.main.async {
             if let peripheral = peripheral {
                 if let index = self.broadcasting.firstIndex(where: { $0.state == state && peripheral == peripheral }) {
@@ -282,7 +282,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
     }
 
-    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+    public func centralManagerDidUpdateState(_ central: CBCentralManager) {
         if self.state == .allowed {
             self.manager.scanForPeripherals(withServices: nil, options: nil)
 
@@ -300,7 +300,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
     }
 
-    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
+    public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
         let distance: SystemDeviceDistanceObject = .init(Double(truncating: RSSI))
 
         var batteryLevel: Int? = nil
@@ -315,7 +315,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
         if batteryLevel == nil {
             if let manufacturerData = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data {
-                batteryLevel = parseContinuityManufacturerData(manufacturerData)
+                batteryLevel = Self.parseContinuityManufacturerData(manufacturerData)
             }
         }
 
@@ -338,7 +338,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
     }
 
-    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+    public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         self.bluetoothUpdateBroadcast(state: .pending, peripheral: peripheral, update: .connected)
 
         peripheral.delegate = self
@@ -346,12 +346,12 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
     }
 
-    func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+    public func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
         self.bluetoothUpdateBroadcast(state: .pending, peripheral: peripheral, update: .failed)
 
     }
 
-    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+    public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         self.bluetoothUpdateBroadcast(state: .connected, peripheral: peripheral, update: .disconnected)
 
     }
@@ -371,7 +371,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
         }
     }
     
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+	public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         if let error = error {
             print("Error discovering services: \(error.localizedDescription)")
 
@@ -389,7 +389,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
     }
 
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+    public func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         if let error = error {
             print("Error discovering characteristics: \(error.localizedDescription)")
 
@@ -421,7 +421,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
     }
 
-    public static func parseCharacteristicData(_ dataMap: [BluetoothUUID: Data]) -> (profile: SystemDeviceProfileObject, battery: Int?) {
+    static func parseCharacteristicData(_ dataMap: [BluetoothUUID: Data]) -> (profile: SystemDeviceProfileObject, battery: Int?) {
         var vendor: String?
         var serial: String?
         var model: String?
@@ -505,7 +505,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
         return nil
     }
 
-    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+    public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         guard let match = self.peripheralMatchDevice(peripheral) else {
             return
 
@@ -610,7 +610,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
     }
     #endif
 
-    func parseContinuityManufacturerData(_ data: Data) -> Int? {
+    public static func parseContinuityManufacturerData(_ data: Data) -> Int? {
         guard data.count >= 2 else {
             return nil
         }

@@ -213,11 +213,11 @@ public class MenubarManager: ObservableObject {
 
     @Published public var primary: String? = nil
     @Published public var seconary: String? = nil
-    @Published public var progress: MenubarProgressType = .progress
+    @Published var progress: MenubarProgressType = .progress
     @Published public var animation: Bool = true
     @Published public var radius: CGFloat = 6
-    @Published public var style: MenubarStyle = .transparent
-    @Published public var scheme: MenubarScheme = .monochrome
+    @Published var style: MenubarStyle = .transparent
+    @Published var scheme: MenubarScheme = .monochrome
 
     private var updates = Set<AnyCancellable>()
 
@@ -302,7 +302,7 @@ public class MenubarManager: ObservableObject {
 
     }
     
-    public var menubarStyle: MenubarStyle {
+    var menubarStyle: MenubarStyle {
         get {
             if let value = UserDefaults.main.object(forKey: SystemDefaultsKeys.menubarStyle.rawValue) as? String {
                 return MenubarStyle(rawValue: value) ?? .transparent
@@ -366,7 +366,7 @@ public class MenubarManager: ObservableObject {
 
     }
 
-    public var menubarProgressBar: MenubarProgressType {
+    var menubarProgressBar: MenubarProgressType {
         get {
             if let type = UserDefaults.main.string(forKey: SystemDefaultsKeys.menubarProgress.rawValue) {
                 return MenubarProgressType(rawValue: type) ?? .progress
@@ -384,7 +384,7 @@ public class MenubarManager: ObservableObject {
 
     }
 
-    public var menubarSchemeType: MenubarScheme {
+    var menubarSchemeType: MenubarScheme {
         get {
             if let type = UserDefaults.main.string(forKey: SystemDefaultsKeys.menubarScheme.rawValue) {
                 return MenubarScheme(rawValue: type) ?? .monochrome
@@ -402,7 +402,7 @@ public class MenubarManager: ObservableObject {
 
     }
 
-    public var menubarPrimaryDisplay: MenubarDisplayType {
+    var menubarPrimaryDisplay: MenubarDisplayType {
         set {
             UserDefaults.save(.menubarPrimary, value: newValue.rawValue)
 
@@ -444,7 +444,7 @@ public class MenubarManager: ObservableObject {
 
     }
 
-    public var menubarSecondaryDisplay: MenubarDisplayType {
+    var menubarSecondaryDisplay: MenubarDisplayType {
         set {
             UserDefaults.save(.menubarSecondary, value: newValue.rawValue)
 
@@ -478,7 +478,7 @@ public class MenubarManager: ObservableObject {
 
     }
 
-    public func menubarAppendDevices(_ device: SystemDeviceObject, state: MenubarAppendType) -> String {
+    func menubarAppendDevices(_ device: SystemDeviceObject, state: MenubarAppendType) -> String {
         if let _ = AppManager.shared.appStorageContext() {
 
         }

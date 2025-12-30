@@ -27,6 +27,7 @@ enum WindowTypes: String, CaseIterable {
     case preferences = "wreferenceswindow"
     case update = "changelogwindow"
     case onboarding = "onboardingwindow"
+    case overlay = "overlaywindow"
 
     var size: WindowSize {
         switch self {
@@ -34,6 +35,7 @@ enum WindowTypes: String, CaseIterable {
             case .preferences: return .init(width: 500, height: 600)
             case .onboarding: return .init(width: 520, height: 580)
             case .update: return .init(width: 520, height: 420)
+            case .overlay: return .init(width: 0, height: 0) // Fullscreen
         }
     }
 }

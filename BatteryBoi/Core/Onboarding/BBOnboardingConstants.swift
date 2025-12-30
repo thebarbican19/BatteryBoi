@@ -19,6 +19,9 @@ public enum OnboardingViewType: String {
     case process
     case nobatt
     case notifications
+    case loginatlaunch
+    case ios
+    case macos
     case complete
 
     var present: Bool {
@@ -29,6 +32,9 @@ public enum OnboardingViewType: String {
             case .nobatt: return true
             case .bluetooth: return true
             case .notifications: return true
+            case .loginatlaunch: return true
+            case .ios: return true
+            case .macos: return true
             case .complete: return false
         }
     }

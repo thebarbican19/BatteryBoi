@@ -20,15 +20,15 @@ import SwiftData
 #endif
 
 public class CloudManager: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
-    @Published public var state: CloudState = .unknown
+    @Published var state: CloudState = .unknown
     @Published public var id: String? = nil
-    @Published public var syncing: CloudSyncedState = .syncing
+    @Published var syncing: CloudSyncedState = .syncing
 
     public static var shared = CloudManager()
 
     private var updates = Set<AnyCancellable>()
 
-    public static var container: CloudContainerObject? = {
+    static var container: CloudContainerObject? = {
         let object = "BBDataObject"
         let container = NSPersistentCloudKitContainer(name: object)
 

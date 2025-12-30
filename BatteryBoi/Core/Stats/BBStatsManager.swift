@@ -86,7 +86,7 @@ public class StatsManager: ObservableObject {
         
     }
     
-    public func statsAverageDepletionTime(_ device:SystemDeviceObject?) {
+    func statsAverageDepletionTime(_ device:SystemDeviceObject?) {
 //        var matches = [SystemEventObject]()
 //        if let device = device {
 //            matches = AppManager.shared.events.filter({ $0.device == device && $0.state == .depleted && $0.notify != .none })
@@ -103,7 +103,7 @@ public class StatsManager: ObservableObject {
         
     }
     
-    public func statsAverageChargeTime(_ device:SystemDeviceObject?) {
+    func statsAverageChargeTime(_ device:SystemDeviceObject?) {
 //        if let device = device {
 //            let matches = AppManager.shared.events.filter({ $0.device == device && $0.state == .charging && $0.notify != .none }).prefix(30)
 //            
@@ -228,7 +228,7 @@ public class StatsManager: ObservableObject {
     #endif
 
     #if os(macOS)
-        public var statsIcon:StatsIcon {
+        var statsIcon:StatsIcon {
 //            if let device = AppManager.shared.device {
 //                return .init(name: device.type.icon, system: true)
 //                

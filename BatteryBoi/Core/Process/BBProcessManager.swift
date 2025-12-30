@@ -137,7 +137,7 @@ public class ProcessManager: ObservableObject {
         
     }
     
-    public func processHelperContext() -> HelperProtocol? {
+    func processHelperContext() -> HelperProtocol? {
         if let helper = self.connection?.remoteObjectProxy as? HelperProtocol {
             helper.setupHomeDirectory(home: FileManager.default.homeDirectoryForCurrentUser)
 
@@ -167,7 +167,7 @@ public class ProcessManager: ObservableObject {
         
     }
     
-    public func processInbound(_ command:ProcessPrimaryCommands?, subcommand:ProcessSecondaryCommands?, flags:[String] = []) -> String? {
+    func processInbound(_ command:ProcessPrimaryCommands?, subcommand:ProcessSecondaryCommands?, flags:[String] = []) -> String? {
         var output:String = ""
         
         guard let command = command else {

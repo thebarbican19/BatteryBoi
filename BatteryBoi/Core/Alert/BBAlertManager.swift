@@ -92,7 +92,7 @@ public class AlertManager: ObservableObject {
 
     }
 
-    public func alertCreate(event: SystemEventObject, force: SystemAlertTypes? = nil, context: NSManagedObjectContext) {
+    func alertCreate(event: SystemEventObject, force: SystemAlertTypes? = nil, context: NSManagedObjectContext) {
         do {
             var type: SystemAlertTypes? = nil
 

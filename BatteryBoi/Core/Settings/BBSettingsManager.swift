@@ -14,11 +14,11 @@ import ServiceManagement
 public class SettingsManager: ObservableObject {
     public static var shared = SettingsManager()
 
-    @Published public var menu: [SettingsActionObject] = []
-    @Published public var sfx: SettingsSoundEffects = .enabled
-    @Published public var theme: SettingsTheme = .dark
-    @Published public var pinned: SettingsPinned = .disabled
-    @Published public var charge: SettingsCharged = .disabled
+    @Published var menu: [SettingsActionObject] = []
+    @Published var sfx: SettingsSoundEffects = .enabled
+    @Published var theme: SettingsTheme = .dark
+    @Published var pinned: SettingsPinned = .disabled
+    @Published var charge: SettingsCharged = .disabled
 
     private var updates = Set<AnyCancellable>()
 
@@ -46,7 +46,7 @@ public class SettingsManager: ObservableObject {
 
     }
     
-    public var enabledAutoLaunch: SettingsStateValue {
+    var enabledAutoLaunch: SettingsStateValue {
         get {
             if #available(macOS 13.0, *) {
                 if UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledLogin.rawValue) == nil {
@@ -105,7 +105,7 @@ public class SettingsManager: ObservableObject {
 
     }
         
-    public var enabledTheme: SettingsTheme {
+    var enabledTheme: SettingsTheme {
         get {
             if let value = UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledTheme.rawValue) as? String {
                 if let theme = SettingsTheme(rawValue: value) {
@@ -164,7 +164,7 @@ public class SettingsManager: ObservableObject {
 
     }
 
-    public var enabledBeta: SettingsBeta {
+    var enabledBeta: SettingsBeta {
         get {
             if let key = UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledBeta.rawValue) as? String {
                 return SettingsBeta(rawValue: key) ?? .disabled
@@ -182,7 +182,7 @@ public class SettingsManager: ObservableObject {
 
     }
 
-    public var enabledPinned: SettingsPinned {
+    var enabledPinned: SettingsPinned {
         get {
             if let key = UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledPinned.rawValue) as? String {
                 return SettingsPinned(rawValue: key) ?? .disabled
@@ -200,7 +200,7 @@ public class SettingsManager: ObservableObject {
 
     }
 
-    public var enabledSoundEffects: SettingsSoundEffects {
+    var enabledSoundEffects: SettingsSoundEffects {
         get {
             if let key = UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledSoundEffects.rawValue) as? String {
                 return SettingsSoundEffects(rawValue: key) ?? .enabled
@@ -223,7 +223,7 @@ public class SettingsManager: ObservableObject {
 
     }
     
-    public func settingsAction(_ action: SettingsActionObject) {
+    func settingsAction(_ action: SettingsActionObject) {
         if action.type == .appWebsite {
             if let url = URL(string: "http://batteryboi.ovatar.io/index?ref=app&modal=donate") {
                 NSWorkspace.shared.open(url)
@@ -235,9 +235,11 @@ public class SettingsManager: ObservableObject {
 
         }
         else if action.type == .appInstallUpdate {
+            UpdateManager.shared.triggerUpdate()
 
         }
         else if action.type == .appUpdateCheck {
+            UpdateManager.shared.triggerUpdate()
 
         }
         else if action.type == .appPinned {

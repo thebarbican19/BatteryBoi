@@ -9,7 +9,7 @@ import Foundation
 
 struct UpdateVersionObject: Codable {
     var formatted: String
-    var numerical: Double
+    var numerical: String
 }
 
 struct UpdatePayloadObject: Equatable {

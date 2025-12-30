@@ -28,10 +28,10 @@ import SwiftData
 public class BatteryManager: ObservableObject {
     public static var shared = BatteryManager()
 
-    @Published public var charging: BatteryChargingState = .charging
+    @Published var charging: BatteryChargingState = .charging
     @Published public var percentage: Int = 100
-    @Published public var remaining: BatteryRemaining? = nil
-    @Published public var mode: BatteryModeType = .unavailable
+    @Published var remaining: BatteryRemaining? = nil
+    @Published var mode: BatteryModeType = .unavailable
     @Published public var max: Int = 100
     
     #if canImport(SwiftData)
@@ -44,9 +44,9 @@ public class BatteryManager: ObservableObject {
     #endif
 
     #if os(macOS)
-        @Published public var health: BatteryHealthObject? = nil
-        @Published public var thermal: BatteryThemalObject = .init(20)
-        @Published public var info: BatteryInformationObject? = nil
+        @Published var health: BatteryHealthObject? = nil
+        @Published var thermal: BatteryThemalObject = .init(20)
+        @Published var info: BatteryInformationObject? = nil
 
     #endif
 
@@ -137,7 +137,7 @@ public class BatteryManager: ObservableObject {
 
     }
 
-    public func powerEfficiencyMode(_ force: BatteryModeType? = nil) {
+    func powerEfficiencyMode(_ force: BatteryModeType? = nil) {
         #if os(macOS)
             if let context = ProcessManager.shared.processHelperContext() {
                 if let update = force {
@@ -178,7 +178,7 @@ public class BatteryManager: ObservableObject {
 
     }
     
-    public func powerTrigger(_ type: BatteryTriggerType, value: Int = 0) {
+    func powerTrigger(_ type: BatteryTriggerType, value: Int = 0) {
         #warning("To Build Functionality")
 
     }
@@ -273,7 +273,7 @@ public class BatteryManager: ObservableObject {
 
     }
     
-    public func powerStoreEvent(_ device: SystemDeviceObject?, battery: Int? = nil, force: SystemAlertTypes? = nil) {
+    func powerStoreEvent(_ device: SystemDeviceObject?, battery: Int? = nil, force: SystemAlertTypes? = nil) {
         if let context = AppManager.shared.appStorageContext() {
             context.perform {
                 var predicates = Array<NSPredicate>()

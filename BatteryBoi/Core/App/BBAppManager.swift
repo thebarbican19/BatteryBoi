@@ -21,8 +21,8 @@ public class AppManager: ObservableObject {
 
     @Published public var sessionid: UUID = UUID()
     @Published public var counter = 0
-    @Published public var devices = Array<SystemDeviceObject>()
-    @Published public var selected: SystemDeviceObject? = nil
+    @Published var devices = Array<SystemDeviceObject>()
+    @Published var selected: SystemDeviceObject? = nil
     @Published public var updated: Date? = nil
     @Published public var distribution: SystemDistribution = .direct
 
@@ -279,7 +279,7 @@ public class AppManager: ObservableObject {
 
     }
 
-    public func appStoreDevice(_ device: SystemDeviceObject? = nil) {
+    func appStoreDevice(_ device: SystemDeviceObject? = nil) {
         if let context = self.appStorageContext() {
             context.perform {
                 if let match = SystemDeviceObject.match(device, context: context) {
@@ -442,7 +442,7 @@ public class AppManager: ObservableObject {
 
     }
 
-    public func appDestoryEntity(_ type: CloudEntityType) {
+    func appDestoryEntity(_ type: CloudEntityType) {
         if let context = self.appStorageContext() {
             context.perform {
                 do {

@@ -7,6 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C0669AAA2F03380000000001 /* BBSystemConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AAB2F03380000000001 /* BBSystemConstants.swift */; };
+		C0669AAC2F03380000000002 /* BBSystemConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AAB2F03380000000001 /* BBSystemConstants.swift */; };
+		C0669AAD2F03380000000003 /* BBBatteryConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AAE2F03380000000003 /* BBBatteryConstants.swift */; };
+		C0669AAF2F03380000000004 /* BBOnboardingConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AB02F03380000000004 /* BBOnboardingConstants.swift */; };
+		C0669AB12F03380000000005 /* BBSettingsConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AB22F03380000000005 /* BBSettingsConstants.swift */; };
+		C0669AB32F03380000000006 /* BBMenubarConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AB42F03380000000006 /* BBMenubarConstants.swift */; };
+		C0669AB52F03380000000007 /* BBAnimationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AB62F03380000000007 /* BBAnimationConstants.swift */; };
+		C0669AB72F03380000000008 /* BBWindowConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AB82F03380000000008 /* BBWindowConstants.swift */; };
+		C0669AB92F03380000000009 /* BBBluetoothConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669ABA2F03380000000009 /* BBBluetoothConstants.swift */; };
+		C0669ABB2F0338000000000A /* BBCloudConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669ABC2F0338000000000A /* BBCloudConstants.swift */; };
+		C0669ABD2F0338000000000B /* BBStatsConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669ABE2F0338000000000B /* BBStatsConstants.swift */; };
+		C0669ABF2F0338000000000C /* BBProcessConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AC02F0338000000000C /* BBProcessConstants.swift */; };
+		C0669AC12F0338000000000D /* BBUpdateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AC22F0338000000000D /* BBUpdateConstants.swift */; };
 		C0669B052F0337D000EF6308 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = C0669B042F0337D000EF6308 /* ArgumentParser */; };
 		C0669B082F0337E700EF6308 /* Rainbow in Frameworks */ = {isa = PBXBuildFile; productRef = C0669B072F0337E700EF6308 /* Rainbow */; };
 		D804F2272B0D63CE00D13DE6 /* BBExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5B82A80646E00E295FA /* BBExtensions.swift */; };
@@ -194,6 +207,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C0669AAB2F03380000000001 /* BBSystemConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBSystemConstants.swift; path = BatteryBoi/Core/System/BBSystemConstants.swift; sourceTree = SOURCE_ROOT; };
+		C0669AAE2F03380000000003 /* BBBatteryConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBBatteryConstants.swift; path = BatteryBoi/Core/Battery/BBBatteryConstants.swift; sourceTree = SOURCE_ROOT; };
+		C0669AB02F03380000000004 /* BBOnboardingConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBOnboardingConstants.swift; path = BatteryBoi/Core/Onboarding/BBOnboardingConstants.swift; sourceTree = SOURCE_ROOT; };
+		C0669AB22F03380000000005 /* BBSettingsConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBSettingsConstants.swift; path = BatteryBoi/Core/Settings/BBSettingsConstants.swift; sourceTree = SOURCE_ROOT; };
+		C0669AB42F03380000000006 /* BBMenubarConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBMenubarConstants.swift; path = BatteryBoi/Core/Menubar/BBMenubarConstants.swift; sourceTree = SOURCE_ROOT; };
+		C0669AB62F03380000000007 /* BBAnimationConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBAnimationConstants.swift; path = BatteryBoi/Core/Animation/BBAnimationConstants.swift; sourceTree = SOURCE_ROOT; };
+		C0669AB82F03380000000008 /* BBWindowConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBWindowConstants.swift; path = BatteryBoi/Core/Window/BBWindowConstants.swift; sourceTree = SOURCE_ROOT; };
+		C0669ABA2F03380000000009 /* BBBluetoothConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBBluetoothConstants.swift; path = BatteryBoi/Core/Bluetooth/BBBluetoothConstants.swift; sourceTree = SOURCE_ROOT; };
+		C0669ABC2F0338000000000A /* BBCloudConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBCloudConstants.swift; path = BatteryBoi/Core/Cloud/BBCloudConstants.swift; sourceTree = SOURCE_ROOT; };
+		C0669ABE2F0338000000000B /* BBStatsConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBStatsConstants.swift; path = BatteryBoi/Core/Stats/BBStatsConstants.swift; sourceTree = SOURCE_ROOT; };
+		C0669AC02F0338000000000C /* BBProcessConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBProcessConstants.swift; path = BatteryBoi/Core/Process/BBProcessConstants.swift; sourceTree = SOURCE_ROOT; };
+		C0669AC22F0338000000000D /* BBUpdateConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBUpdateConstants.swift; path = BatteryBoi/Core/Update/BBUpdateConstants.swift; sourceTree = SOURCE_ROOT; };
 		D804F2282B0D640A00D13DE6 /* BBSystemModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBSystemModels.swift; path = BatteryBoi/Core/System/BBSystemModels.swift; sourceTree = SOURCE_ROOT; };
 		D804F22B2B0D646600D13DE6 /* BBSettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBSettingsManager.swift; sourceTree = "<group>"; };
 		D804F22E2B0D64DE00D13DE6 /* BBSettingsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBSettingsModels.swift; path = BatteryBoi/Core/Settings/BBSettingsModels.swift; sourceTree = SOURCE_ROOT; };
@@ -528,6 +553,18 @@
 		D8D9E5BB2A8064A000E295FA /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				C0669AAB2F03380000000001 /* BBSystemConstants.swift */,
+				C0669AAE2F03380000000003 /* BBBatteryConstants.swift */,
+				C0669AB02F03380000000004 /* BBOnboardingConstants.swift */,
+				C0669AB22F03380000000005 /* BBSettingsConstants.swift */,
+				C0669AB42F03380000000006 /* BBMenubarConstants.swift */,
+				C0669AB62F03380000000007 /* BBAnimationConstants.swift */,
+				C0669AB82F03380000000008 /* BBWindowConstants.swift */,
+				C0669ABA2F03380000000009 /* BBBluetoothConstants.swift */,
+				C0669ABC2F0338000000000A /* BBCloudConstants.swift */,
+				C0669ABE2F0338000000000B /* BBStatsConstants.swift */,
+				C0669AC02F0338000000000C /* BBProcessConstants.swift */,
+				C0669AC22F0338000000000D /* BBUpdateConstants.swift */,
 				D8D9E5CA2A8403D300E295FA /* BBAppManager.swift */,
 				D8D52B7A2B325663004C7E5C /* BBPeerManager.swift */,
 				D8D52B752B322F4D004C7E5C /* BBAlertManager.swift */,
@@ -855,6 +892,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0669AAC2F03380000000002 /* BBSystemConstants.swift in Sources */,
 				D8E585D82B194009002C11FF /* BBPurchaseManager.swift in Sources */,
 				D804F23B2B0D715E00D13DE6 /* BBAppManager.swift in Sources */,
 				D8D52B9B2B33EEB5004C7E5C /* BBOnboardingView.swift in Sources */,
@@ -935,6 +973,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0669AAA2F03380000000001 /* BBSystemConstants.swift in Sources */,
+				C0669AAD2F03380000000003 /* BBBatteryConstants.swift in Sources */,
+				C0669AAF2F03380000000004 /* BBOnboardingConstants.swift in Sources */,
+				C0669AB12F03380000000005 /* BBSettingsConstants.swift in Sources */,
+				C0669AB52F03380000000007 /* BBAnimationConstants.swift in Sources */,
+				C0669AB72F03380000000008 /* BBWindowConstants.swift in Sources */,
+				C0669AB92F03380000000009 /* BBBluetoothConstants.swift in Sources */,
+				C0669ABD2F0338000000000B /* BBStatsConstants.swift in Sources */,
+				C0669ABF2F0338000000000C /* BBProcessConstants.swift in Sources */,
+				C0669AC12F0338000000000D /* BBUpdateConstants.swift in Sources */,
+				C0669ABB2F0338000000000A /* BBCloudConstants.swift in Sources */,
 				D8E585FA2B1962AA002C11FF /* BBStatsModel.swift in Sources */,
 				D851F8062AB214E8003FCA79 /* BBDataObject.xcdatamodeld in Sources */,
 				D89CCFEE2A9FF97900D9531A /* BBAboutView.swift in Sources */,

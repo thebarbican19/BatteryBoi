@@ -15,96 +15,6 @@ import CoreGraphics
 
 #endif
 
-struct WindowScreenSize {
-    var top: CGFloat = CGFloat(NSScreen.main?.frame.origin.y ?? 0.0)
-    var leading: CGFloat = CGFloat(NSScreen.main?.frame.origin.x ?? 0.0)
-    var width: CGFloat = CGFloat(NSScreen.main?.frame.width ?? 0.0)
-    var height: CGFloat = CGFloat(NSScreen.main?.frame.height ?? 0.0)
-
-}
-
-struct WindowSize {
-    var width: CGFloat
-    var height: CGFloat
-
-}
-
-enum WindowTypes: String, CaseIterable {
-    case alert = "modalwindow"
-    case preferences = "wreferenceswindow"
-    case update = "changelogwindow"
-    case onboarding = "onboardingwindow"
-
-    var size: WindowSize {
-        switch self {
-            case .alert: return .init(width: 420, height: 220)
-            case .preferences: return .init(width: 500, height: 600)
-            case .onboarding: return .init(width: 520, height: 580)
-            case .update: return .init(width: 520, height: 420)
-
-        }
-
-    }
-
-}
-
-struct WindowViewBlur: NSViewRepresentable {
-    func makeNSView(context: Context) -> NSVisualEffectView {
-        let view = NSVisualEffectView()
-
-        view.blendingMode = .behindWindow
-        view.state = .active
-        view.material = .underWindowBackground
-
-        return view
-
-    }
-
-    func updateNSView(_ view: NSVisualEffectView, context: Context) {
-
-    }
-
-}
-
-enum WindowPosition: String {
-    case center
-    case topLeft
-    case topMiddle
-    case topRight
-    case bottomLeft
-    case bottomRight
-
-    var alignment: Alignment {
-        switch self {
-            case .center: return .center
-            case .topLeft: return .topLeading
-            case .topMiddle: return .top
-            case .topRight: return .topTrailing
-            case .bottomLeft: return .bottomLeading
-            case .bottomRight: return .bottomTrailing
-
-        }
-
-    }
-
-}
-
-#if os(macOS)
-@objc(BBWindow)
-public class BBWindow: NSWindow {
-    override var canBecomeKey: Bool {
-        return true
-
-    }
-
-    override var canBecomeMain: Bool {
-        return true
-
-    }
-
-}
-#endif
-
 public class WindowManager: ObservableObject {
     static var shared = WindowManager()
 
@@ -120,7 +30,7 @@ public class WindowManager: ObservableObject {
 
     @Published public var hover: Bool = false
     @Published public var state: SystemAlertState = .hidden
-    @Published public var position: WindowPosition = .topMiddle
+    @Published var position: WindowPosition = .topMiddle
     @Published public var opacity: CGFloat = 1.0
 
     #if os(macOS)
@@ -232,7 +142,7 @@ public class WindowManager: ObservableObject {
 
         }
 
-        public func windowIsVisible(_ type: SystemAlertTypes) -> Bool {
+        func windowIsVisible(_ type: SystemAlertTypes) -> Bool {
             if let window = self.windowExists(.alert, alert: type) {
                 if CGFloat(window.alphaValue) > 0.5 {
                     return true
@@ -245,7 +155,7 @@ public class WindowManager: ObservableObject {
 
         }
 
-        public func windowOpen(_ type: WindowTypes = .alert, alert: SystemAlertTypes = .userInitiated, device: SystemDeviceObject?) {
+        func windowOpen(_ type: WindowTypes = .alert, alert: SystemAlertTypes = .userInitiated, device: SystemDeviceObject?) {
             var type = type
             if OnboardingManager.shared.state != .complete {
                 if type == .alert {
@@ -260,6 +170,7 @@ public class WindowManager: ObservableObject {
                     var hosting: (any View)?
                     switch type {
                         case .onboarding: hosting = OnboardingHost()
+                        case .overlay: hosting = BBOverlayView()
                         default: hosting = HUDParent(alert, device: device)
 
                     }
@@ -297,7 +208,7 @@ public class WindowManager: ObservableObject {
 
         }
 
-        public func windowClose(_ type: WindowTypes) {
+        func windowClose(_ type: WindowTypes) {
             if let window = NSApplication.shared.windows.filter({$0.title == type.rawValue}).first {
                 if type == .alert {
                     if AppManager.shared.alert != nil {
@@ -378,6 +289,24 @@ public class WindowManager: ObservableObject {
 
         }
 
+        private func windowOverlay() -> NSWindow? {
+            var window: NSWindow?
+
+            window = BBWindow()
+            window?.styleMask = [.borderless, .fullSizeContentView]
+            window?.level = .floating
+            window?.contentView?.translatesAutoresizingMaskIntoConstraints = false
+            window?.title = WindowTypes.overlay.rawValue
+            window?.backgroundColor = .clear
+            window?.isOpaque = false
+            window?.setFrame(NSScreen.main?.frame ?? .zero, display: true)
+            window?.isReleasedWhenClosed = false
+            window?.ignoresMouseEvents = false
+
+            return window
+
+        }
+
         private func windowExists(_ type: WindowTypes, alert: SystemAlertTypes) -> NSWindow? {
             if let window = NSApplication.shared.windows.filter({$0.title == type.rawValue}).first {
                 return window
@@ -386,6 +315,7 @@ public class WindowManager: ObservableObject {
             else {
                 switch type {
                     case .alert: return self.windowDefault(alert)
+                    case .overlay: return self.windowOverlay()
                     default: return self.windowClosable(type)
 
                 }

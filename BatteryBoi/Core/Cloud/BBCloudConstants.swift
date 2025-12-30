@@ -7,6 +7,7 @@
 
 import Foundation
 import CloudKit
+import CoreData
 
 enum CloudEntityType: String {
     case devices = "Devices"
@@ -45,6 +46,7 @@ struct CloudContainerObject {
     var container: NSPersistentCloudKitContainer?
     var directory: URL?
     var parent: URL?
+    var storage: Any?
 }
 
 enum CloudSubscriptionsType: String {

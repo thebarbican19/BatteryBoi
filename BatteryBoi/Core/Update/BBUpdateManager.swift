@@ -10,48 +10,6 @@ import AppKit
 import Sparkle
 import Combine
 
-struct UpdateVersionObject: Codable {
-    var formatted: String
-    var numerical: Double
-
-}
-
-struct UpdatePayloadObject: Equatable {
-    static func == (lhs: UpdatePayloadObject, rhs: UpdatePayloadObject) -> Bool {
-        return lhs.id == rhs.id
-
-    }
-
-    var id: String
-    var name: String
-    var version: UpdateVersionObject
-    var binary: String?
-    var cached: Bool?
-    var ignore: Bool = false
-
-}
-
-enum UpdateStateType {
-    case idle
-    case checking
-    case updating
-    case failed
-    case completed
-
-    public func subtitle(_ last: Date?, version: String? = nil) -> String {
-        switch self {
-            case .idle: return "UpdateStatusIdleLabel".localise([last?.formatted ?? "TimestampNeverLabel".localise()])
-            case .checking: return "UpdateStatusCheckingLabel".localise()
-            case .updating: return "UpdateStatusNewLabel".localise([version ?? ""])
-            case .failed: return "UpdateStatusEmptyLabel".localise()
-            case .completed: return "UpdateStatusEmptyLabel".localise()
-
-        }
-
-    }
-
-}
-
 public class UpdateManager: NSObject, SPUUpdaterDelegate, ObservableObject {
     static var shared = UpdateManager()
 
@@ -103,13 +61,17 @@ public class UpdateManager: NSObject, SPUUpdaterDelegate, ObservableObject {
 
     }
 
-    func updater(_ updater: SPUUpdater, willInstallUpdateOnQuit item: SUAppcastItem, immediateInstallationBlock immediateInstallHandler: @escaping () -> Void) -> Bool {
+    public func triggerUpdate() {
+        self.updater?.checkForUpdates()
+    }
+
+    public func updater(_ updater: SPUUpdater, willInstallUpdateOnQuit item: SUAppcastItem, immediateInstallationBlock immediateInstallHandler: @escaping () -> Void) -> Bool {
         immediateInstallHandler()
         return true
 
     }
 
-    func updater(_ updater: SPUUpdater, shouldPostponeRelaunchForUpdate item: SUAppcastItem, untilInvokingBlock installHandler: @escaping () -> Void) -> Bool {
+    public func updater(_ updater: SPUUpdater, shouldPostponeRelaunchForUpdate item: SUAppcastItem, untilInvokingBlock installHandler: @escaping () -> Void) -> Bool {
         return false
 
     }
@@ -119,10 +81,10 @@ public class UpdateManager: NSObject, SPUUpdaterDelegate, ObservableObject {
 
     }
 
-    func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
+    public func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
         if let title = item.title {
-            let id = item.propertiesDictionary["id"] as! String
-            let build = item.propertiesDictionary["sparkle:shortVersionString"] as? Double ?? 0.0
+            let id = item.propertiesDictionary["id"] as? String ?? UUID().uuidString
+            let build = item.propertiesDictionary["sparkle:shortVersionString"] as? String ?? item.versionString
             let version: UpdateVersionObject = .init(formatted: title, numerical: build)
 
             DispatchQueue.main.async {
@@ -144,7 +106,7 @@ public class UpdateManager: NSObject, SPUUpdaterDelegate, ObservableObject {
 
     }
 
-    func updater(_ updater: SPUUpdater, failedToDownloadUpdate item: SUAppcastItem, error: Error) {
+    public func updater(_ updater: SPUUpdater, failedToDownloadUpdate item: SUAppcastItem, error: Error) {
         print("update could not get update", error)
 
     }
@@ -154,7 +116,7 @@ public class UpdateManager: NSObject, SPUUpdaterDelegate, ObservableObject {
 
     }
 
-    func updaterDidNotFindUpdate(_ updater: SPUUpdater) {
+    public func updaterDidNotFindUpdate(_ updater: SPUUpdater) {
         print("✅ Version \(String(describing: Bundle.main.infoDictionary?["CFBundleShortVersionString"])) is the Latest")
 
         DispatchQueue.main.async {
@@ -169,7 +131,7 @@ public class UpdateManager: NSObject, SPUUpdaterDelegate, ObservableObject {
 
     }
 
-    func updater(_ updater: SPUUpdater, didAbortWithError error: Error) {
+    public func updater(_ updater: SPUUpdater, didAbortWithError error: Error) {
         if let error = error as NSError? {
             if error.code == 4005 {
                 self.state = .completed

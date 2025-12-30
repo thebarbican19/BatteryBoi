@@ -13,7 +13,7 @@ import CoreBluetooth
 import AppKit
 import IOKit
 
-enum SystemAlertTypes: String {
+public enum SystemAlertTypes: String {
     case chargingComplete
     case chargingBegan
     case chargingStopped
@@ -85,7 +85,7 @@ enum SystemAlertTypes: String {
     }
 }
 
-enum SystemAlertState: Equatable {
+public enum SystemAlertState: Equatable {
     case hidden
     case progress
     case revealed
