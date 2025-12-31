@@ -63,3 +63,7 @@
 "AboutGithubAction" = "GitHub";
 "AboutDonateAction" = "Donar";
 "AboutShareAction" = "Compartir";
+
+"OnboardingHideIconTitle" = "Ocultar icono de batería predeterminado";
+"OnboardingHideIconSubtitle" = "Puedes ocultar el icono de batería predeterminado yendo a Preferencias del sistema > Centro de control > Batería > Mostrar en la barra de menú";
+"OnboardingHideIconButton" = "Entendido";

@@ -1,0 +1,4 @@
+module KeyboardShortcuts {
+header "KeyboardShortcuts-Swift.h"
+export *
+}

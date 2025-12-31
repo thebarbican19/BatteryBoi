@@ -10,6 +10,7 @@ import Foundation
 public enum OnboardingActionType {
     case primary
     case secondary
+    case dismiss
 }
 
 public enum OnboardingViewType: String {
@@ -18,6 +19,7 @@ public enum OnboardingViewType: String {
     case bluetooth
     case process
     case nobatt
+    case hideicon
     case notifications
     case loginatlaunch
     case ios
@@ -30,6 +32,7 @@ public enum OnboardingViewType: String {
             case .cloud: return true
             case .process: return true
             case .nobatt: return true
+            case .hideicon: return true
             case .bluetooth: return true
             case .notifications: return true
             case .loginatlaunch: return true

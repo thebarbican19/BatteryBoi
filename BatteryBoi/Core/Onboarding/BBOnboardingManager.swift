@@ -107,14 +107,30 @@ public class OnboardingManager: ObservableObject {
                 return
 
             }
-            
+
             if SettingsManager.shared.enabledAutoLaunch == .undetermined {
                 self.state = .loginatlaunch
                 self.updated = Date()
                 return
 
             }
-            
+
+            let hasBattery = (BatteryManager.shared.info?.batteries ?? 0) > 0
+
+            if hasBattery == false && self.onboardingStep(.nobatt) == .unseen {
+                self.state = .nobatt
+                self.updated = Date()
+                return
+
+            }
+
+            if hasBattery == true && self.onboardingStep(.hideicon) == .unseen {
+                self.state = .hideicon
+                self.updated = Date()
+                return
+
+            }
+
             if self.onboardingStep(.ios) == .unseen {
                 self.state = .ios
                 self.updated = Date()
@@ -223,12 +239,27 @@ public class OnboardingManager: ObservableObject {
             if state == .loginatlaunch {
                 switch type {
                     case .primary : SettingsManager.shared.enabledAutoLaunch = .enabled
-                    case .secondary : SettingsManager.shared.enabledAutoLaunch = .disabled
-                    
+                    default : SettingsManager.shared.enabledAutoLaunch = .disabled
+
                 }
-                
+
             }
-            
+
+            if state == .hideicon {
+                #if os(macOS)
+                if type == .primary {
+                    if let url = URL(string: "x-apple.systempreferences:com.apple.ControlCenter-Settings.extension") {
+                        NSWorkspace.shared.open(url)
+						
+                    }
+					
+                }
+                #endif
+                _ = self.onboardingStep(.hideicon, insert: true)
+                self.onboardingSetup()
+
+            }
+
             if state == .process {
                 if type == .primary {
                     ProcessManager.shared.processInstallHelper()
@@ -249,11 +280,26 @@ public class OnboardingManager: ObservableObject {
                     NSWorkspace.shared.open(url)
 
                 }
-                
+
             }
-    
+
+            if state == .nobatt {
+                if type == .primary {
+                    _ = self.onboardingStep(.nobatt, insert: true)
+                    self.onboardingSetup()
+
+                }
+
+            }
+
         #endif
-        
+
+        if type == .dismiss {
+            _ = self.onboardingStep(self.state, insert: true)
+            self.onboardingSetup()
+
+        }
+
     }
     
     private func onboardingPermissionsUpdate(_ step:OnboardingViewType) {
@@ -294,7 +340,7 @@ public class OnboardingManager: ObservableObject {
     private func onboardingStep(_ step:OnboardingViewType, insert:Bool = false) -> OnboardingStepViewed {
         var list:Array<OnboardingViewType> = []
         
-        if let existing = UserDefaults.main.object(forKey: SystemDefaultsKeys.onboardingStep.rawValue) as? [String] {
+        if let existing = UserDefaults.main.object(forKey: AppDefaultsKeys.onboardingStep.rawValue) as? [String] {
             list = existing.compactMap({ OnboardingViewType(rawValue: $0) })
             
         }

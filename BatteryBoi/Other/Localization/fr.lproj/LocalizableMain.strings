@@ -88,6 +88,10 @@
 "BluetoothDistanceFarLabel" = "Dans un autre domaine";
 "BluetoothInvalidLabel" = "Aucune information sur la batterie";
 
+"OnboardingHideIconTitle" = "Masquer l'icône de batterie par défaut";
+"OnboardingHideIconSubtitle" = "Vous pouvez masquer l'icône de batterie par défaut en accédant à Préférences Système > Centre de Contrôle > Batterie > Afficher dans la Barre de Menu";
+"OnboardingHideIconButton" = "D'accord";
+
 "OnboardingNotificationsTitle" = "";
 "OnboardingNotificationsBody" = "";
 "OnboardingInsightsTitle" = "";

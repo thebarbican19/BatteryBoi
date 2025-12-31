@@ -66,3 +66,7 @@
 "AboutGithubAction" = "GitHub";
 "AboutDonateAction" = "寄付";
 "AboutShareAction" = "共有";
+
+"OnboardingHideIconTitle" = "デフォルトのバッテリーアイコンを非表示にします";
+"OnboardingHideIconSubtitle" = "システム環境設定 > コントロールセンター > バッテリー > メニューバーに表示に移動して、デフォルトのバッテリーアイコンを非表示にすることができます";
+"OnboardingHideIconButton" = "了解";

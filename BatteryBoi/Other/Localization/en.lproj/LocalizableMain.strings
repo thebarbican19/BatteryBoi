@@ -126,6 +126,10 @@
 "OnboardingNoBatterySubtitle" = "It looks like your Mac doesn't have an internal battery. BatteryBoi can still monitor your connected Bluetooth devices!";
 "OnboardingNoBatteryButton" = "Continue";
 
+"OnboardingHideIconTitle" = "Hide Default Battery Icon";
+"OnboardingHideIconSubtitle" = "You can hide the default battery icon by going to System Preferences > Control Center > Battery > Show in Menu Bar";
+"OnboardingHideIconButton" = "Open System Settings";
+
 "OnboardingNotificationsTitle" = "Notifications";
 "OnboardingNotificationsSubtitle" = "Get alerted when your devices are low on battery or have finished charging.";
 "OnboardingNotificationsButton" = "Enable Notifications";

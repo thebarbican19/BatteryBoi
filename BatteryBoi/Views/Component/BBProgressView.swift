@@ -111,13 +111,13 @@ struct RadialProgressMiniContainer: View {
     @EnvironmentObject var bluetooth:BluetoothManager
     @EnvironmentObject var battery:BatteryManager
 
-    @State private var device:SystemDeviceObject?
+    @State private var device:AppDeviceObject?
     @State private var progress: Double = 0.0
     @State private var percent: Int = 100
     
     @Binding private var style:RadialStyle
 
-    init(_ device:SystemDeviceObject?, style:Binding<RadialStyle>) {
+    init(_ device:AppDeviceObject?, style:Binding<RadialStyle>) {
         self._device = State(initialValue: device)
         self._style = style
         

@@ -88,6 +88,10 @@
 "BluetoothDistanceFarLabel" = "Başka bir Diyarda";
 "BluetoothInvalidLabel" = "Pil Bilgisi Yok";
 
+"OnboardingHideIconTitle" = "Varsayılan Pil Simgesini Gizle";
+"OnboardingHideIconSubtitle" = "Sistem Ayarları > Kontrol Merkezi > Pil > Menü Çubuğunda Göster'e giderek varsayılan pil simgesini gizleyebilirsiniz";
+"OnboardingHideIconButton" = "Anladım";
+
 "OnboardingNotificationsTitle" = "";
 "OnboardingNotificationsBody" = "";
 "OnboardingInsightsTitle" = "";

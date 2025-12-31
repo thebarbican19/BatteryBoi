@@ -88,6 +88,10 @@
 "BluetoothDistanceFarLabel" = "In een ander gedeelte";
 "BluetoothInvalidLabel" = "Geen informatie over accu";
 
+"OnboardingHideIconTitle" = "Standaard batteriijpictogram verbergen";
+"OnboardingHideIconSubtitle" = "U kunt het standaardbatterijpictogram verbergen door naar Systeemvoorkeuren > Controlecentrum > Batterij > Weergeven in menubalk te gaan";
+"OnboardingHideIconButton" = "Begrepen";
+
 "OnboardingNotificationsTitle" = "";
 "OnboardingNotificationsBody" = "";
 "OnboardingInsightsTitle" = "";

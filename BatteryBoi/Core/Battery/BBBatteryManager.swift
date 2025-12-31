@@ -7,7 +7,6 @@
 
 import Foundation
 import Combine
-import CoreData
 import SwiftData
 
 #if os(macOS)
@@ -36,10 +35,7 @@ public class BatteryManager: ObservableObject {
     
     #if canImport(SwiftData)
     public var container: Any? {
-        if #available(iOS 17.0, macOS 14.0, *) {
-            return CloudManager.container?.storage
-        }
-        return nil
+        return CloudManager.container?.container
     }
     #endif
 
@@ -99,11 +95,8 @@ public class BatteryManager: ObservableObject {
         #endif
         
         #if os(macOS)
-            if #available(macOS 12.0, *) {
-                NotificationCenter.default.addObserver(self, selector: #selector(self.powerStateNotification(notification:)), name:  NSNotification.Name.NSProcessInfoPowerStateDidChange, object: nil)
-                
-            }
-            
+            NotificationCenter.default.addObserver(self, selector: #selector(self.powerStateNotification(notification:)), name:  NSNotification.Name.NSProcessInfoPowerStateDidChange, object: nil)
+
             NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.powerStateNotification(notification:)), name: NSWorkspace.didWakeNotification, object: nil)
         
         #else
@@ -279,108 +272,106 @@ public class BatteryManager: ObservableObject {
 
     }
     
-    func powerStoreEvent(_ device: SystemDeviceObject?, battery: Int? = nil, force: SystemAlertTypes? = nil) {
+    func powerStoreEvent(_ device: AppDeviceObject?, battery: Int? = nil, force: AppAlertTypes? = nil) {
         if let context = AppManager.shared.appStorageContext() {
-            context.perform {
-                let deviceName = device?.name ?? "system"
-                var predicates = Array<NSPredicate>()
-                predicates.append(NSPredicate(format: "session != %@", AppManager.shared.sessionid as CVarArg))
+            let deviceName = device?.name ?? "system"
 
-                guard let system = UserDefaults.main.object(forKey: SystemDefaultsKeys.deviceIdentifyer.rawValue) as? String else {
-                    return
+            guard let system = UserDefaults.main.object(forKey: AppDefaultsKeys.deviceIdentifyer.rawValue) as? String else {
+                return
+
+            }
+
+            var currentPercentage = self.percentage
+            if let battery = battery {
+                currentPercentage = battery
+            }
+
+            let sessionId: UUID? = AppManager.shared.sessionid
+            let thirtyMinutesAgo = Date(timeIntervalSinceNow: -30 * 60)
+            let percentValue: Int? = currentPercentage
+
+            var descriptor: FetchDescriptor<BatteryObject>
+            if let deviceId: UUID? = device?.id {
+                descriptor = FetchDescriptor<BatteryObject>(predicate: #Predicate { object in
+                    object.session != sessionId && object.device?.id == deviceId && object.percent == percentValue && object.created != nil && object.created! > thirtyMinutesAgo
+                })
+            }
+            else if let systemId: UUID? = UUID(uuidString: system) {
+                descriptor = FetchDescriptor<BatteryObject>(predicate: #Predicate { object in
+                    object.session != sessionId && object.device?.id == systemId && object.percent == percentValue && object.created != nil && object.created! > thirtyMinutesAgo
+                })
+            }
+            else {
+                return
+            }
+
+            descriptor.fetchLimit = 1
+            descriptor.sortBy = [SortDescriptor(\.created, order: .reverse)]
+
+            do {
+                let fetchStart = Date()
+                if let last = try context.fetch(descriptor).first {
+                    let fetchTime = Date().timeIntervalSince(fetchStart)
+
+                    if let converted = AppEventObject(last) {
+                        AlertManager.shared.alertCreate(event: converted, force: force, context: context)
+
+                    }
 
                 }
+                else {
+                    let store = BatteryObject()
+                    store.id = UUID()
+                    store.created = Date()
+                    store.device = self.appDevice(device, context: context)
+                    store.session = AppManager.shared.sessionid
 
-                var currentPercentage = self.percentage
-                if let battery = battery {
-                    currentPercentage = battery
-                }
+                    if device != nil {
+                        store.mode = BatteryModeType.normal.rawValue
+                        store.state = BatteryChargingState.battery.rawValue
+                        store.percent = currentPercentage
 
+                    }
+                    else {
+                        store.percent = currentPercentage
+                        store.state = self.charging.rawValue
+                        store.mode = self.mode.rawValue
 
-                if let deviceId = device?.id {
-                    predicates.append(NSPredicate(format: "SELF.device.id == %@", deviceId as CVarArg))
-                    predicates.append(NSPredicate(format: "percent == %d", Int16(currentPercentage)))
-                    predicates.append(NSPredicate(format: "created > %@", Date(timeIntervalSinceNow: -30 * 60) as NSDate))
+                        #if os(macOS)
+                            store.temprature = Int(self.thermal.value)
 
-                }
-                else if let systemId = UUID(uuidString: system) {
-                    predicates.append(NSPredicate(format: "SELF.device.id == %@", systemId as CVarArg))
-                    predicates.append(NSPredicate(format: "percent == %d", Int16(currentPercentage)))
-                    predicates.append(NSPredicate(format: "created > %@", Date(timeIntervalSinceNow: -30 * 60) as NSDate))
+                            if let cycles = self.health?.cycles {
+                                store.cycles = cycles
 
-                }
+                            }
 
-                let fetch = Battery.fetchRequest() as NSFetchRequest<Battery>
-                fetch.includesPendingChanges = true
-                fetch.predicate = NSCompoundPredicate(type: .and, subpredicates: predicates)
-                fetch.fetchLimit = 1
-                fetch.sortDescriptors = [NSSortDescriptor(key: "created", ascending: false)]
+                        #endif
 
-                do {
-                    let fetchStart = Date()
-                    if let last = try context.fetch(fetch).first {
-                        let fetchTime = Date().timeIntervalSince(fetchStart)
+                        if let version = Float(AppDeviceTypes.os.replacingOccurrences(of: ".", with: "")) {
+                            store.os = Int(version)
 
-                        if let converted = SystemEventObject(last) {
+                        }
+
+                        if let converted = AppEventObject(store) {
                             AlertManager.shared.alertCreate(event: converted, force: force, context: context)
 
                         }
 
                     }
-                    else {
-                        let store = Battery(context: context) as Battery
-                        store.id = UUID()
-                        store.created = Date()
-                        store.device = self.appDevice(device, context: context)
-                        store.session = AppManager.shared.sessionid
 
-                        if device != nil {
-                            store.mode = BatteryModeType.normal.rawValue
-                            store.state = BatteryChargingState.battery.rawValue
-                            store.percent = Int16(currentPercentage)
+                    context.insert(store)
+                    let saveStart = Date()
+                    try context.save()
+                    let saveTime = Date().timeIntervalSince(saveStart)
 
-                        }
-                        else {
-                            store.percent = Int16(currentPercentage)
-                            store.state = self.charging.rawValue
-                            store.mode = self.mode.rawValue
-
-                            #if os(macOS)
-                                store.temprature = Int16(self.thermal.value)
-
-                                if let cycles = self.health?.cycles {
-                                    store.cycles = Int16(cycles)
-
-                                }
-
-                            #endif
-
-                            if let version = Float(SystemDeviceTypes.os.replacingOccurrences(of: ".", with: "")) {
-                                store.os = Int16(version)
-
-                            }
-
-                            if let converted = SystemEventObject(store) {
-                                AlertManager.shared.alertCreate(event: converted, force: force, context: context)
-
-                            }
-
-                        }
-
-                        let saveStart = Date()
-                        try context.save()
-                        let saveTime = Date().timeIntervalSince(saveStart)
-
-                        if saveTime > 1.0 {
-
-                        }
+                    if saveTime > 1.0 {
 
                     }
 
                 }
-                catch {
 
-                }
+            }
+            catch {
 
             }
 
@@ -390,30 +381,30 @@ public class BatteryManager: ObservableObject {
 
     func powerCleanupOldEvents() {
         if let context = AppManager.shared.appStorageContext() {
-            context.perform {
-                let startTime = Date()
+            let startTime = Date()
+            let thirtyDaysAgo = Date(timeIntervalSinceNow: -30 * 24 * 60 * 60)
 
-                let fetch = Battery.fetchRequest() as NSFetchRequest<NSFetchRequestResult>
-                fetch.predicate = NSPredicate(format: "created < %@", Date(timeIntervalSinceNow: -30 * 24 * 60 * 60) as NSDate)
+            let descriptor = FetchDescriptor<BatteryObject>(predicate: #Predicate { object in
+                object.created != nil && object.created! < thirtyDaysAgo
+            })
 
-                let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetch)
-                deleteRequest.resultType = .resultTypeCount
+            do {
+                let items = try context.fetch(descriptor)
+                let count = items.count
 
-                do {
-                    if let result = try context.execute(deleteRequest) as? NSBatchDeleteResult, let count = result.result as? Int {
-                        let cleanupTime = Date().timeIntervalSince(startTime)
+                for item in items {
+                    context.delete(item)
+                }
 
-                        if count > 0 {
-                            try context.save()
+                let cleanupTime = Date().timeIntervalSince(startTime)
 
-                        }
-
-                    }
+                if count > 0 {
+                    try context.save()
 
                 }
-                catch {
 
-                }
+            }
+            catch {
 
             }
 
@@ -421,14 +412,13 @@ public class BatteryManager: ObservableObject {
 
     }
 
-    private func appDevice(_ device: SystemDeviceObject?, context: NSManagedObjectContext) -> Devices? {
-        if let match = SystemDeviceObject.match(device, context: context) {
-            let fetch = Devices.fetchRequest() as NSFetchRequest<Devices>
-            fetch.includesPendingChanges = true
-            fetch.fetchLimit = 1
-            fetch.predicate = NSPredicate(format: "id == %@", match.id as CVarArg)
+    private func appDevice(_ device: AppDeviceObject?, context: ModelContext) -> DevicesObject? {
+        if let match = AppDeviceObject.match(device, context: context) {
+            let matchId: UUID? = match.id
+            var descriptor = FetchDescriptor<DevicesObject>(predicate: #Predicate { $0.id == matchId })
+            descriptor.fetchLimit = 1
 
-            if let device = try? context.fetch(fetch).first {
+            if let device = try? context.fetch(descriptor).first {
                 return device
 
             }
@@ -456,13 +446,7 @@ public class BatteryManager: ObservableObject {
     #if os(macOS)
         private func powerMetrics() {
             var iterator = io_iterator_t()
-            let port: mach_port_t
-            if #available(macOS 12.0, *) {
-                port = kIOMainPortDefault
-            }
-            else {
-                port = kIOMasterPortDefault
-            }
+            let port: mach_port_t = kIOMainPortDefault
 
             let result = IOServiceGetMatchingServices(port, IOServiceMatching("AppleSmartBattery"), &iterator)
 

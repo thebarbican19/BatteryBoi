@@ -15,7 +15,7 @@ class SettingsManager:ObservableObject {
 
     public var enabledSoundEffects:SettingsSoundEffects {
         get {
-            if let key = UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledSoundEffects.rawValue) as? String {
+            if let key = UserDefaults.main.object(forKey: AppDefaultsKeys.enabledSoundEffects.rawValue) as? String {
                 return SettingsSoundEffects(rawValue: key) ?? .enabled
                 
             }
@@ -26,7 +26,7 @@ class SettingsManager:ObservableObject {
         
         set {
             if self.enabledSoundEffects == .disabled && newValue == .enabled {
-                SystemSoundEffects.high.play(true)
+                AppSoundEffects.high.play(true)
                 
             }
             

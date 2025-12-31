@@ -79,3 +79,7 @@
 "BluetoothDistanceProximateLabel" = "Na mizi";
 "BluetoothDistanceNearLabel" = "V istem prostoru";
 "BluetoothDistanceFarLabel" = "Ne tako blizu";
+
+"OnboardingHideIconTitle" = "Skrij privzeto ikono baterije";
+"OnboardingHideIconSubtitle" = "Privzeto ikono baterije lahko skriješ tako, da greš na Sistemske nastavitve > Nadzorno sredstvo > Baterija > Prikaži v vrstici z meniji";
+"OnboardingHideIconButton" = "Razumem";

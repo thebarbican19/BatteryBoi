@@ -16,25 +16,25 @@ struct WidgetStandard: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: "com.batteryboi.widget.standard", provider: WidgetProvider()) { entry in
             if family == .systemSmall {
-                if #available(iOS 17.0, *) {
+                if #available(iOSApplicationExtension 17.0, *) {
                     DeleteMeEntryView(entry: entry)
                         .background(.green)
                         .containerBackground(.fill.tertiary, for: .widget)
-                    
+
                 }
                 else {
                     DeleteMeEntryView(entry: entry)
                         .padding()
                         .background(.gray)
-                    
+
                 }
-                
+
             }
             else {
                 Rectangle().background(.red)
-                
+
             }
-            
+
         }
         .configurationDisplayName("BatteryBoi")
         .description("View the Status of your Devices.")

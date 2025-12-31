@@ -6,12 +6,12 @@
 //
 
 import Foundation
-import CoreData
+import SwiftData
 
 public class AlertManager: ObservableObject {
     static var shared = AlertManager()
 
-    @Published var alerts = Array<SystemPushObject>()
+    @Published var alerts = Array<AppPushObject>()
 
     init() {
         self.alertTypeList()
@@ -20,17 +20,16 @@ public class AlertManager: ObservableObject {
 
     private func alertTypeList() {
         if let context = AppManager.shared.appStorageContext() {
-            let fetch: NSFetchRequest<Push> = Push.fetchRequest()
-            fetch.includesPendingChanges = true
+            let descriptor = FetchDescriptor<PushObject>()
 
             do {
-                let list = try context.fetch(fetch)
+                let list = try context.fetch(descriptor)
                 if list.isEmpty {
                     self.alertReset()
 
                 }
                 else {
-                    let mapped: [SystemPushObject] = list.compactMap({ .init($0) })
+                    let mapped: [AppPushObject] = list.compactMap({ .init($0) })
 
                     DispatchQueue.main.async {
                         self.alerts = mapped
@@ -49,7 +48,7 @@ public class AlertManager: ObservableObject {
 
     }
 
-    private func alertTrigger(alert: SystemAlertObject) {
+    private func alertTrigger(alert: AppAlertObject) {
         #if canImport(WindowManager)
 
             WindowManager.shared.windowOpen(alert: alert.type, device: alert.event.device)
@@ -62,29 +61,25 @@ public class AlertManager: ObservableObject {
 
     public func alertReset() {
         if let context = AppManager.shared.appStorageContext() {
-            context.perform {
-                do {
-                    var request: NSFetchRequest<NSFetchRequestResult>
-                    request = NSFetchRequest(entityName: "Push")
+            do {
+                let descriptor = FetchDescriptor<PushObject>()
+                let items = try context.fetch(descriptor)
+                for item in items {
+                    context.delete(item)
+                }
+                try context.save()
 
-                    let delete = NSBatchDeleteRequest(fetchRequest: request)
-                    delete.resultType = .resultTypeObjectIDs
-
-                    try context.execute(delete)
-
-                    for percent in [1, 5, 15, 25] {
-                        self.alertTypeCreate(.deviceDepleting, value: percent, custom: false)
-
-                    }
-
-                    self.alertTypeCreate(.chargingBegan, value: nil, custom: false)
-                    self.alertTypeCreate(.chargingStopped, value: nil, custom: false)
-                    self.alertTypeCreate(.chargingComplete, value: nil, custom: false)
+                for percent in [1, 5, 15, 25] {
+                    self.alertTypeCreate(.deviceDepleting, value: percent, custom: false)
 
                 }
-                catch {
 
-                }
+                self.alertTypeCreate(.chargingBegan, value: nil, custom: false)
+                self.alertTypeCreate(.chargingStopped, value: nil, custom: false)
+                self.alertTypeCreate(.chargingComplete, value: nil, custom: false)
+
+            }
+            catch {
 
             }
 
@@ -92,15 +87,15 @@ public class AlertManager: ObservableObject {
 
     }
 
-    func alertCreate(event: SystemEventObject, force: SystemAlertTypes? = nil, context: NSManagedObjectContext) {
+    func alertCreate(event: AppEventObject, force: AppAlertTypes? = nil, context: ModelContext) {
         do {
-            var type: SystemAlertTypes? = nil
+            var type: AppAlertTypes? = nil
 
-            let fetch = Alerts.fetchRequest() as NSFetchRequest<Alerts>
-            fetch.predicate = NSPredicate(format: "SELF.event.id == %@", event.id as CVarArg)
-            fetch.includesPendingChanges = true
+            let eventId: UUID? = event.id
+            var descriptor = FetchDescriptor<AlertsObject>(predicate: #Predicate { $0.event?.id == eventId })
+            descriptor.fetchLimit = 1
 
-            guard let system = UserDefaults.main.object(forKey: SystemDefaultsKeys.deviceIdentifyer.rawValue) as? String else {
+            guard let system = UserDefaults.main.object(forKey: AppDefaultsKeys.deviceIdentifyer.rawValue) as? String else {
                 return
 
             }
@@ -149,10 +144,10 @@ public class AlertManager: ObservableObject {
 
 
             let fetchStart = Date()
-            if let existing = try context.fetch(fetch).first {
+            if let existing = try context.fetch(descriptor).first {
                 let fetchTime = Date().timeIntervalSince(fetchStart)
 
-                existing.triggered_on = Date()
+                existing.triggeredOn = Date()
                 existing.type = type.rawValue
 
                 let saveStart = Date()
@@ -163,21 +158,22 @@ public class AlertManager: ObservableObject {
 
                 }
 
-                if let converted = SystemAlertObject(existing) {
+                if let converted = AppAlertObject(existing) {
                     self.alertTrigger(alert: converted)
 
                 }
 
             }
             else {
-                let store = Alerts(context: context) as Alerts
+                let store = AlertsObject()
                 store.id = UUID()
-                store.triggered_on = Date()
+                store.triggeredOn = Date()
                 store.event = event.entity
                 store.type = type.rawValue
                 store.local = type.local
                 store.owner = UUID(uuidString: system) ?? UUID()
 
+                context.insert(store)
                 let saveStart = Date()
                 try context.save()
                 let saveTime = Date().timeIntervalSince(saveStart)
@@ -186,7 +182,7 @@ public class AlertManager: ObservableObject {
 
                 }
 
-                if let converted = SystemAlertObject(store) {
+                if let converted = AppAlertObject(store) {
                     self.alertTrigger(alert: converted)
 
                 }
@@ -214,32 +210,32 @@ public class AlertManager: ObservableObject {
 
     }
 
-    public func alertTypeCreate(_ type: SystemAlertTypes, value: Int?, custom: Bool = true) {
+    public func alertTypeCreate(_ type: AppAlertTypes, value: Int?, custom: Bool = true) {
         do {
             if let context = AppManager.shared.appStorageContext() {
-                let fetch = Push.fetchRequest() as NSFetchRequest<Push>
-                fetch.includesPendingChanges = true
+                let typeRawValue: String? = type.rawValue
+                var descriptor: FetchDescriptor<PushObject>
                 if let value = value {
-                    fetch.predicate = NSPredicate(format: "type == %d && percent == %d", type.rawValue, value)
-
+                    let percentValue: Int? = value
+                    descriptor = FetchDescriptor<PushObject>(predicate: #Predicate { $0.type == typeRawValue && $0.percent == percentValue })
                 }
                 else {
-                    fetch.predicate = NSPredicate(format: "type == %d", type.rawValue)
-
+                    descriptor = FetchDescriptor<PushObject>(predicate: #Predicate { $0.type == typeRawValue })
                 }
 
-                if try context.fetch(fetch).first == nil {
-                    let store = Push(context: context) as Push
+                if try context.fetch(descriptor).first == nil {
+                    let store = PushObject()
                     store.id = UUID()
-                    store.added_on = Date()
+                    store.addedOn = Date()
                     store.custom = custom
                     store.type = type.rawValue
 
                     if let value = value {
-                        store.percent = Int16(value)
+                        store.percent = value
 
                     }
 
+                    context.insert(store)
                     try context.save()
 
                 }
@@ -253,21 +249,20 @@ public class AlertManager: ObservableObject {
 
     }
 
-    public func alertTypeDelete(_ type: SystemAlertTypes, value: Int?) {
+    public func alertTypeDelete(_ type: AppAlertTypes, value: Int?) {
         do {
             if let context = AppManager.shared.appStorageContext() {
-                let fetch = Push.fetchRequest() as NSFetchRequest<Push>
-                fetch.includesPendingChanges = true
+                let typeRawValue: String? = type.rawValue
+                var descriptor: FetchDescriptor<PushObject>
                 if let value = value {
-                    fetch.predicate = NSPredicate(format: "type == %d && percent == %d", type.rawValue, value)
-
+                    let percentValue: Int? = value
+                    descriptor = FetchDescriptor<PushObject>(predicate: #Predicate { $0.type == typeRawValue && $0.percent == percentValue })
                 }
                 else {
-                    fetch.predicate = NSPredicate(format: "type == %d", type.rawValue)
-
+                    descriptor = FetchDescriptor<PushObject>(predicate: #Predicate { $0.type == typeRawValue })
                 }
 
-                if let existing = try context.fetch(fetch).first {
+                if let existing = try context.fetch(descriptor).first {
                     context.delete(existing)
 
                     try context.save()

@@ -144,7 +144,7 @@ public class UpdateManager: NSObject, SPUUpdaterDelegate, ObservableObject {
 
     public var updateVersion: String {
         get {
-            if let version = UserDefaults.main.object(forKey: SystemDefaultsKeys.versionCurrent.rawValue) as? String {
+            if let version = UserDefaults.main.object(forKey: AppDefaultsKeys.versionCurrent.rawValue) as? String {
                 return version
 
             }

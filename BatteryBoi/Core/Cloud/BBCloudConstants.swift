@@ -7,7 +7,7 @@
 
 import Foundation
 import CloudKit
-import CoreData
+import SwiftData
 
 public enum CloudEntityType: String {
     case devices = "Devices"
@@ -43,10 +43,7 @@ public enum CloudSyncedState: String {
 }
 
 public struct CloudContainerObject {
-    var container: NSPersistentCloudKitContainer?
-    var directory: URL?
-    var parent: URL?
-    var storage: Any?
+    var container: ModelContainer?
 }
 
 public enum CloudSubscriptionsType: String {

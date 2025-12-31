@@ -12,9 +12,9 @@ struct DebugDeviceCell: View {
     @EnvironmentObject var manager:AppManager
 
     @State var revealed:Bool = true
-    @State var device:SystemDeviceObject
+    @State var device:AppDeviceObject
     
-    init(_ device: SystemDeviceObject, revealed: Bool = true) {
+    init(_ device: AppDeviceObject, revealed: Bool = true) {
         self._device = State(initialValue: device)
         self._revealed = State(initialValue: revealed)
 

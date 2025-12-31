@@ -88,6 +88,10 @@
 "BluetoothDistanceFarLabel" = "Ở một cõi khác";
 "BluetoothInvalidLabel" = "Không có thông tin về pin";
 
+"OnboardingHideIconTitle" = "Ẩn biểu tượng pin mặc định";
+"OnboardingHideIconSubtitle" = "Bạn có thể ẩn biểu tượng pin mặc định bằng cách vào Tùy chọn Hệ thống > Trung tâm điều khiển > Pin > Hiển thị trên thanh menu";
+"OnboardingHideIconButton" = "Tôi đã hiểu";
+
 "OnboardingNotificationsTitle" = "";
 "OnboardingNotificationsBody" = "";
 "OnboardingInsightsTitle" = "";

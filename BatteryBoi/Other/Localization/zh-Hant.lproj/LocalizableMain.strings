@@ -7,7 +7,7 @@
 "AlertLimitedTitle" = "電量不足...";
 "AlertDeviceConnectedTitle" = "'%@' 已連線"; // 'Joe's Headphones' Connected
 "AlertDeviceDisconnectedTitle" = "'%@' 已斷開"; // 'Joe's Headphones' Disconnected
-"" = "未知";
+"AlertDeviceUnknownTitle" = "未知";
 "AlertDeviceCalculatingTitle" = "正在計算...";
 
 "AlertEstimateSummary" = "剩餘可用 %@"; // 1 hour, 32 minutes until empty
@@ -88,9 +88,6 @@
 "BluetoothDistanceFarLabel" = "在其他地方";
 "BluetoothInvalidLabel" = "無電池資訊";
 
-"OnboardingNotificationsTitle" = "";
-"OnboardingNotificationsBody" = "";
-"OnboardingInsightsTitle" = "";
-"OnboardingInsightsBody" = "";
-"OnboardingBluetoothTitle" = "";
-"OnboardingBluetoothBody" = "";
+"OnboardingHideIconTitle" = "隱藏預設電池圖示";
+"OnboardingHideIconSubtitle" = "您可以前往「系統設定」>「控制中心」>「電池」>「在選單列中顯示」來隱藏預設電池圖示";
+"OnboardingHideIconButton" = "我知道了";

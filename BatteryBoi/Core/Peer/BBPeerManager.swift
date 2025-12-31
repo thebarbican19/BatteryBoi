@@ -8,10 +8,6 @@
 import Foundation
 import MultipeerConnectivity
 
-//Find Other Deivces on Network
-//Use CloudID to Determine Owner
-//Use WIFI ID to Look for Nearby
-
 class PeerManager: NSObject, MCNearbyServiceAdvertiserDelegate, MCSessionDelegate, ObservableObject {
     static var shared = PeerManager()
     

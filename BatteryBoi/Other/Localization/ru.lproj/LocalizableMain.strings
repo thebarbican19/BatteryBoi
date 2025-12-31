@@ -88,6 +88,10 @@
 "BluetoothDistanceFarLabel" = "В другом пространстве";
 "BluetoothInvalidLabel" = "Нет информации о батареи";
 
+"OnboardingHideIconTitle" = "Скрыть значок батареи по умолчанию";
+"OnboardingHideIconSubtitle" = "Вы можете скрыть значок батареи по умолчанию, перейдя в Системные настройки > Центр управления > Батарея > Показывать в строке меню";
+"OnboardingHideIconButton" = "Понял";
+
 "OnboardingNotificationsTitle" = "";
 "OnboardingNotificationsBody" = "";
 "OnboardingInsightsTitle" = "";

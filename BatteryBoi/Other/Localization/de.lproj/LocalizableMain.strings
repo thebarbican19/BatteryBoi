@@ -88,6 +88,10 @@
 "BluetoothDistanceFarLabel" = "In einem anderen Reich";
 "BluetoothInvalidLabel" = "Keine Akku-Informationen";
 
+"OnboardingHideIconTitle" = "Standardmäßiges Batterie-Symbol ausblenden";
+"OnboardingHideIconSubtitle" = "Sie können das Standardmäßige Batteriesymbol ausblenden, indem Sie zu Systemeinstellungen > Kontrollzentrum > Batterie > In Menüleiste anzeigen gehen";
+"OnboardingHideIconButton" = "Verstanden";
+
 "OnboardingNotificationsTitle" = "";
 "OnboardingNotificationsBody" = "";
 "OnboardingInsightsTitle" = "";

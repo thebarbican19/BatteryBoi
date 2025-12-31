@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct OnboardingPage: View {
     var icon: String
@@ -149,6 +150,15 @@ struct OnboardingContainer: View {
                 action: onboarding.onboardingAction
             )
         }
+        else if onboarding.state == .hideicon {
+            OnboardingPage(
+                icon: "battery.100.bolt",
+                title: "OnboardingHideIconTitle".localise(),
+                subtitle: "OnboardingHideIconSubtitle".localise(),
+                primary: "OnboardingHideIconButton".localise(),
+                action: onboarding.onboardingAction
+            )
+        }
         else if onboarding.state == .ios {
             OnboardingPage(
                 icon: "iphone",
@@ -200,13 +210,10 @@ struct OnboardingContainer: View {
         }
         .padding(.top, 40)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        #if os(iOS)
-        .background(Color.green)
-        .ignoresSafeArea()
         .overlay(alignment: .topTrailing) {
-            Button(action: { 
+            Button(action: {
                 withAnimation {
-                    onboarding.state = .complete 
+                    onboarding.onboardingAction(.dismiss)
                 }
             }) {
                 Image(systemName: "xmark.circle.fill")
@@ -215,6 +222,9 @@ struct OnboardingContainer: View {
                     .padding()
             }
         }
+        #if os(iOS)
+        .background(Color.green)
+        .ignoresSafeArea()
         #endif
     }
     
@@ -242,23 +252,42 @@ struct OnboardingContainer: View {
 
     struct OnboardingHost: View {
         var body: some View {
-            VStack {
-                GeometryReader { geo in
-                    OnboardingParent(geo: geo)
-                    
+            if let container = CloudManager.container?.container {
+                VStack {
+                    GeometryReader { geo in
+                        OnboardingParent(geo: geo)
+
+                    }
+
                 }
-                
+                .modelContainer(container)
+                .environmentObject(AppManager.shared)
+                .environmentObject(OnboardingManager.shared)
+                .environmentObject(StatsManager.shared)
+                .environmentObject(BluetoothManager.shared)
+                .environmentObject(CloudManager.shared)
+                .environmentObject(BatteryManager.shared)
+                .environmentObject(SettingsManager.shared)
             }
-            .environmentObject(AppManager.shared)
-            .environmentObject(OnboardingManager.shared)
-            .environmentObject(StatsManager.shared)
-            .environmentObject(BluetoothManager.shared)
-            .environmentObject(CloudManager.shared)
-            .environmentObject(BatteryManager.shared)
-            .environmentObject(SettingsManager.shared)
-        
+            else {
+                VStack {
+                    GeometryReader { geo in
+                        OnboardingParent(geo: geo)
+
+                    }
+
+                }
+                .environmentObject(AppManager.shared)
+                .environmentObject(OnboardingManager.shared)
+                .environmentObject(StatsManager.shared)
+                .environmentObject(BluetoothManager.shared)
+                .environmentObject(CloudManager.shared)
+                .environmentObject(BatteryManager.shared)
+                .environmentObject(SettingsManager.shared)
+            }
+
         }
-        
+
     }
 
 #endif

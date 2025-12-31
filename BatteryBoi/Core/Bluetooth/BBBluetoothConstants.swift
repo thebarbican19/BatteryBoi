@@ -18,9 +18,9 @@ public struct BluetoothBroadcastItem: Identifiable, Equatable {
     public var id: UUID
     var characteristics: [CBCharacteristic]
     var services: [CBService]
-    var proximity: SystemDeviceDistanceType = .unknown
+    var proximity: AppDeviceDistanceType = .unknown
 
-    init(_ peripheral: CBPeripheral, proximity: SystemDeviceDistanceType = .unknown, state: BluetoothConnectionState = .queued) {
+    init(_ peripheral: CBPeripheral, proximity: AppDeviceDistanceType = .unknown, state: BluetoothConnectionState = .queued) {
         self.peripheral = peripheral
         self.state = state
         self.id = peripheral.identifier

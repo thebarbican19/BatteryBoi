@@ -88,6 +88,10 @@
 "BluetoothDistanceFarLabel" = "다른 공간";
 "BluetoothInvalidLabel" = "배터리 정보 없음";
 
+"OnboardingHideIconTitle" = "기본 배터리 아이콘 숨기기";
+"OnboardingHideIconSubtitle" = "시스템 환경설정 > 제어센터 > 배터리 > 메뉴막대에 표시로 이동하여 기본 배터리 아이콘을 숨길 수 있습니다";
+"OnboardingHideIconButton" = "알겠습니다";
+
 "OnboardingNotificationsTitle" = "";
 "OnboardingNotificationsBody" = "";
 "OnboardingInsightsTitle" = "";

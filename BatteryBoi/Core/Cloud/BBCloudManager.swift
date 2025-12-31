@@ -7,7 +7,6 @@
 
 import Foundation
 import CloudKit
-import CoreData
 import UserNotifications
 import Combine
 import SwiftData
@@ -31,114 +30,34 @@ public class CloudManager: NSObject, ObservableObject, UNUserNotificationCenterD
     private var updates = Set<AnyCancellable>()
 
     static var container: CloudContainerObject? = {
-        let object = "BBDataObject"
-        let container = NSPersistentCloudKitContainer(name: object)
+        let identifier = "iCloud.com.ovatar.batteryboi"
+        let group = "group.com.ovatar.batteryboi"
 
-        var directory: URL?
-        var subdirectory: URL?
+        do {
+            let schema = Schema([BatteryEntryObject.self, DevicesObject.self, BatteryObject.self, AlertsObject.self, PushObject.self])
+            let config = ModelConfiguration(schema: schema, groupContainer: .identifier(group), cloudKitDatabase: .private(identifier))
+            let modelContainer = try ModelContainer(for: schema, configurations: config)
 
-        guard let description = container.persistentStoreDescriptions.first else {
+            DispatchQueue.main.async {
+                CloudManager.shared.syncing = .completed
+                AppManager.shared.updated = Date()
+            }
+
+            return CloudContainerObject(container: modelContainer)
+        }
+        catch {
             #if DEBUG
-                fatalError("No Description found")
+                print("Failed to create ModelContainer: \(error)")
+                fatalError("SwiftData ModelContainer Error: \(error)")
             #else
+                DispatchQueue.main.async {
+                    CloudManager.shared.syncing = .error
+                }
                 return nil
             #endif
-
         }
-
-        description.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.com.ovatar.batteryboi")
-        description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
-
-        if let support = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).last {
-            let parent = support.appendingPathComponent("BatteryBoi")
-
-            do {
-                try FileManager.default.createDirectory(at: parent, withIntermediateDirectories: true, attributes: nil)
-
-                subdirectory = parent
-                directory = parent.appendingPathComponent("\(object).sqlite")
-
-
-            }
-            catch {
-
-            }
-
-        }
-        else {
-
-        }
-
-        if let directory = directory {
-            DispatchQueue.global(qos: .userInitiated).async {
-                if container.persistentStoreDescriptions.contains(where: { $0.url == description.url }) == false {
-                    container.persistentStoreDescriptions.append(description)
-
-                }
-
-                container.viewContext.automaticallyMergesChangesFromParent = true
-                let startTime = Date()
-
-                container.loadPersistentStores { (storeDescription, error) in
-                    let loadTime = Date().timeIntervalSince(startTime)
-
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            CloudManager.shared.syncing = .error
-
-                            #if DEBUG
-                                fatalError("iCloud Error \(error)")
-                            #endif
-
-                        }
-
-                    }
-                    else {
-                        if let storeURL = storeDescription.url {
-                            if let fileSize = try? FileManager.default.attributesOfItem(atPath: storeURL.path)[.size] as? Int {
-                                let sizeMB = Double(fileSize) / 1_048_576
-
-                                if sizeMB > 100 {
-
-                                }
-
-                            }
-                            else {
-
-                            }
-
-                        }
-
-                        DispatchQueue.main.async {
-                            CloudManager.shared.syncing = .completed
-                            AppManager.shared.updated = Date()
-
-                        }
-
-                    }
-
-                }
-
-            }
-
-        }
-        else {
-            fatalError("Directory Not Found")
-
-        }
-
-        #if canImport(SwiftData)
-        var storage: Any? = nil
-        if #available(iOS 17.0, macOS 14.0, *) {
-            storage = try? ModelContainer(for: BatteryEntry.self)
-        }
-        return .init(container: container, directory: directory, parent: subdirectory, storage: storage)
-        #else
-        return .init(container: container, directory: directory, parent: subdirectory)
-        #endif
-
     }()
-    
+
     override init() {
         super.init()
 
@@ -154,9 +73,9 @@ public class CloudManager: NSObject, ObservableObject, UNUserNotificationCenterD
                 else {
                     DispatchQueue.main.async {
                         self.state = .disabled
-                        
+
                     }
-                    
+
                 }
 
             }
@@ -182,9 +101,9 @@ public class CloudManager: NSObject, ObservableObject, UNUserNotificationCenterD
 
         #endif
 
-        NotificationCenter.default.addObserver(self, selector: #selector(cloudContextDidChange(notification:)), name: .NSManagedObjectContextObjectsDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(cloudContextDidChange(notification:)), name: NSNotification.Name("NSManagedObjectContextDidSave"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(cloudOwnerInformation), name: Notification.Name.CKAccountChanged, object: nil)
-        
+
         #if os(macOS)
             NotificationCenter.default.addObserver(self, selector: #selector(cloudOwnerInformation), name: NSApplication.willBecomeActiveNotification, object: nil)
         #elseif os(iOS)
@@ -206,13 +125,13 @@ public class CloudManager: NSObject, ObservableObject, UNUserNotificationCenterD
 
             }
             else if settings.authorizationStatus == .denied {
-				#if os(macOS)
-					DispatchQueue.main.async {
-						if let url = URL(string: "x-apple.systempreferences:com.apple.preference.notifications") {
-							NSWorkspace.shared.open(url)
-						}
-					}
-				#endif
+                #if os(macOS)
+                    DispatchQueue.main.async {
+                        if let url = URL(string: "x-apple.systempreferences:com.apple.preference.notifications") {
+                            NSWorkspace.shared.open(url)
+                        }
+                    }
+                #endif
 
             }
 
@@ -290,7 +209,7 @@ public class CloudManager: NSObject, ObservableObject, UNUserNotificationCenterD
 
     @objc func cloudContextDidChange(notification: Notification) {
         if let userInfo = notification.userInfo {
-            if userInfo[NSInsertedObjectsKey] != nil || userInfo[NSUpdatedObjectsKey] != nil || userInfo[NSDeletedObjectsKey] != nil {
+            if userInfo["inserted"] != nil || userInfo["updated"] != nil || userInfo["deleted"] != nil {
                 DispatchQueue.main.async {
                     AppManager.shared.updated = Date()
 
@@ -301,5 +220,5 @@ public class CloudManager: NSObject, ObservableObject, UNUserNotificationCenterD
         }
 
     }
-    
+
 }

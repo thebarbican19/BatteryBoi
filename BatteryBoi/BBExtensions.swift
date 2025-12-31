@@ -109,17 +109,10 @@ struct ViewTextStyle: ViewModifier {
     @State var kerning:CGFloat
     
     func body(content: Content) -> some View {
-        if #available(iOS 14.0, macOS 13.0, watchOS 7.0, tvOS 14.0, *) {
-            content.font(.system(size: self.size, weight: .bold)).lineLimit(1).tracking(-0.4)
-            
-        }
-        else {
-            content.font(.system(size: self.size, weight: .bold)).lineLimit(1)
+        content.font(.system(size: self.size, weight: .bold)).lineLimit(1).tracking(-0.4)
 
-        }
-        
     }
-    
+
 }
 
 extension TimeInterval {
@@ -384,19 +377,19 @@ extension View {
 }
 
 extension UserDefaults {
-    static let changed = PassthroughSubject<SystemDefaultsKeys, Never>()
+    static let changed = PassthroughSubject<AppDefaultsKeys, Never>()
 
     static var main:UserDefaults {
         return UserDefaults()
         
     }
     
-    static var list:Array<SystemDefaultsKeys> {
-        return UserDefaults.main.dictionaryRepresentation().keys.compactMap({ SystemDefaultsKeys(rawValue:$0) })
+    static var list:Array<AppDefaultsKeys> {
+        return UserDefaults.main.dictionaryRepresentation().keys.compactMap({ AppDefaultsKeys(rawValue:$0) })
         
     }
 
-    static func save(_ key:SystemDefaultsKeys, value:Any?) {
+    static func save(_ key:AppDefaultsKeys, value:Any?) {
         self.save(string: key.rawValue, value: value)
         
     }
@@ -423,7 +416,7 @@ extension UserDefaults {
             main.set(value, forKey: key)
             main.synchronize()
             
-            if let system = SystemDefaultsKeys(rawValue: key) {
+            if let system = AppDefaultsKeys(rawValue: key) {
                 changed.send(system)
 
             }
@@ -438,7 +431,7 @@ extension UserDefaults {
             main.removeObject(forKey: key)
             main.synchronize()
 
-            if let system = SystemDefaultsKeys(rawValue: key) {
+            if let system = AppDefaultsKeys(rawValue: key) {
                 changed.send(system)
 
             }
@@ -447,7 +440,7 @@ extension UserDefaults {
         
     }
     
-    static func timestamp(_ key:SystemDefaultsKeys) -> Date? {
+    static func timestamp(_ key:AppDefaultsKeys) -> Date? {
         if let timetamp = UserDefaults.main.object(forKey: "\(key.rawValue)_timestamp") as? Date {
             return timetamp
         }

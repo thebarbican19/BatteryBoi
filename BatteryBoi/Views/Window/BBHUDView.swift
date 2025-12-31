@@ -6,8 +6,7 @@
 //
 
 import SwiftUI
-
-
+import SwiftData
 
 enum HUDProgressLayout {
     case center
@@ -338,28 +337,45 @@ struct HUDView: View {
 }
 
 struct HUDParent: View {
-    @State var type:SystemAlertTypes
-    @State var device:SystemDeviceObject?
+    @State var type:AppAlertTypes
+    @State var device:AppDeviceObject?
 
-    init(_ type: SystemAlertTypes, device:SystemDeviceObject?) {
+    init(_ type: AppAlertTypes, device:AppDeviceObject?) {
         self._type = State(initialValue: type)
         self._device = State(initialValue: device)
         
     }
     
     var body: some View {
-        VStack {
-            HUDView()
-          
+        if let container = CloudManager.container?.container {
+            VStack {
+                HUDView()
+
+            }
+            .modelContainer(container)
+            .environmentObject(WindowManager.shared)
+            .environmentObject(AppManager.shared)
+            .environmentObject(OnboardingManager.shared)
+            .environmentObject(BatteryManager.shared)
+            .environmentObject(SettingsManager.shared)
+            .environmentObject(UpdateManager.shared)
+            .environmentObject(StatsManager.shared)
+            .environmentObject(BluetoothManager.shared)
         }
-        .environmentObject(WindowManager.shared)
-        .environmentObject(AppManager.shared)
-        .environmentObject(OnboardingManager.shared)
-        .environmentObject(BatteryManager.shared)
-        .environmentObject(SettingsManager.shared)
-        .environmentObject(UpdateManager.shared)
-        .environmentObject(StatsManager.shared)
-        .environmentObject(BluetoothManager.shared)
+        else {
+            VStack {
+                HUDView()
+
+            }
+            .environmentObject(WindowManager.shared)
+            .environmentObject(AppManager.shared)
+            .environmentObject(OnboardingManager.shared)
+            .environmentObject(BatteryManager.shared)
+            .environmentObject(SettingsManager.shared)
+            .environmentObject(UpdateManager.shared)
+            .environmentObject(StatsManager.shared)
+            .environmentObject(BluetoothManager.shared)
+        }
 
     }
     

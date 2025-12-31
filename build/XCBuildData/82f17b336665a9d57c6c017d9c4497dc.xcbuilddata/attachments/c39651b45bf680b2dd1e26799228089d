@@ -1,0 +1,16 @@
+{
+  "" : {
+    "const-values" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/RateBoi/build/RateBoi.build/Release/RateBoi.build/Objects-normal/arm64/RateBoi-primary.swiftconstvalues",
+    "dependencies" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/RateBoi/build/RateBoi.build/Release/RateBoi.build/Objects-normal/arm64/RateBoi-primary.d",
+    "diagnostics" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/RateBoi/build/RateBoi.build/Release/RateBoi.build/Objects-normal/arm64/RateBoi-primary.dia",
+    "emit-module-dependencies" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/RateBoi/build/RateBoi.build/Release/RateBoi.build/Objects-normal/arm64/RateBoi-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/RateBoi/build/RateBoi.build/Release/RateBoi.build/Objects-normal/arm64/RateBoi-primary-emit-module.dia",
+    "pch" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/RateBoi/build/RateBoi.build/Release/RateBoi.build/Objects-normal/arm64/RateBoi-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/RateBoi/build/RateBoi.build/Release/RateBoi.build/Objects-normal/arm64/RateBoi-primary.swiftdeps"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/RateBoi/Sources/RateBoi/RateBoi.swift" : {
+    "index-unit-output-path" : "/RateBoi.build/Release/RateBoi.build/Objects-normal/arm64/RateBoi.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/RateBoi/build/RateBoi.build/Release/RateBoi.build/Objects-normal/arm64/RateBoi.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/RateBoi/build/RateBoi.build/Release/RateBoi.build/Objects-normal/arm64/RateBoi.o"
+  }
+}

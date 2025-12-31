@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 import DynamicColor
+import SwiftData
 
 public struct BatteryPulsatingIcon: View {
     @EnvironmentObject var manager:BatteryManager
@@ -503,17 +504,30 @@ struct BatteryContainer: View {
 
 struct MenuContainer: View {
     var body: some View {
-        BatteryContainer()
-            .environmentObject(BatteryManager.shared)
-            .environmentObject(StatsManager.shared)
-            .environmentObject(UpdateManager.shared)
-            .environmentObject(CloudManager.shared)
-            .environmentObject(BluetoothManager.shared)
-            .environmentObject(ProcessManager.shared)
-            .environmentObject(MenubarManager.shared)
+        if let container = CloudManager.container?.container {
+            BatteryContainer()
+                .modelContainer(container)
+                .environmentObject(BatteryManager.shared)
+                .environmentObject(StatsManager.shared)
+                .environmentObject(UpdateManager.shared)
+                .environmentObject(CloudManager.shared)
+                .environmentObject(BluetoothManager.shared)
+                .environmentObject(ProcessManager.shared)
+                .environmentObject(MenubarManager.shared)
+        }
+        else {
+            BatteryContainer()
+                .environmentObject(BatteryManager.shared)
+                .environmentObject(StatsManager.shared)
+                .environmentObject(UpdateManager.shared)
+                .environmentObject(CloudManager.shared)
+                .environmentObject(BluetoothManager.shared)
+                .environmentObject(ProcessManager.shared)
+                .environmentObject(MenubarManager.shared)
+        }
 
     }
-    
+
 }
 
 struct MenuViewRepresentable: NSViewRepresentable {

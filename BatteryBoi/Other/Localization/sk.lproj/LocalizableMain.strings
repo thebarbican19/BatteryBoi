@@ -88,6 +88,10 @@
 "BluetoothDistanceFarLabel" = "V inej ríši";
 "BluetoothInvalidLabel" = "Žiadne informácie o batérii";
 
+"OnboardingHideIconTitle" = "Skryť predvolenú ikonu batérie";
+"OnboardingHideIconSubtitle" = "Predvolenú ikonu batérie môžete skryť tak, že prejdete na Systemové nastavenia > Centrum ovládania > Batéria > Zobraziť v paneli ponúk";
+"OnboardingHideIconButton" = "Rozumiete";
+
 "OnboardingNotificationsTitle" = "";
 "OnboardingNotificationsBody" = "";
 "OnboardingInsightsTitle" = "";

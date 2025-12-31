@@ -597,9 +597,9 @@ public class ProcessManager: ObservableObject {
                 output.append("\n----------GENERAL----------\n\n")
                 
                 output.append(self.processValueOutput("Installed On", value:.init( AppManager.shared.appInstalled.formatted)))
-                output.append(self.processValueOutput("Device", value:.init( SystemDeviceTypes.name())))
-                output.append(self.processValueOutput("Model", value:.init( SystemDeviceTypes.model)))
-                output.append(self.processValueOutput("User ID", value: .init(SystemDeviceTypes.identifyer)))
+                output.append(self.processValueOutput("Device", value:.init( AppDeviceTypes.name())))
+                output.append(self.processValueOutput("Model", value:.init( AppDeviceTypes.model)))
+                output.append(self.processValueOutput("User ID", value: .init(AppDeviceTypes.identifyer)))
                 output.append(self.processValueOutput("Usage Count", value: .init(String(AppManager.shared.appUsage?.day ?? 0))))
                 
                 if SettingsManager.shared.enabledBeta == .enabled {
@@ -668,7 +668,7 @@ public class ProcessManager: ObservableObject {
                     
                 }
                 else {
-                    let device:SystemDeviceObject? = AppManager.shared.devices.first(where: { $0.name == flags[2] })
+                    let device:AppDeviceObject? = AppManager.shared.devices.first(where: { $0.name == flags[2] })
                     var response:String = ""
                 
                     if let device = device {
@@ -803,7 +803,7 @@ public class ProcessManager: ObservableObject {
             BatteryManager.shared.powerForceRefresh()
 
             let hasBattery = (BatteryManager.shared.info?.batteries ?? 0) > 0
-            let deviceName = SystemDeviceTypes.name()
+            let deviceName = AppDeviceTypes.name()
 
             output.append("\n\u{001B}[1;36m╔══════════════════════════════════════╗\u{001B}[0m\n")
             output.append("\u{001B}[1;36m║\u{001B}[0m            \u{001B}[1mBATTERY STATUS\u{001B}[0m            \u{001B}[1;36m║\u{001B}[0m\n")

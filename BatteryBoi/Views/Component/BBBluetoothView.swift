@@ -71,12 +71,12 @@ struct BluetoothItem: View {
 
     @Binding var hover:Bool
 
-    @State var item:SystemDeviceObject?
+    @State var item:AppDeviceObject?
     @State var style:RadialStyle = .light
 
     @Namespace private var animation
     
-    init(_ item:SystemDeviceObject?, hover:Binding<Bool>) {
+    init(_ item:AppDeviceObject?, hover:Binding<Bool>) {
         self._item = State(initialValue: item)
         self._hover = hover
         
@@ -119,7 +119,7 @@ struct BluetoothItem: View {
                     
                 }
                 else {
-                    if let type = SystemDeviceTypes.name(true) {
+                    if let type = AppDeviceTypes.name(true) {
                         Text(type)
                             .font(.system(size: 16, weight: .medium))
                             .foregroundColor(self.style == .light ? Color("BatteryButton") : Color("BatteryTitle"))

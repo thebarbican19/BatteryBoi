@@ -212,9 +212,8 @@ public struct BatteryEstimateObject {
     }
 }
 
-@available(iOS 17.0, macOS 14.0, *)
 @Model
-public final class BatteryEntry {
+public final class BatteryEntryObject {
     public var id: UUID? = UUID()
     public var timestamp: Date? = Date()
     public var percentage: Int? = 0

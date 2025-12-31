@@ -1,0 +1,4 @@
+module FlyingSocks {
+header "FlyingSocks-Swift.h"
+export *
+}

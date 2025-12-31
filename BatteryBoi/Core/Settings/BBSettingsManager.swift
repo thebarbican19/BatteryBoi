@@ -48,32 +48,26 @@ public class SettingsManager: ObservableObject {
     
     var enabledAutoLaunch: SettingsStateValue {
         get {
-            if #available(macOS 13.0, *) {
-                if UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledLogin.rawValue) == nil {
-                    return .undetermined
+            if UserDefaults.main.object(forKey: AppDefaultsKeys.enabledLogin.rawValue) == nil {
+                return .undetermined
 
-                }
-                else {
-                    switch SMAppService.mainApp.status == .enabled {
-                        case true: return .enabled
-                        case false: return .disabled
-
-                    }
+            }
+            else {
+                switch SMAppService.mainApp.status == .enabled {
+                    case true: return .enabled
+                    case false: return .disabled
 
                 }
 
             }
 
-            return .restricted
-
         }
 
         set {
-            if #available(macOS 13.0, *) {
-                do {
-                    if newValue == .disabled {
-                        if SMAppService.mainApp.status == .enabled {
-                            try SMAppService.mainApp.unregister()
+            do {
+                if newValue == .disabled {
+                    if SMAppService.mainApp.status == .enabled {
+                        try SMAppService.mainApp.unregister()
 
                         }
 
@@ -94,19 +88,13 @@ public class SettingsManager: ObservableObject {
 
                 }
 
-            }
-            else {
-                UserDefaults.save(.enabledLogin, value: SettingsStateValue.restricted)
-
-            }
-
         }
 
     }
         
     var enabledTheme: SettingsTheme {
         get {
-            if let value = UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledTheme.rawValue) as? String {
+            if let value = UserDefaults.main.object(forKey: AppDefaultsKeys.enabledTheme.rawValue) as? String {
                 if let theme = SettingsTheme(rawValue: value) {
                     if theme == .light {
                         NSApp.appearance = NSAppearance(named: .aqua)
@@ -165,7 +153,7 @@ public class SettingsManager: ObservableObject {
 
     var enabledBeta: SettingsBeta {
         get {
-            if let key = UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledBeta.rawValue) as? String {
+            if let key = UserDefaults.main.object(forKey: AppDefaultsKeys.enabledBeta.rawValue) as? String {
                 return SettingsBeta(rawValue: key) ?? .disabled
 
             }
@@ -183,7 +171,7 @@ public class SettingsManager: ObservableObject {
 
     var enabledPinned: SettingsPinned {
         get {
-            if let key = UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledPinned.rawValue) as? String {
+            if let key = UserDefaults.main.object(forKey: AppDefaultsKeys.enabledPinned.rawValue) as? String {
                 return SettingsPinned(rawValue: key) ?? .disabled
 
             }
@@ -201,7 +189,7 @@ public class SettingsManager: ObservableObject {
 
     var enabledSoundEffects: SettingsSoundEffects {
         get {
-            if let key = UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledSoundEffects.rawValue) as? String {
+            if let key = UserDefaults.main.object(forKey: AppDefaultsKeys.enabledSoundEffects.rawValue) as? String {
                 return SettingsSoundEffects(rawValue: key) ?? .enabled
 
             }
@@ -212,7 +200,7 @@ public class SettingsManager: ObservableObject {
 
         set {
             if self.enabledSoundEffects == .disabled && newValue == .enabled {
-                SystemSoundEffects.high.play(true)
+                AppSoundEffects.high.play(true)
 
             }
 

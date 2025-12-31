@@ -33,7 +33,7 @@ public class WindowManager: ObservableObject {
     }
 
     @Published public var hover: Bool = false
-    @Published public var state: SystemAlertState = .hidden
+    @Published public var state: AppAlertState = .hidden
     @Published var position: WindowPosition = .topMiddle
     @Published public var opacity: CGFloat = 1.0
 
@@ -135,7 +135,7 @@ public class WindowManager: ObservableObject {
 
         }
 
-        public func windowSetState(_ state: SystemAlertState, animated: Bool = true) {
+        public func windowSetState(_ state: AppAlertState, animated: Bool = true) {
             if self.state != state {
                 withAnimation(.interactiveSpring(response: 0.4, dampingFraction: 0.7, blendDuration: 1.0)) {
                     self.state = state
@@ -146,7 +146,7 @@ public class WindowManager: ObservableObject {
 
         }
 
-        func windowIsVisible(_ type: SystemAlertTypes) -> Bool {
+        func windowIsVisible(_ type: AppAlertTypes) -> Bool {
             if let window = self.windowExists(.alert, alert: type) {
                 if CGFloat(window.alphaValue) > 0.5 {
                     return true
@@ -159,7 +159,7 @@ public class WindowManager: ObservableObject {
 
         }
 
-        func windowOpen(_ type: WindowTypes = .alert, alert: SystemAlertTypes = .userInitiated, device: SystemDeviceObject?) {
+        func windowOpen(_ type: WindowTypes = .alert, alert: AppAlertTypes = .userInitiated, device: AppDeviceObject?) {
             var type = type
             if OnboardingManager.shared.state != .complete {
                 if type == .alert {
@@ -268,7 +268,7 @@ public class WindowManager: ObservableObject {
 
         }
 
-        private func windowDefault(_ type: SystemAlertTypes) -> NSWindow? {
+        private func windowDefault(_ type: AppAlertTypes) -> NSWindow? {
             let bounds = WindowScreenSize()
             let type = WindowTypes.alert
             var window: NSWindow?
@@ -338,7 +338,7 @@ public class WindowManager: ObservableObject {
             return window
         }
 
-        private func windowExists(_ type: WindowTypes, alert: SystemAlertTypes) -> NSWindow? {
+        private func windowExists(_ type: WindowTypes, alert: AppAlertTypes) -> NSWindow? {
             if let window = NSApplication.shared.windows.filter({$0.title == type.rawValue}).first {
                 return window
 

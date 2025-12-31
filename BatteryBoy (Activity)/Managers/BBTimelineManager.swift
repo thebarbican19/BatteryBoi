@@ -12,9 +12,9 @@ import Combine
 
 struct WidgetDeviceObject:TimelineEntry {
     var date: Date
-//    var device:SystemDeviceObject?
+//    var device:AppDeviceObject?
 //    
-//    init(_ device: SystemDeviceObject? = nil) {
+//    init(_ device: AppDeviceObject? = nil) {
 //        self.date = Date()
 //        self.device = device
 //        

@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 import SwiftUI
-import CoreData
+import SwiftData
 import CloudKit
 import CoreBluetooth
 
@@ -21,14 +21,14 @@ public class AppManager: ObservableObject {
 
     @Published public var sessionid: UUID = UUID()
     @Published public var counter = 0
-    @Published var devices = Array<SystemDeviceObject>()
-    @Published var selected: SystemDeviceObject? = nil
+    @Published var devices = Array<AppDeviceObject>()
+    @Published var selected: AppDeviceObject? = nil
     @Published public var updated: Date? = nil
-    @Published public var distribution: SystemDistribution = .direct
+    @Published public var distribution: AppDistribution = .direct
 
     #if os(macOS)
-        @Published public var menu: SystemMenuView = .devices
-        @Published public var alert: SystemAlertTypes? = nil
+        @Published public var menu: AppMenuView = .devices
+        @Published public var alert: AppAlertTypes? = nil
 
     #endif
 
@@ -67,7 +67,7 @@ public class AppManager: ObservableObject {
     }
       
     public var appInstalled: Date {
-        if let date = UserDefaults.main.object(forKey: SystemDefaultsKeys.versionInstalled.rawValue) as? Date {
+        if let date = UserDefaults.main.object(forKey: AppDefaultsKeys.versionInstalled.rawValue) as? Date {
             return date
 
         }
@@ -209,10 +209,10 @@ public class AppManager: ObservableObject {
 
     }
 
-    public var appUsage: SystemAppUsage? {
+    public var appUsage: AppUsage? {
         get {
-            let days = UserDefaults.main.object(forKey: SystemDefaultsKeys.usageDay.rawValue) as? Int
-            let timestamp = UserDefaults.main.object(forKey: SystemDefaultsKeys.usageTimestamp.rawValue) as? Date
+            let days = UserDefaults.main.object(forKey: AppDefaultsKeys.usageDay.rawValue) as? Int
+            let timestamp = UserDefaults.main.object(forKey: AppDefaultsKeys.usageTimestamp.rawValue) as? Date
 
             if let days = days, let timestamp = timestamp {
                 return .init(day: days, timestamp: timestamp)
@@ -233,15 +233,14 @@ public class AppManager: ObservableObject {
         }
 
     }
-        
+
     private func appListDevices() {
         if let context = self.appStorageContext() {
-            let fetch: NSFetchRequest<Devices> = Devices.fetchRequest()
-            fetch.includesPendingChanges = true
+            let descriptor = FetchDescriptor<DevicesObject>()
 
             do {
-                let list = try context.fetch(fetch)
-                let mapped: [SystemDeviceObject] = list.compactMap({ .init($0) })
+                let list = try context.fetch(descriptor)
+                let mapped: [AppDeviceObject] = list.compactMap({ .init($0) })
 
                 DispatchQueue.main.async {
                     self.devices = mapped
@@ -261,71 +260,129 @@ public class AppManager: ObservableObject {
 
     }
 
-    func appStoreDevice(_ device: SystemDeviceObject? = nil) {
+    func appStoreDevice(_ device: AppDeviceObject? = nil) {
         if let context = self.appStorageContext() {
-            context.perform {
-                let deviceName = device?.name ?? "system"
+            let deviceName = device?.name ?? "system"
 
-                if let match = SystemDeviceObject.match(device, context: context) {
-                    let fetch = Devices.fetchRequest() as NSFetchRequest<Devices>
-                    fetch.includesPendingChanges = true
-                    fetch.fetchLimit = 1
-                    fetch.predicate = NSPredicate(format: "id == %@", match.id as CVarArg)
+            if let match = AppDeviceObject.match(device, context: context) {
+                let matchId: UUID? = match.id
+                var descriptor = FetchDescriptor<DevicesObject>(predicate: #Predicate { $0.id == matchId })
+                descriptor.fetchLimit = 1
 
+                do {
+                    let fetchStart = Date()
+                    if let existing = try context.fetch(descriptor).first {
+                        let fetchTime = Date().timeIntervalSince(fetchStart)
+                        existing.refreshedOn = Date()
+
+                        if existing.serial?.isEmpty == true {
+                            existing.serial = device?.profile.serial
+
+                        }
+
+                        if existing.name?.isEmpty == true {
+                            existing.name = device?.name
+
+                        }
+
+                        if existing.address?.isEmpty == true {
+                            existing.address = device?.address
+
+                        }
+
+                        if let device = device, let type = AppDeviceTypes.type(device.profile.model) {
+                            existing.subtype = type.category.rawValue
+                            existing.type = type.rawValue
+
+                        }
+
+                        if existing.vendor?.isEmpty == true {
+                            existing.vendor = device?.profile.vendor
+
+                        }
+
+                        if let favourite = device?.favourite {
+                            existing.favourite = favourite
+
+                        }
+
+                        if let notifications = device?.notifications {
+                            existing.notifications = notifications
+
+                        }
+
+                        if let id = device?.id {
+                            existing.id = id
+
+                        }
+
+                        let saveStart = Date()
+                        try context.save()
+                        let saveTime = Date().timeIntervalSince(saveStart)
+
+                        if saveTime > 1.0 {
+
+                        }
+
+                    }
+
+                }
+                catch {
+
+                }
+
+            }
+            else {
+                let store = DevicesObject()
+                store.addedOn = Date()
+                store.refreshedOn = Date()
+                store.order = self.devices.count + 1
+                store.id = UUID()
+                store.notifications = true
+                store.hidden = false
+
+                if let device = device {
+                    let type = AppDeviceTypes.type(device.profile.model)
+
+                    store.primary = false
+                    store.name = device.name
+                    store.model = device.profile.model
+                    store.serial = device.profile.serial
+                    store.vendor = device.profile.vendor
+                    store.type = type?.category.rawValue
+                    store.subtype = type?.rawValue
+                    store.address = nil
+                    store.owner = self.appDevice(nil, context: context)?.id
+
+                }
+                else {
+                    if UserDefaults.main.object(forKey: AppDefaultsKeys.deviceIdentifyer.rawValue) == nil {
+                        store.model = AppDeviceTypes.model
+                        store.os = AppDeviceTypes.os
+                        store.subtype = AppDeviceTypes.type.rawValue
+                        store.type = AppDeviceTypes.type.category.rawValue
+                        store.primary = true
+                        store.vendor = "Apple Inc"
+                        store.product = AppDeviceTypes.name(false)
+                        store.serial = AppDeviceTypes.serial
+                        store.address = nil
+                        store.name = AppDeviceTypes.name(true)
+
+                        UserDefaults.save(.deviceIdentifyer, value: store.id?.uuidString)
+                        UserDefaults.save(.deviceCreated, value: Date())
+
+                    }
+
+                }
+
+                if store.model?.isEmpty == false || store.name?.isEmpty == false {
                     do {
-                        let fetchStart = Date()
-                        if let existing = try context.fetch(fetch).first {
-                            let fetchTime = Date().timeIntervalSince(fetchStart)
-                            existing.refreshed_on = Date()
+                        context.insert(store)
+                        let saveStart = Date()
+                        try context.save()
+                        let saveTime = Date().timeIntervalSince(saveStart)
 
-                            if existing.serial.empty {
-                                existing.serial = device?.profile.serial
-
-                            }
-
-                            if existing.name.empty {
-                                existing.name = device?.name
-
-                            }
-
-                            if existing.address.empty {
-                                existing.address = device?.address
-
-                            }
-
-                            if let device = device, let type = SystemDeviceTypes.type(device.profile.model) {
-                                existing.subtype = type.category.rawValue
-                                existing.type = type.rawValue
-
-                            }
-
-                            if existing.vendor.empty {
-                                existing.vendor = device?.profile.vendor
-
-                            }
-
-                            if let favourite = device?.favourite {
-                                existing.favourite = favourite
-
-                            }
-
-                            if let notifications = device?.notifications {
-                                existing.notifications = notifications
-
-                            }
-
-                            if let id = device?.id {
-                                existing.id = id
-
-                            }
-
-                            let saveStart = Date()
-                            try context.save()
-                            let saveTime = Date().timeIntervalSince(saveStart)
-
-                            if saveTime > 1.0 {
-
-                            }
+                        if saveTime > 1.0 {
 
                         }
 
@@ -336,67 +393,6 @@ public class AppManager: ObservableObject {
 
                 }
                 else {
-                    let store = Devices(context: context) as Devices
-                    store.added_on = Date()
-                    store.refreshed_on = Date()
-                    store.order = Int16(self.devices.count + 1)
-                    store.id = UUID()
-                    store.notifications = true
-                    store.hidden = false
-
-                    if let device = device {
-                        let type = SystemDeviceTypes.type(device.profile.model)
-
-                        store.primary = false
-                        store.name = device.name
-                        store.model = device.profile.model
-                        store.serial = device.profile.serial
-                        store.vendor = device.profile.vendor
-                        store.type = type?.category.rawValue
-                        store.subtype = type?.rawValue
-                        store.address = nil
-                        store.owner = self.appDevice(nil, context: context)?.id
-
-                    }
-                    else {
-                        if UserDefaults.main.object(forKey: SystemDefaultsKeys.deviceIdentifyer.rawValue) == nil {
-                            store.model = SystemDeviceTypes.model
-                            store.os = SystemDeviceTypes.os
-                            store.subtype = SystemDeviceTypes.type.rawValue
-                            store.type = SystemDeviceTypes.type.category.rawValue
-                            store.primary = true
-                            store.vendor = "Apple Inc"
-                            store.product = SystemDeviceTypes.name(false)
-                            store.serial = SystemDeviceTypes.serial
-                            store.address = nil
-                            store.name = SystemDeviceTypes.name(true)
-
-                            UserDefaults.save(.deviceIdentifyer, value: store.id?.uuidString)
-                            UserDefaults.save(.deviceCreated, value: Date())
-
-                        }
-
-                    }
-
-                    if store.model.empty == false || store.name.empty == false {
-                        do {
-                            let saveStart = Date()
-                            try context.save()
-                            let saveTime = Date().timeIntervalSince(saveStart)
-
-                            if saveTime > 1.0 {
-
-                            }
-
-                        }
-                        catch {
-
-                        }
-
-                    }
-                    else {
-
-                    }
 
                 }
 
@@ -406,14 +402,13 @@ public class AppManager: ObservableObject {
 
     }
 
-    private func appDevice(_ device: SystemDeviceObject?, context: NSManagedObjectContext) -> Devices? {
-        if let match = SystemDeviceObject.match(device, context: context) {
-            let fetch = Devices.fetchRequest() as NSFetchRequest<Devices>
-            fetch.includesPendingChanges = true
-            fetch.fetchLimit = 1
-            fetch.predicate = NSPredicate(format: "id == %@", match.id as CVarArg)
+    private func appDevice(_ device: AppDeviceObject?, context: ModelContext) -> DevicesObject? {
+        if let match = AppDeviceObject.match(device, context: context) {
+            let matchId: UUID? = match.id
+            var descriptor = FetchDescriptor<DevicesObject>(predicate: #Predicate { $0.id == matchId })
+            descriptor.fetchLimit = 1
 
-            if let device = try? context.fetch(fetch).first {
+            if let device = try? context.fetch(descriptor).first {
                 return device
 
             }
@@ -423,12 +418,12 @@ public class AppManager: ObservableObject {
         return nil
 
     }
-    
-    public func appStorageContext() -> NSManagedObjectContext? {
+
+    public func appStorageContext() -> ModelContext? {
         if let container = CloudManager.container?.container {
             if CloudManager.shared.syncing == .completed {
-                let context = container.newBackgroundContext()
-                context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+                let context = ModelContext(container)
+                context.autosaveEnabled = true
 
                 return context
 
@@ -448,20 +443,25 @@ public class AppManager: ObservableObject {
 
     func appDestoryEntity(_ type: CloudEntityType) {
         if let context = self.appStorageContext() {
-            context.perform {
-                do {
-                    var request: NSFetchRequest<NSFetchRequestResult>
-                    request = NSFetchRequest(entityName: type.rawValue)
-
-                    let delete = NSBatchDeleteRequest(fetchRequest: request)
-                    delete.resultType = .resultTypeObjectIDs
-
-                    try context.execute(delete)
-
+            do {
+                switch type {
+                    case .devices:
+                        let descriptor = FetchDescriptor<DevicesObject>()
+                        let items = try context.fetch(descriptor)
+                        for item in items {
+                            context.delete(item)
+                        }
+                    case .events:
+                        let descriptor = FetchDescriptor<BatteryObject>()
+                        let items = try context.fetch(descriptor)
+                        for item in items {
+                            context.delete(item)
+                        }
                 }
-                catch {
+                try context.save()
 
-                }
+            }
+            catch {
 
             }
 
@@ -495,7 +495,7 @@ public class AppManager: ObservableObject {
     #endif
 
     #if os(iOS)
-        private func checkForMacDevices(_ devices: [SystemDeviceObject]) -> Bool {
+        private func checkForMacDevices(_ devices: [AppDeviceObject]) -> Bool {
             return devices.contains(where: { device in
                 guard device.connectivity == .system else {
                     return false
@@ -505,7 +505,7 @@ public class AppManager: ObservableObject {
                     return false
                 }
 
-                guard let deviceType = SystemDeviceTypes(rawValue: subtype) else {
+                guard let deviceType = AppDeviceTypes(rawValue: subtype) else {
                     return false
                 }
 
@@ -513,7 +513,7 @@ public class AppManager: ObservableObject {
             })
         }
 
-        public var activeMacDevices: [SystemDeviceObject] {
+        public var activeMacDevices: [AppDeviceObject] {
             let recentThreshold = Date(timeIntervalSinceNow: -600)
 
             return devices.filter { device in
@@ -525,7 +525,7 @@ public class AppManager: ObservableObject {
                     return false
                 }
 
-                guard let deviceType = SystemDeviceTypes(rawValue: subtype) else {
+                guard let deviceType = AppDeviceTypes(rawValue: subtype) else {
                     return false
                 }
 

@@ -1,0 +1,86 @@
+{
+  "" : {
+    "const-values" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor-primary.swiftconstvalues",
+    "dependencies" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor-primary.d",
+    "diagnostics" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor-primary.dia",
+    "emit-module-dependencies" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor-primary-emit-module.dia",
+    "pch" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor-primary.swiftdeps"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/Sources/Array.swift" : {
+    "index-unit-output-path" : "/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/Array.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/Array.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/Array.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/Sources/ContrastDisplayContext.swift" : {
+    "index-unit-output-path" : "/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/ContrastDisplayContext.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/ContrastDisplayContext.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/ContrastDisplayContext.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/Sources/DynamicColor+Deriving.swift" : {
+    "index-unit-output-path" : "/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+Deriving.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+Deriving.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+Deriving.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/Sources/DynamicColor+HSB.swift" : {
+    "index-unit-output-path" : "/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+HSB.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+HSB.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+HSB.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/Sources/DynamicColor+HSL.swift" : {
+    "index-unit-output-path" : "/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+HSL.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+HSL.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+HSL.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/Sources/DynamicColor+Lab.swift" : {
+    "index-unit-output-path" : "/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+Lab.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+Lab.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+Lab.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/Sources/DynamicColor+Mixing.swift" : {
+    "index-unit-output-path" : "/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+Mixing.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+Mixing.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+Mixing.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/Sources/DynamicColor+RGBA.swift" : {
+    "index-unit-output-path" : "/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+RGBA.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+RGBA.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+RGBA.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/Sources/DynamicColor+XYZ.swift" : {
+    "index-unit-output-path" : "/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+XYZ.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+XYZ.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor+XYZ.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/Sources/DynamicColor.swift" : {
+    "index-unit-output-path" : "/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColor.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/Sources/DynamicColorSpace.swift" : {
+    "index-unit-output-path" : "/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColorSpace.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColorSpace.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicColorSpace.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/Sources/DynamicGradient.swift" : {
+    "index-unit-output-path" : "/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicGradient.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicGradient.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/DynamicGradient.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/Sources/HSL.swift" : {
+    "index-unit-output-path" : "/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/HSL.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/HSL.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/HSL.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/Sources/SwiftUIColor.swift" : {
+    "index-unit-output-path" : "/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/SwiftUIColor.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/SwiftUIColor.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/SwiftUIColor.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/Sources/Utils.swift" : {
+    "index-unit-output-path" : "/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/Utils.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/Utils.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/DynamicColor/build/DynamicColor.build/Release/DynamicColor.build/Objects-normal/x86_64/Utils.o"
+  }
+}

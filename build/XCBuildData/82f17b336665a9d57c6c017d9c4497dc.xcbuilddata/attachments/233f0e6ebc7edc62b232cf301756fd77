@@ -1,0 +1,4 @@
+module DynamicColor {
+header "DynamicColor-Swift.h"
+export *
+}

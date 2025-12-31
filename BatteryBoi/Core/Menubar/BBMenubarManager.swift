@@ -171,14 +171,14 @@ public class MenubarManager: ObservableObject {
 
     }
 
-    private func menubarDevices() -> [SystemDeviceObject] {
+    private func menubarDevices() -> [AppDeviceObject] {
         return []
 
     }
     
     var menubarStyle: MenubarStyle {
         get {
-            if let value = UserDefaults.main.object(forKey: SystemDefaultsKeys.menubarStyle.rawValue) as? String {
+            if let value = UserDefaults.main.object(forKey: AppDefaultsKeys.menubarStyle.rawValue) as? String {
                 return MenubarStyle(rawValue: value) ?? .transparent
 
             }
@@ -197,12 +197,12 @@ public class MenubarManager: ObservableObject {
 
     public var menubarRadius: Float {
         get {
-            if UserDefaults.main.object(forKey: SystemDefaultsKeys.menubarRadius.rawValue) == nil {
+            if UserDefaults.main.object(forKey: AppDefaultsKeys.menubarRadius.rawValue) == nil {
                 return 5.0
 
             }
             else {
-                return UserDefaults.main.float(forKey: SystemDefaultsKeys.menubarRadius.rawValue)
+                return UserDefaults.main.float(forKey: AppDefaultsKeys.menubarRadius.rawValue)
 
             }
 
@@ -222,12 +222,12 @@ public class MenubarManager: ObservableObject {
 
     public var menubarPulsingAnimation: Bool {
         get {
-            if UserDefaults.main.object(forKey: SystemDefaultsKeys.menubarAnimation.rawValue) == nil {
+            if UserDefaults.main.object(forKey: AppDefaultsKeys.menubarAnimation.rawValue) == nil {
                 return true
 
             }
             else {
-                return UserDefaults.main.bool(forKey: SystemDefaultsKeys.menubarAnimation.rawValue)
+                return UserDefaults.main.bool(forKey: AppDefaultsKeys.menubarAnimation.rawValue)
 
             }
 
@@ -242,7 +242,7 @@ public class MenubarManager: ObservableObject {
 
     var menubarProgressBar: MenubarProgressType {
         get {
-            if let type = UserDefaults.main.string(forKey: SystemDefaultsKeys.menubarProgress.rawValue) {
+            if let type = UserDefaults.main.string(forKey: AppDefaultsKeys.menubarProgress.rawValue) {
                 return MenubarProgressType(rawValue: type) ?? .progress
 
             }
@@ -260,7 +260,7 @@ public class MenubarManager: ObservableObject {
 
     var menubarSchemeType: MenubarScheme {
         get {
-            if let type = UserDefaults.main.string(forKey: SystemDefaultsKeys.menubarScheme.rawValue) {
+            if let type = UserDefaults.main.string(forKey: AppDefaultsKeys.menubarScheme.rawValue) {
                 return MenubarScheme(rawValue: type) ?? .monochrome
 
             }
@@ -285,7 +285,7 @@ public class MenubarManager: ObservableObject {
         get {
             var output: MenubarDisplayType = .percent
 
-            if let type = UserDefaults.main.string(forKey: SystemDefaultsKeys.menubarPrimary.rawValue) {
+            if let type = UserDefaults.main.string(forKey: AppDefaultsKeys.menubarPrimary.rawValue) {
                 output = MenubarDisplayType(rawValue: type) ?? .percent
 
             }
@@ -298,7 +298,7 @@ public class MenubarManager: ObservableObject {
 
             }
 
-            if SystemDeviceTypes.type.battery == false {
+            if AppDeviceTypes.type.battery == false {
                 output = .voltage
 
             }
@@ -327,12 +327,12 @@ public class MenubarManager: ObservableObject {
         get {
             var output: MenubarDisplayType = .countdown
 
-            if let type = UserDefaults.main.string(forKey: SystemDefaultsKeys.menubarPrimary.rawValue) {
+            if let type = UserDefaults.main.string(forKey: AppDefaultsKeys.menubarPrimary.rawValue) {
                 output = MenubarDisplayType(rawValue: type) ?? .countdown
 
             }
 
-            if SystemDeviceTypes.type.battery == false {
+            if AppDeviceTypes.type.battery == false {
                 output = .hidden
 
             }
@@ -352,7 +352,7 @@ public class MenubarManager: ObservableObject {
 
     }
 
-    func menubarAppendDevices(_ device: SystemDeviceObject, state: MenubarAppendType) -> String {
+    func menubarAppendDevices(_ device: AppDeviceObject, state: MenubarAppendType) -> String {
         if let _ = AppManager.shared.appStorageContext() {
 
         }

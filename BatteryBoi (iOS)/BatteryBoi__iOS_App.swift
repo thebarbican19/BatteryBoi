@@ -8,7 +8,6 @@
 import SwiftUI
 import UIKit
 import CloudKit
-import CoreData
 import ActivityKit
 import BackgroundTasks
 import SwiftData
@@ -19,16 +18,16 @@ struct BatteryBoi__iOS_App: App {
 
     var body: some Scene {
         WindowGroup {
-            if #available(iOS 17.0, *), let container = CloudManager.container?.storage as? ModelContainer {
+            if let container = CloudManager.container?.container {
                 NavigationContainer().modelContainer(container)
             }
 			else {
                 NavigationContainer()
-				
+
             }
-            
+
         }
-        
+
     }
     
 }
@@ -92,14 +91,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         print("🔍 Handling background push event for ID: \(id)")
         
         BatteryManager.shared.powerForceRefresh()
-        //BatteryManager.shared.powerStoreEvent(nil)
 
-        let fetch: NSFetchRequest<Battery> = Battery.fetchRequest()
-        fetch.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
-        fetch.fetchLimit = 1
-        
         do {
-            //let existing = try context.fetch(fetch)
         
             /*
             let content = UNMutableNotificationContent()

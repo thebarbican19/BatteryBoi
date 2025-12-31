@@ -42,3 +42,7 @@
 "UpdateStatusIdleLabel" = "Ostatnio sprawdzane: %@"; // Ostatnio sprawdzane: 4 godziny temu
 "UpdateStatusEmptyLabel" = "Brak dostępnych aktualizacji";
 "UpdateStatusNewLabel" = "Dostępna nowa aktualizacja!";
+
+"OnboardingHideIconTitle" = "Ukryj domyślną ikonę baterii";
+"OnboardingHideIconSubtitle" = "Możesz ukryć domyślną ikonę baterii, przechodząc do Ustawienia systemowe > Centrum sterowania > Bateria > Pokaż w pasku menu";
+"OnboardingHideIconButton" = "Rozumiemy";

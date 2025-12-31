@@ -1,0 +1,191 @@
+{
+  "" : {
+    "const-values" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/FlyingFox-primary.swiftconstvalues",
+    "dependencies" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/FlyingFox-primary.d",
+    "diagnostics" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/FlyingFox-primary.dia",
+    "emit-module-dependencies" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/FlyingFox-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/FlyingFox-primary-emit-module.dia",
+    "pch" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/FlyingFox-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/FlyingFox-primary.swiftdeps"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/AsyncSequence+Extensions.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/AsyncSequence+Extensions.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/AsyncSequence+Extensions.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/AsyncSequence+Extensions.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/HTTPBodyPattern.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPBodyPattern.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPBodyPattern.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPBodyPattern.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/HTTPBodySequence.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPBodySequence.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPBodySequence.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPBodySequence.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/HTTPConnection.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPConnection.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPConnection.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPConnection.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/HTTPDecoder.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPDecoder.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPDecoder.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPDecoder.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/HTTPEncoder.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPEncoder.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPEncoder.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPEncoder.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/HTTPHandler.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPHandler.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPHandler.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPHandler.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/HTTPHeader.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPHeader.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPHeader.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPHeader.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/HTTPLogging+OSLog.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPLogging+OSLog.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPLogging+OSLog.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPLogging+OSLog.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/HTTPLogging.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPLogging.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPLogging.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPLogging.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/HTTPMethod.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPMethod.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPMethod.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPMethod.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/HTTPRequest+QueryItem.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPRequest+QueryItem.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPRequest+QueryItem.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPRequest+QueryItem.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/HTTPRequest.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPRequest.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPRequest.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPRequest.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/HTTPResponse.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPResponse.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPResponse.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPResponse.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/HTTPRoute.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPRoute.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPRoute.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPRoute.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/HTTPServer+Listening.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPServer+Listening.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPServer+Listening.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPServer+Listening.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/HTTPServer.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPServer.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPServer.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPServer.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/HTTPStatusCode.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPStatusCode.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPStatusCode.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPStatusCode.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/HTTPVersion.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPVersion.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPVersion.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/HTTPVersion.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/Handlers/ClosureHTTPHandler.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/ClosureHTTPHandler.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/ClosureHTTPHandler.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/ClosureHTTPHandler.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/Handlers/DirectoryHTTPHandler.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/DirectoryHTTPHandler.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/DirectoryHTTPHandler.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/DirectoryHTTPHandler.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/Handlers/FileHTTPHandler.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/FileHTTPHandler.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/FileHTTPHandler.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/FileHTTPHandler.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/Handlers/ProxyHTTPHandler.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/ProxyHTTPHandler.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/ProxyHTTPHandler.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/ProxyHTTPHandler.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/Handlers/RedirectHTTPHandler.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/RedirectHTTPHandler.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/RedirectHTTPHandler.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/RedirectHTTPHandler.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/Handlers/RoutedHTTPHandler.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/RoutedHTTPHandler.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/RoutedHTTPHandler.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/RoutedHTTPHandler.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/Handlers/WebSocketHTTPHandler.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/WebSocketHTTPHandler.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/WebSocketHTTPHandler.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/WebSocketHTTPHandler.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/SocketAddress+Glibc.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/SocketAddress+Glibc.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/SocketAddress+Glibc.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/SocketAddress+Glibc.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/URLSession+Async.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/URLSession+Async.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/URLSession+Async.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/URLSession+Async.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/UncheckedSendable.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/UncheckedSendable.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/UncheckedSendable.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/UncheckedSendable.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/WebSocket/AsyncStream+WSFrame.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/AsyncStream+WSFrame.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/AsyncStream+WSFrame.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/AsyncStream+WSFrame.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/WebSocket/SHA1.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/SHA1.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/SHA1.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/SHA1.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/WebSocket/WSFrame.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/WSFrame.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/WSFrame.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/WSFrame.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/WebSocket/WSFrameEncoder.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/WSFrameEncoder.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/WSFrameEncoder.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/WSFrameEncoder.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/WebSocket/WSFrameValidator.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/WSFrameValidator.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/WSFrameValidator.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/WSFrameValidator.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/WebSocket/WSHandler.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/WSHandler.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/WSHandler.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/WSHandler.o"
+  },
+  "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/FlyingFox/Sources/WebSocket/WSMessage.swift" : {
+    "index-unit-output-path" : "/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/WSMessage.o",
+    "llvm-bc" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/WSMessage.bc",
+    "object" : "/Users/mojito/Library/Developer/Xcode/DerivedData/BatteryBoi-dcclybfygeywddatamwsrhpmlfyv/SourcePackages/checkouts/FlyingFox/build/FlyingFox.build/Release/FlyingFox.build/Objects-normal/arm64/WSMessage.o"
+  }
+}

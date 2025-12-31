@@ -106,23 +106,23 @@ final class BluetoothDeviceTests: XCTestCase {
 
     func testRSSIDistanceLogic() {
         // Test Proximate (-20 to -50)
-        let proximate = SystemDeviceDistanceObject(-30)
+        let proximate = AppDeviceDistanceObject(-30)
         XCTAssertEqual(proximate.state, .proximate, "RSSI -30 should be proximate")
         
-        let proximateEdge = SystemDeviceDistanceObject(-50)
+        let proximateEdge = AppDeviceDistanceObject(-50)
         XCTAssertEqual(proximateEdge.state, .proximate, "RSSI -50 should be proximate")
         
         // Test Near (-50 to -70)
-        let near = SystemDeviceDistanceObject(-60)
+        let near = AppDeviceDistanceObject(-60)
         XCTAssertEqual(near.state, .near, "RSSI -60 should be near")
         
         // Test Far (< -70 or > -20 based on current implementation quirk)
-        let far = SystemDeviceDistanceObject(-80)
+        let far = AppDeviceDistanceObject(-80)
         XCTAssertEqual(far.state, .far, "RSSI -80 should be far")
         
         // Documenting/Testing the "Quirk": RSSI > -20 (e.g. -10) falls to "else" -> .far
         // Realistically this is very close, but we test the CURRENT logic.
-        let veryClose = SystemDeviceDistanceObject(-10)
+        let veryClose = AppDeviceDistanceObject(-10)
         XCTAssertEqual(veryClose.state, .far, "RSSI -10 currently falls to far (logic quirk)")
     }
     
