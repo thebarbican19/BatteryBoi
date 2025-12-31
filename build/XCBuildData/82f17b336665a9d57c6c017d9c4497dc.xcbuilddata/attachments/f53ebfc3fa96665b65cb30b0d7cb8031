@@ -1,4 +1,0 @@
-module RateBoi {
-header "RateBoi-Swift.h"
-export *
-}

@@ -1,4 +1,0 @@
-module FluidGradient {
-header "FluidGradient-Swift.h"
-export *
-}

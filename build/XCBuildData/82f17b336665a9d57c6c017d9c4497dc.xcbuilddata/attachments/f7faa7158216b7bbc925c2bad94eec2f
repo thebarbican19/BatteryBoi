@@ -1,4 +1,0 @@
-module FlyingFox {
-header "FlyingFox-Swift.h"
-export *
-}
