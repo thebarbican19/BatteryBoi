@@ -8,12 +8,12 @@
 import Foundation
 import SwiftData
 
-enum BatteryTriggerType {
+public enum BatteryTriggerType {
     case lowpower
     case limit
 }
 
-enum BatteryChargingState: String {
+public enum BatteryChargingState: String {
     case charging
     case battery
 
@@ -37,7 +37,7 @@ enum BatteryChargingState: String {
     }
 }
 
-enum BatteryModeType: String, CaseIterable {
+public enum BatteryModeType: String, CaseIterable {
     case normal
     case efficient
     case unavailable
@@ -51,7 +51,7 @@ enum BatteryModeType: String, CaseIterable {
     }
 }
 
-enum BatteryThemalState {
+public enum BatteryThemalState {
     case optimal
     case suboptimal
 
@@ -70,7 +70,7 @@ enum BatteryThemalState {
     }
 }
 
-enum BatteryHealthState: String {
+public enum BatteryHealthState: String {
     case optimal = "Normal"
     case suboptimal = "Suboptimal"
     case malfunctioning = "Service Battery"
@@ -86,7 +86,7 @@ enum BatteryHealthState: String {
     }
 }
 
-struct BatteryInformationObject {
+public struct BatteryInformationObject {
     var available: Double
     var capacity: Double
     var charger: String?
@@ -116,7 +116,7 @@ struct BatteryInformationObject {
     }
 }
 
-struct BatteryThemalObject: Equatable {
+public struct BatteryThemalObject: Equatable {
     var state: BatteryThemalState
     var formatted: String
     var value: Double
@@ -134,7 +134,7 @@ struct BatteryThemalObject: Equatable {
     }
 }
 
-struct BatteryHealthObject {
+public struct BatteryHealthObject {
     var state: BatteryHealthState
     var capacity: Double
     var available: Double
@@ -160,8 +160,8 @@ struct BatteryHealthObject {
     }
 }
 
-struct BatteryRemaining: Equatable {
-    static func == (lhs: BatteryRemaining, rhs: BatteryRemaining) -> Bool {
+public struct BatteryRemaining: Equatable {
+    public static func == (lhs: BatteryRemaining, rhs: BatteryRemaining) -> Bool {
         return lhs.date == rhs.date
     }
 
@@ -202,7 +202,7 @@ struct BatteryRemaining: Equatable {
     }
 }
 
-struct BatteryEstimateObject {
+public struct BatteryEstimateObject {
     var timestamp: Date
     var percent: Double
 
@@ -212,13 +212,14 @@ struct BatteryEstimateObject {
     }
 }
 
+@available(iOS 17.0, macOS 14.0, *)
 @Model
-final class BatteryEntry {
-    var id: UUID? = UUID()
-    var timestamp: Date? = Date()
-    var percentage: Int? = 0
-    var charging: Bool? = false
-    var mode: String? = ""
+public final class BatteryEntry {
+    public var id: UUID? = UUID()
+    public var timestamp: Date? = Date()
+    public var percentage: Int? = 0
+    public var charging: Bool? = false
+    public var mode: String? = ""
 
     init(percentage: Int, isCharging: Bool, mode: String) {
         self.id = UUID()

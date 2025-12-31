@@ -110,7 +110,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
 
             UpdateManager.shared.updateCheck()
             
-            WindowManager.shared.windowOpen(.alert, alert: .userInitiated, device: nil)
+            if OnboardingManager.shared.state != .complete {
+                WindowManager.shared.windowOpen(.alert, alert: .userInitiated, device: nil)
+
+            }
             
             MenubarManager.shared.$primary.removeDuplicates().sink { type in
                 print("🔍 Primary value changed to: \(type ?? "nil")")

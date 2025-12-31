@@ -140,3 +140,7 @@
 
 "OnboardingCompleteLabel" = "All set! BatteryBoi is ready to go.";
 
+"OnboardingCloudSecondaryButton" = "Skip for Now";
+"OnboardingBluetoothSecondaryButton" = "Skip for Now";
+"OnboardingNotificationsSecondaryButton" = "Skip for Now";
+"OnboardingProcessSecondaryButton" = "Skip for Now";

@@ -115,9 +115,15 @@ public class BatteryManager: ObservableObject {
 
         
         #endif
-        
+
         self.powerForceRefresh()
-        
+        self.powerCleanupOldEvents()
+
+        Timer.publish(every: 86400, on: .main, in: .common).autoconnect().sink { [weak self] _ in
+            self?.powerCleanupOldEvents()
+
+        }.store(in: &updates)
+
     }
     
     deinit {
@@ -276,6 +282,7 @@ public class BatteryManager: ObservableObject {
     func powerStoreEvent(_ device: SystemDeviceObject?, battery: Int? = nil, force: SystemAlertTypes? = nil) {
         if let context = AppManager.shared.appStorageContext() {
             context.perform {
+                let deviceName = device?.name ?? "system"
                 var predicates = Array<NSPredicate>()
                 predicates.append(NSPredicate(format: "session != %@", AppManager.shared.sessionid as CVarArg))
 
@@ -289,16 +296,17 @@ public class BatteryManager: ObservableObject {
                     currentPercentage = battery
                 }
 
+
                 if let deviceId = device?.id {
                     predicates.append(NSPredicate(format: "SELF.device.id == %@", deviceId as CVarArg))
                     predicates.append(NSPredicate(format: "percent == %d", Int16(currentPercentage)))
-                    predicates.append(NSPredicate(format: "created > %@", Date(timeIntervalSinceNow: -10 * 60 * 60) as NSDate))
+                    predicates.append(NSPredicate(format: "created > %@", Date(timeIntervalSinceNow: -30 * 60) as NSDate))
 
                 }
                 else if let systemId = UUID(uuidString: system) {
                     predicates.append(NSPredicate(format: "SELF.device.id == %@", systemId as CVarArg))
                     predicates.append(NSPredicate(format: "percent == %d", Int16(currentPercentage)))
-                    predicates.append(NSPredicate(format: "created > %@", Date(timeIntervalSinceNow: -2 * 60 * 60) as NSDate))
+                    predicates.append(NSPredicate(format: "created > %@", Date(timeIntervalSinceNow: -30 * 60) as NSDate))
 
                 }
 
@@ -309,7 +317,10 @@ public class BatteryManager: ObservableObject {
                 fetch.sortDescriptors = [NSSortDescriptor(key: "created", ascending: false)]
 
                 do {
+                    let fetchStart = Date()
                     if let last = try context.fetch(fetch).first {
+                        let fetchTime = Date().timeIntervalSince(fetchStart)
+
                         if let converted = SystemEventObject(last) {
                             AlertManager.shared.alertCreate(event: converted, force: force, context: context)
 
@@ -356,7 +367,13 @@ public class BatteryManager: ObservableObject {
 
                         }
 
+                        let saveStart = Date()
                         try context.save()
+                        let saveTime = Date().timeIntervalSince(saveStart)
+
+                        if saveTime > 1.0 {
+
+                        }
 
                     }
 
@@ -364,17 +381,39 @@ public class BatteryManager: ObservableObject {
                 catch {
 
                 }
-                
-                #if canImport(SwiftData)
-                if #available(iOS 17.0, macOS 14.0, *), let container = self.container as? ModelContainer {
-                    let context = ModelContext(container)
-                    let entry = BatteryEntry(percentage: currentPercentage, isCharging: self.charging.charging, mode: self.mode.rawValue)
-                    context.insert(entry)
 
-                    try? context.save()
+            }
+
+        }
+
+    }
+
+    func powerCleanupOldEvents() {
+        if let context = AppManager.shared.appStorageContext() {
+            context.perform {
+                let startTime = Date()
+
+                let fetch = Battery.fetchRequest() as NSFetchRequest<NSFetchRequestResult>
+                fetch.predicate = NSPredicate(format: "created < %@", Date(timeIntervalSinceNow: -30 * 24 * 60 * 60) as NSDate)
+
+                let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetch)
+                deleteRequest.resultType = .resultTypeCount
+
+                do {
+                    if let result = try context.execute(deleteRequest) as? NSBatchDeleteResult, let count = result.result as? Int {
+                        let cleanupTime = Date().timeIntervalSince(startTime)
+
+                        if count > 0 {
+                            try context.save()
+
+                        }
+
+                    }
 
                 }
-                #endif
+                catch {
+
+                }
 
             }
 

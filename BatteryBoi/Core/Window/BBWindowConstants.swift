@@ -7,8 +7,9 @@
 
 import Foundation
 import SwiftUI
-import Cocoa
 import CoreGraphics
+#if os(macOS)
+import Cocoa
 
 struct WindowScreenSize {
     var top: CGFloat = CGFloat(NSScreen.main?.frame.origin.y ?? 0.0)
@@ -16,6 +17,14 @@ struct WindowScreenSize {
     var width: CGFloat = CGFloat(NSScreen.main?.frame.width ?? 0.0)
     var height: CGFloat = CGFloat(NSScreen.main?.frame.height ?? 0.0)
 }
+#else
+struct WindowScreenSize {
+    var top: CGFloat = 0.0
+    var leading: CGFloat = 0.0
+    var width: CGFloat = 0.0
+    var height: CGFloat = 0.0
+}
+#endif
 
 struct WindowSize {
     var width: CGFloat
@@ -42,6 +51,7 @@ enum WindowTypes: String, CaseIterable {
     }
 }
 
+#if os(macOS)
 struct WindowViewBlur: NSViewRepresentable {
     func makeNSView(context: Context) -> NSVisualEffectView {
         let view = NSVisualEffectView()
@@ -56,6 +66,7 @@ struct WindowViewBlur: NSViewRepresentable {
     func updateNSView(_ view: NSVisualEffectView, context: Context) {
     }
 }
+#endif
 
 enum WindowPosition: String {
     case center
@@ -77,6 +88,7 @@ enum WindowPosition: String {
     }
 }
 
+#if os(macOS)
 @objc(BBWindow)
 class BBWindow: NSWindow {
     override var canBecomeKey: Bool {
@@ -87,3 +99,4 @@ class BBWindow: NSWindow {
         return true
     }
 }
+#endif

@@ -10,14 +10,16 @@ import CloudKit
 import CoreData
 import UserNotifications
 import Combine
-#if canImport(SwiftData)
 import SwiftData
-#endif
 
 #if os(macOS)
-    import AppKit
+import AppKit
+
+#else
+import UIKit
 
 #endif
+
 
 public class CloudManager: NSObject, ObservableObject, UNUserNotificationCenterDelegate {
     @Published var state: CloudState = .unknown
@@ -56,6 +58,7 @@ public class CloudManager: NSObject, ObservableObject, UNUserNotificationCenterD
                 subdirectory = parent
                 directory = parent.appendingPathComponent("\(object).sqlite")
 
+
             }
             catch {
 
@@ -74,7 +77,11 @@ public class CloudManager: NSObject, ObservableObject, UNUserNotificationCenterD
                 }
 
                 container.viewContext.automaticallyMergesChangesFromParent = true
+                let startTime = Date()
+
                 container.loadPersistentStores { (storeDescription, error) in
+                    let loadTime = Date().timeIntervalSince(startTime)
+
                     if let error = error {
                         DispatchQueue.main.async {
                             CloudManager.shared.syncing = .error
@@ -87,6 +94,21 @@ public class CloudManager: NSObject, ObservableObject, UNUserNotificationCenterD
 
                     }
                     else {
+                        if let storeURL = storeDescription.url {
+                            if let fileSize = try? FileManager.default.attributesOfItem(atPath: storeURL.path)[.size] as? Int {
+                                let sizeMB = Double(fileSize) / 1_048_576
+
+                                if sizeMB > 100 {
+
+                                }
+
+                            }
+                            else {
+
+                            }
+
+                        }
+
                         DispatchQueue.main.async {
                             CloudManager.shared.syncing = .completed
                             AppManager.shared.updated = Date()
@@ -129,6 +151,13 @@ public class CloudManager: NSObject, ObservableObject, UNUserNotificationCenterD
                     }
 
                 }
+                else {
+                    DispatchQueue.main.async {
+                        self.state = .disabled
+                        
+                    }
+                    
+                }
 
             }
 
@@ -154,6 +183,13 @@ public class CloudManager: NSObject, ObservableObject, UNUserNotificationCenterD
         #endif
 
         NotificationCenter.default.addObserver(self, selector: #selector(cloudContextDidChange(notification:)), name: .NSManagedObjectContextObjectsDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(cloudOwnerInformation), name: Notification.Name.CKAccountChanged, object: nil)
+        
+        #if os(macOS)
+            NotificationCenter.default.addObserver(self, selector: #selector(cloudOwnerInformation), name: NSApplication.willBecomeActiveNotification, object: nil)
+        #elseif os(iOS)
+            NotificationCenter.default.addObserver(self, selector: #selector(cloudOwnerInformation), name: UIApplication.willEnterForegroundNotification, object: nil)
+        #endif
 
     }
 
@@ -169,31 +205,55 @@ public class CloudManager: NSObject, ObservableObject, UNUserNotificationCenterD
                 }
 
             }
+            else if settings.authorizationStatus == .denied {
+				#if os(macOS)
+					DispatchQueue.main.async {
+						if let url = URL(string: "x-apple.systempreferences:com.apple.preference.notifications") {
+							NSWorkspace.shared.open(url)
+						}
+					}
+				#endif
+
+            }
 
         }
 
     }
 
-    private func cloudOwnerInformation() {
+    @objc private func cloudOwnerInformation() {
         if let id = Bundle.main.infoDictionary?["ENV_ICLOUD_ID"] as? String {
-            CKContainer(identifier: id).fetchUserRecordID { id, error in
-                if let id = id {
-                    UNUserNotificationCenter.current().getNotificationSettings { settings in
-                        DispatchQueue.main.async {
-                            switch settings.authorizationStatus {
-                                case .authorized: self.state = .enabled
-                                default: self.state = .blocked
+            CKContainer(identifier: id).accountStatus { status, error in
+                if status == .available {
+                    CKContainer(identifier: id).fetchUserRecordID { id, error in
+                        if let id = id {
+                            UNUserNotificationCenter.current().getNotificationSettings { settings in
+                                DispatchQueue.main.async {
+                                    switch settings.authorizationStatus {
+                                        case .authorized: self.state = .enabled
+                                        default: self.state = .blocked
+
+                                    }
+
+                                    self.id = id.recordName
+
+                                }
 
                             }
 
-                            self.id = id.recordName
-
+                        }
+                        else {
+                            DispatchQueue.main.async {
+                                self.state = .disabled
+                            }
                         }
 
                     }
-
                 }
-
+                else {
+                    DispatchQueue.main.async {
+                        self.state = .disabled
+                    }
+                }
             }
 
         }

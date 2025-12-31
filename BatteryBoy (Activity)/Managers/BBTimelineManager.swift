@@ -12,13 +12,17 @@ import Combine
 
 struct WidgetDeviceObject:TimelineEntry {
     var date: Date
-    var device:SystemDeviceObject?
-    
-    init(_ device: SystemDeviceObject? = nil) {
-        self.date = Date()
-        self.device = device
-        
-    }
+//    var device:SystemDeviceObject?
+//    
+//    init(_ device: SystemDeviceObject? = nil) {
+//        self.date = Date()
+//        self.device = device
+//        
+//    }
+	
+	init() {
+		self.date = Date.now
+	}
     
 }
 
@@ -26,7 +30,7 @@ struct WidgetProvider: TimelineProvider {
     public var cancellable = Set<AnyCancellable>()
 
     func placeholder(in context: Context) -> WidgetDeviceObject {
-        WidgetDeviceObject(nil)
+        WidgetDeviceObject()
         
     }
 

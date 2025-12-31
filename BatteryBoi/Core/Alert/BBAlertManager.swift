@@ -147,11 +147,21 @@ public class AlertManager: ObservableObject {
 
             }
 
+
+            let fetchStart = Date()
             if let existing = try context.fetch(fetch).first {
+                let fetchTime = Date().timeIntervalSince(fetchStart)
+
                 existing.triggered_on = Date()
                 existing.type = type.rawValue
 
+                let saveStart = Date()
                 try context.save()
+                let saveTime = Date().timeIntervalSince(saveStart)
+
+                if saveTime > 1.0 {
+
+                }
 
                 if let converted = SystemAlertObject(existing) {
                     self.alertTrigger(alert: converted)
@@ -168,7 +178,13 @@ public class AlertManager: ObservableObject {
                 store.local = type.local
                 store.owner = UUID(uuidString: system) ?? UUID()
 
+                let saveStart = Date()
                 try context.save()
+                let saveTime = Date().timeIntervalSince(saveStart)
+
+                if saveTime > 1.0 {
+
+                }
 
                 if let converted = SystemAlertObject(store) {
                     self.alertTrigger(alert: converted)

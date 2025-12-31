@@ -35,6 +35,7 @@ enum MenubarStyle: String, CaseIterable {
 
     var size: CGSize {
         return .init(width: 32, height: 15)
+		
     }
 
     var font: CGFloat {
@@ -42,7 +43,9 @@ enum MenubarStyle: String, CaseIterable {
             case .original: return 11
             case .transparent: return 11
             case .text: return 14
+			
         }
+		
     }
 
     var kerning: CGFloat {
@@ -50,7 +53,9 @@ enum MenubarStyle: String, CaseIterable {
             case .original: return -0.4
             case .transparent: return -0.4
             case .text: return 1.0
+			
         }
+		
     }
 
     var spacing: CGFloat {
@@ -58,7 +63,9 @@ enum MenubarStyle: String, CaseIterable {
             case .original: return 0.5
             case .transparent: return 0.5
             case .text: return 1.0
+			
         }
+		
     }
 
     var icon: CGSize {
@@ -66,7 +73,9 @@ enum MenubarStyle: String, CaseIterable {
             case .original: return .init(width: 5, height: 8)
             case .transparent: return .init(width: 5, height: 8)
             case .text: return .init(width: 7, height: 10)
+			
         }
+		
     }
 
     var padding: CGFloat {
@@ -74,7 +83,9 @@ enum MenubarStyle: String, CaseIterable {
             case .original: return 1.6
             case .transparent: return 1.6
             case .text: return 0.0
+			
         }
+		
     }
 
     var stub: CGFloat {
@@ -82,6 +93,9 @@ enum MenubarStyle: String, CaseIterable {
             case .original: return 0.6
             case .transparent: return 0.6
             case .text: return 0.0
+			
         }
+		
     }
+	
 }

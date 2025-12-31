@@ -765,6 +765,15 @@ public class ProcessManager: ObservableObject {
             }
             
         }
+        else if command == .github {
+            if let url = URL(string: "https://github.com/thebarbican19/BatteryBoi") {
+                NSWorkspace.shared.open(url)
+                
+                output.append(self.processHeaderOutput("SUCSESS", state:.sucsess))
+                output.append(self.processValueOutput("Opening URL", value: .init(url.absoluteString)))
+                
+            }
+        }
         else if command == .rate {
             if let url = URL(string: "https://www.producthunt.com/products/batteryboi/reviews?ref=cliboi") {
                 NSWorkspace.shared.open(url)
@@ -897,21 +906,94 @@ public class ProcessManager: ObservableObject {
             }
 
         }
+        else if command == .log {
+            if secondary == .export {
+                let semaphore = DispatchSemaphore(value: 0)
+                var logURL: URL?
+                
+                Task {
+                    do {
+                    }
+                    catch {
+                    }
+                    semaphore.signal()
+                }
+                
+                _ = semaphore.wait(timeout: .now() + 5.0)
+                
+                if let url = logURL, let logs = try? String(contentsOf: url) {
+                    output.append(self.processBoxHeader("APPLICATION LOGS"))
+                    output.append(logs)
+                } else {
+                    output.append(self.processHeaderOutput("FAILED TO RETRIEVE LOGS", state: .error))
+                }
+            }
+        }
+        else if command == .intro {
+            if secondary == .show {
+                DispatchQueue.main.async {
+                    WindowManager.shared.windowOpen(.intro, alert: .userInitiated, device: nil)
+                }
+                output.append(self.processHeaderOutput("INTRO WINDOW OPENED", state:.sucsess))
+            }
+        }
+        else if command == .reset {
+            if secondary == .onboarding {
+                UserDefaults.save(.onboardingStep, value: nil)
+                UserDefaults.save(.onboardingComplete, value: nil)
+                OnboardingManager.shared.state = .intro
+                
+                output.append(self.processHeaderOutput("ONBOARDING RESET", state:.sucsess))
+            }
+            else if secondary == .defaults {
+                if let bundleID = Bundle.main.bundleIdentifier {
+                    UserDefaults.standard.removePersistentDomain(forName: bundleID)
+                    UserDefaults.standard.synchronize()
+                    output.append(self.processHeaderOutput("USER DEFAULTS RESET", state:.sucsess))
+                } else {
+                    output.append(self.processHeaderOutput("FAILED TO RESET DEFAULTS", state:.error))
+                }
+            }
+            else if secondary == .database {
+                AppManager.shared.appDestoryEntity(.devices)
+                AppManager.shared.appDestoryEntity(.events)
+                output.append(self.processHeaderOutput("DATABASE CLEARED", state:.sucsess))
+            }
+            else if secondary == .all {
+                // Reset Onboarding
+                UserDefaults.save(.onboardingStep, value: nil)
+                UserDefaults.save(.onboardingComplete, value: nil)
+                
+                // Reset Database
+                AppManager.shared.appDestoryEntity(.devices)
+                AppManager.shared.appDestoryEntity(.events)
+                
+                // Reset Defaults
+                if let bundleID = Bundle.main.bundleIdentifier {
+                    UserDefaults.standard.removePersistentDomain(forName: bundleID)
+                    UserDefaults.standard.synchronize()
+                }
+                
+                output.append(self.processHeaderOutput("FULL RESET COMPLETE - RESTARTING", state:.sucsess))
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self.processRestart()
+                }
+            }
+        }
 
         if output.isEmpty {
             return nil
             
         }
         
+        var header = ""
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-            output.append("\n\n")
-            output.append("\u{001B}[90mBatteryBoi (Open-Source) 2024 Version \(version)\u{001B}[0m")
-            output.append("\n\u{001B}[90mPlease Consider Rating BatteryBoi on Product Hunt \u{001B}[1m[cliboi rate]\u{001B}[0m \u{001B}[0m")
-            output.append("\n")
-            
+            header.append("\u{001B}[90mBatteryBoi (Open-Source) 2024 Version \(version)\u{001B}[0m\n")
+            header.append("\u{001B}[90mPlease Consider Rating BatteryBoi on Product Hunt \u{001B}[1m[cliboi rate]\u{001B}[0m\n\n")
         }
         
-        return output
+        return header + output
         
     }
     
@@ -978,10 +1060,9 @@ public class ProcessManager: ObservableObject {
         if let scriptObject = NSAppleScript(source: script) {
             scriptObject.executeAndReturnError(&error)
             if let error = error {
-                print(error)
-                
+
             }
-            
+
         }
         
         return nil

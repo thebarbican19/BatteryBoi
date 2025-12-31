@@ -75,12 +75,21 @@ struct DebugDeviceView: View {
     var body: some View {
         Text("Devices & Events").font(.title)
 
-        LazyVGrid(columns: layout, alignment: .leading, spacing:10) {
-            ForEach(manager.devices, id: \.self) { device in
-                DebugDeviceCell(device)
+        if manager.devices.isEmpty {
+            Text("No devices detected. Ensure Bluetooth is enabled and devices are nearby.")
+                .font(.caption)
+                .foregroundColor(.secondary)
+                .padding(.vertical)
+        }
+        else {
+            LazyVGrid(columns: layout, alignment: .leading, spacing:10) {
+                ForEach(manager.devices, id: \.self) { device in
+                    DebugDeviceCell(device)
+                    
+                }
                 
             }
-            
+
         }
         
     }
@@ -161,8 +170,17 @@ struct DebugBroadcastView: View {
         }
         
         LazyVGrid(columns: layout, alignment: .leading, spacing:10) {
-            ForEach(bluetooth.broadcasting) { device in
-                DebugBroadcastCell(device)
+            if bluetooth.broadcasting.isEmpty {
+                Text("Searching for broadcasting devices...")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .padding(.vertical)
+            }
+            else {
+                ForEach(bluetooth.broadcasting) { device in
+                    DebugBroadcastCell(device)
+
+                }
 
             }
 

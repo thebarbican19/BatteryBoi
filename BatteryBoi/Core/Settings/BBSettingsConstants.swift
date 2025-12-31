@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum SettingsBatteryAnimationType {
+public enum SettingsBatteryAnimationType {
     case charging
     case low
 }
 
-enum SettingsSoundEffects: String {
+public enum SettingsSoundEffects: String {
     case enabled
     case disabled
 
@@ -31,7 +31,7 @@ enum SettingsSoundEffects: String {
     }
 }
 
-enum SettingsPinned: String {
+public enum SettingsPinned: String {
     case enabled
     case disabled
 
@@ -50,7 +50,7 @@ enum SettingsPinned: String {
     }
 }
 
-enum SettingsCharged: String {
+public enum SettingsCharged: String {
     case enabled
     case disabled
 
@@ -69,7 +69,7 @@ enum SettingsCharged: String {
     }
 }
 
-enum SettingsBeta: String, CaseIterable {
+public enum SettingsBeta: String, CaseIterable {
     case enabled
     case disabled
 
@@ -81,7 +81,7 @@ enum SettingsBeta: String, CaseIterable {
     }
 }
 
-struct SettingsActionObject: Hashable {
+public struct SettingsActionObject: Hashable {
     var type: SettingsActionType
     var title: String
 
@@ -108,7 +108,7 @@ struct SettingsActionObject: Hashable {
     }
 }
 
-enum SettingsActionType {
+public enum SettingsActionType {
     case appWebsite
     case appQuit
     case appDevices
@@ -146,7 +146,7 @@ enum SettingsActionType {
     }
 }
 
-enum SettingsTheme: String, CaseIterable {
+public enum SettingsTheme: String, CaseIterable {
     case system
     case light
     case dark
@@ -160,7 +160,7 @@ enum SettingsTheme: String, CaseIterable {
     }
 }
 
-enum SettingsStateValue: String {
+public enum SettingsStateValue: String {
     case enabled
     case disabled
     case undetermined

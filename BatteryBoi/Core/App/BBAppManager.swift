@@ -93,8 +93,6 @@ public class AppManager: ObservableObject {
     public func setupCLISymlink() {
         #if os(macOS)
         DispatchQueue.global(qos: .background).async { [weak self] in
-            print("🔧 CLI Symlink - Starting setup on background queue")
-            fflush(stdout)
             self?.createSymlinkIfNeeded()
         }
         #endif
@@ -126,20 +124,12 @@ public class AppManager: ObservableObject {
         }
 
         guard let cliBinaryPath = foundCLI else {
-            print("⚠️ CLI binary not found in any expected location")
-            print("   Checked paths:")
-            for path in possibleCliPaths {
-                print("     - \(path)")
-            }
-            fflush(stdout)
             return
         }
 
         for symlinkPath in possibleSymlinkPaths {
             if fileManager.fileExists(atPath: symlinkPath) {
-                print("ℹ️ CLI symlink already exists at: \(symlinkPath)")
                 self.ensureLocalBinInPath()
-                fflush(stdout)
                 return
             }
 
@@ -150,9 +140,7 @@ public class AppManager: ObservableObject {
                 }
 
                 try fileManager.createSymbolicLink(atPath: symlinkPath, withDestinationPath: cliBinaryPath)
-                print("✅ Created CLI symlink: \(symlinkPath) → \(cliBinaryPath)")
                 self.ensureLocalBinInPath()
-                fflush(stdout)
                 return
             }
             catch {
@@ -160,10 +148,6 @@ public class AppManager: ObservableObject {
             }
         }
 
-        print("⚠️ Could not create CLI symlink in any location")
-        print("   Try running this command manually with sudo:")
-        print("   sudo ln -s \(cliBinaryPath) /usr/local/bin/cliboi")
-        fflush(stdout)
         #endif
     }
 
@@ -178,7 +162,7 @@ public class AppManager: ObservableObject {
             homeDir + "/.bashrc"
         ]
 
-        let pathExportLine = "export PATH=\"\(localBinPath):$PATH\""
+        let pathExportLine = "export PATH=\"" + localBinPath + ":$PATH\""
 
         for configFile in shellConfigFiles {
             guard fileManager.fileExists(atPath: configFile) == true else {
@@ -193,8 +177,6 @@ public class AppManager: ObservableObject {
 
                 let newContent = content.trimmingCharacters(in: .whitespacesAndNewlines) + "\n\n" + pathExportLine + "\n"
                 try newContent.write(toFile: configFile, atomically: true, encoding: .utf8)
-                print("ℹ️ Added \(localBinPath) to PATH in \(configFile)")
-                fflush(stdout)
             }
             catch {
                 continue
@@ -282,6 +264,8 @@ public class AppManager: ObservableObject {
     func appStoreDevice(_ device: SystemDeviceObject? = nil) {
         if let context = self.appStorageContext() {
             context.perform {
+                let deviceName = device?.name ?? "system"
+
                 if let match = SystemDeviceObject.match(device, context: context) {
                     let fetch = Devices.fetchRequest() as NSFetchRequest<Devices>
                     fetch.includesPendingChanges = true
@@ -289,7 +273,9 @@ public class AppManager: ObservableObject {
                     fetch.predicate = NSPredicate(format: "id == %@", match.id as CVarArg)
 
                     do {
+                        let fetchStart = Date()
                         if let existing = try context.fetch(fetch).first {
+                            let fetchTime = Date().timeIntervalSince(fetchStart)
                             existing.refreshed_on = Date()
 
                             if existing.serial.empty {
@@ -333,7 +319,13 @@ public class AppManager: ObservableObject {
 
                             }
 
+                            let saveStart = Date()
                             try context.save()
+                            let saveTime = Date().timeIntervalSince(saveStart)
+
+                            if saveTime > 1.0 {
+
+                            }
 
                         }
 
@@ -388,12 +380,21 @@ public class AppManager: ObservableObject {
 
                     if store.model.empty == false || store.name.empty == false {
                         do {
+                            let saveStart = Date()
                             try context.save()
+                            let saveTime = Date().timeIntervalSince(saveStart)
+
+                            if saveTime > 1.0 {
+
+                            }
 
                         }
                         catch {
 
                         }
+
+                    }
+                    else {
 
                     }
 
@@ -435,6 +436,9 @@ public class AppManager: ObservableObject {
             else {
 
             }
+
+        }
+        else {
 
         }
 

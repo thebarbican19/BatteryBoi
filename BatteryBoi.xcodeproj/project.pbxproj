@@ -7,55 +7,104 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C0669AAA2F03380000000001 /* BBSystemConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AAB2F03380000000001 /* BBSystemConstants.swift */; };
-		C0669AAC2F03380000000002 /* BBSystemConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AAB2F03380000000001 /* BBSystemConstants.swift */; };
-		C0669AAD2F03380000000003 /* BBBatteryConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AAE2F03380000000003 /* BBBatteryConstants.swift */; };
-		C0669AAF2F03380000000004 /* BBOnboardingConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AB02F03380000000004 /* BBOnboardingConstants.swift */; };
-		C0669AB12F03380000000005 /* BBSettingsConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AB22F03380000000005 /* BBSettingsConstants.swift */; };
-		C0669AB32F03380000000006 /* BBMenubarConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AB42F03380000000006 /* BBMenubarConstants.swift */; };
-		C0669AB52F03380000000007 /* BBAnimationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AB62F03380000000007 /* BBAnimationConstants.swift */; };
-		C0669AB72F03380000000008 /* BBWindowConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AB82F03380000000008 /* BBWindowConstants.swift */; };
-		C0669AB92F03380000000009 /* BBBluetoothConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669ABA2F03380000000009 /* BBBluetoothConstants.swift */; };
-		C0669ABB2F0338000000000A /* BBCloudConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669ABC2F0338000000000A /* BBCloudConstants.swift */; };
-		C0669ABD2F0338000000000B /* BBStatsConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669ABE2F0338000000000B /* BBStatsConstants.swift */; };
-		C0669ABF2F0338000000000C /* BBProcessConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AC02F0338000000000C /* BBProcessConstants.swift */; };
-		C0669AC12F0338000000000D /* BBUpdateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0669AC22F0338000000000D /* BBUpdateConstants.swift */; };
+		C016C8382F04952100C7E1F6 /* BBOnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C81C2F04952100C7E1F6 /* BBOnboardingManager.swift */; };
+		C016C8392F04952100C7E1F6 /* BBUpdateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8312F04952100C7E1F6 /* BBUpdateConstants.swift */; };
+		C016C83A2F04952100C7E1F6 /* BBCloudConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C80E2F04952100C7E1F6 /* BBCloudConstants.swift */; };
+		C016C83B2F04952100C7E1F6 /* BBSettingsConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8262F04952100C7E1F6 /* BBSettingsConstants.swift */; };
+		C016C83D2F04952100C7E1F6 /* BBAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C7FD2F04952100C7E1F6 /* BBAlertManager.swift */; };
+		C016C83E2F04952100C7E1F6 /* BBSystemConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C82E2F04952100C7E1F6 /* BBSystemConstants.swift */; };
+		C016C83F2F04952100C7E1F6 /* BBAlertConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C7FC2F04952100C7E1F6 /* BBAlertConstants.swift */; };
+		C016C8402F04952100C7E1F6 /* BBMenubarConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8182F04952100C7E1F6 /* BBMenubarConstants.swift */; };
+		C016C8422F04952100C7E1F6 /* BBPeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8202F04952100C7E1F6 /* BBPeerManager.swift */; };
+		C016C8442F04952100C7E1F6 /* BBAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8002F04952100C7E1F6 /* BBAnimationManager.swift */; };
+		C016C8462F04952100C7E1F6 /* BBStatsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C82C2F04952100C7E1F6 /* BBStatsModels.swift */; };
+		C016C8472F04952100C7E1F6 /* BBSettingsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8282F04952100C7E1F6 /* BBSettingsModels.swift */; };
+		C016C8482F04952100C7E1F6 /* BBAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8032F04952100C7E1F6 /* BBAppConstants.swift */; };
+		C016C8492F04952100C7E1F6 /* BBWindowConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8342F04952100C7E1F6 /* BBWindowConstants.swift */; };
+		C016C84A2F04952100C7E1F6 /* BBBluetoothConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C80A2F04952100C7E1F6 /* BBBluetoothConstants.swift */; };
+		C016C84C2F04952100C7E1F6 /* BBBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C80B2F04952100C7E1F6 /* BBBluetoothManager.swift */; };
+		C016C84D2F04952100C7E1F6 /* BBLogConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8152F04952100C7E1F6 /* BBLogConstants.swift */; };
+		C016C84E2F04952100C7E1F6 /* BBSystemModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C82F2F04952100C7E1F6 /* BBSystemModels.swift */; };
+		C016C84F2F04952100C7E1F6 /* BBOnboardingConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C81B2F04952100C7E1F6 /* BBOnboardingConstants.swift */; };
+		C016C8512F04952100C7E1F6 /* BBPeerConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C81F2F04952100C7E1F6 /* BBPeerConstants.swift */; };
+		C016C8522F04952100C7E1F6 /* BBStatsConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C82A2F04952100C7E1F6 /* BBStatsConstants.swift */; };
+		C016C8532F04952100C7E1F6 /* BBBatteryConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8062F04952100C7E1F6 /* BBBatteryConstants.swift */; };
+		C016C8572F04952100C7E1F6 /* BBBluetoothModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C80C2F04952100C7E1F6 /* BBBluetoothModels.swift */; };
+		C016C8582F04952100C7E1F6 /* BBAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8042F04952100C7E1F6 /* BBAppManager.swift */; };
+		C016C8592F04952100C7E1F6 /* BBBatteryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8072F04952100C7E1F6 /* BBBatteryManager.swift */; };
+		C016C85A2F04952100C7E1F6 /* BBStatsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C82B2F04952100C7E1F6 /* BBStatsManager.swift */; };
+		C016C85B2F04952100C7E1F6 /* BBOnboardingModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C81D2F04952100C7E1F6 /* BBOnboardingModels.swift */; };
+		C016C85D2F04952100C7E1F6 /* BBLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8162F04952100C7E1F6 /* BBLogManager.swift */; };
+		C016C85E2F04952100C7E1F6 /* BBCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C80F2F04952100C7E1F6 /* BBCloudManager.swift */; };
+		C016C85F2F04952100C7E1F6 /* BBBatteryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8082F04952100C7E1F6 /* BBBatteryModels.swift */; };
+		C016C8612F04952100C7E1F6 /* BBAppErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8142F04952100C7E1F6 /* BBAppErrors.swift */; };
+		C016C88C2F04952100C7E1F6 /* BBOnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C81C2F04952100C7E1F6 /* BBOnboardingManager.swift */; };
+		C016C88D2F04952100C7E1F6 /* BBUpdateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8312F04952100C7E1F6 /* BBUpdateConstants.swift */; };
+		C016C88E2F04952100C7E1F6 /* BBCloudConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C80E2F04952100C7E1F6 /* BBCloudConstants.swift */; };
+		C016C88F2F04952100C7E1F6 /* BBSettingsConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8262F04952100C7E1F6 /* BBSettingsConstants.swift */; };
+		C016C8902F04952100C7E1F6 /* BBAnimationModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8012F04952100C7E1F6 /* BBAnimationModels.swift */; };
+		C016C8912F04952100C7E1F6 /* BBAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C7FD2F04952100C7E1F6 /* BBAlertManager.swift */; };
+		C016C8922F04952100C7E1F6 /* BBSystemConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C82E2F04952100C7E1F6 /* BBSystemConstants.swift */; };
+		C016C8932F04952100C7E1F6 /* BBAlertConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C7FC2F04952100C7E1F6 /* BBAlertConstants.swift */; };
+		C016C8942F04952100C7E1F6 /* BBMenubarConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8182F04952100C7E1F6 /* BBMenubarConstants.swift */; };
+		C016C8962F04952100C7E1F6 /* BBPeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8202F04952100C7E1F6 /* BBPeerManager.swift */; };
+		C016C8972F04952100C7E1F6 /* BBWindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8352F04952100C7E1F6 /* BBWindowManager.swift */; };
+		C016C8982F04952100C7E1F6 /* BBAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8002F04952100C7E1F6 /* BBAnimationManager.swift */; };
+		C016C8992F04952100C7E1F6 /* BBMenubarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8192F04952100C7E1F6 /* BBMenubarManager.swift */; };
+		C016C89A2F04952100C7E1F6 /* BBStatsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C82C2F04952100C7E1F6 /* BBStatsModels.swift */; };
+		C016C89B2F04952100C7E1F6 /* BBSettingsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8282F04952100C7E1F6 /* BBSettingsModels.swift */; };
+		C016C89C2F04952100C7E1F6 /* BBAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8032F04952100C7E1F6 /* BBAppConstants.swift */; };
+		C016C89D2F04952100C7E1F6 /* BBWindowConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8342F04952100C7E1F6 /* BBWindowConstants.swift */; };
+		C016C89E2F04952100C7E1F6 /* BBBluetoothConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C80A2F04952100C7E1F6 /* BBBluetoothConstants.swift */; };
+		C016C89F2F04952100C7E1F6 /* BBSettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8272F04952100C7E1F6 /* BBSettingsManager.swift */; };
+		C016C8A02F04952100C7E1F6 /* BBBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C80B2F04952100C7E1F6 /* BBBluetoothManager.swift */; };
+		C016C8A12F04952100C7E1F6 /* BBLogConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8152F04952100C7E1F6 /* BBLogConstants.swift */; };
+		C016C8A22F04952100C7E1F6 /* BBSystemModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C82F2F04952100C7E1F6 /* BBSystemModels.swift */; };
+		C016C8A32F04952100C7E1F6 /* BBOnboardingConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C81B2F04952100C7E1F6 /* BBOnboardingConstants.swift */; };
+		C016C8A42F04952100C7E1F6 /* BBProcessModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8242F04952100C7E1F6 /* BBProcessModels.swift */; };
+		C016C8A52F04952100C7E1F6 /* BBPeerConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C81F2F04952100C7E1F6 /* BBPeerConstants.swift */; };
+		C016C8A62F04952100C7E1F6 /* BBStatsConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C82A2F04952100C7E1F6 /* BBStatsConstants.swift */; };
+		C016C8A72F04952100C7E1F6 /* BBBatteryConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8062F04952100C7E1F6 /* BBBatteryConstants.swift */; };
+		C016C8A82F04952100C7E1F6 /* BBProcessManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8232F04952100C7E1F6 /* BBProcessManager.swift */; };
+		C016C8A92F04952100C7E1F6 /* BBCloudModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8102F04952100C7E1F6 /* BBCloudModels.swift */; };
+		C016C8AA2F04952100C7E1F6 /* BBProcessConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8222F04952100C7E1F6 /* BBProcessConstants.swift */; };
+		C016C8AB2F04952100C7E1F6 /* BBBluetoothModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C80C2F04952100C7E1F6 /* BBBluetoothModels.swift */; };
+		C016C8AC2F04952100C7E1F6 /* BBAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8042F04952100C7E1F6 /* BBAppManager.swift */; };
+		C016C8AD2F04952100C7E1F6 /* BBBatteryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8072F04952100C7E1F6 /* BBBatteryManager.swift */; };
+		C016C8AE2F04952100C7E1F6 /* BBStatsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C82B2F04952100C7E1F6 /* BBStatsManager.swift */; };
+		C016C8AF2F04952100C7E1F6 /* BBOnboardingModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C81D2F04952100C7E1F6 /* BBOnboardingModels.swift */; };
+		C016C8B02F04952100C7E1F6 /* BBUpdateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8322F04952100C7E1F6 /* BBUpdateManager.swift */; };
+		C016C8B12F04952100C7E1F6 /* BBLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8162F04952100C7E1F6 /* BBLogManager.swift */; };
+		C016C8B22F04952100C7E1F6 /* BBCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C80F2F04952100C7E1F6 /* BBCloudManager.swift */; };
+		C016C8B32F04952100C7E1F6 /* BBBatteryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8082F04952100C7E1F6 /* BBBatteryModels.swift */; };
+		C016C8B42F04952100C7E1F6 /* BBAnimationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C7FF2F04952100C7E1F6 /* BBAnimationConstants.swift */; };
+		C016C8B52F04952100C7E1F6 /* BBAppErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8142F04952100C7E1F6 /* BBAppErrors.swift */; };
+		C016C8BC2F04983200C7E1F6 /* BBAnimationModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8012F04952100C7E1F6 /* BBAnimationModels.swift */; };
+		C016C8BD2F04983200C7E1F6 /* BBProcessModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8242F04952100C7E1F6 /* BBProcessModels.swift */; };
+		C016C8BE2F04983200C7E1F6 /* BBCloudModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8102F04952100C7E1F6 /* BBCloudModels.swift */; };
+		C016C8BF2F04983200C7E1F6 /* BBProcessConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8222F04952100C7E1F6 /* BBProcessConstants.swift */; };
+		C016C8C02F04983200C7E1F6 /* BBAnimationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C7FF2F04952100C7E1F6 /* BBAnimationConstants.swift */; };
+		C016C8C92F049A8500C7E1F6 /* BBCloudModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8598C962B156198006F36B2 /* BBCloudModels.swift */; };
+		C016C8CB2F049AD500C7E1F6 /* DynamicColor in Frameworks */ = {isa = PBXBuildFile; productRef = C016C8CA2F049AD500C7E1F6 /* DynamicColor */; };
+		C016C8CE2F049C2F00C7E1F6 /* BBSettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F22B2B0D646600D13DE6 /* BBSettingsManager.swift */; };
 		C0669B052F0337D000EF6308 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = C0669B042F0337D000EF6308 /* ArgumentParser */; };
 		C0669B082F0337E700EF6308 /* Rainbow in Frameworks */ = {isa = PBXBuildFile; productRef = C0669B072F0337E700EF6308 /* Rainbow */; };
 		D804F2272B0D63CE00D13DE6 /* BBExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5B82A80646E00E295FA /* BBExtensions.swift */; };
-		D804F2292B0D640A00D13DE6 /* BBSystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2282B0D640A00D13DE6 /* BBSystemModel.swift */; };
-		D804F22A2B0D641D00D13DE6 /* BBSystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2282B0D640A00D13DE6 /* BBSystemModel.swift */; };
-		D804F22C2B0D646600D13DE6 /* BBSettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F22B2B0D646600D13DE6 /* BBSettingsManager.swift */; };
-		D804F22F2B0D64DE00D13DE6 /* BBSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F22E2B0D64DE00D13DE6 /* BBSettingsModel.swift */; };
-		D804F2302B0D650300D13DE6 /* BBSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F22E2B0D64DE00D13DE6 /* BBSettingsModel.swift */; };
-		D804F2322B0D6ABF00D13DE6 /* BBCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2312B0D6ABF00D13DE6 /* BBCloudManager.swift */; };
-		D804F2332B0D6B3700D13DE6 /* BBCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2312B0D6ABF00D13DE6 /* BBCloudManager.swift */; };
+		D804F2292B0D640A00D13DE6 /* BBSystemModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2282B0D640A00D13DE6 /* BBSystemModels.swift */; };
+		D804F22F2B0D64DE00D13DE6 /* BBSettingsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F22E2B0D64DE00D13DE6 /* BBSettingsModels.swift */; };
 		D804F2342B0D6D6B00D13DE6 /* LocalizableMain.strings in Resources */ = {isa = PBXBuildFile; fileRef = D84F4E2D2A86E9E800668582 /* LocalizableMain.strings */; };
 		D804F2352B0D6D7700D13DE6 /* LocalizableMain.strings in Resources */ = {isa = PBXBuildFile; fileRef = D84F4E2D2A86E9E800668582 /* LocalizableMain.strings */; };
-		D804F2372B0D6F1500D13DE6 /* BBBluetoothModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2362B0D6F1500D13DE6 /* BBBluetoothModel.swift */; };
-		D804F2382B0D6F1F00D13DE6 /* BBBluetoothModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2362B0D6F1500D13DE6 /* BBBluetoothModel.swift */; };
-		D804F2392B0D6F3800D13DE6 /* BBBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DFD5922A956D2C00732635 /* BBBluetoothManager.swift */; };
-		D804F23A2B0D6FB500D13DE6 /* BBStatsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83DD3F92A9D62AF00FCC534 /* BBStatsManager.swift */; };
-		D804F23B2B0D715E00D13DE6 /* BBAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5CA2A8403D300E295FA /* BBAppManager.swift */; };
-		D804F23C2B0DB09E00D13DE6 /* BBBatteryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5AE2A7DF68C00E295FA /* BBBatteryManager.swift */; };
+		D804F2372B0D6F1500D13DE6 /* BBBluetoothModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2362B0D6F1500D13DE6 /* BBBluetoothModels.swift */; };
 		D8228E102AC1EA790014DC85 /* BatteryBoi__iOS_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8228E0F2AC1EA790014DC85 /* BatteryBoi__iOS_App.swift */; };
 		D8228E122AC1EA790014DC85 /* BBDebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8228E112AC1EA790014DC85 /* BBDebugView.swift */; };
-		D8228E392AC387020014DC85 /* BBProcessManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8228E382AC387010014DC85 /* BBProcessManager.swift */; };
-		D83701122B1F8E4C00B1206E /* BBAnimationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83701112B1F8E4C00B1206E /* BBAnimationModel.swift */; };
+		D83701122B1F8E4C00B1206E /* BBAnimationModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83701112B1F8E4C00B1206E /* BBAnimationModels.swift */; };
 		D837011D2B1F932900B1206E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D837011C2B1F932900B1206E /* main.swift */; };
 		D83701212B1F933A00B1206E /* cliboi in CopyFiles */ = {isa = PBXBuildFile; fileRef = D837011A2B1F932900B1206E /* cliboi */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		D83701442B1FD27500B1206E /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83701432B1FD27500B1206E /* SMC.swift */; };
-		D83701462B20F65B00B1206E /* BBAnimationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83701112B1F8E4C00B1206E /* BBAnimationModel.swift */; };
-		D83701472B20F6B000B1206E /* BBAnimationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83701112B1F8E4C00B1206E /* BBAnimationModel.swift */; };
-		D83701482B20F6FC00B1206E /* BBAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891134C2AAC34DC00B5E4F5 /* BBAnimationManager.swift */; };
-		D83701492B20F6FC00B1206E /* BBAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891134C2AAC34DC00B5E4F5 /* BBAnimationManager.swift */; };
-		D837014B2B2100DE00B1206E /* BBMenubarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D837014A2B2100DE00B1206E /* BBMenubarManager.swift */; };
 		D83C2C2C2B25329400B78456 /* BBHelperManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83C2C2B2B25329400B78456 /* BBHelperManager.swift */; };
 		D83C2C2E2B253DBD00B78456 /* BBHelperModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83C2C2D2B253DBD00B78456 /* BBHelperModel.swift */; };
 		D83C2C2F2B253DBD00B78456 /* BBHelperModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83C2C2D2B253DBD00B78456 /* BBHelperModel.swift */; };
 		D83CD7452AA8F693004223D7 /* BBBluetoothView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83CD7442AA8F693004223D7 /* BBBluetoothView.swift */; };
-		D83DD3F52A9908E600FCC534 /* BBUpdateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83DD3F42A9908E600FCC534 /* BBUpdateManager.swift */; };
-		D83DD3FA2A9D62AF00FCC534 /* BBStatsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83DD3F92A9D62AF00FCC534 /* BBStatsManager.swift */; };
 		D84F4E182A85A66900668582 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = D84F4E172A85A66900668582 /* Sparkle */; };
 		D84F4E1B2A85A6A800668582 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = D84F4E1A2A85A6A800668582 /* KeyboardShortcuts */; };
 		D84F4E2B2A86E9E800668582 /* LocalizableMain.strings in Resources */ = {isa = PBXBuildFile; fileRef = D84F4E2D2A86E9E800668582 /* LocalizableMain.strings */; };
@@ -66,24 +115,19 @@
 		D8577A412B23B3A200366B51 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8577A402B23B3A200366B51 /* main.swift */; };
 		D8577A462B23B4C000366B51 /* helperboi in CopyFiles */ = {isa = PBXBuildFile; fileRef = D8577A3E2B23B3A000366B51 /* helperboi */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		D8598C902B156085006F36B2 /* BBDataObject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D851F8042AB214E8003FCA79 /* BBDataObject.xcdatamodeld */; };
-		D8598C972B156199006F36B2 /* BBCloudModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8598C962B156198006F36B2 /* BBCloudModel.swift */; };
-		D8598C982B1561B8006F36B2 /* BBCloudModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8598C962B156198006F36B2 /* BBCloudModel.swift */; };
-		D8598C992B1561B8006F36B2 /* BBCloudModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8598C962B156198006F36B2 /* BBCloudModel.swift */; };
+		D8598C972B156199006F36B2 /* BBCloudModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8598C962B156198006F36B2 /* BBCloudModels.swift */; };
 		D85DEE342B0C0EAE00E53109 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D89CFD3C2B0C08DC006342CD /* WidgetKit.framework */; };
 		D85DEE352B0C0EAE00E53109 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D89CFD3E2B0C08DC006342CD /* SwiftUI.framework */; };
 		D85DEE382B0C0EAE00E53109 /* BatteryBoy__Activity_Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85DEE372B0C0EAE00E53109 /* BatteryBoy__Activity_Bundle.swift */; };
 		D85DEE3A2B0C0EAE00E53109 /* BBDynamicIslandWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85DEE392B0C0EAE00E53109 /* BBDynamicIslandWidget.swift */; };
 		D85DEE402B0C0EB100E53109 /* BatteryBoy (Activity)Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D85DEE332B0C0EAE00E53109 /* BatteryBoy (Activity)Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		D86FDC422B1EAA7E00C077ED /* BBProcessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDC412B1EAA7E00C077ED /* BBProcessModel.swift */; };
+		D86FDC422B1EAA7E00C077ED /* BBProcessModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D86FDC412B1EAA7E00C077ED /* BBProcessModels.swift */; };
 		D88C19B12AF1735B003C3A0C /* BBDataObject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D851F8042AB214E8003FCA79 /* BBDataObject.xcdatamodeld */; };
-		D891134D2AAC34DC00B5E4F5 /* BBAnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D891134C2AAC34DC00B5E4F5 /* BBAnimationManager.swift */; };
 		D89CCFEE2A9FF97900D9531A /* BBAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89CCFED2A9FF97900D9531A /* BBAboutView.swift */; };
 		D8BEDB512B27A101004D3EB1 /* DynamicColor in Frameworks */ = {isa = PBXBuildFile; productRef = D8BEDB502B27A101004D3EB1 /* DynamicColor */; };
 		D8BEDB852B2C0DD6004D3EB1 /* airpods.sh in Resources */ = {isa = PBXBuildFile; fileRef = D8BEDB842B2C0DD5004D3EB1 /* airpods.sh */; };
 		D8BEDB872B2CEA82004D3EB1 /* cache.sh in Resources */ = {isa = PBXBuildFile; fileRef = D8BEDB862B2CEA81004D3EB1 /* cache.sh */; };
-		D8BEDB892B2EB730004D3EB1 /* BBBatteryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8BEDB882B2EB730004D3EB1 /* BBBatteryModel.swift */; };
-		D8BEDB8A2B2EB730004D3EB1 /* BBBatteryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8BEDB882B2EB730004D3EB1 /* BBBatteryModel.swift */; };
-		D8BEDB8B2B2EB730004D3EB1 /* BBBatteryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8BEDB882B2EB730004D3EB1 /* BBBatteryModel.swift */; };
+		D8BEDB892B2EB730004D3EB1 /* BBBatteryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8BEDB882B2EB730004D3EB1 /* BBBatteryModels.swift */; };
 		D8BEDB8D2B2EC558004D3EB1 /* SMC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83701432B1FD27500B1206E /* SMC.swift */; };
 		D8BEDB902B315CEC004D3EB1 /* FlyingFox in Frameworks */ = {isa = PBXBuildFile; productRef = D8BEDB8F2B315CEC004D3EB1 /* FlyingFox */; };
 		D8BEDB922B315CEC004D3EB1 /* FlyingSocks in Frameworks */ = {isa = PBXBuildFile; productRef = D8BEDB912B315CEC004D3EB1 /* FlyingSocks */; };
@@ -93,53 +137,27 @@
 		D8C784B92B1E8B3D00EBD52A /* install.sh in Resources */ = {isa = PBXBuildFile; fileRef = D8C784B72B1E8B3D00EBD52A /* install.sh */; };
 		D8C784BB2B1E902400EBD52A /* install.sh in CopyFiles */ = {isa = PBXBuildFile; fileRef = D8C784B72B1E8B3D00EBD52A /* install.sh */; };
 		D8D52B742B322ED3004C7E5C /* RateBoi in Frameworks */ = {isa = PBXBuildFile; productRef = D8D52B732B322ED3004C7E5C /* RateBoi */; };
-		D8D52B762B322F4D004C7E5C /* BBAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B752B322F4D004C7E5C /* BBAlertManager.swift */; };
-		D8D52B772B322F4D004C7E5C /* BBAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B752B322F4D004C7E5C /* BBAlertManager.swift */; };
-		D8D52B782B322F4D004C7E5C /* BBAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B752B322F4D004C7E5C /* BBAlertManager.swift */; };
-		D8D52B7B2B325663004C7E5C /* BBPeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B7A2B325663004C7E5C /* BBPeerManager.swift */; };
-		D8D52B7C2B325663004C7E5C /* BBPeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B7A2B325663004C7E5C /* BBPeerManager.swift */; };
-		D8D52B7D2B325663004C7E5C /* BBPeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D52B7A2B325663004C7E5C /* BBPeerManager.swift */; };
-		D8D52B9A2B33E3F0004C7E5C /* BBBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DFD5922A956D2C00732635 /* BBBluetoothManager.swift */; };
 		D8D52B9B2B33EEB5004C7E5C /* BBOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E619892B167C5C0023D5E0 /* BBOnboardingView.swift */; };
 		D8D9E5A02A7DE7AB00E295FA /* BatteryBoiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E59F2A7DE7AB00E295FA /* BatteryBoiApp.swift */; };
 		D8D9E5A42A7DE7AE00E295FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8D9E5A32A7DE7AE00E295FA /* Assets.xcassets */; };
 		D8D9E5A72A7DE7AE00E295FA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8D9E5A62A7DE7AE00E295FA /* Preview Assets.xcassets */; };
-		D8D9E5AF2A7DF68C00E295FA /* BBBatteryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5AE2A7DF68C00E295FA /* BBBatteryManager.swift */; };
 		D8D9E5B32A7DFF3E00E295FA /* BBMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5B22A7DFF3E00E295FA /* BBMenuView.swift */; };
-		D8D9E5B52A7F383600E295FA /* BBSettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5B42A7F383600E295FA /* BBSettingsManager.swift */; };
-		D8D9E5B72A7F397300E295FA /* BBWindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5B62A7F397200E295FA /* BBWindowManager.swift */; };
 		D8D9E5B92A80646E00E295FA /* BBExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5B82A80646E00E295FA /* BBExtensions.swift */; };
 		D8D9E5C02A81565000E295FA /* FluidGradient in Frameworks */ = {isa = PBXBuildFile; productRef = D8D9E5BF2A81565000E295FA /* FluidGradient */; };
 		D8D9E5C62A81B27D00E295FA /* DynamicColor in Frameworks */ = {isa = PBXBuildFile; productRef = D8D9E5C52A81B27D00E295FA /* DynamicColor */; };
-		D8D9E5CB2A8403D300E295FA /* BBAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5CA2A8403D300E295FA /* BBAppManager.swift */; };
 		D8DFD5822A8BD7E800732635 /* BBProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DFD5812A8BD7E800732635 /* BBProgressView.swift */; };
 		D8DFD5842A8C26F300732635 /* BBSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DFD5832A8C26F300732635 /* BBSettingsView.swift */; };
-		D8DFD5932A956D2C00732635 /* BBBluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DFD5922A956D2C00732635 /* BBBluetoothManager.swift */; };
 		D8E4643A2B181C1700A18F76 /* Deviice in Frameworks */ = {isa = PBXBuildFile; productRef = D8E464392B181C1700A18F76 /* Deviice */; };
 		D8E585D02B190FEF002C11FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8E585CF2B190FEF002C11FF /* Assets.xcassets */; };
 		D8E585D82B194009002C11FF /* BBPurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E585D72B194009002C11FF /* BBPurchaseManager.swift */; };
 		D8E585DB2B1953F6002C11FF /* BBTimelineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E585D92B1953C5002C11FF /* BBTimelineManager.swift */; };
 		D8E585F72B195619002C11FF /* BBStandardWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E585F42B1955F7002C11FF /* BBStandardWidget.swift */; };
-		D8E585F82B1960BC002C11FF /* BBSystemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2282B0D640A00D13DE6 /* BBSystemModel.swift */; };
-		D8E585FA2B1962AA002C11FF /* BBStatsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E585F92B1962AA002C11FF /* BBStatsModel.swift */; };
-		D8E585FB2B1962AD002C11FF /* BBStatsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E585F92B1962AA002C11FF /* BBStatsModel.swift */; };
-		D8E585FC2B1962AE002C11FF /* BBStatsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E585F92B1962AA002C11FF /* BBStatsModel.swift */; };
-		D8E585FE2B196384002C11FF /* BBSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F22E2B0D64DE00D13DE6 /* BBSettingsModel.swift */; };
-		D8E585FF2B19639C002C11FF /* BBExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5B82A80646E00E295FA /* BBExtensions.swift */; };
-		D8E586002B1963B6002C11FF /* BBSettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F22B2B0D646600D13DE6 /* BBSettingsManager.swift */; };
-		D8E586042B19646F002C11FF /* BBBluetoothModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2362B0D6F1500D13DE6 /* BBBluetoothModel.swift */; };
+		D8E585FA2B1962AA002C11FF /* BBStatsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E585F92B1962AA002C11FF /* BBStatsModels.swift */; };
 		D8E586072B196510002C11FF /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E586062B196510002C11FF /* CloudKit.framework */; };
 		D8E586092B196817002C11FF /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E586082B196817002C11FF /* UserNotifications.framework */; };
-		D8E5860A2B19681B002C11FF /* BBCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F2312B0D6ABF00D13DE6 /* BBCloudManager.swift */; };
-		D8E5860B2B196871002C11FF /* BBAppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5CA2A8403D300E295FA /* BBAppManager.swift */; };
 		D8E5860F2B1968A1002C11FF /* Deviice in Frameworks */ = {isa = PBXBuildFile; productRef = D8E5860E2B1968A1002C11FF /* Deviice */; };
-		D8E586102B1968E1002C11FF /* BBBatteryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5AE2A7DF68C00E295FA /* BBBatteryManager.swift */; };
 		D8E6198A2B167C5C0023D5E0 /* BBOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E619892B167C5C0023D5E0 /* BBOnboardingView.swift */; };
-		D8E6198D2B16F13D0023D5E0 /* BBOnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6198C2B16F13D0023D5E0 /* BBOnboardingManager.swift */; };
-		D8E6198E2B16F13D0023D5E0 /* BBOnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E6198C2B16F13D0023D5E0 /* BBOnboardingManager.swift */; };
-		D8E619912B1707750023D5E0 /* BBOnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E619902B1707750023D5E0 /* BBOnboardingModel.swift */; };
-		D8E619922B1707750023D5E0 /* BBOnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E619902B1707750023D5E0 /* BBOnboardingModel.swift */; };
-		D8E619932B1707750023D5E0 /* BBOnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E619902B1707750023D5E0 /* BBOnboardingModel.swift */; };
+		D8E619912B1707750023D5E0 /* BBOnboardingModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E619902B1707750023D5E0 /* BBOnboardingModels.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -207,39 +225,63 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C0669AAB2F03380000000001 /* BBSystemConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBSystemConstants.swift; path = BatteryBoi/Core/System/BBSystemConstants.swift; sourceTree = SOURCE_ROOT; };
-		C0669AAE2F03380000000003 /* BBBatteryConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBBatteryConstants.swift; path = BatteryBoi/Core/Battery/BBBatteryConstants.swift; sourceTree = SOURCE_ROOT; };
-		C0669AB02F03380000000004 /* BBOnboardingConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBOnboardingConstants.swift; path = BatteryBoi/Core/Onboarding/BBOnboardingConstants.swift; sourceTree = SOURCE_ROOT; };
-		C0669AB22F03380000000005 /* BBSettingsConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBSettingsConstants.swift; path = BatteryBoi/Core/Settings/BBSettingsConstants.swift; sourceTree = SOURCE_ROOT; };
-		C0669AB42F03380000000006 /* BBMenubarConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBMenubarConstants.swift; path = BatteryBoi/Core/Menubar/BBMenubarConstants.swift; sourceTree = SOURCE_ROOT; };
-		C0669AB62F03380000000007 /* BBAnimationConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBAnimationConstants.swift; path = BatteryBoi/Core/Animation/BBAnimationConstants.swift; sourceTree = SOURCE_ROOT; };
-		C0669AB82F03380000000008 /* BBWindowConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBWindowConstants.swift; path = BatteryBoi/Core/Window/BBWindowConstants.swift; sourceTree = SOURCE_ROOT; };
-		C0669ABA2F03380000000009 /* BBBluetoothConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBBluetoothConstants.swift; path = BatteryBoi/Core/Bluetooth/BBBluetoothConstants.swift; sourceTree = SOURCE_ROOT; };
-		C0669ABC2F0338000000000A /* BBCloudConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBCloudConstants.swift; path = BatteryBoi/Core/Cloud/BBCloudConstants.swift; sourceTree = SOURCE_ROOT; };
-		C0669ABE2F0338000000000B /* BBStatsConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBStatsConstants.swift; path = BatteryBoi/Core/Stats/BBStatsConstants.swift; sourceTree = SOURCE_ROOT; };
-		C0669AC02F0338000000000C /* BBProcessConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBProcessConstants.swift; path = BatteryBoi/Core/Process/BBProcessConstants.swift; sourceTree = SOURCE_ROOT; };
-		C0669AC22F0338000000000D /* BBUpdateConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBUpdateConstants.swift; path = BatteryBoi/Core/Update/BBUpdateConstants.swift; sourceTree = SOURCE_ROOT; };
+		C016C7FC2F04952100C7E1F6 /* BBAlertConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBAlertConstants.swift; sourceTree = "<group>"; };
+		C016C7FD2F04952100C7E1F6 /* BBAlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBAlertManager.swift; sourceTree = "<group>"; };
+		C016C7FF2F04952100C7E1F6 /* BBAnimationConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBAnimationConstants.swift; sourceTree = "<group>"; };
+		C016C8002F04952100C7E1F6 /* BBAnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBAnimationManager.swift; sourceTree = "<group>"; };
+		C016C8012F04952100C7E1F6 /* BBAnimationModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBAnimationModels.swift; sourceTree = "<group>"; };
+		C016C8032F04952100C7E1F6 /* BBAppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBAppConstants.swift; sourceTree = "<group>"; };
+		C016C8042F04952100C7E1F6 /* BBAppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBAppManager.swift; sourceTree = "<group>"; };
+		C016C8062F04952100C7E1F6 /* BBBatteryConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBBatteryConstants.swift; sourceTree = "<group>"; };
+		C016C8072F04952100C7E1F6 /* BBBatteryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBBatteryManager.swift; sourceTree = "<group>"; };
+		C016C8082F04952100C7E1F6 /* BBBatteryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBBatteryModels.swift; sourceTree = "<group>"; };
+		C016C80A2F04952100C7E1F6 /* BBBluetoothConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBBluetoothConstants.swift; sourceTree = "<group>"; };
+		C016C80B2F04952100C7E1F6 /* BBBluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBBluetoothManager.swift; sourceTree = "<group>"; };
+		C016C80C2F04952100C7E1F6 /* BBBluetoothModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBBluetoothModels.swift; sourceTree = "<group>"; };
+		C016C80E2F04952100C7E1F6 /* BBCloudConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBCloudConstants.swift; sourceTree = "<group>"; };
+		C016C80F2F04952100C7E1F6 /* BBCloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBCloudManager.swift; sourceTree = "<group>"; };
+		C016C8102F04952100C7E1F6 /* BBCloudModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBCloudModels.swift; sourceTree = "<group>"; };
+		C016C8142F04952100C7E1F6 /* BBAppErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBAppErrors.swift; sourceTree = "<group>"; };
+		C016C8152F04952100C7E1F6 /* BBLogConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBLogConstants.swift; sourceTree = "<group>"; };
+		C016C8162F04952100C7E1F6 /* BBLogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBLogManager.swift; sourceTree = "<group>"; };
+		C016C8182F04952100C7E1F6 /* BBMenubarConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBMenubarConstants.swift; sourceTree = "<group>"; };
+		C016C8192F04952100C7E1F6 /* BBMenubarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBMenubarManager.swift; sourceTree = "<group>"; };
+		C016C81B2F04952100C7E1F6 /* BBOnboardingConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBOnboardingConstants.swift; sourceTree = "<group>"; };
+		C016C81C2F04952100C7E1F6 /* BBOnboardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBOnboardingManager.swift; sourceTree = "<group>"; };
+		C016C81D2F04952100C7E1F6 /* BBOnboardingModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBOnboardingModels.swift; sourceTree = "<group>"; };
+		C016C81F2F04952100C7E1F6 /* BBPeerConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBPeerConstants.swift; sourceTree = "<group>"; };
+		C016C8202F04952100C7E1F6 /* BBPeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBPeerManager.swift; sourceTree = "<group>"; };
+		C016C8222F04952100C7E1F6 /* BBProcessConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBProcessConstants.swift; sourceTree = "<group>"; };
+		C016C8232F04952100C7E1F6 /* BBProcessManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBProcessManager.swift; sourceTree = "<group>"; };
+		C016C8242F04952100C7E1F6 /* BBProcessModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBProcessModels.swift; sourceTree = "<group>"; };
+		C016C8262F04952100C7E1F6 /* BBSettingsConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBSettingsConstants.swift; sourceTree = "<group>"; };
+		C016C8272F04952100C7E1F6 /* BBSettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBSettingsManager.swift; sourceTree = "<group>"; };
+		C016C8282F04952100C7E1F6 /* BBSettingsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBSettingsModels.swift; sourceTree = "<group>"; };
+		C016C82A2F04952100C7E1F6 /* BBStatsConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBStatsConstants.swift; sourceTree = "<group>"; };
+		C016C82B2F04952100C7E1F6 /* BBStatsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBStatsManager.swift; sourceTree = "<group>"; };
+		C016C82C2F04952100C7E1F6 /* BBStatsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBStatsModels.swift; sourceTree = "<group>"; };
+		C016C82E2F04952100C7E1F6 /* BBSystemConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBSystemConstants.swift; sourceTree = "<group>"; };
+		C016C82F2F04952100C7E1F6 /* BBSystemModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBSystemModels.swift; sourceTree = "<group>"; };
+		C016C8312F04952100C7E1F6 /* BBUpdateConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBUpdateConstants.swift; sourceTree = "<group>"; };
+		C016C8322F04952100C7E1F6 /* BBUpdateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBUpdateManager.swift; sourceTree = "<group>"; };
+		C016C8342F04952100C7E1F6 /* BBWindowConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBWindowConstants.swift; sourceTree = "<group>"; };
+		C016C8352F04952100C7E1F6 /* BBWindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBWindowManager.swift; sourceTree = "<group>"; };
 		D804F2282B0D640A00D13DE6 /* BBSystemModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBSystemModels.swift; path = BatteryBoi/Core/System/BBSystemModels.swift; sourceTree = SOURCE_ROOT; };
 		D804F22B2B0D646600D13DE6 /* BBSettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBSettingsManager.swift; sourceTree = "<group>"; };
 		D804F22E2B0D64DE00D13DE6 /* BBSettingsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBSettingsModels.swift; path = BatteryBoi/Core/Settings/BBSettingsModels.swift; sourceTree = SOURCE_ROOT; };
-		D804F2312B0D6ABF00D13DE6 /* BBCloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cloud/BBCloudManager.swift; sourceTree = "<group>"; };
 		D804F2362B0D6F1500D13DE6 /* BBBluetoothModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBBluetoothModels.swift; path = BatteryBoi/Core/Bluetooth/BBBluetoothModels.swift; sourceTree = SOURCE_ROOT; };
 		D8228E0D2AC1EA790014DC85 /* BatteryBoi (iOS).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BatteryBoi (iOS).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8228E0F2AC1EA790014DC85 /* BatteryBoi__iOS_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryBoi__iOS_App.swift; sourceTree = "<group>"; };
 		D8228E112AC1EA790014DC85 /* BBDebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBDebugView.swift; sourceTree = "<group>"; };
-		D8228E382AC387010014DC85 /* BBProcessManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Process/BBProcessManager.swift; sourceTree = "<group>"; };
 		D8228E3A2AC3FD580014DC85 /* BatteryBoi (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BatteryBoi (iOS).entitlements"; sourceTree = "<group>"; };
 		D83701112B1F8E4C00B1206E /* BBAnimationModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBAnimationModels.swift; path = BatteryBoi/Core/Animation/BBAnimationModels.swift; sourceTree = SOURCE_ROOT; };
 		D837011A2B1F932900B1206E /* cliboi */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = cliboi; sourceTree = BUILT_PRODUCTS_DIR; };
 		D837011C2B1F932900B1206E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D83701432B1FD27500B1206E /* SMC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMC.swift; sourceTree = "<group>"; };
-		D837014A2B2100DE00B1206E /* BBMenubarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menubar/BBMenubarManager.swift; sourceTree = "<group>"; };
 		D83C2C2A2B24F53000B78456 /* Launchd.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Launchd.plist; sourceTree = "<group>"; };
 		D83C2C2B2B25329400B78456 /* BBHelperManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBHelperManager.swift; sourceTree = "<group>"; };
 		D83C2C2D2B253DBD00B78456 /* BBHelperModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBHelperModel.swift; sourceTree = "<group>"; };
 		D83CD7442AA8F693004223D7 /* BBBluetoothView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBBluetoothView.swift; sourceTree = "<group>"; };
-		D83DD3F42A9908E600FCC534 /* BBUpdateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update/BBUpdateManager.swift; sourceTree = "<group>"; };
-		D83DD3F92A9D62AF00FCC534 /* BBStatsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stats/BBStatsManager.swift; sourceTree = "<group>"; };
 		D83DD3FD2A9FA9F600FCC534 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
 		D83DD3FE2A9FAA5F00FCC534 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
 		D83DD3FF2A9FAAAE00FCC534 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
@@ -267,7 +309,6 @@
 		D864D09F2AAF9C8500842526 /* sl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sl; path = sl.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
 		D86FDC412B1EAA7E00C077ED /* BBProcessModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBProcessModels.swift; path = BatteryBoi/Core/Process/BBProcessModels.swift; sourceTree = SOURCE_ROOT; };
 		D88C19B02AF16A48003C3A0C /* BatteryBoi--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "BatteryBoi--iOS--Info.plist"; sourceTree = SOURCE_ROOT; };
-		D891134C2AAC34DC00B5E4F5 /* BBAnimationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation/BBAnimationManager.swift; sourceTree = "<group>"; };
 		D89CCFED2A9FF97900D9531A /* BBAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBAboutView.swift; sourceTree = "<group>"; };
 		D89CCFF22AA0FC5B00D9531A /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
 		D89CCFF32AA0FDEA00D9531A /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
@@ -284,25 +325,18 @@
 		D8CDA7F52AA10E5F00FAD41E /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/LocalizableMain.strings; sourceTree = "<group>"; };
 		D8CDA7F62AA243E600FAD41E /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LocalizableMain.strings"; sourceTree = "<group>"; };
 		D8CDA7F72AA2448D00FAD41E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LocalizableMain.strings"; sourceTree = "<group>"; };
-		D8D52B752B322F4D004C7E5C /* BBAlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert/BBAlertManager.swift; sourceTree = "<group>"; };
-		D8D52B7A2B325663004C7E5C /* BBPeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peer/BBPeerManager.swift; sourceTree = "<group>"; };
 		D8D9E59C2A7DE7AB00E295FA /* BatteryBoi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BatteryBoi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8D9E59F2A7DE7AB00E295FA /* BatteryBoiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryBoiApp.swift; sourceTree = "<group>"; };
 		D8D9E5A32A7DE7AE00E295FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D8D9E5A62A7DE7AE00E295FA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D8D9E5A82A7DE7AE00E295FA /* BatteryBoi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BatteryBoi.entitlements; sourceTree = "<group>"; };
-		D8D9E5AE2A7DF68C00E295FA /* BBBatteryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Battery/BBBatteryManager.swift; sourceTree = "<group>"; };
 		D8D9E5B22A7DFF3E00E295FA /* BBMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBMenuView.swift; sourceTree = "<group>"; };
-		D8D9E5B42A7F383600E295FA /* BBSettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings/BBSettingsManager.swift; sourceTree = "<group>"; };
-		D8D9E5B62A7F397200E295FA /* BBWindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Window/BBWindowManager.swift; sourceTree = "<group>"; };
 		D8D9E5B82A80646E00E295FA /* BBExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBExtensions.swift; sourceTree = "<group>"; };
-		D8D9E5CA2A8403D300E295FA /* BBAppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App/BBAppManager.swift; sourceTree = "<group>"; };
 		D8D9E5CC2A84069700E295FA /* BBEnviroments.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = BBEnviroments.xcconfig; sourceTree = "<group>"; };
 		D8D9E5CD2A84094200E295FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D8DFD5812A8BD7E800732635 /* BBProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBProgressView.swift; sourceTree = "<group>"; };
 		D8DFD5832A8C26F300732635 /* BBSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBSettingsView.swift; sourceTree = "<group>"; };
 		D8DFD5852A8D510200732635 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
-		D8DFD5922A956D2C00732635 /* BBBluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bluetooth/BBBluetoothManager.swift; sourceTree = "<group>"; };
 		D8E585CF2B190FEF002C11FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "BatteryBoi (iOS)/Assets.xcassets"; sourceTree = SOURCE_ROOT; };
 		D8E585D72B194009002C11FF /* BBPurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBPurchaseManager.swift; sourceTree = "<group>"; };
 		D8E585D92B1953C5002C11FF /* BBTimelineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBTimelineManager.swift; sourceTree = "<group>"; };
@@ -311,7 +345,6 @@
 		D8E586062B196510002C11FF /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
 		D8E586082B196817002C11FF /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk/System/Library/Frameworks/UserNotifications.framework; sourceTree = DEVELOPER_DIR; };
 		D8E619892B167C5C0023D5E0 /* BBOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBOnboardingView.swift; sourceTree = "<group>"; };
-		D8E6198C2B16F13D0023D5E0 /* BBOnboardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Onboarding/BBOnboardingManager.swift; sourceTree = "<group>"; };
 		D8E619902B1707750023D5E0 /* BBOnboardingModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBOnboardingModels.swift; path = BatteryBoi/Core/Onboarding/BBOnboardingModels.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -320,6 +353,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C016C8CB2F049AD500C7E1F6 /* DynamicColor in Frameworks */,
 				D8E4643A2B181C1700A18F76 /* Deviice in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -370,6 +404,182 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C016C7FE2F04952100C7E1F6 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				C016C7FC2F04952100C7E1F6 /* BBAlertConstants.swift */,
+				C016C7FD2F04952100C7E1F6 /* BBAlertManager.swift */,
+			);
+			path = Alert;
+			sourceTree = "<group>";
+		};
+		C016C8022F04952100C7E1F6 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				C016C7FF2F04952100C7E1F6 /* BBAnimationConstants.swift */,
+				C016C8002F04952100C7E1F6 /* BBAnimationManager.swift */,
+				C016C8012F04952100C7E1F6 /* BBAnimationModels.swift */,
+			);
+			path = Animation;
+			sourceTree = "<group>";
+		};
+		C016C8052F04952100C7E1F6 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C016C8032F04952100C7E1F6 /* BBAppConstants.swift */,
+				C016C8042F04952100C7E1F6 /* BBAppManager.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		C016C8092F04952100C7E1F6 /* Battery */ = {
+			isa = PBXGroup;
+			children = (
+				C016C8062F04952100C7E1F6 /* BBBatteryConstants.swift */,
+				C016C8072F04952100C7E1F6 /* BBBatteryManager.swift */,
+				C016C8082F04952100C7E1F6 /* BBBatteryModels.swift */,
+			);
+			path = Battery;
+			sourceTree = "<group>";
+		};
+		C016C80D2F04952100C7E1F6 /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				C016C80A2F04952100C7E1F6 /* BBBluetoothConstants.swift */,
+				C016C80B2F04952100C7E1F6 /* BBBluetoothManager.swift */,
+				C016C80C2F04952100C7E1F6 /* BBBluetoothModels.swift */,
+			);
+			path = Bluetooth;
+			sourceTree = "<group>";
+		};
+		C016C8112F04952100C7E1F6 /* Cloud */ = {
+			isa = PBXGroup;
+			children = (
+				C016C80E2F04952100C7E1F6 /* BBCloudConstants.swift */,
+				C016C80F2F04952100C7E1F6 /* BBCloudManager.swift */,
+				C016C8102F04952100C7E1F6 /* BBCloudModels.swift */,
+			);
+			path = Cloud;
+			sourceTree = "<group>";
+		};
+		C016C8172F04952100C7E1F6 /* Log */ = {
+			isa = PBXGroup;
+			children = (
+				C016C8142F04952100C7E1F6 /* BBAppErrors.swift */,
+				C016C8152F04952100C7E1F6 /* BBLogConstants.swift */,
+				C016C8162F04952100C7E1F6 /* BBLogManager.swift */,
+			);
+			path = Log;
+			sourceTree = "<group>";
+		};
+		C016C81A2F04952100C7E1F6 /* Menubar */ = {
+			isa = PBXGroup;
+			children = (
+				C016C8182F04952100C7E1F6 /* BBMenubarConstants.swift */,
+				C016C8192F04952100C7E1F6 /* BBMenubarManager.swift */,
+			);
+			path = Menubar;
+			sourceTree = "<group>";
+		};
+		C016C81E2F04952100C7E1F6 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				C016C81B2F04952100C7E1F6 /* BBOnboardingConstants.swift */,
+				C016C81C2F04952100C7E1F6 /* BBOnboardingManager.swift */,
+				C016C81D2F04952100C7E1F6 /* BBOnboardingModels.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		C016C8212F04952100C7E1F6 /* Peer */ = {
+			isa = PBXGroup;
+			children = (
+				C016C81F2F04952100C7E1F6 /* BBPeerConstants.swift */,
+				C016C8202F04952100C7E1F6 /* BBPeerManager.swift */,
+			);
+			path = Peer;
+			sourceTree = "<group>";
+		};
+		C016C8252F04952100C7E1F6 /* Process */ = {
+			isa = PBXGroup;
+			children = (
+				C016C8222F04952100C7E1F6 /* BBProcessConstants.swift */,
+				C016C8232F04952100C7E1F6 /* BBProcessManager.swift */,
+				C016C8242F04952100C7E1F6 /* BBProcessModels.swift */,
+			);
+			path = Process;
+			sourceTree = "<group>";
+		};
+		C016C8292F04952100C7E1F6 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				C016C8262F04952100C7E1F6 /* BBSettingsConstants.swift */,
+				C016C8272F04952100C7E1F6 /* BBSettingsManager.swift */,
+				C016C8282F04952100C7E1F6 /* BBSettingsModels.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		C016C82D2F04952100C7E1F6 /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				C016C82A2F04952100C7E1F6 /* BBStatsConstants.swift */,
+				C016C82B2F04952100C7E1F6 /* BBStatsManager.swift */,
+				C016C82C2F04952100C7E1F6 /* BBStatsModels.swift */,
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
+		C016C8302F04952100C7E1F6 /* System */ = {
+			isa = PBXGroup;
+			children = (
+				C016C82E2F04952100C7E1F6 /* BBSystemConstants.swift */,
+				C016C82F2F04952100C7E1F6 /* BBSystemModels.swift */,
+			);
+			path = System;
+			sourceTree = "<group>";
+		};
+		C016C8332F04952100C7E1F6 /* Update */ = {
+			isa = PBXGroup;
+			children = (
+				C016C8312F04952100C7E1F6 /* BBUpdateConstants.swift */,
+				C016C8322F04952100C7E1F6 /* BBUpdateManager.swift */,
+			);
+			path = Update;
+			sourceTree = "<group>";
+		};
+		C016C8362F04952100C7E1F6 /* Window */ = {
+			isa = PBXGroup;
+			children = (
+				C016C8342F04952100C7E1F6 /* BBWindowConstants.swift */,
+				C016C8352F04952100C7E1F6 /* BBWindowManager.swift */,
+			);
+			path = Window;
+			sourceTree = "<group>";
+		};
+		C016C8372F04952100C7E1F6 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				C016C7FE2F04952100C7E1F6 /* Alert */,
+				C016C8022F04952100C7E1F6 /* Animation */,
+				C016C8052F04952100C7E1F6 /* App */,
+				C016C8092F04952100C7E1F6 /* Battery */,
+				C016C80D2F04952100C7E1F6 /* Bluetooth */,
+				C016C8112F04952100C7E1F6 /* Cloud */,
+				C016C8172F04952100C7E1F6 /* Log */,
+				C016C81A2F04952100C7E1F6 /* Menubar */,
+				C016C81E2F04952100C7E1F6 /* Onboarding */,
+				C016C8212F04952100C7E1F6 /* Peer */,
+				C016C8252F04952100C7E1F6 /* Process */,
+				C016C8292F04952100C7E1F6 /* Settings */,
+				C016C82D2F04952100C7E1F6 /* Stats */,
+				C016C8302F04952100C7E1F6 /* System */,
+				C016C8332F04952100C7E1F6 /* Update */,
+				C016C8362F04952100C7E1F6 /* Window */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 		D804F2232B0D611900D13DE6 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
@@ -518,13 +728,13 @@
 		D8D9E59E2A7DE7AB00E295FA /* BatteryBoi */ = {
 			isa = PBXGroup;
 			children = (
+				C016C8372F04952100C7E1F6 /* Core */,
 				D8D9E5CD2A84094200E295FA /* Info.plist */,
 				D8D9E5CC2A84069700E295FA /* BBEnviroments.xcconfig */,
 				D89CCFF12AA0F81700D9531A /* Other */,
 				D8D9E59F2A7DE7AB00E295FA /* BatteryBoiApp.swift */,
 				D8D9E5B82A80646E00E295FA /* BBExtensions.swift */,
 				D804F22D2B0D64D100D13DE6 /* Models */,
-				D8D9E5BB2A8064A000E295FA /* Objects */,
 				D8D9E5BA2A80649B00E295FA /* Views */,
 				D8D9E5A32A7DE7AE00E295FA /* Assets.xcassets */,
 				D8D9E5A82A7DE7AE00E295FA /* BatteryBoi.entitlements */,
@@ -548,39 +758,6 @@
 				D8D9E5BC2A8064B400E295FA /* Window */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		D8D9E5BB2A8064A000E295FA /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				C0669AAB2F03380000000001 /* BBSystemConstants.swift */,
-				C0669AAE2F03380000000003 /* BBBatteryConstants.swift */,
-				C0669AB02F03380000000004 /* BBOnboardingConstants.swift */,
-				C0669AB22F03380000000005 /* BBSettingsConstants.swift */,
-				C0669AB42F03380000000006 /* BBMenubarConstants.swift */,
-				C0669AB62F03380000000007 /* BBAnimationConstants.swift */,
-				C0669AB82F03380000000008 /* BBWindowConstants.swift */,
-				C0669ABA2F03380000000009 /* BBBluetoothConstants.swift */,
-				C0669ABC2F0338000000000A /* BBCloudConstants.swift */,
-				C0669ABE2F0338000000000B /* BBStatsConstants.swift */,
-				C0669AC02F0338000000000C /* BBProcessConstants.swift */,
-				C0669AC22F0338000000000D /* BBUpdateConstants.swift */,
-				D8D9E5CA2A8403D300E295FA /* BBAppManager.swift */,
-				D8D52B7A2B325663004C7E5C /* BBPeerManager.swift */,
-				D8D52B752B322F4D004C7E5C /* BBAlertManager.swift */,
-				D8E6198C2B16F13D0023D5E0 /* BBOnboardingManager.swift */,
-				D8DFD5922A956D2C00732635 /* BBBluetoothManager.swift */,
-				D8D9E5AE2A7DF68C00E295FA /* BBBatteryManager.swift */,
-				D8228E382AC387010014DC85 /* BBProcessManager.swift */,
-				D83DD3F92A9D62AF00FCC534 /* BBStatsManager.swift */,
-				D8D9E5B42A7F383600E295FA /* BBSettingsManager.swift */,
-				D8D9E5B62A7F397200E295FA /* BBWindowManager.swift */,
-				D83DD3F42A9908E600FCC534 /* BBUpdateManager.swift */,
-				D891134C2AAC34DC00B5E4F5 /* BBAnimationManager.swift */,
-				D804F2312B0D6ABF00D13DE6 /* BBCloudManager.swift */,
-				D837014A2B2100DE00B1206E /* BBMenubarManager.swift */,
-			);
-			path = Core;
 			sourceTree = "<group>";
 		};
 		D8D9E5BC2A8064B400E295FA /* Window */ = {
@@ -662,6 +839,7 @@
 			name = "BatteryBoi (iOS)";
 			packageProductDependencies = (
 				D8E464392B181C1700A18F76 /* Deviice */,
+				C016C8CA2F049AD500C7E1F6 /* DynamicColor */,
 			);
 			productName = "BatteryBoi (iOS)";
 			productReference = D8228E0D2AC1EA790014DC85 /* BatteryBoi (iOS).app */;
@@ -892,32 +1070,50 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0669AAC2F03380000000002 /* BBSystemConstants.swift in Sources */,
 				D8E585D82B194009002C11FF /* BBPurchaseManager.swift in Sources */,
-				D804F23B2B0D715E00D13DE6 /* BBAppManager.swift in Sources */,
 				D8D52B9B2B33EEB5004C7E5C /* BBOnboardingView.swift in Sources */,
-				D804F23A2B0D6FB500D13DE6 /* BBStatsManager.swift in Sources */,
-				D804F2392B0D6F3800D13DE6 /* BBBluetoothManager.swift in Sources */,
-				D8BEDB8A2B2EB730004D3EB1 /* BBBatteryModel.swift in Sources */,
-				D804F2302B0D650300D13DE6 /* BBSettingsModel.swift in Sources */,
-				D8D52B772B322F4D004C7E5C /* BBAlertManager.swift in Sources */,
-				D804F2332B0D6B3700D13DE6 /* BBCloudManager.swift in Sources */,
-				D8E619922B1707750023D5E0 /* BBOnboardingModel.swift in Sources */,
-				D804F22A2B0D641D00D13DE6 /* BBSystemModel.swift in Sources */,
-				D83701462B20F65B00B1206E /* BBAnimationModel.swift in Sources */,
-				D8E6198E2B16F13D0023D5E0 /* BBOnboardingManager.swift in Sources */,
-				D804F22C2B0D646600D13DE6 /* BBSettingsManager.swift in Sources */,
-				D8D52B7C2B325663004C7E5C /* BBPeerManager.swift in Sources */,
-				D8598C982B1561B8006F36B2 /* BBCloudModel.swift in Sources */,
+				C016C8382F04952100C7E1F6 /* BBOnboardingManager.swift in Sources */,
+				C016C8392F04952100C7E1F6 /* BBUpdateConstants.swift in Sources */,
+				C016C83A2F04952100C7E1F6 /* BBCloudConstants.swift in Sources */,
+				C016C83B2F04952100C7E1F6 /* BBSettingsConstants.swift in Sources */,
+				C016C8BC2F04983200C7E1F6 /* BBAnimationModels.swift in Sources */,
+				C016C83D2F04952100C7E1F6 /* BBAlertManager.swift in Sources */,
+				C016C83E2F04952100C7E1F6 /* BBSystemConstants.swift in Sources */,
+				C016C83F2F04952100C7E1F6 /* BBAlertConstants.swift in Sources */,
+				C016C8402F04952100C7E1F6 /* BBMenubarConstants.swift in Sources */,
+				C016C8422F04952100C7E1F6 /* BBPeerManager.swift in Sources */,
+				C016C8442F04952100C7E1F6 /* BBAnimationManager.swift in Sources */,
+				C016C8462F04952100C7E1F6 /* BBStatsModels.swift in Sources */,
+				C016C8472F04952100C7E1F6 /* BBSettingsModels.swift in Sources */,
+				C016C8482F04952100C7E1F6 /* BBAppConstants.swift in Sources */,
+				C016C8492F04952100C7E1F6 /* BBWindowConstants.swift in Sources */,
+				C016C84A2F04952100C7E1F6 /* BBBluetoothConstants.swift in Sources */,
+				C016C84C2F04952100C7E1F6 /* BBBluetoothManager.swift in Sources */,
+				C016C84D2F04952100C7E1F6 /* BBLogConstants.swift in Sources */,
+				C016C84E2F04952100C7E1F6 /* BBSystemModels.swift in Sources */,
+				C016C84F2F04952100C7E1F6 /* BBOnboardingConstants.swift in Sources */,
+				C016C8BD2F04983200C7E1F6 /* BBProcessModels.swift in Sources */,
+				C016C8512F04952100C7E1F6 /* BBPeerConstants.swift in Sources */,
+				C016C8522F04952100C7E1F6 /* BBStatsConstants.swift in Sources */,
+				C016C8532F04952100C7E1F6 /* BBBatteryConstants.swift in Sources */,
+				C016C8CE2F049C2F00C7E1F6 /* BBSettingsManager.swift in Sources */,
+				C016C8BE2F04983200C7E1F6 /* BBCloudModels.swift in Sources */,
+				C016C8BF2F04983200C7E1F6 /* BBProcessConstants.swift in Sources */,
+				C016C8572F04952100C7E1F6 /* BBBluetoothModels.swift in Sources */,
+				C016C8582F04952100C7E1F6 /* BBAppManager.swift in Sources */,
+				C016C8592F04952100C7E1F6 /* BBBatteryManager.swift in Sources */,
+				C016C85A2F04952100C7E1F6 /* BBStatsManager.swift in Sources */,
+				C016C85B2F04952100C7E1F6 /* BBOnboardingModels.swift in Sources */,
+				C016C85D2F04952100C7E1F6 /* BBLogManager.swift in Sources */,
+				C016C85E2F04952100C7E1F6 /* BBCloudManager.swift in Sources */,
+				C016C85F2F04952100C7E1F6 /* BBBatteryModels.swift in Sources */,
+				C016C8C02F04983200C7E1F6 /* BBAnimationConstants.swift in Sources */,
+				C016C8612F04952100C7E1F6 /* BBAppErrors.swift in Sources */,
 				D8C7849F2B1E815300EBD52A /* BBNavigationView.swift in Sources */,
 				D804F2272B0D63CE00D13DE6 /* BBExtensions.swift in Sources */,
-				D804F2382B0D6F1F00D13DE6 /* BBBluetoothModel.swift in Sources */,
-				D8E585FB2B1962AD002C11FF /* BBStatsModel.swift in Sources */,
 				D88C19B12AF1735B003C3A0C /* BBDataObject.xcdatamodeld in Sources */,
 				D8228E122AC1EA790014DC85 /* BBDebugView.swift in Sources */,
 				D8228E102AC1EA790014DC85 /* BatteryBoi__iOS_App.swift in Sources */,
-				D83701482B20F6FC00B1206E /* BBAnimationManager.swift in Sources */,
-				D804F23C2B0DB09E00D13DE6 /* BBBatteryManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -944,28 +1140,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8E585FE2B196384002C11FF /* BBSettingsModel.swift in Sources */,
-				D8BEDB8B2B2EB730004D3EB1 /* BBBatteryModel.swift in Sources */,
-				D8D52B7D2B325663004C7E5C /* BBPeerManager.swift in Sources */,
-				D8E585FF2B19639C002C11FF /* BBExtensions.swift in Sources */,
-				D8E585F82B1960BC002C11FF /* BBSystemModel.swift in Sources */,
-				D83701472B20F6B000B1206E /* BBAnimationModel.swift in Sources */,
-				D8E586002B1963B6002C11FF /* BBSettingsManager.swift in Sources */,
-				D8D52B782B322F4D004C7E5C /* BBAlertManager.swift in Sources */,
-				D8598C902B156085006F36B2 /* BBDataObject.xcdatamodeld in Sources */,
-				D8598C992B1561B8006F36B2 /* BBCloudModel.swift in Sources */,
-				D8E585FC2B1962AE002C11FF /* BBStatsModel.swift in Sources */,
-				D8E619932B1707750023D5E0 /* BBOnboardingModel.swift in Sources */,
-				D85DEE382B0C0EAE00E53109 /* BatteryBoy__Activity_Bundle.swift in Sources */,
-				D8E5860B2B196871002C11FF /* BBAppManager.swift in Sources */,
+				C016C8C92F049A8500C7E1F6 /* BBCloudModels.swift in Sources */,
 				D8E585DB2B1953F6002C11FF /* BBTimelineManager.swift in Sources */,
-				D83701492B20F6FC00B1206E /* BBAnimationManager.swift in Sources */,
-				D8E586102B1968E1002C11FF /* BBBatteryManager.swift in Sources */,
+				D8598C902B156085006F36B2 /* BBDataObject.xcdatamodeld in Sources */,
+				D85DEE382B0C0EAE00E53109 /* BatteryBoy__Activity_Bundle.swift in Sources */,
 				D8E585F72B195619002C11FF /* BBStandardWidget.swift in Sources */,
-				D8E586042B19646F002C11FF /* BBBluetoothModel.swift in Sources */,
 				D85DEE3A2B0C0EAE00E53109 /* BBDynamicIslandWidget.swift in Sources */,
-				D8D52B9A2B33E3F0004C7E5C /* BBBluetoothManager.swift in Sources */,
-				D8E5860A2B19681B002C11FF /* BBCloudManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -973,54 +1153,70 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0669AAA2F03380000000001 /* BBSystemConstants.swift in Sources */,
-				C0669AAD2F03380000000003 /* BBBatteryConstants.swift in Sources */,
-				C0669AAF2F03380000000004 /* BBOnboardingConstants.swift in Sources */,
-				C0669AB12F03380000000005 /* BBSettingsConstants.swift in Sources */,
-				C0669AB52F03380000000007 /* BBAnimationConstants.swift in Sources */,
-				C0669AB72F03380000000008 /* BBWindowConstants.swift in Sources */,
-				C0669AB92F03380000000009 /* BBBluetoothConstants.swift in Sources */,
-				C0669ABD2F0338000000000B /* BBStatsConstants.swift in Sources */,
-				C0669ABF2F0338000000000C /* BBProcessConstants.swift in Sources */,
-				C0669AC12F0338000000000D /* BBUpdateConstants.swift in Sources */,
-				C0669ABB2F0338000000000A /* BBCloudConstants.swift in Sources */,
-				D8E585FA2B1962AA002C11FF /* BBStatsModel.swift in Sources */,
+				D8E585FA2B1962AA002C11FF /* BBStatsModels.swift in Sources */,
 				D851F8062AB214E8003FCA79 /* BBDataObject.xcdatamodeld in Sources */,
 				D89CCFEE2A9FF97900D9531A /* BBAboutView.swift in Sources */,
-				D8E619912B1707750023D5E0 /* BBOnboardingModel.swift in Sources */,
-				D83DD3FA2A9D62AF00FCC534 /* BBStatsManager.swift in Sources */,
+				D8E619912B1707750023D5E0 /* BBOnboardingModels.swift in Sources */,
 				D8DFD5842A8C26F300732635 /* BBSettingsView.swift in Sources */,
-				D83701122B1F8E4C00B1206E /* BBAnimationModel.swift in Sources */,
-				D891134D2AAC34DC00B5E4F5 /* BBAnimationManager.swift in Sources */,
+				D83701122B1F8E4C00B1206E /* BBAnimationModels.swift in Sources */,
 				D851F80A2ABA29A0003FCA79 /* BBNavigationView.swift in Sources */,
-				D86FDC422B1EAA7E00C077ED /* BBProcessModel.swift in Sources */,
-				D804F2372B0D6F1500D13DE6 /* BBBluetoothModel.swift in Sources */,
+				D86FDC422B1EAA7E00C077ED /* BBProcessModels.swift in Sources */,
+				D804F2372B0D6F1500D13DE6 /* BBBluetoothModels.swift in Sources */,
 				D8D9E5B32A7DFF3E00E295FA /* BBMenuView.swift in Sources */,
-				D8D9E5B72A7F397300E295FA /* BBWindowManager.swift in Sources */,
 				D851F7FF2AB0FC20003FCA79 /* BBHUDView.swift in Sources */,
 				D8C784AA2B1E8A8E00EBD52A /* ToolInstaller.m in Sources */,
-				D8DFD5932A956D2C00732635 /* BBBluetoothManager.swift in Sources */,
-				D8D9E5B52A7F383600E295FA /* BBSettingsManager.swift in Sources */,
-				D83DD3F52A9908E600FCC534 /* BBUpdateManager.swift in Sources */,
+				C016C88C2F04952100C7E1F6 /* BBOnboardingManager.swift in Sources */,
+				C016C88D2F04952100C7E1F6 /* BBUpdateConstants.swift in Sources */,
+				C016C88E2F04952100C7E1F6 /* BBCloudConstants.swift in Sources */,
+				C016C88F2F04952100C7E1F6 /* BBSettingsConstants.swift in Sources */,
+				C016C8902F04952100C7E1F6 /* BBAnimationModels.swift in Sources */,
+				C016C8912F04952100C7E1F6 /* BBAlertManager.swift in Sources */,
+				C016C8922F04952100C7E1F6 /* BBSystemConstants.swift in Sources */,
+				C016C8932F04952100C7E1F6 /* BBAlertConstants.swift in Sources */,
+				C016C8942F04952100C7E1F6 /* BBMenubarConstants.swift in Sources */,
+				C016C8962F04952100C7E1F6 /* BBPeerManager.swift in Sources */,
+				C016C8972F04952100C7E1F6 /* BBWindowManager.swift in Sources */,
+				C016C8982F04952100C7E1F6 /* BBAnimationManager.swift in Sources */,
+				C016C8992F04952100C7E1F6 /* BBMenubarManager.swift in Sources */,
+				C016C89A2F04952100C7E1F6 /* BBStatsModels.swift in Sources */,
+				C016C89B2F04952100C7E1F6 /* BBSettingsModels.swift in Sources */,
+				C016C89C2F04952100C7E1F6 /* BBAppConstants.swift in Sources */,
+				C016C89D2F04952100C7E1F6 /* BBWindowConstants.swift in Sources */,
+				C016C89E2F04952100C7E1F6 /* BBBluetoothConstants.swift in Sources */,
+				C016C89F2F04952100C7E1F6 /* BBSettingsManager.swift in Sources */,
+				C016C8A02F04952100C7E1F6 /* BBBluetoothManager.swift in Sources */,
+				C016C8A12F04952100C7E1F6 /* BBLogConstants.swift in Sources */,
+				C016C8A22F04952100C7E1F6 /* BBSystemModels.swift in Sources */,
+				C016C8A32F04952100C7E1F6 /* BBOnboardingConstants.swift in Sources */,
+				C016C8A42F04952100C7E1F6 /* BBProcessModels.swift in Sources */,
+				C016C8A52F04952100C7E1F6 /* BBPeerConstants.swift in Sources */,
+				C016C8A62F04952100C7E1F6 /* BBStatsConstants.swift in Sources */,
+				C016C8A72F04952100C7E1F6 /* BBBatteryConstants.swift in Sources */,
+				C016C8A82F04952100C7E1F6 /* BBProcessManager.swift in Sources */,
+				C016C8A92F04952100C7E1F6 /* BBCloudModels.swift in Sources */,
+				C016C8AA2F04952100C7E1F6 /* BBProcessConstants.swift in Sources */,
+				C016C8AB2F04952100C7E1F6 /* BBBluetoothModels.swift in Sources */,
+				C016C8AC2F04952100C7E1F6 /* BBAppManager.swift in Sources */,
+				C016C8AD2F04952100C7E1F6 /* BBBatteryManager.swift in Sources */,
+				C016C8AE2F04952100C7E1F6 /* BBStatsManager.swift in Sources */,
+				C016C8AF2F04952100C7E1F6 /* BBOnboardingModels.swift in Sources */,
+				C016C8B02F04952100C7E1F6 /* BBUpdateManager.swift in Sources */,
+				C016C8B12F04952100C7E1F6 /* BBLogManager.swift in Sources */,
+				C016C8B22F04952100C7E1F6 /* BBCloudManager.swift in Sources */,
+				C016C8B32F04952100C7E1F6 /* BBBatteryModels.swift in Sources */,
+				C016C8B42F04952100C7E1F6 /* BBAnimationConstants.swift in Sources */,
+				C016C8B52F04952100C7E1F6 /* BBAppErrors.swift in Sources */,
 				D851F8022AB152B7003FCA79 /* BBUpdateView.swift in Sources */,
-				D8D52B762B322F4D004C7E5C /* BBAlertManager.swift in Sources */,
-				D8598C972B156199006F36B2 /* BBCloudModel.swift in Sources */,
+				D8598C972B156199006F36B2 /* BBCloudModels.swift in Sources */,
 				D8E6198A2B167C5C0023D5E0 /* BBOnboardingView.swift in Sources */,
-				D8D9E5CB2A8403D300E295FA /* BBAppManager.swift in Sources */,
 				D83C2C2E2B253DBD00B78456 /* BBHelperModel.swift in Sources */,
-				D804F2322B0D6ABF00D13DE6 /* BBCloudManager.swift in Sources */,
 				D8DFD5822A8BD7E800732635 /* BBProgressView.swift in Sources */,
 				D83701442B1FD27500B1206E /* SMC.swift in Sources */,
-				D8D9E5AF2A7DF68C00E295FA /* BBBatteryManager.swift in Sources */,
-				D8BEDB892B2EB730004D3EB1 /* BBBatteryModel.swift in Sources */,
-				D804F2292B0D640A00D13DE6 /* BBSystemModel.swift in Sources */,
+				D8BEDB892B2EB730004D3EB1 /* BBBatteryModels.swift in Sources */,
+				D804F2292B0D640A00D13DE6 /* BBSystemModels.swift in Sources */,
 				D8D9E5A02A7DE7AB00E295FA /* BatteryBoiApp.swift in Sources */,
-				D8228E392AC387020014DC85 /* BBProcessManager.swift in Sources */,
 				D83CD7452AA8F693004223D7 /* BBBluetoothView.swift in Sources */,
-				D804F22F2B0D64DE00D13DE6 /* BBSettingsModel.swift in Sources */,
-				D8E6198D2B16F13D0023D5E0 /* BBOnboardingManager.swift in Sources */,
-				D8D52B7B2B325663004C7E5C /* BBPeerManager.swift in Sources */,
-				D837014B2B2100DE00B1206E /* BBMenubarManager.swift in Sources */,
+				D804F22F2B0D64DE00D13DE6 /* BBSettingsModels.swift in Sources */,
 				D8D9E5B92A80646E00E295FA /* BBExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1083,14 +1279,15 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "BatteryBoi--iOS--Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = BatteryBoi;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "We need access to Bluetooth to show the Battery Status for your Connected Devices.";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1133,14 +1330,15 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "BatteryBoi--iOS--Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = BatteryBoi;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "We need access to Bluetooth to show the Battery Status for your Connected Devices.";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1702,6 +1900,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		C016C8CA2F049AD500C7E1F6 /* DynamicColor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D8D9E5C42A81B27D00E295FA /* XCRemoteSwiftPackageReference "DynamicColor" */;
+			productName = DynamicColor;
+		};
 		C0669B042F0337D000EF6308 /* ArgumentParser */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C0669B032F0337D000EF6308 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;

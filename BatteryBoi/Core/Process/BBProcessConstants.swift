@@ -15,10 +15,14 @@ enum ProcessPrimaryCommands: String, CaseIterable {
     case settings = "settings"
     case devices = "devices"
     case website = "website"
+    case github = "github"
     case rate = "rate"
     case beta = "beta"
     case power = "power"
     case status = "status"
+    case log = "log"
+    case intro = "intro"
+    case reset = "reset"
 
     var description: String {
         switch self {
@@ -29,10 +33,14 @@ enum ProcessPrimaryCommands: String, CaseIterable {
             case .devices: return "List & Append Device Information"
             case .settings: return "Information & Customization for Settings"
             case .website: return "Opens BatteryBoi Website"
+            case .github: return "Opens BatteryBoi GitHub Repository"
             case .rate: return "Rate BatteryBoi on ProductHunt"
             case .beta: return "Enable/Disable Beta Program (Note: May Cause Crashes or Unstable Performance)"
             case .power: return "Power Mode Management & Low Power Toggle"
             case .status: return "Complete Battery Dashboard with All Information"
+            case .log: return "Export & View Application Logs"
+            case .intro: return "Show the Intro/Onboarding Window"
+            case .reset: return "Reset Application Data"
         }
     }
 
@@ -45,10 +53,14 @@ enum ProcessPrimaryCommands: String, CaseIterable {
             case .devices: return [.list, .reset]
             case .settings: return [.info, .set, .reset]
             case .website: return [.open]
+            case .github: return [.open]
             case .rate: return [.open]
             case .beta: return [.set]
             case .power: return [.mode, .toggle]
             case .status: return [.info]
+            case .log: return [.export]
+            case .intro: return [.show]
+            case .reset: return [.onboarding, .defaults, .database, .all]
         }
     }
 }
@@ -67,6 +79,11 @@ enum ProcessSecondaryCommands: String {
     case time = "time"
     case mode = "mode"
     case toggle = "toggle"
+    case export = "export"
+    case onboarding = "onboarding"
+    case defaults = "defaults"
+    case database = "database"
+    case all = "all"
 }
 
 enum ProcessResponseHeaderType: String {

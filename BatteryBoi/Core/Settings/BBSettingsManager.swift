@@ -7,8 +7,8 @@
 
 import Foundation
 import Combine
-import AppKit
 import SwiftUI
+import AppKit
 import ServiceManagement
 
 public class SettingsManager: ObservableObject {
@@ -90,7 +90,6 @@ public class SettingsManager: ObservableObject {
 
                 }
                 catch {
-
                     UserDefaults.save(.enabledLogin, value: SettingsStateValue.restricted)
 
                 }

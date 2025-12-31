@@ -47,7 +47,7 @@ final class SystemIntegrationTests: XCTestCase {
         payload.append(Data([0x32, 0x2D, 0x50])) // 15, 16, 17 (L, R, Case) -> 50, 45, 80
         payload.append(Data(repeating: 0x00, count: 11)) // Remaining padding (need total length >= 29)
         
-        let batteryLevel = BluetoothManager.parseContinuityManufacturerData(payload)
+        let batteryLevel = BluetoothManager.bluetoothParseContinuityManufacturerData(payload)
         
         XCTAssertNotNil(batteryLevel, "Should parse valid continuity data")
         // Logic takes min() of valid batteries (>0 <=100)
@@ -58,10 +58,10 @@ final class SystemIntegrationTests: XCTestCase {
     func testBluetoothModuleReturnsNilForInvalidData() {
         // Invalid Company ID
         let invalidCompany = Data([0xFF, 0xFF, 0x07, 0x19] + [UInt8](repeating: 0, count: 30))
-        XCTAssertNil(BluetoothManager.parseContinuityManufacturerData(invalidCompany))
+        XCTAssertNil(BluetoothManager.bluetoothParseContinuityManufacturerData(invalidCompany))
         
         // Short Data
         let shortData = Data([0x4C, 0x00, 0x07])
-        XCTAssertNil(BluetoothManager.parseContinuityManufacturerData(shortData))
+        XCTAssertNil(BluetoothManager.bluetoothParseContinuityManufacturerData(shortData))
     }
 }

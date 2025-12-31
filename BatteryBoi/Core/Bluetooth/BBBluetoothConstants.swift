@@ -8,14 +8,14 @@
 import Foundation
 import CoreBluetooth
 
-struct BluetoothBroadcastItem: Identifiable, Equatable {
-    static func == (lhs: BluetoothBroadcastItem, rhs: BluetoothBroadcastItem) -> Bool {
+public struct BluetoothBroadcastItem: Identifiable, Equatable {
+    public static func == (lhs: BluetoothBroadcastItem, rhs: BluetoothBroadcastItem) -> Bool {
         lhs.id == rhs.id && lhs.state == rhs.state && lhs.proximity == rhs.proximity
     }
 
     var peripheral: CBPeripheral
     var state: BluetoothConnectionState
-    var id: UUID
+    public var id: UUID
     var characteristics: [CBCharacteristic]
     var services: [CBService]
     var proximity: SystemDeviceDistanceType = .unknown
@@ -37,7 +37,7 @@ struct BluetoothBroadcastItem: Identifiable, Equatable {
     }
 }
 
-enum BluetoothPermissionState: String {
+public enum BluetoothPermissionState: String {
     case allowed
     case undetermined
     case disabled
@@ -57,7 +57,7 @@ enum BluetoothPermissionState: String {
     }
 }
 
-enum BluetoothUUID: String, Hashable, CaseIterable {
+public enum BluetoothUUID: String, Hashable, CaseIterable {
     case battery = "00002a19-0000-1000-8000-00805f9b34fb"
     case power = "0000180f-0000-1000-8000-00805f9b34fb"
     case appearance = "00002a01-0000-1000-8000-00805f9b34fb"
@@ -111,7 +111,7 @@ enum BluetoothUUID: String, Hashable, CaseIterable {
     }
 }
 
-enum BluetoothConnectionState: String {
+public enum BluetoothConnectionState: String {
     case queued
     case connected
     case pending

@@ -24,7 +24,7 @@ public struct BatteryPulsatingIcon: View {
     
     public var body: some View {
         Rectangle()
-            .fill(menubar.style.text)
+//            .fill(menubar.style.rawValue)
             .mask(
                Image(icon)
                    .resizable()
@@ -182,7 +182,7 @@ private struct BatteryStatus: View {
             
         }
         .frame(alignment: .center)
-        .foregroundColor(menubar.style.text)
+//        .foregroundColor(menubar.style.text)
         .animation(Animation.easeInOut, value: manager.charging)
 
     }
@@ -370,12 +370,12 @@ struct BatteryTransparent: View {
         ZStack(alignment: .leading) {
             RoundedRectangle(cornerRadius: menubar.radius, style: .continuous)
                 .fill(Color("BatteryDefault"))
-                .opacity(menubar.style.background)
+//                .opacity(menubar.style.background)
                 .frame(width:menubar.style.size.width, height: menubar.style.size.height)
                 
             RoundedRectangle(cornerRadius: menubar.radius, style: .continuous)
                 .fill(color)
-                .opacity(menubar.style.foreground)
+//                .opacity(menubar.style.foreground)
                 .frame(width:(menubar.style.size.width / CGFloat(manager.max)) * CGFloat(manager.percentage), height: menubar.style.size.height)
             
         }

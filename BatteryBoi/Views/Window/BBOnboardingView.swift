@@ -40,7 +40,7 @@ struct OnboardingPage: View {
                 Button(action: { action(.primary) }) {
                     Text(primary)
                         .font(.system(size: 14, weight: .semibold))
-                        .foregroundColor(Color("BatteryDefault"))
+                        .foregroundColor(.black)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
                         .background(Color.white)
@@ -88,6 +88,7 @@ struct OnboardingContainer: View {
                 title: "OnboardingBluetoothTitle".localise(),
                 subtitle: "OnboardingBluetoothSubtitle".localise(),
                 primary: "OnboardingBluetoothButton".localise(),
+                secondary: "OnboardingBluetoothSecondaryButton".localise(),
                 action: onboarding.onboardingAction
             )
         }
@@ -106,6 +107,7 @@ struct OnboardingContainer: View {
                     title: "OnboardingCloudTitle".localise(),
                     subtitle: "OnboardingCloudSubtitle".localise(),
                     primary: "OnboardingCloudButton".localise(),
+                    secondary: "OnboardingCloudSecondaryButton".localise(),
                     action: onboarding.onboardingAction
                 )
             #endif
@@ -124,6 +126,7 @@ struct OnboardingContainer: View {
                 title: "OnboardingProcessTitle".localise(),
                 subtitle: "OnboardingProcessSubtitle".localise(),
                 primary: "OnboardingProcessButton".localise(),
+                secondary: "OnboardingProcessSecondaryButton".localise(),
                 action: onboarding.onboardingAction
             )
         }
@@ -165,6 +168,7 @@ struct OnboardingContainer: View {
                 title: "OnboardingNotificationsTitle".localise(),
                 subtitle: "OnboardingNotificationsSubtitle".localise(),
                 primary: "OnboardingNotificationsButton".localise(),
+                secondary: "OnboardingNotificationsSecondaryButton".localise(),
                 action: onboarding.onboardingAction
             )
         }
@@ -188,12 +192,30 @@ struct OnboardingContainer: View {
             if onboarding.state == .complete {
                 Text("OnboardingCompleteLabel".localise())
                     .foregroundColor(.white)
+                    .font(.system(size: 16, weight: .semibold))
             }
             else {
                 activePage
             }
         }
         .padding(.top, 40)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        #if os(iOS)
+        .background(Color.green)
+        .ignoresSafeArea()
+        .overlay(alignment: .topTrailing) {
+            Button(action: { 
+                withAnimation {
+                    onboarding.state = .complete 
+                }
+            }) {
+                Image(systemName: "xmark.circle.fill")
+                    .font(.title)
+                    .foregroundColor(.white.opacity(0.5))
+                    .padding()
+            }
+        }
+        #endif
     }
     
 }

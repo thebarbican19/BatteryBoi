@@ -49,17 +49,17 @@ struct DeleteMeEntryView : View {
 
     var body: some View {
         VStack {
-            if let device = entry.device {
-                Text("Time:")
-                Text(entry.date, style: .time)
-                
-                Text(device.name)
-                
-            }
-            else {
-                Text("No Device Set")
-                
-            }
+//            if let device = entry.device {
+//                Text("Time:")
+//                Text(entry.date, style: .time)
+//                
+//                Text(device.name)
+//                
+//            }
+//            else {
+//                Text("No Device Set")
+//                
+//            }
             
         }
         

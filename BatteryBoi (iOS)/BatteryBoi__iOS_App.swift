@@ -60,7 +60,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     func applicationScheduleAppRefresh() {
         let request = BGAppRefreshTaskRequest(identifier: "com.ovatar.batteryapp.refresh")
-        request.earliestBeginDate = Date(timeIntervalSinceNow: 1 * 60)
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 15 * 60)
         
         do {
             try BGTaskScheduler.shared.submit(request)
@@ -92,7 +92,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         print("🔍 Handling background push event for ID: \(id)")
         
         BatteryManager.shared.powerForceRefresh()
-        BatteryManager.shared.powerStoreEvent(nil)
+        //BatteryManager.shared.powerStoreEvent(nil)
 
         let fetch: NSFetchRequest<Battery> = Battery.fetchRequest()
         fetch.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
@@ -101,6 +101,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         do {
             //let existing = try context.fetch(fetch)
         
+            /*
             let content = UNMutableNotificationContent()
             content.title = "Batter Events \(id)"
             
@@ -127,6 +128,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                 }
                 
             }
+            */
+            completion(true)
             
         }
         catch {

@@ -9,18 +9,18 @@ import Foundation
 import CloudKit
 import CoreData
 
-enum CloudEntityType: String {
+public enum CloudEntityType: String {
     case devices = "Devices"
     case events = "Events"
 }
 
-enum CloudNotificationType: String {
+public enum CloudNotificationType: String {
     case alert
     case background
     case none
 }
 
-enum CloudState: String {
+public enum CloudState: String {
     case unknown
     case enabled
     case blocked
@@ -36,20 +36,20 @@ enum CloudState: String {
     }
 }
 
-enum CloudSyncedState: String {
+public enum CloudSyncedState: String {
     case syncing
     case completed
     case error
 }
 
-struct CloudContainerObject {
+public struct CloudContainerObject {
     var container: NSPersistentCloudKitContainer?
     var directory: URL?
     var parent: URL?
     var storage: Any?
 }
 
-enum CloudSubscriptionsType: String {
+public enum CloudSubscriptionsType: String {
     case alerts
     case events
     case device

@@ -12,7 +12,12 @@ import CoreBluetooth
 #if os(macOS)
 import IOBluetooth
 import IOKit
+
+#else
+import UIKit
+
 #endif
+
 
 public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     @Published var state: BluetoothPermissionState = .unknown
@@ -34,7 +39,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
         #if os(macOS)
         Timer.publish(every: 30.0, on: .main, in: .common).autoconnect().sink { _ in
-            self.logConnectedBluetoothDeviceBatteries()
+            self.bluetoothLogConnectedDeviceBatteries()
         }.store(in: &updates)
         #endif
 
@@ -51,7 +56,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
         $broadcasting.debounce(for: .seconds(2), scheduler: RunLoop.main).receive(on: DispatchQueue.main).sink { found in
             for item in found.filter({ $0.state == .connected && $0.characteristics.isEmpty == false }) {
-                if let match = self.peripheralMatchDevice(item.peripheral) {
+                if let match = self.bluetoothMatchDevice(item.peripheral) {
                     if AppManager.shared.devices.contains(match) == false {
                         AppManager.shared.appStoreDevice(match)
 
@@ -74,7 +79,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
             }
             
             if let disconnected = found.first(where: { $0.state == .disconnected }) {
-                if let match = self.peripheralMatchDevice(disconnected.peripheral) {
+                if let match = self.bluetoothMatchDevice(disconnected.peripheral) {
                     //AppManager.shared.appStoreEvent(.disconnected, device: match)
                     
                 }
@@ -90,12 +95,11 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
                         dataMap[type] = data
                     }
                 }
-                let parsed = Self.parseCharacteristicData(dataMap)
+                let parsed = Self.bluetoothParseCharacteristicData(dataMap)
                 let batteryInfo = parsed.battery != nil ? " Battery: \(parsed.battery!)%" : ""
-                print("\n👋🏻 - \(item.peripheral.name ?? "Unknown") State: \(item.state) Characteristics: \(item.characteristics.count)\(batteryInfo)\n")
                 
                 if let battery = parsed.battery, let name = item.peripheral.name {
-                    self.saveDeviceAndBattery(name: name, identifier: item.peripheral.identifier, battery: battery, profile: parsed.profile)
+                    self.bluetoothSaveDeviceAndBattery(name: name, identifier: item.peripheral.identifier, battery: battery, profile: parsed.profile)
                 }
 
             }
@@ -124,16 +128,29 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
         self.bluetoothAuthorization()
 
-        // Start IOKit Polling
+//        NotificationCenter.default.addObserver(self, selector: #selector(bluetoothRecheckAuthorization), name: .CKAccountStatusDidChange, object: nil)
+        
+        #if os(macOS)
+            NotificationCenter.default.addObserver(self, selector: #selector(bluetoothRecheckAuthorization), name: NSApplication.willBecomeActiveNotification, object: nil)
+        #elseif os(iOS)
+            NotificationCenter.default.addObserver(self, selector: #selector(bluetoothRecheckAuthorization), name: UIApplication.willEnterForegroundNotification, object: nil)
+        #endif
+
         Timer.publish(every: 300, on: .main, in: .common).autoconnect().sink { _ in
-            self.fetchIOKitBatteryDevices()
+            self.bluetoothFetchIOKitBatteryDevices()
+			
         }.store(in: &updates)
         
-        // Initial fetch
-        self.fetchIOKitBatteryDevices()
+        Timer.publish(every: 5.0, on: .main, in: .common).autoconnect().sink { _ in
+            self.bluetoothReadConnectedDevicesRSSI()
+			
+        }.store(in: &updates)
+		
+		self.bluetoothFetchIOKitBatteryDevices()
+
     }
 
-    static func parseIOKitDictionary(_ dict: [String: Any]) -> (name: String, battery: Int, profile: SystemDeviceProfileObject)? {
+    private static func bluetoothParseIOKitDictionary(_ dict: [String: Any]) -> (name: String, battery: Int, profile: SystemDeviceProfileObject)? {
         if let name = dict["Name"] as? String,
            let battery = dict["BatteryPercent"] as? Int {
 
@@ -148,7 +165,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
         return nil
     }
 
-    public func fetchIOKitBatteryDevices() {
+    private func bluetoothFetchIOKitBatteryDevices() {
         #if os(macOS)
         let matchDict = IOServiceMatching("IOBluetoothDevice")
         var iterator: io_iterator_t = 0
@@ -161,8 +178,8 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
                 if IORegistryEntryCreateCFProperties(device, &properties, kCFAllocatorDefault, 0) == kIOReturnSuccess,
                    let dict = properties?.takeRetainedValue() as? [String: Any] {
 
-                    if let parsed = Self.parseIOKitDictionary(dict) {
-                        self.saveDeviceAndBattery(name: parsed.name, identifier: UUID(), battery: parsed.battery, profile: parsed.profile)
+                    if let parsed = Self.bluetoothParseIOKitDictionary(dict) {
+                        self.bluetoothSaveDeviceAndBattery(name: parsed.name, identifier: UUID(), battery: parsed.battery, profile: parsed.profile)
                     }
                 }
 
@@ -174,7 +191,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
         #endif
     }
 
-    func bluetoothUpdateBroadcast(state: BluetoothConnectionState, peripheral: CBPeripheral? = nil, update: BluetoothConnectionState) {
+    private func bluetoothUpdateBroadcast(state: BluetoothConnectionState, peripheral: CBPeripheral? = nil, update: BluetoothConnectionState) {
         DispatchQueue.main.async {
             if let peripheral = peripheral {
                 if let index = self.broadcasting.firstIndex(where: { $0.state == state && peripheral == peripheral }) {
@@ -208,7 +225,12 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
     public func bluetoothStartScanning() {
         if self.manager != nil && self.manager.state == .poweredOn {
+            #if os(iOS)
+            let services = [BluetoothUUID.power.uuid].compactMap { $0 }
+            self.manager.scanForPeripherals(withServices: services, options: nil)
+            #else
             self.manager.scanForPeripherals(withServices: nil, options: nil)
+            #endif
         }
     }
 
@@ -242,7 +264,12 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
     }
 
-    public func bluetoothCharacteristicAppend(_ characteristic: CBCharacteristic, index: Int) {
+    @objc private func bluetoothRecheckAuthorization() {
+        self.bluetoothAuthorization()
+        
+    }
+
+    private func bluetoothCharacteristicAppend(_ characteristic: CBCharacteristic, index: Int) {
         guard self.broadcasting.indices.contains(index) else {
             return
 
@@ -258,7 +285,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
     }
 
-    public func bluetoothServicesAppend(_ service: CBService, index: Int) {
+    private func bluetoothServicesAppend(_ service: CBService, index: Int) {
         guard self.broadcasting.indices.contains(index) else {
             return
 
@@ -307,7 +334,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
         #if os(macOS)
         if let name = peripheral.name {
-            if let ioKitBattery = getIOKitBatteryLevel(deviceName: name) {
+            if let ioKitBattery = bluetoothGetIOKitBatteryLevel(deviceName: name) {
                 batteryLevel = ioKitBattery
             }
         }
@@ -315,19 +342,20 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
         if batteryLevel == nil {
             if let manufacturerData = advertisementData[CBAdvertisementDataManufacturerDataKey] as? Data {
-                batteryLevel = Self.parseContinuityManufacturerData(manufacturerData)
+                batteryLevel = Self.bluetoothParseContinuityManufacturerData(manufacturerData)
             }
         }
 
         if let battery = batteryLevel, let name = peripheral.name {
             let profile = SystemDeviceProfileObject(model: "Bluetooth Device", vendor: nil, serial: nil, hardware: nil, apperance: nil, findmy: false)
-            self.saveDeviceAndBattery(name: name, identifier: peripheral.identifier, battery: battery, profile: profile)
+            self.bluetoothSaveDeviceAndBattery(name: name, identifier: peripheral.identifier, battery: battery, profile: profile)
         }
 
         if var device = AppManager.shared.devices.first(where: { $0.name == peripheral.name }) {
             device.distance = distance
-
         }
+        
+        self.bluetoothUpdateDeviceDistance(peripheral: peripheral, rssi: RSSI)
 
         if distance.state.rawValue <= self.proximity.rawValue {
             self.bluetoothUpdateBroadcast(state: .queued, peripheral: peripheral, update: .queued)
@@ -356,24 +384,64 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
     }
     
-    private func saveDeviceAndBattery(name: String, identifier: UUID, battery: Int, profile: SystemDeviceProfileObject) {
+    private func bluetoothSaveDeviceAndBattery(name: String, identifier: UUID, battery: Int, profile: SystemDeviceProfileObject) {
         if let context = AppManager.shared.appStorageContext() {
             context.perform {
                 let tempDevice = SystemDeviceObject(identifier, name: name, profile: profile)
                 if let match = SystemDeviceObject.match(tempDevice, context: context) {
                     AppManager.shared.appStoreDevice(match)
                     BatteryManager.shared.powerStoreEvent(match, battery: battery)
-                } else {
+					
+                }
+				else {
                     AppManager.shared.appStoreDevice(tempDevice)
                     BatteryManager.shared.powerStoreEvent(tempDevice, battery: battery)
+					
                 }
+				
             }
+			
         }
+		
     }
     
-	public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        if let error = error {
-            print("Error discovering services: \(error.localizedDescription)")
+    private func bluetoothReadConnectedDevicesRSSI() {
+        for item in self.broadcasting.filter({ $0.state == .connected }) {
+            item.peripheral.readRSSI()
+        }
+    }
+
+    private func bluetoothUpdateDeviceDistance(peripheral: CBPeripheral, rssi: NSNumber) {
+        let distance: SystemDeviceDistanceObject = .init(Double(truncating: rssi))
+
+        DispatchQueue.main.async {
+            if let index = AppManager.shared.devices.firstIndex(where: { $0.id == peripheral.identifier }) {
+                AppManager.shared.devices[index].distance = distance
+				
+            }
+			else if let index = AppManager.shared.devices.firstIndex(where: { $0.name == peripheral.name }) {
+                AppManager.shared.devices[index].distance = distance
+				
+            }
+			
+        }
+		
+    }
+
+    public func peripheral(_ peripheral: CBPeripheral, didReadRSSI RSSI: NSNumber, error: Error?) {
+        guard error == nil else { return }
+
+        self.bluetoothUpdateDeviceDistance(peripheral: peripheral, rssi: RSSI)
+        
+        if let index = self.broadcasting.firstIndex(where: { $0.peripheral == peripheral }) {
+            var item = self.broadcasting[index]
+            item.proximity = SystemDeviceDistanceObject(Double(truncating: RSSI)).state
+            self.broadcasting[index] = item
+        }
+    }
+
+    public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        if let _ = error {
 
         }
         else {
@@ -390,8 +458,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
     }
 
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
-        if let error = error {
-            print("Error discovering characteristics: \(error.localizedDescription)")
+        if let _ = error {
 
         }
         else {
@@ -413,7 +480,6 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
             }
             else {
-                print("No characteristics for", peripheral)
 
             }
 
@@ -421,7 +487,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
     }
 
-    static func parseCharacteristicData(_ dataMap: [BluetoothUUID: Data]) -> (profile: SystemDeviceProfileObject, battery: Int?) {
+    private static func bluetoothParseCharacteristicData(_ dataMap: [BluetoothUUID: Data]) -> (profile: SystemDeviceProfileObject, battery: Int?) {
         var vendor: String?
         var serial: String?
         var model: String?
@@ -432,7 +498,6 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
         if let data = dataMap[.findmy], let string = String(data: data, encoding: .utf8) {
             findmy = true
-            print("Find My Data:", string)
         }
 
         if let data = dataMap[.system], let string = String(data: data, encoding: .utf8) {
@@ -471,7 +536,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
         return (profile, battery)
     }
 
-    func peripheralMatchDevice(_ peripheral: CBPeripheral) -> SystemDeviceObject? {
+    private func bluetoothMatchDevice(_ peripheral: CBPeripheral) -> SystemDeviceObject? {
         guard let index = self.broadcasting.firstIndex(where: { $0.peripheral == peripheral }) else {
             return nil
         }
@@ -485,7 +550,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
             }
         }
 
-        let parsed = Self.parseCharacteristicData(dataMap)
+        let parsed = Self.bluetoothParseCharacteristicData(dataMap)
 
         if let name = peripheral.name, !parsed.profile.model.isEmpty {
             let device = SystemDeviceObject(
@@ -497,8 +562,6 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
             return device
         }
         else {
-            print("No Match for Name \(peripheral.name ?? "Unknown")")
-            print("No Match for Model \(parsed.profile.model)")
 
         }
 
@@ -506,7 +569,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
     }
 
     public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        guard let match = self.peripheralMatchDevice(peripheral) else {
+        guard let match = self.bluetoothMatchDevice(peripheral) else {
             return
 
         }
@@ -522,10 +585,9 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
     }
 
     #if os(macOS)
-    func logConnectedBluetoothDeviceBatteries() {
+    private func bluetoothLogConnectedDeviceBatteries() {
         let deviceClasses = ["AppleBluetoothHIDKeyboard", "BNBMouseDevice", "AppleDeviceManagementHIDEventService", "IOBluetoothHIDDriver", "IOBluetoothDevice"]
 
-        print("\n🔋 Checking IOKit for connected Bluetooth devices...\n")
 
         for deviceClass in deviceClasses {
             var iterator = io_iterator_t()
@@ -555,10 +617,9 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
                         let model = IORegistryEntryCreateCFProperty(object, "DeviceModel" as CFString, kCFAllocatorDefault, 0)?.takeRetainedValue() as? String ?? deviceClass
 
                         if let name = name, let percent = percent {
-                            print("🔋 [\(deviceClass)] \(name): \(percent)%")
 
                             let profile = SystemDeviceProfileObject(model: model, vendor: vendor, serial: serial, hardware: nil, apperance: nil, findmy: false)
-                            self.saveDeviceAndBattery(name: name, identifier: UUID(), battery: percent, profile: profile)
+                            self.bluetoothSaveDeviceAndBattery(name: name, identifier: UUID(), battery: percent, profile: profile)
                         }
 
                         IOObjectRelease(object)
@@ -569,7 +630,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
         }
     }
 
-    func getIOKitBatteryLevel(deviceName: String) -> Int? {
+    private func bluetoothGetIOKitBatteryLevel(deviceName: String) -> Int? {
         let deviceClasses = ["AppleBluetoothHIDKeyboard", "BNBMouseDevice", "AppleDeviceManagementHIDEventService"]
 
         for deviceClass in deviceClasses {
@@ -610,7 +671,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
     }
     #endif
 
-    public static func parseContinuityManufacturerData(_ data: Data) -> Int? {
+    static func bluetoothParseContinuityManufacturerData(_ data: Data) -> Int? {
         guard data.count >= 2 else {
             return nil
         }

@@ -10,8 +10,14 @@ import AVFoundation
 import CloudKit
 import CoreData
 import CoreBluetooth
+
+#if os(macOS)
 import AppKit
 import IOKit
+
+#elseif os(iOS)
+import UIKit
+#endif
 
 public enum SystemAlertTypes: String {
     case chargingComplete
@@ -182,13 +188,18 @@ public enum SystemSoundEffects: String {
     case low = "lownote"
 
     public func play(_ force: Bool = false) {
+		#if os(macOS)
         if SettingsManager.shared.enabledSoundEffects == .enabled || force == true {
             NSSound(named: self.rawValue)?.play()
         }
+		#elseif os(iOS)
+			
+		#endif
+
     }
 }
 
-enum SystemDeviceCategory: String, Codable {
+public enum SystemDeviceCategory: String, Codable {
     case desktop
     case laptop
     case tablet
@@ -224,7 +235,7 @@ enum SystemDeviceCategory: String, Codable {
     }
 }
 
-enum SystemDeviceTypes: String, Codable {
+public enum SystemDeviceTypes: String, Codable {
     case macbook
     case macbookPro
     case macbookAir
@@ -307,12 +318,16 @@ enum SystemDeviceTypes: String, Codable {
         }
 
         if alias == true {
-            if let name = Host.current().localizedName {
-                return name
+            #if os(macOS)
+            if let hostName = Host.current().localizedName {
+                return hostName
             }
+            #elseif os(iOS)
+            return UIDevice.current.name
+            #endif
         }
 
-        return nil
+        return name
     }
 
     static func type(_ model: String) -> SystemDeviceTypes? {
@@ -322,6 +337,7 @@ enum SystemDeviceTypes: String, Codable {
         return SystemDeviceTypes(rawValue: formatted)
     }
 
+    #if os(macOS)
     static var serial: String? {
         var output: String? = nil
         let expert: io_service_t = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"))
@@ -343,6 +359,10 @@ enum SystemDeviceTypes: String, Codable {
         sysctlbyname("hw.model", &machine, &size, nil, 0)
         return String(cString: machine)
     }
+    #else
+    static var serial: String? { return nil }
+    static var model: String { return "unknown" }
+    #endif
 
     static var os: String {
         let os = ProcessInfo.processInfo.operatingSystemVersionString
@@ -378,6 +398,7 @@ enum SystemDeviceTypes: String, Codable {
         }
     }
 
+    #if os(macOS)
     static var type: SystemDeviceTypes {
         let platform = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("IOPlatformExpertDevice"))
 
@@ -398,10 +419,19 @@ enum SystemDeviceTypes: String, Codable {
 
         return .unknown
     }
+    #else
+    static var type: SystemDeviceTypes {
+        #if os(iOS)
+        if UIDevice.current.userInterfaceIdiom == .phone { return .iphone }
+        else if UIDevice.current.userInterfaceIdiom == .pad { return .ipad }
+        #endif
+        return .unknown
+    }
+    #endif
 }
 
-struct SystemDeviceProfileObject: Hashable, Equatable {
-    static func == (lhs: SystemDeviceProfileObject, rhs: SystemDeviceProfileObject) -> Bool {
+public struct SystemDeviceProfileObject: Hashable, Equatable {
+	public static func == (lhs: SystemDeviceProfileObject, rhs: SystemDeviceProfileObject) -> Bool {
         lhs.serial == rhs.serial
     }
 
@@ -414,21 +444,21 @@ struct SystemDeviceProfileObject: Hashable, Equatable {
     var findmy: Bool
 }
 
-enum SystemConnectivityType: String {
+public enum SystemConnectivityType: String {
     case bluetooth
     case system
 }
 
-struct SystemPushObject: Identifiable {
-    static func == (lhs: SystemPushObject, rhs: SystemPushObject) -> Bool {
+public struct SystemPushObject: Identifiable {
+    public static func == (lhs: SystemPushObject, rhs: SystemPushObject) -> Bool {
         lhs.id == rhs.id
     }
 
-    var id: UUID
-    var type: SystemAlertTypes
-    var percentage: Int? = nil
+    public var id: UUID
+    public var type: SystemAlertTypes
+    public var percentage: Int? = nil
 
-    init?(_ item: Push) {
+    public init?(_ item: Push) {
         if let id = item.id, let type = SystemAlertTypes(rawValue: item.type ?? "") {
             self.id = id
             self.type = type
@@ -443,17 +473,17 @@ struct SystemPushObject: Identifiable {
     }
 }
 
-struct SystemAlertObject: Identifiable {
-    static func == (lhs: SystemAlertObject, rhs: SystemAlertObject) -> Bool {
+public struct SystemAlertObject: Identifiable {
+    public static func == (lhs: SystemAlertObject, rhs: SystemAlertObject) -> Bool {
         lhs.id == rhs.id
     }
 
-    var id: UUID
-    var triggered: Date?
-    var event: SystemEventObject
-    var type: SystemAlertTypes
+    public var id: UUID
+    public var triggered: Date?
+    public var event: SystemEventObject
+    public var type: SystemAlertTypes
 
-    init?(_ alert: Alerts) {
+    public init?(_ alert: Alerts) {
         if let event = alert.event, let event = SystemEventObject(event), let id = alert.id, let type = SystemAlertTypes(rawValue: alert.type ?? "") {
             self.id = id
             self.event = event
@@ -466,20 +496,20 @@ struct SystemAlertObject: Identifiable {
     }
 }
 
-struct SystemEventObject: Identifiable, Equatable {
-    static func == (lhs: SystemEventObject, rhs: SystemEventObject) -> Bool {
+public struct SystemEventObject: Identifiable, Equatable {
+    public static func == (lhs: SystemEventObject, rhs: SystemEventObject) -> Bool {
         lhs.id == rhs.id
     }
 
-    var id: UUID
-    var created: Date?
-    var state: BatteryChargingState
-    var thermal: BatteryThemalObject? = nil
-    var percentage: Int
-    var device: SystemDeviceObject? = nil
-    var entity: Battery
+    public var id: UUID
+    public var created: Date?
+    public var state: BatteryChargingState
+    public var thermal: BatteryThemalObject? = nil
+    public var percentage: Int
+    public var device: SystemDeviceObject? = nil
+    public var entity: Battery
 
-    init?(_ item: Battery) {
+    public init?(_ item: Battery) {
         if let id = item.id, let created = item.created, let state = BatteryChargingState(rawValue: item.state ?? "") {
             self.id = id
             self.created = created
@@ -501,26 +531,26 @@ struct SystemEventObject: Identifiable, Equatable {
     }
 }
 
-struct SystemDeviceObject: Hashable, Equatable, Identifiable {
-    static func == (lhs: SystemDeviceObject, rhs: SystemDeviceObject) -> Bool {
+public struct SystemDeviceObject: Hashable, Equatable, Identifiable {
+    public static func == (lhs: SystemDeviceObject, rhs: SystemDeviceObject) -> Bool {
         lhs.id == rhs.id && lhs.name == rhs.name
     }
 
-    var id: UUID
-    var address: String?
-    var name: String
-    var profile: SystemDeviceProfileObject
-    var connectivity: SystemConnectivityType = .system
-    var synced: Bool = true
-    var favourite: Bool = false
-    var notifications: Bool = true
-    var order: Int = 1
-    var distance: SystemDeviceDistanceObject? = nil
-    var added: Date? = nil
-    var refreshed: Date? = nil
-    var system: Bool = false
+    public var id: UUID
+    public var address: String?
+    public var name: String
+    public var profile: SystemDeviceProfileObject
+    public var connectivity: SystemConnectivityType = .system
+    public var synced: Bool = true
+    public var favourite: Bool = false
+    public var notifications: Bool = true
+    public var order: Int = 1
+    public var distance: SystemDeviceDistanceObject? = nil
+    public var added: Date? = nil
+    public var refreshed: Date? = nil
+    public var system: Bool = false
 
-    init?(_ device: Devices) {
+    public init?(_ device: Devices) {
         if let id = device.id, let model = device.model {
             self.id = id
             self.name = device.name ?? model.replacingOccurrences(of: "[^A-Za-z]", with: "", options: .regularExpression)
@@ -553,7 +583,7 @@ struct SystemDeviceObject: Hashable, Equatable, Identifiable {
         self.distance = distance
     }
 
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
 
@@ -614,7 +644,7 @@ struct SystemDeviceObject: Hashable, Equatable, Identifiable {
     }
 }
 
-enum SystemDeviceDistanceType: Int {
+public enum SystemDeviceDistanceType: Int {
     case unknown = 0
     case proximate = 1
     case near = 2
@@ -630,7 +660,7 @@ enum SystemDeviceDistanceType: Int {
     }
 }
 
-struct SystemDeviceDistanceObject: Equatable {
+public struct SystemDeviceDistanceObject: Equatable {
     var value: Double
     var state: SystemDeviceDistanceType
 
@@ -661,7 +691,7 @@ enum SystemEvents: String {
     case userLaunched = "user.launched"
 }
 
-enum SystemDefaultsKeys: String {
+public enum SystemDefaultsKeys: String {
     case deviceCreated = "bb_device_created"
     case deviceIdentifyer = "bb_device_identifyer"
 
@@ -671,6 +701,7 @@ enum SystemDefaultsKeys: String {
     case enabledSoundEffects = "bb_settings_sfx"
     case enabledPinned = "bb_pinned_mode"
     case enabledBeta = "bb_beta_mode"
+	case enabledHomekit = "bb_homekit_enabled"
 
     case batteryUntilFull = "bb_charge_full"
     case batteryLastCharged = "bb_charge_last"
@@ -709,6 +740,7 @@ enum SystemDefaultsKeys: String {
             case .enabledSoundEffects: return "SFX"
             case .enabledPinned: return "Pinned"
             case .enabledBeta: return "Beta Mode"
+			case .enabledHomekit: return "HomeKit"
 
             case .batteryUntilFull: return "Seconds until Charged"
             case .batteryLastCharged: return "Seconds until Charged"
@@ -735,6 +767,9 @@ enum SystemDefaultsKeys: String {
 
             case .bluetoothEnabled: return "Bluetooth State"
             case .bluetoothUpdated: return "Bluetooth Updated"
-        }
+
+		}
+		
     }
+	
 }

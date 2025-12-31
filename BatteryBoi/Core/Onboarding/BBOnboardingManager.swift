@@ -64,80 +64,76 @@ public class OnboardingManager: ObservableObject {
         if self.onboardingStep(.intro) == .unseen {
             self.state = .intro
             self.updated = Date()
-
+            return
         }
-        else if BluetoothManager.shared.state != .allowed && BluetoothManager.shared.state != .unknown {
+
+        if BluetoothManager.shared.state != .allowed && BluetoothManager.shared.state != .unknown && self.onboardingStep(.bluetooth) == .unseen {
             self.state = .bluetooth
             self.updated = Date()
+            return
+        }
 
-        }
-        else if CloudManager.shared.state != .enabled && CloudManager.shared.state != .unknown {
+        if CloudManager.shared.state != .enabled && CloudManager.shared.state != .unknown {
             #if os(macOS)
-                self.state = .cloud
-            
-            #else
-                switch CloudManager.shared.state {
-                    case .disabled : self.state = .cloud
-                    case .blocked : self.state = .notifications
-                    default : break
-                    
-                }
-            
-            #endif
-           
-            self.updated = Date()
+                if self.onboardingStep(.cloud) == .unseen {
+                    self.state = .cloud
+                    self.updated = Date()
+                    return
 
-        }
-        else if SystemDeviceTypes.type.mac == true {
-            #if os(macOS)
-//                if self.onboardingStep(.nobatt) == .unseen && AppManager.shared.appDeviceType.battery == false {
-//                    self.state = .nobatt
-//                    self.updated = Date()
-//
-//                }
-                if ProcessManager.shared.helper.flag == false {
-                    self.state = .process
-                    self.updated = Date()
-                    
-                }
-                else if SettingsManager.shared.enabledAutoLaunch == .undetermined {
-                    self.state = .loginatlaunch
-                    self.updated = Date()
-                    
-                }
-                else if self.onboardingStep(.ios) == .unseen {
-                    self.state = .ios
-                    self.updated = Date()
-                    
-                }
-                else {
-                    self.state = .complete
-                    self.updated = Date()
-                    
-                }
-            
-            #endif
-        }
-        else if SystemDeviceTypes.type.mac == false {
-            #if os(iOS)
-                if self.onboardingStep(.macos) == .unseen {
-                    self.state = .macos
-                    self.updated = Date()
-                    
-                }
-                else {
-                    self.state = .complete
-                    self.updated = Date()
-                    
                 }
             
             #else
-                self.state = .complete
+                if CloudManager.shared.state == .disabled && self.onboardingStep(.cloud) == .unseen {
+                    self.state = .cloud
+                    self.updated = Date()
+                    return
+
+                }
+                else if CloudManager.shared.state == .blocked && self.onboardingStep(.notifications) == .unseen {
+                    self.state = .notifications
+                    self.updated = Date()
+                    return
+
+                }
+            
+            #endif
+
+        }
+
+        #if os(macOS)
+            if ProcessManager.shared.helper.flag == false && self.onboardingStep(.process) == .unseen {
+                self.state = .process
                 self.updated = Date()
+                return
+
+            }
             
-            #endif
-                        
-        }
+            if SettingsManager.shared.enabledAutoLaunch == .undetermined {
+                self.state = .loginatlaunch
+                self.updated = Date()
+                return
+
+            }
+            
+            if self.onboardingStep(.ios) == .unseen {
+                self.state = .ios
+                self.updated = Date()
+                return
+
+            }
+
+        #elseif os(iOS)
+            if self.onboardingStep(.macos) == .unseen {
+                self.state = .macos
+                self.updated = Date()
+                return
+
+            }
+
+        #endif
+        
+        self.state = .complete
+        self.updated = Date()
         
     }
     
@@ -148,30 +144,65 @@ public class OnboardingManager: ObservableObject {
         }
          
         if state == .bluetooth {
-            switch BluetoothManager.shared.state {
-                case .undetermined : BluetoothManager.shared.bluetoothAuthorization(true)
-                case .allowed : BluetoothManager.shared.bluetoothAuthorization(true)
-                default : self.onboardingPermissionsUpdate(.bluetooth)
-                
+            if type == .primary {
+                switch BluetoothManager.shared.state {
+                    case .undetermined : BluetoothManager.shared.bluetoothAuthorization(true)
+                    case .allowed : BluetoothManager.shared.bluetoothAuthorization(true)
+                    default : self.onboardingPermissionsUpdate(.bluetooth)
+                    
+                }
+
+            }
+            else {
+                _ = self.onboardingStep(.bluetooth, insert: true)
+                self.onboardingSetup()
+
             }
             
         }
          
         if state == .cloud {
-            if CloudManager.shared.state == .disabled {
-                self.onboardingPermissionsUpdate(.cloud)
-                
-            }
+            #if os(macOS)
+                if type == .primary {
+                    if CloudManager.shared.state == .disabled {
+                        self.onboardingPermissionsUpdate(.cloud)
+                        
+                    }
+                    else if CloudManager.shared.state == .blocked {
+                        CloudManager.shared.cloudAllowNotifications()
+                        
+                    }
+
+                }
+                else {
+                    _ = self.onboardingStep(.cloud, insert: true)
+                    self.onboardingSetup()
+
+                }
+            
+            #elseif os(iOS)
+                _ = self.onboardingStep(.cloud, insert: true)
+                self.onboardingSetup()
+
+            #endif
 
         }
         
         #if os(iOS)
             if state == .notifications {
-                switch CloudManager.shared.state {
-                    case .blocked : CloudManager.shared.cloudAllowNotifications()
-                    case .disabled : self.onboardingPermissionsUpdate(.notifications)
-                    default : self.onboardingPermissionsUpdate(.cloud)
-                    
+                if type == .primary {
+                    switch CloudManager.shared.state {
+                        case .blocked : CloudManager.shared.cloudAllowNotifications()
+                        case .disabled : self.onboardingPermissionsUpdate(.notifications)
+                        default : self.onboardingPermissionsUpdate(.cloud)
+                        
+                    }
+
+                }
+                else {
+                    _ = self.onboardingStep(.notifications, insert: true)
+                    self.onboardingSetup()
+
                 }
                 
             }
@@ -199,7 +230,15 @@ public class OnboardingManager: ObservableObject {
             }
             
             if state == .process {
-                ProcessManager.shared.processInstallHelper()
+                if type == .primary {
+                    ProcessManager.shared.processInstallHelper()
+                    
+                }
+                else {
+                    _ = self.onboardingStep(.process, insert: true)
+                    self.onboardingSetup()
+
+                }
                 
             }
             

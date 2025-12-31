@@ -25,6 +25,10 @@ public class WindowManager: ObservableObject {
             return .init(width: CGFloat(CGDisplayPixelsWide(display)), height: CGFloat(CGDisplayPixelsHigh(display)))
 
         }
+        else {
+            return .init(width: 1920, height: 1080)
+
+        }
 
     }
 
@@ -170,8 +174,8 @@ public class WindowManager: ObservableObject {
                     var hosting: (any View)?
                     switch type {
                         case .onboarding: hosting = OnboardingHost()
-                        case .intro: hosting = BBIntroView()
-                        case .introControl: hosting = BBIntroControlView()
+                        case .intro: hosting = HUDParent(alert, device: device)
+                        case .introControl: hosting = HUDParent(alert, device: device)
                         default: hosting = HUDParent(alert, device: device)
 
                     }
