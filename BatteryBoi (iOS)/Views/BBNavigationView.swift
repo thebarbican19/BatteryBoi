@@ -15,7 +15,7 @@ struct NavigationContainer:View {
         VStack {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 NavigationSplitView(columnVisibility: $visibility) {
-                    Text("To Add")
+                    SettingContainer()
                     
                 } detail: {
                     DebugContainer()
@@ -35,6 +35,7 @@ struct NavigationContainer:View {
         .environmentObject(OnboardingManager.shared)
         .environmentObject(StatsManager.shared)
         .environmentObject(BluetoothManager.shared)
+		.environmentObject(HomeKitManager.shared)
         .environmentObject(CloudManager.shared)
         .environmentObject(BatteryManager.shared)
         .environmentObject(SettingsManager.shared)

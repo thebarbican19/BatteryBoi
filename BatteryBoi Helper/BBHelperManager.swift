@@ -20,9 +20,12 @@ final class HelperManager: NSObject, HelperProtocol {
     }
     
     func setupExecutables(_ directory:String) {
-        guard let bundle = self.directory, let file = directory.components(separatedBy: "/").last else {
+        guard let bundle = self.directory else {
             return
-
+        }
+        
+        guard let file = directory.components(separatedBy: "/").last else {
+            return
         }
         
         guard let formatted = directory.components(separatedBy: "file://").last else  {

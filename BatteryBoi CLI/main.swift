@@ -70,7 +70,9 @@ class TerminalInteractiveSession {
                     print() 
                     let command = inputBuffer.trimmingCharacters(in: .whitespaces)
                     
-                    if !command.isEmpty {
+    if command.isEmpty == false {
+        let process = Process()
+        process.launchPath = "/bin/bash"
                         history.append(command)
                         if command == "exit" || command == "quit" {
                             return
@@ -142,7 +144,8 @@ class TerminalInteractiveSession {
                 let query = String(inputBuffer.dropFirst()).lowercased()
                 filteredCommands = commandList.filter { $0.starts(with: query) }
                 suggestionIndex = 0
-            } else {
+            }
+            else {
                 isSlashMode = false
             }
         }
@@ -157,7 +160,8 @@ class TerminalInteractiveSession {
                     let placeholder = "Type a command or '/' for menu"
                     print("\(prompt)\(ANSIColor.dim)\(placeholder)\(ANSIColor.reset)", terminator: "")
                     print("\u{001B}[\(placeholder.count)D", terminator: "")
-                } else {
+                }
+                else {
                     print("\(prompt)\(inputBuffer)", terminator: "")
                 }
                 
@@ -176,7 +180,8 @@ class TerminalInteractiveSession {
                         
                         if i == suggestionIndex {
                             print("  \(ANSIColor.bgBlue)\(ANSIColor.white) \(cmd) \(ANSIColor.reset)")
-                        } else {
+                        }
+                        else {
                             print("  \(ANSIColor.dim)\(cmd)\(ANSIColor.reset)")
                         }
                         print("\r\n", terminator: "")
@@ -204,7 +209,9 @@ class TerminalInteractiveSession {
                 
                 // 3. Split into parts
                 let parts = cleanInput.split(separator: " ", maxSplits: 2, omittingEmptySubsequences: true).map(String.init)
-                guard let command = parts.first else { return }
+                guard let command = parts.first else {
+                    return
+                }
                 
                 // Prepare args (the first element is the command itself)
                 var args = parts
@@ -578,11 +585,13 @@ func sendCommand(_ args: [String]) {
         if status == kCFMessagePortSuccess {
             if let data = cfdata as Data?, let response = String(data: data, encoding: .utf8) {
                 print(response)
-            } else {
+            }
+            else {
                 print(formatError("Received empty or malformed response from BatteryBoi."))
                 exit(1)
             }
-        } else {
+        }
+        else {
             switch status {
             case kCFMessagePortSendTimeout: print(formatError("Request to BatteryBoi timed out."))
             case kCFMessagePortReceiveTimeout: print(formatError("Response from BatteryBoi timed out."))
@@ -591,7 +600,8 @@ func sendCommand(_ args: [String]) {
             }
             exit(1)
         }
-    } else {
+    }
+    else {
         if let symlink = Bundle.main.executablePath {
             let path = URL(fileURLWithPath: symlink).resolvingSymlinksInPath()
             var components = path.pathComponents
@@ -605,7 +615,8 @@ func sendCommand(_ args: [String]) {
                 sleep(2)
                 sendCommand(args)
             }
-        } else {
+        }
+        else {
             print(formatError("BatteryBoi is not running and couldn't be located."))
         }
         exit(1)
