@@ -924,7 +924,9 @@ public class ProcessManager: ObservableObject {
                 if let url = logURL, let logs = try? String(contentsOf: url) {
                     output.append(self.processBoxHeader("APPLICATION LOGS"))
                     output.append(logs)
-                } else {
+
+                }
+                else {
                     output.append(self.processHeaderOutput("FAILED TO RETRIEVE LOGS", state: .error))
                 }
             }
@@ -950,7 +952,9 @@ public class ProcessManager: ObservableObject {
                     UserDefaults.standard.removePersistentDomain(forName: bundleID)
                     UserDefaults.standard.synchronize()
                     output.append(self.processHeaderOutput("USER DEFAULTS RESET", state:.sucsess))
-                } else {
+
+                }
+                else {
                     output.append(self.processHeaderOutput("FAILED TO RESET DEFAULTS", state:.error))
                 }
             }
