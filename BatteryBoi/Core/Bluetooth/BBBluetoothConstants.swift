@@ -138,26 +138,32 @@ struct BluetoothBatteryObject: Decodable, Equatable {
             let stripped = percent.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
 
             self.general = Double(stripped)
+			
         }
 
         if let percent = try? values.decode(String.self, forKey: .right) {
             let stripped = percent.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
 
             self.right = Double(stripped)
+			
         }
 
         if let percent = try? values.decode(String.self, forKey: .left) {
             let stripped = percent.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
 
             self.left = Double(stripped)
+			
         }
 
         if self.left == nil && self.right == nil && self.general == nil {
             self.percent = nil
+			
         }
         else if let min = [self.right, self.left, self.general].compactMap( { $0 }).min() {
             self.percent = min
+			
         }
+		
     }
 
     enum CodingKeys: String, CodingKey {
@@ -165,5 +171,53 @@ struct BluetoothBatteryObject: Decodable, Equatable {
         case left = "device_batteryLevelLeft"
         case enclosure = "device_batteryLevel"
         case general = "device_batteryLevelMain"
+		
     }
+	
+}
+
+public struct ContinuityMessageResult {
+    var messageType: UInt8
+    var batteryLevel: Int?
+    var batteryComponents: ContinuityBatteryComponents?
+    var deviceInfo: ContinuityDeviceInfo?
+	
+}
+
+public struct ContinuityBatteryComponents {
+    var left: Int?
+    var right: Int?
+    var enclosure: Int?
+    var main: Int?
+	
+}
+
+public struct ContinuityDeviceInfo {
+    var signalStrength: Int?
+    var deviceType: String?
+    var capabilities: [String]?
+	
+}
+
+public enum ContinuityMessageType: UInt8, CaseIterable {
+    case airDrop = 0x05
+    case proximityPairing = 0x07
+    case airPlaySource = 0x08
+    case airPlayTarget = 0x09
+    case tetheringSource = 0x0C
+    case nearbyAction = 0x10
+
+    var description: String {
+        switch self {
+            case .airDrop: return "AirDrop"
+            case .proximityPairing: return "Proximity Pairing"
+            case .airPlaySource: return "AirPlay Source"
+            case .airPlayTarget: return "AirPlay Target"
+            case .tetheringSource: return "Tethering Source"
+            case .nearbyAction: return "Nearby Action"
+			
+        }
+		
+    }
+	
 }
