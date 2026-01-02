@@ -18,5 +18,7 @@
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
+	<key>NSHomeKitUsageDescription</key>
+	<string>BatteryBoi uses HomeKit to monitor and display the battery levels of your connected smart home accessories.</string>
 </dict>
 </plist>

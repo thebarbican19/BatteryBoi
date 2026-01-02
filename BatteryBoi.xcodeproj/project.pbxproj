@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		532E499E554C492BB6DFC12E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EA9E4A77D1B4E18BCDC5022 /* CloudKit.framework */; };
 		C016C8382F04952100C7E1F6 /* BBOnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C81C2F04952100C7E1F6 /* BBOnboardingManager.swift */; };
 		C016C8392F04952100C7E1F6 /* BBUpdateConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8312F04952100C7E1F6 /* BBUpdateConstants.swift */; };
 		C016C83A2F04952100C7E1F6 /* BBCloudConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C80E2F04952100C7E1F6 /* BBCloudConstants.swift */; };
@@ -85,6 +86,10 @@
 		C0669B052F0337D000EF6308 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = C0669B042F0337D000EF6308 /* ArgumentParser */; };
 		C0669B082F0337E700EF6308 /* Rainbow in Frameworks */ = {isa = PBXBuildFile; productRef = C0669B072F0337E700EF6308 /* Rainbow */; };
 		C0C7FBEA2F04DDA500882E5E /* BBCloudModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8598C962B156198006F36B2 /* BBCloudModels.swift */; };
+		C0C7FBEC2F04E4C200882E5E /* BBHomeKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C8122F04952100C7E1F6 /* BBHomeKitManager.swift */; };
+		C0C7FBEF2F05D59A00882E5E /* BBHomeKitConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C7FBED2F05D59A00882E5E /* BBHomeKitConstants.swift */; };
+		C0C7FBF32F088BDF00882E5E /* StringMetric in Frameworks */ = {isa = PBXBuildFile; productRef = C0C7FBF22F088BDF00882E5E /* StringMetric */; };
+		C0C7FBF52F088BEB00882E5E /* StringMetric in Frameworks */ = {isa = PBXBuildFile; productRef = C0C7FBF42F088BEB00882E5E /* StringMetric */; };
 		D804F2272B0D63CE00D13DE6 /* BBExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D9E5B82A80646E00E295FA /* BBExtensions.swift */; };
 		D804F22F2B0D64DE00D13DE6 /* BBSettingsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F22E2B0D64DE00D13DE6 /* BBSettingsModels.swift */; };
 		D804F2342B0D6D6B00D13DE6 /* LocalizableMain.strings in Resources */ = {isa = PBXBuildFile; fileRef = D84F4E2D2A86E9E800668582 /* LocalizableMain.strings */; };
@@ -220,6 +225,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2EA9E4A77D1B4E18BCDC5022 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		C016C7FC2F04952100C7E1F6 /* BBAlertConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBAlertConstants.swift; sourceTree = "<group>"; };
 		C016C7FD2F04952100C7E1F6 /* BBAlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBAlertManager.swift; sourceTree = "<group>"; };
 		C016C7FF2F04952100C7E1F6 /* BBAnimationConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBAnimationConstants.swift; sourceTree = "<group>"; };
@@ -260,6 +266,7 @@
 		C016C8322F04952100C7E1F6 /* BBUpdateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBUpdateManager.swift; sourceTree = "<group>"; };
 		C016C8342F04952100C7E1F6 /* BBWindowConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBWindowConstants.swift; sourceTree = "<group>"; };
 		C016C8352F04952100C7E1F6 /* BBWindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBWindowManager.swift; sourceTree = "<group>"; };
+		C0C7FBED2F05D59A00882E5E /* BBHomeKitConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBHomeKitConstants.swift; sourceTree = "<group>"; };
 		D804F22B2B0D646600D13DE6 /* BBSettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBSettingsManager.swift; sourceTree = "<group>"; };
 		D804F22E2B0D64DE00D13DE6 /* BBSettingsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBSettingsModels.swift; path = BatteryBoi/Core/Settings/BBSettingsModels.swift; sourceTree = SOURCE_ROOT; };
 		D804F2362B0D6F1500D13DE6 /* BBBluetoothModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BBBluetoothModels.swift; path = BatteryBoi/Core/Bluetooth/BBBluetoothModels.swift; sourceTree = SOURCE_ROOT; };
@@ -348,6 +355,7 @@
 			files = (
 				C016C8CB2F049AD500C7E1F6 /* DynamicColor in Frameworks */,
 				D8E4643A2B181C1700A18F76 /* Deviice in Frameworks */,
+				C0C7FBF52F088BEB00882E5E /* StringMetric in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,8 +397,10 @@
 				D8D52B742B322ED3004C7E5C /* RateBoi in Frameworks */,
 				D8D9E5C02A81565000E295FA /* FluidGradient in Frameworks */,
 				D84F4E1B2A85A6A800668582 /* KeyboardShortcuts in Frameworks */,
+				C0C7FBF32F088BDF00882E5E /* StringMetric in Frameworks */,
 				D8BEDB922B315CEC004D3EB1 /* FlyingSocks in Frameworks */,
 				D8BEDB902B315CEC004D3EB1 /* FlyingFox in Frameworks */,
+				532E499E554C492BB6DFC12E /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -459,6 +469,7 @@
 			isa = PBXGroup;
 			children = (
 				C016C8122F04952100C7E1F6 /* BBHomeKitManager.swift */,
+				C0C7FBED2F05D59A00882E5E /* BBHomeKitConstants.swift */,
 			);
 			path = HomeKit;
 			sourceTree = "<group>";
@@ -785,6 +796,7 @@
 		D8DFD5602A89C4BD00732635 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2EA9E4A77D1B4E18BCDC5022 /* CloudKit.framework */,
 				D8E586082B196817002C11FF /* UserNotifications.framework */,
 				D8E586062B196510002C11FF /* CloudKit.framework */,
 				D8DFD5852A8D510200732635 /* ServiceManagement.framework */,
@@ -839,6 +851,7 @@
 			packageProductDependencies = (
 				D8E464392B181C1700A18F76 /* Deviice */,
 				C016C8CA2F049AD500C7E1F6 /* DynamicColor */,
+				C0C7FBF42F088BEB00882E5E /* StringMetric */,
 			);
 			productName = "BatteryBoi (iOS)";
 			productReference = D8228E0D2AC1EA790014DC85 /* BatteryBoi (iOS).app */;
@@ -927,6 +940,7 @@
 				D8BEDB8F2B315CEC004D3EB1 /* FlyingFox */,
 				D8BEDB912B315CEC004D3EB1 /* FlyingSocks */,
 				D8D52B732B322ED3004C7E5C /* RateBoi */,
+				C0C7FBF22F088BDF00882E5E /* StringMetric */,
 			);
 			productName = BatteryBoi;
 			productReference = D8D9E59C2A7DE7AB00E295FA /* BatteryBoi.app */;
@@ -996,6 +1010,7 @@
 				D8D52B722B322ED3004C7E5C /* XCRemoteSwiftPackageReference "RateBoi" */,
 				C0669B032F0337D000EF6308 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
 				C0669B062F0337E700EF6308 /* XCRemoteSwiftPackageReference "Rainbow" */,
+				C0C7FBF12F088BDF00882E5E /* XCRemoteSwiftPackageReference "StringMetric" */,
 			);
 			productRefGroup = D8D9E59D2A7DE7AB00E295FA /* Products */;
 			projectDirPath = "";
@@ -1082,6 +1097,7 @@
 				C016C8402F04952100C7E1F6 /* BBMenubarConstants.swift in Sources */,
 				C016C8422F04952100C7E1F6 /* BBPeerManager.swift in Sources */,
 				C016C8442F04952100C7E1F6 /* BBAnimationManager.swift in Sources */,
+				C0C7FBEC2F04E4C200882E5E /* BBHomeKitManager.swift in Sources */,
 				C016C8462F04952100C7E1F6 /* BBStatsModels.swift in Sources */,
 				C016C8472F04952100C7E1F6 /* BBSettingsModels.swift in Sources */,
 				C016C8482F04952100C7E1F6 /* BBAppConstants.swift in Sources */,
@@ -1105,6 +1121,7 @@
 				C016C85D2F04952100C7E1F6 /* BBLogManager.swift in Sources */,
 				C016C85E2F04952100C7E1F6 /* BBCloudManager.swift in Sources */,
 				C016C85F2F04952100C7E1F6 /* BBBatteryModels.swift in Sources */,
+				C0C7FBEF2F05D59A00882E5E /* BBHomeKitConstants.swift in Sources */,
 				C016C8C02F04983200C7E1F6 /* BBAnimationConstants.swift in Sources */,
 				C016C8612F04952100C7E1F6 /* BBAppErrors.swift in Sources */,
 				D8C7849F2B1E815300EBD52A /* BBNavigationView.swift in Sources */,
@@ -1835,6 +1852,14 @@
 				minimumVersion = 4.2.1;
 			};
 		};
+		C0C7FBF12F088BDF00882E5E /* XCRemoteSwiftPackageReference "StringMetric" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/autozimu/StringMetric.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.2;
+			};
+		};
 		D84F4E162A85A66900668582 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sparkle-project/Sparkle";
@@ -1908,6 +1933,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C0669B062F0337E700EF6308 /* XCRemoteSwiftPackageReference "Rainbow" */;
 			productName = Rainbow;
+		};
+		C0C7FBF22F088BDF00882E5E /* StringMetric */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0C7FBF12F088BDF00882E5E /* XCRemoteSwiftPackageReference "StringMetric" */;
+			productName = StringMetric;
+		};
+		C0C7FBF42F088BEB00882E5E /* StringMetric */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C0C7FBF12F088BDF00882E5E /* XCRemoteSwiftPackageReference "StringMetric" */;
+			productName = StringMetric;
 		};
 		D84F4E172A85A66900668582 /* Sparkle */ = {
 			isa = XCSwiftPackageProductDependency;

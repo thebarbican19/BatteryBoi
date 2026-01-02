@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import Combine
+import StringMetric
 
 struct ViewScrollMask: ViewModifier {
     @State var padding:CGFloat
@@ -238,11 +239,23 @@ extension String {
             case "si" : return true // 🇪🇨
             case "yarr" : return true // 🏴‍☠️
             default : return false
-            
+
         }
-        
+
     }
-    
+
+    public func jaroWinklerSimilarity(with other: String) -> Double {
+        return self.distanceJaroWinkler(between: other)
+    }
+
+    public var normalizedDeviceName: String {
+        let withoutEmojis = self.unicodeScalars.filter { scalar in
+            return scalar.properties.isEmoji == false && scalar.properties.isEmojiPresentation == false
+        }.map { String($0) }.joined()
+
+        return withoutEmojis.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "  ", with: " ").lowercased()
+    }
+
 }
 
 extension Array<String> {

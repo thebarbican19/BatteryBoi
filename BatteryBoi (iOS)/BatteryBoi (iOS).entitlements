@@ -18,5 +18,7 @@
 	<array>
 		<string>group.com.ovatar.batteryboi</string>
 	</array>
+	<key>com.apple.developer.homekit</key>
+	<true/>
 </dict>
 </plist>

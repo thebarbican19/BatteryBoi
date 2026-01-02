@@ -27,6 +27,8 @@
 	<string>BatteryBoi</string>
 	<key>NSUserNotificationUsageDescription</key>
 	<string>Notifications are used to inform you when your any of your connected Devices need charging.</string>
+	<key>NSHomeKitUsageDescription</key>
+	<string>BatteryBoi uses HomeKit to monitor and display the battery levels of your connected smart home accessories.</string>
 	<key>SUFeedURL</key>
 	<string>$(ENV_APPCAST_URL)</string>
 	<key>SUPublicEDKey</key>
@@ -38,5 +40,9 @@
 		<key>com.ovatar.batteryapp.helperboi</key>
 		<string>identifier &quot;com.ovatar.batteryapp.helperboi&quot; and anchor apple generic and certificate leaf[subject.OU] = &quot;QYKKXLKZD6&quot; and certificate 1[field.1.2.840.113635.100.6.2.1] /* exists */</string>
 	</dict>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 </dict>
 </plist>
