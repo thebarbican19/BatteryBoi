@@ -43,16 +43,24 @@ public class OnboardingManager: ObservableObject {
 
         }.store(in: &updates)
         
-        #if os(macOS)
-            ProcessManager.shared.$interface.receive(on: DispatchQueue.main).sink { state in
-                self.onboardingSetup()
+		#if os(iOS)
+        HomeKitManager.shared.$state.receive(on: DispatchQueue.main).sink { _ in
+            self.onboardingSetup()
 
-            }.store(in: &updates)
+        }.store(in: &updates)
+		
+		#endif
         
-            ProcessManager.shared.$helper.receive(on: DispatchQueue.main).sink { _ in
-                self.onboardingSetup()
+        #if os(macOS)
+		ProcessManager.shared.$interface.receive(on: DispatchQueue.main).sink { state in
+			self.onboardingSetup()
 
-            }.store(in: &updates)
+		}.store(in: &updates)
+	
+		ProcessManager.shared.$helper.receive(on: DispatchQueue.main).sink { _ in
+			self.onboardingSetup()
+
+		}.store(in: &updates)
 
         #endif
         
@@ -139,6 +147,13 @@ public class OnboardingManager: ObservableObject {
             }
 
         #elseif os(iOS)
+            if HomeKitManager.shared.state != .allowed && HomeKitManager.shared.state != .unknown && self.onboardingStep(.homekit) == .unseen {
+                self.state = .homekit
+                self.updated = Date()
+                return
+
+            }
+
             if self.onboardingStep(.macos) == .unseen {
                 self.state = .macos
                 self.updated = Date()
@@ -217,6 +232,24 @@ public class OnboardingManager: ObservableObject {
                 }
                 else {
                     _ = self.onboardingStep(.notifications, insert: true)
+                    self.onboardingSetup()
+
+                }
+                
+            }
+            
+            if state == .homekit {
+                if type == .primary {
+                    switch HomeKitManager.shared.state {
+                        case .undetermined : HomeKitManager.shared.homekitAuthorization(true)
+                        case .allowed : HomeKitManager.shared.homekitAuthorization(true)
+                        default : self.onboardingPermissionsUpdate(.homekit)
+                        
+                    }
+
+                }
+                else {
+                    _ = self.onboardingStep(.homekit, insert: true)
                     self.onboardingSetup()
 
                 }

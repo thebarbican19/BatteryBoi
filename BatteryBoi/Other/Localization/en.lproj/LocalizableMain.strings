@@ -142,9 +142,14 @@
 "OnboardingIOSSubtitle" = "Download BatteryBoi for your iPhone or iPad to track your devices on the go.";
 "OnboardingIOSButton" = "Learn More";
 
+"OnboardingHomeKitTitle" = "HomeKit Access";
+"OnboardingHomeKitSubtitle" = "BatteryBoi can monitor battery levels of your HomeKit accessories.";
+"OnboardingHomeKitButton" = "Grant Access";
+
 "OnboardingCompleteLabel" = "All set! BatteryBoi is ready to go.";
 
 "OnboardingCloudSecondaryButton" = "Skip for Now";
 "OnboardingBluetoothSecondaryButton" = "Skip for Now";
 "OnboardingNotificationsSecondaryButton" = "Skip for Now";
 "OnboardingProcessSecondaryButton" = "Skip for Now";
+"OnboardingHomeKitSecondaryButton" = "Skip for Now";

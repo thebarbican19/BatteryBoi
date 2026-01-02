@@ -182,6 +182,16 @@ struct OnboardingContainer: View {
                 action: onboarding.onboardingAction
             )
         }
+        else if onboarding.state == .homekit {
+            OnboardingPage(
+                icon: "house",
+                title: "OnboardingHomeKitTitle".localise(),
+                subtitle: "OnboardingHomeKitSubtitle".localise(),
+                primary: "OnboardingHomeKitButton".localise(),
+                secondary: "OnboardingHomeKitSecondaryButton".localise(),
+                action: onboarding.onboardingAction
+            )
+        }
         else if onboarding.state == .macos {
             OnboardingPage(
                 icon: "laptopcomputer",

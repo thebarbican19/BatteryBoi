@@ -24,6 +24,7 @@ public enum OnboardingViewType: String {
     case loginatlaunch
     case ios
     case macos
+    case homekit
     case complete
 
     var present: Bool {
@@ -38,6 +39,7 @@ public enum OnboardingViewType: String {
             case .loginatlaunch: return true
             case .ios: return true
             case .macos: return true
+            case .homekit: return true
             case .complete: return false
         }
     }
