@@ -448,4 +448,295 @@ final class SwiftDataIntegrationTests: XCTestCase {
         let timeDiff = abs((fetched.first?.addedOn ?? Date()).timeIntervalSince(now))
         XCTAssertLessThan(timeDiff, 1.0, "Dates should be preserved accurately")
     }
+
+    func testCrossAppDeviceSynchronization() throws {
+        let deviceId = UUID()
+        let deviceName = "Cross-App Test Device"
+
+        let context1 = ModelContext(testContainer)
+        let device = DevicesObject()
+        device.id = deviceId
+        device.name = deviceName
+        device.model = "MacBook Pro"
+        device.type = "Computer"
+        device.favourite = true
+        device.notifications = true
+
+        context1.insert(device)
+        try context1.save()
+
+        let context2 = ModelContext(testContainer)
+        let descriptor = FetchDescriptor<DevicesObject>(predicate: #Predicate { $0.id == deviceId })
+        let fetchedDevices = try context2.fetch(descriptor)
+
+        XCTAssertEqual(fetchedDevices.count, 1, "Device created in context1 should be visible in context2")
+        XCTAssertEqual(fetchedDevices.first?.name, deviceName, "Device name should match")
+        XCTAssertEqual(fetchedDevices.first?.favourite, true, "Device properties should be preserved")
+
+        if let fetchedDevice = fetchedDevices.first {
+            context2.delete(fetchedDevice)
+            try context2.save()
+        }
+
+        let verifyDelete = try context1.fetch(descriptor)
+        XCTAssertEqual(verifyDelete.count, 0, "Device deleted in context2 should be gone in context1")
+    }
+
+    func testCloudManagerSharedContainerSynchronization() throws {
+        guard let container = CloudManager.container?.container else {
+            XCTFail("CloudManager should have a shared container")
+            return
+        }
+
+        let deviceId = UUID()
+        let appContext1 = ModelContext(container)
+        let device = DevicesObject()
+        device.id = deviceId
+        device.name = "Shared Container Test Device"
+        device.model = "iPhone"
+        device.type = "Phone"
+
+        appContext1.insert(device)
+        try appContext1.save()
+
+        let appContext2 = ModelContext(container)
+        let descriptor = FetchDescriptor<DevicesObject>(predicate: #Predicate { $0.id == deviceId })
+        let fetchedDevices = try appContext2.fetch(descriptor)
+
+        XCTAssertEqual(fetchedDevices.count, 1, "Device should be visible across contexts using CloudManager's container")
+        XCTAssertEqual(fetchedDevices.first?.name, "Shared Container Test Device")
+
+        if let fetchedDevice = fetchedDevices.first {
+            appContext2.delete(fetchedDevice)
+            try appContext2.save()
+
+            let deletedDevices = try appContext1.fetch(descriptor)
+            XCTAssertEqual(deletedDevices.count, 0, "Device deletion should be synchronized across contexts")
+        }
+    }
+
+    func testBluetoothDeviceStorageIntegration() throws {
+        let deviceId = UUID()
+        let deviceName = "Magic Mouse"
+        let batteryLevel = 85
+
+        let device = DevicesObject()
+        device.id = deviceId
+        device.name = deviceName
+        device.model = "Magic Mouse 2"
+        device.vendor = "Apple Inc"
+        device.type = "mouse"
+        device.subtype = "BluetoothDevice"
+        device.notifications = true
+        device.favourite = false
+        device.primary = false
+        device.addedOn = Date()
+        device.refreshedOn = Date()
+
+        testContext.insert(device)
+        try testContext.save()
+
+        let battery = BatteryObject()
+        battery.id = UUID()
+        battery.created = Date()
+        battery.percent = batteryLevel
+        battery.state = "battery"
+        battery.mode = "normal"
+        battery.device = device
+
+        testContext.insert(battery)
+        try testContext.save()
+
+        let deviceDescriptor = FetchDescriptor<DevicesObject>(predicate: #Predicate { $0.id == deviceId })
+        let fetchedDevices = try testContext.fetch(deviceDescriptor)
+
+        XCTAssertEqual(fetchedDevices.count, 1, "Bluetooth device should be stored")
+        XCTAssertEqual(fetchedDevices.first?.name, deviceName)
+        XCTAssertEqual(fetchedDevices.first?.model, "Magic Mouse 2")
+        XCTAssertEqual(fetchedDevices.first?.vendor, "Apple Inc")
+        XCTAssertEqual(fetchedDevices.first?.events?.count, 1, "Device should have battery event")
+        XCTAssertEqual(fetchedDevices.first?.events?.first?.percent, batteryLevel)
+
+        let batteryDescriptor = FetchDescriptor<BatteryObject>(predicate: #Predicate { $0.device?.id == deviceId })
+        let fetchedBatteries = try testContext.fetch(batteryDescriptor)
+
+        XCTAssertEqual(fetchedBatteries.count, 1, "Battery event should be linked to device")
+        XCTAssertEqual(fetchedBatteries.first?.device?.name, deviceName)
+    }
+
+    func testBluetoothDeviceMatchingBySerial() throws {
+        let serialNumber = "ABC123XYZ"
+        let model = "Magic Mouse 2"
+
+        let device1 = DevicesObject()
+        device1.id = UUID()
+        device1.name = "Magic Mouse"
+        device1.model = model
+        device1.serial = serialNumber
+        device1.vendor = "Apple Inc"
+
+        testContext.insert(device1)
+        try testContext.save()
+
+        let tempDevice = AppDeviceObject(UUID(), name: "Magic Mouse", profile: AppDeviceProfileObject(model: model, vendor: "Apple Inc", serial: serialNumber, hardware: nil, apperance: nil, findmy: false))
+
+        let match = AppDeviceObject.match(tempDevice, context: testContext)
+
+        XCTAssertNotNil(match, "Should match device by serial number")
+        XCTAssertEqual(match?.profile.serial, serialNumber)
+        XCTAssertEqual(match?.profile.model, model)
+    }
+
+    func testBluetoothDeviceMatchingByName() throws {
+        let deviceName = "Magic Mouse"
+        let model = "Magic Mouse 2"
+
+        let device1 = DevicesObject()
+        device1.id = UUID()
+        device1.name = deviceName
+        device1.model = model
+
+        testContext.insert(device1)
+        try testContext.save()
+
+        let tempDevice = AppDeviceObject(UUID(), name: deviceName, profile: AppDeviceProfileObject(model: model, vendor: nil, serial: nil, hardware: nil, apperance: nil, findmy: false))
+
+        let match = AppDeviceObject.match(tempDevice, context: testContext)
+
+        XCTAssertNotNil(match, "Should match device by name")
+        XCTAssertEqual(match?.name, deviceName)
+    }
+
+    func testMultipleBatteryEventsForSameDevice() throws {
+        let deviceId = UUID()
+        let device = DevicesObject()
+        device.id = deviceId
+        device.name = "Magic Keyboard"
+        device.model = "Magic Keyboard"
+
+        testContext.insert(device)
+        try testContext.save()
+
+        let batteryLevels = [100, 95, 90, 85, 80]
+        for (index, level) in batteryLevels.enumerated() {
+            let battery = BatteryObject()
+            battery.id = UUID()
+            battery.created = Date().addingTimeInterval(TimeInterval(index * 60))
+            battery.percent = level
+            battery.state = "battery"
+            battery.device = device
+
+            testContext.insert(battery)
+        }
+        try testContext.save()
+
+        let descriptor = FetchDescriptor<BatteryObject>(predicate: #Predicate { $0.device?.id == deviceId })
+        let batteries = try testContext.fetch(descriptor)
+
+        XCTAssertEqual(batteries.count, 5, "Should have 5 battery events")
+
+        var sortedDescriptor = descriptor
+        sortedDescriptor.sortBy = [SortDescriptor(\.created, order: .reverse)]
+        let sortedBatteries = try testContext.fetch(sortedDescriptor)
+
+        XCTAssertEqual(sortedBatteries.first?.percent, 80, "Most recent battery level should be 80%")
+        XCTAssertEqual(sortedBatteries.last?.percent, 100, "Oldest battery level should be 100%")
+    }
+
+    func testBluetoothDeviceWithAddress() throws {
+        let deviceName = "Magic Mouse"
+        let bluetoothAddress = "a1:b2:c3:d4:e5:f6"
+        let model = "Magic Mouse 2"
+
+        let device = DevicesObject()
+        device.id = UUID()
+        device.name = deviceName
+        device.model = model
+        device.address = bluetoothAddress
+        device.vendor = "Apple Inc"
+
+        testContext.insert(device)
+        try testContext.save()
+
+        let descriptor = FetchDescriptor<DevicesObject>(predicate: #Predicate { $0.address == bluetoothAddress })
+        let fetchedDevices = try testContext.fetch(descriptor)
+
+        XCTAssertEqual(fetchedDevices.count, 1, "Should find device by Bluetooth address")
+        XCTAssertEqual(fetchedDevices.first?.name, deviceName)
+        XCTAssertEqual(fetchedDevices.first?.address, bluetoothAddress)
+
+        let matchDevice = AppDeviceObject(UUID(), name: deviceName, profile: AppDeviceProfileObject(model: model, vendor: "Apple Inc", serial: nil, hardware: nil, apperance: nil, findmy: false))
+
+        let match = AppDeviceObject.match(matchDevice, context: testContext)
+
+        XCTAssertNotNil(match, "Should match device by name even without address in query")
+    }
+
+    func testDeviceConnectionDisconnectionEvents() throws {
+        let deviceId = UUID()
+        let deviceName = "Magic Keyboard"
+        let batteryLevel = 95
+
+        let device = DevicesObject()
+        device.id = deviceId
+        device.name = deviceName
+        device.model = "Magic Keyboard"
+        device.vendor = "Apple Inc"
+
+        testContext.insert(device)
+        try testContext.save()
+
+        let connectBattery = BatteryObject()
+        connectBattery.id = UUID()
+        connectBattery.created = Date()
+        connectBattery.percent = batteryLevel
+        connectBattery.state = "battery"
+        connectBattery.device = device
+
+        testContext.insert(connectBattery)
+        try testContext.save()
+
+        let connectAlert = AlertsObject()
+        connectAlert.id = UUID()
+        connectAlert.type = "deviceConnected"
+        connectAlert.triggeredOn = Date()
+        connectAlert.event = connectBattery
+
+        testContext.insert(connectAlert)
+        try testContext.save()
+
+        let disconnectBattery = BatteryObject()
+        disconnectBattery.id = UUID()
+        disconnectBattery.created = Date().addingTimeInterval(3600)
+        disconnectBattery.percent = 85
+        disconnectBattery.state = "battery"
+        disconnectBattery.device = device
+
+        testContext.insert(disconnectBattery)
+        try testContext.save()
+
+        let disconnectAlert = AlertsObject()
+        disconnectAlert.id = UUID()
+        disconnectAlert.type = "deviceDisconnected"
+        disconnectAlert.triggeredOn = Date().addingTimeInterval(3600)
+        disconnectAlert.event = disconnectBattery
+
+        testContext.insert(disconnectAlert)
+        try testContext.save()
+
+        let alertDescriptor = FetchDescriptor<AlertsObject>(predicate: #Predicate { $0.event?.device?.id == deviceId })
+        let alerts = try testContext.fetch(alertDescriptor)
+
+        XCTAssertEqual(alerts.count, 2, "Should have connection and disconnection alerts")
+        XCTAssertTrue(alerts.contains(where: { $0.type == "deviceConnected" }), "Should have connection alert")
+        XCTAssertTrue(alerts.contains(where: { $0.type == "deviceDisconnected" }), "Should have disconnection alert")
+
+        let connectAlertFetched = alerts.first(where: { $0.type == "deviceConnected" })
+        XCTAssertNotNil(connectAlertFetched?.event, "Connection alert should have battery event")
+        XCTAssertEqual(connectAlertFetched?.event?.percent, batteryLevel)
+
+        let disconnectAlertFetched = alerts.first(where: { $0.type == "deviceDisconnected" })
+        XCTAssertNotNil(disconnectAlertFetched?.event, "Disconnection alert should have battery event")
+        XCTAssertEqual(disconnectAlertFetched?.event?.device?.name, deviceName)
+    }
 }
