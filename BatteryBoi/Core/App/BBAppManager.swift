@@ -40,12 +40,6 @@ public class AppManager: ObservableObject {
     public init() {
         self.appUsageTracker()
 
-        if let receipt = Bundle.main.appStoreReceiptURL,
-           FileManager.default.fileExists(atPath: receipt.path) {
-            self.distribution = .appstore
-
-        }
-
         $devices.receive(on: DispatchQueue.global()).debounce(for: .seconds(3), scheduler: RunLoop.main).sink { _ in
             self.appStoreDevice()
 
@@ -58,6 +52,16 @@ public class AppManager: ObservableObject {
         #endif
 
         self.setupCLISymlink()
+
+        CloudManager.shared.$syncing.sink { [weak self] state in
+            if state == .completed {
+                print("✅ CloudManager completed, loading devices...")
+                self?.appListDevices()
+            }
+            else {
+                print("⏳ CloudManager state: \(state.rawValue)")
+            }
+        }.store(in: &updates)
 
     }
 
@@ -125,6 +129,7 @@ public class AppManager: ObservableObject {
 
         guard let cliBinaryPath = foundCLI else {
             return
+			
         }
 
         for symlinkPath in possibleSymlinkPaths {
@@ -135,7 +140,7 @@ public class AppManager: ObservableObject {
 
             do {
                 let symlinkDir = (symlinkPath as NSString).deletingLastPathComponent
-                if !fileManager.fileExists(atPath: symlinkDir) {
+                if fileManager.fileExists(atPath: symlinkDir) == false {
                     try fileManager.createDirectory(atPath: symlinkDir, withIntermediateDirectories: true, attributes: nil)
                 }
 
@@ -235,15 +240,21 @@ public class AppManager: ObservableObject {
     }
 
     private func appListDevices() {
+        print("🔍 appListDevices() called")
+
         if let context = self.appStorageContext() {
             let descriptor = FetchDescriptor<DevicesObject>()
+            print("✅ Got context, fetching devices...")
 
             do {
                 let list = try context.fetch(descriptor)
                 let mapped: [AppDeviceObject] = list.compactMap({ .init($0) })
 
+                print("📱 Found \(list.count) devices in database, mapped to \(mapped.count) objects")
+
                 DispatchQueue.main.async {
                     self.devices = mapped
+                    print("✅ Set devices array to \(mapped.count) devices")
 
                     #if os(iOS)
                         self.hasMacDevice = self.checkForMacDevices(mapped)
@@ -253,11 +264,116 @@ public class AppManager: ObservableObject {
 
             }
             catch {
-
+                print("❌ Error fetching devices: \(error)")
             }
 
         }
+        else {
+            print("❌ No context available - appStorageContext() returned nil")
+        }
 
+    }
+
+    public func appDeduplicateDevices() {
+        guard let context = self.appStorageContext() else {
+            print("❌ No context available for deduplication")
+            return
+        }
+
+        let descriptor = FetchDescriptor<DevicesObject>()
+
+        do {
+            let allDevices = try context.fetch(descriptor)
+            let mapped: [AppDeviceObject] = allDevices.compactMap({ .init($0) })
+
+            var duplicateGroups: [[AppDeviceObject]] = []
+            var processed = Set<UUID>()
+
+            for device in mapped {
+                if processed.contains(device.id) == true {
+                    continue
+                }
+
+                var group = [device]
+                processed.insert(device.id)
+
+                let normalizedName = device.name.normalizedDeviceName
+
+                for other in mapped {
+                    if processed.contains(other.id) == true || other.id == device.id {
+                        continue
+                    }
+
+                    let otherNormalized = other.name.normalizedDeviceName
+                    let similarity = normalizedName.jaroWinklerSimilarity(with: otherNormalized)
+
+                    if device.profile.model == other.profile.model && similarity >= 0.85 {
+                        group.append(other)
+                        processed.insert(other.id)
+                    }
+                }
+
+                if group.count > 1 {
+                    duplicateGroups.append(group)
+                }
+            }
+
+            print("🔍 Found \(duplicateGroups.count) duplicate groups")
+
+            for group in duplicateGroups {
+                let sorted = group.sorted { first, second in
+                    return (first.added ?? Date.distantFuture) < (second.added ?? Date.distantFuture)
+                }
+
+                guard let keepDevice = sorted.first else {
+                    continue
+                }
+
+                let toDelete = sorted.dropFirst()
+
+                print("📌 Keeping device: \(keepDevice.name) (ID: \(keepDevice.id))")
+
+                let keepDeviceId = keepDevice.id
+                let keepDescriptor = FetchDescriptor<DevicesObject>(predicate: #Predicate<DevicesObject> { device in
+                    device.id == keepDeviceId
+                })
+                guard let keepDeviceEntity = try context.fetch(keepDescriptor).first else {
+                    continue
+                }
+
+                for duplicate in toDelete {
+                    print("🗑️ Deleting duplicate: \(duplicate.name) (ID: \(duplicate.id))")
+
+                    let duplicateId = duplicate.id
+                    let deleteDescriptor = FetchDescriptor<DevicesObject>(predicate: #Predicate<DevicesObject> { device in
+                        device.id == duplicateId
+                    })
+
+                    if let deviceToDelete = try context.fetch(deleteDescriptor).first {
+                        let batteryDescriptor = FetchDescriptor<BatteryObject>(predicate: #Predicate<BatteryObject> { battery in
+                            battery.device?.id == duplicateId
+                        })
+
+                        let batteryEvents = try context.fetch(batteryDescriptor)
+                        print("  📊 Reassigning \(batteryEvents.count) battery events")
+
+                        for event in batteryEvents {
+                            event.device = keepDeviceEntity
+                        }
+
+                        context.delete(deviceToDelete)
+                    }
+                }
+
+                try context.save()
+            }
+
+            print("✅ Deduplication completed")
+            self.appListDevices()
+        }
+        catch {
+            print("❌ Error during deduplication: \(error)")
+        }
     }
 
     func appStoreDevice(_ device: AppDeviceObject? = nil) {
@@ -429,43 +545,15 @@ public class AppManager: ObservableObject {
 
             }
             else {
-
+                print("⚠️ appStorageContext: CloudManager syncing state is \(CloudManager.shared.syncing.rawValue), not completed")
             }
 
         }
         else {
-
+            print("⚠️ appStorageContext: CloudManager.container?.container is nil")
         }
 
         return nil
-
-    }
-
-    func appDestoryEntity(_ type: CloudEntityType) {
-        if let context = self.appStorageContext() {
-            do {
-                switch type {
-                    case .devices:
-                        let descriptor = FetchDescriptor<DevicesObject>()
-                        let items = try context.fetch(descriptor)
-                        for item in items {
-                            context.delete(item)
-                        }
-                    case .events:
-                        let descriptor = FetchDescriptor<BatteryObject>()
-                        let items = try context.fetch(descriptor)
-                        for item in items {
-                            context.delete(item)
-                        }
-                }
-                try context.save()
-
-            }
-            catch {
-
-            }
-
-        }
 
     }
 

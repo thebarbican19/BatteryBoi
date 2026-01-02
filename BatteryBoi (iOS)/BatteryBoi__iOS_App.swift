@@ -11,6 +11,7 @@ import CloudKit
 import ActivityKit
 import BackgroundTasks
 import SwiftData
+import UserNotifications
 
 @main
 struct BatteryBoi__iOS_App: App {
@@ -20,6 +21,7 @@ struct BatteryBoi__iOS_App: App {
         WindowGroup {
             if let container = CloudManager.container?.container {
                 NavigationContainer().modelContainer(container)
+				
             }
 			else {
                 NavigationContainer()
@@ -40,6 +42,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        BluetoothManager.shared.bluetoothAuthorization(true)
+
         print("\n\nApp Installed: \(AppManager.shared.appInstalled)\n\n")
         print("App Usage (Days): \(AppManager.shared.appUsage?.day ?? 0)\n\n")
 
@@ -53,8 +57,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
-        self.applicationScheduleAppRefresh()
-        
+
     }
     
     func applicationScheduleAppRefresh() {
@@ -73,63 +76,96 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
     
     func applicationHandleAppRefresh(task: BGAppRefreshTask) {
-        self.applicationScheduleAppRefresh()
-        
         task.expirationHandler = {
             BluetoothManager.shared.bluetoothStopScanning()
-            
+
         }
-        
-        self.applicationBackgroundPushEvent(id: "background-refresh") { success in
-            task.setTaskCompleted(success: success)
-            
-        }
-        
+
+        task.setTaskCompleted(success: true)
+
     }
     
-    func applicationBackgroundPushEvent(id:String, completion: @escaping (Bool) -> Void) {
-        print("🔍 Handling background push event for ID: \(id)")
-        
-        BatteryManager.shared.powerForceRefresh()
+    func applicationBackgroundPushEvent(subscriptionId: String, completion: @escaping (Bool) -> Void) {
+        guard subscriptionId == "sub.alert" else {
+            print("⏭️ Skipping background event for non-alert subscription: \(subscriptionId)")
+            completion(true)
+            return
 
-        do {
-        
-            /*
-            let content = UNMutableNotificationContent()
-            content.title = "Batter Events \(id)"
-            
-//            if let sfx = alert.type.sfx?.rawValue {
-//                content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: sfx))
-//                
-//            }
-            
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-            //let request = UNNotificationRequest(identifier: "notification.\(alert.id.uuidString)", content: content, trigger: trigger)
-            let request = UNNotificationRequest(identifier: "notification.", content: content, trigger: trigger)
+        }
 
-            
-            UNUserNotificationCenter.current().add(request) { error in
-                if let error = error {
-                    print("❌ Error scheduling notification: \(error)")
-                    completion(false)
+        print("🔔 Processing alert notification for subscription: \(subscriptionId)")
+
+        if let context = AppManager.shared.appStorageContext() {
+            do {
+                let descriptor = FetchDescriptor<AlertsObject>(sortBy: [SortDescriptor(\.triggeredOn, order: .reverse)])
+                let alerts = try context.fetch(descriptor)
+
+                guard let latestAlert = alerts.first else {
+                    print("⚠️ No recent alert found")
+                    completion(true)
+                    return
+                }
+
+                guard let triggeredOn = latestAlert.triggeredOn else {
+                    print("⚠️ No recent alert found")
+                    completion(true)
+                    return
+                }
+
+                let timeSinceTriggered = Date().timeIntervalSince(triggeredOn)
+                guard timeSinceTriggered < 60 else {
+                    print("⏰ Alert is too old to notify (triggered \(timeSinceTriggered)s ago)")
+                    completion(true)
+                    return
+
+                }
+
+                if let converted = AppAlertObject(latestAlert) {
+                    let content = UNMutableNotificationContent()
+                    content.title = converted.type.description
+                    content.body = "Battery: \(converted.event.percentage)%"
+
+                    if let sfx = converted.type.sfx?.rawValue {
+                        content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: sfx))
+
+                    }
+
+                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                    let request = UNNotificationRequest(identifier: "notification.\(converted.id.uuidString)", content: content, trigger: trigger)
+
+                    UNUserNotificationCenter.current().add(request) { error in
+                        if let error = error {
+                            print("❌ Error scheduling notification: \(error)")
+                            completion(false)
+
+                        }
+                        else {
+                            print("✅ Notification scheduled successfully for alert: \(converted.type.description)")
+                            completion(true)
+
+                        }
+
+                    }
 
                 }
                 else {
-                    print("✅ Notification scheduled successfully")
                     completion(true)
-                    
+
                 }
-                
+
             }
-            */
-            completion(true)
-            
+            catch {
+                print("❌ Error fetching alerts: \(error)")
+                completion(false)
+
+            }
+
         }
-        catch {
-            print("❌ Error in applicationBackgroundPushEvent: \(error)")
+        else {
             completion(false)
+
         }
-        
+
     }
     
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -184,37 +220,58 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         print("📩 Received remote notification: \(userInfo)")
-        
-        if let query = CKNotification(fromRemoteNotificationDictionary: userInfo) as? CKQueryNotification {
-            AppManager.shared.updated = Date()
-            if let id = query.subscriptionID {
-                print("✅ Valid CloudKit notification with subscription ID: \(id)")
-                let task = UIApplication.shared.beginBackgroundTask {
-                    print("⚠️ Background task expired")
-                }
-                
-                self.applicationBackgroundPushEvent(id: id, completion: { completion in
-                    print("🏁 Background push event completion: \(completion)")
-                    UIApplication.shared.endBackgroundTask(task)
-                    
-                    completionHandler(.newData)
-                    
-                })
-                                                    
-            }
-            else {
-                print("❌ Missing subscription ID in CloudKit notification")
-                completionHandler(.failed)
 
-            }
-            
+        guard let notification = CKNotification(fromRemoteNotificationDictionary: userInfo) else {
+            print("❌ Not a CloudKit notification")
+            completionHandler(.noData)
+            return
+        }
+
+        AppManager.shared.updated = Date()
+
+        var subscriptionID: String?
+
+        if let queryNotification = notification as? CKQueryNotification {
+            subscriptionID = queryNotification.subscriptionID
+            print("✅ Received CKQueryNotification with subscription ID: \(subscriptionID ?? "nil")")
+        }
+        else if let databaseNotification = notification as? CKDatabaseNotification {
+            subscriptionID = databaseNotification.subscriptionID
+            print("✅ Received CKDatabaseNotification (SwiftData) with subscription ID: \(subscriptionID ?? "nil")")
         }
         else {
-            print("❌ Notification is not a valid CloudKit notification")
-            completionHandler(.noData)
-            
+            print("⚠️ Received other CloudKit notification type: \(type(of: notification))")
         }
-        
+
+        if let id = subscriptionID {
+            if id == "sub.alert" {
+                let task = UIApplication.shared.beginBackgroundTask {
+                    print("⚠️ Background task expired")
+
+                }
+
+                self.applicationBackgroundPushEvent(subscriptionId: id, completion: { completion in
+                    print("🏁 Background push event completion: \(completion)")
+                    UIApplication.shared.endBackgroundTask(task)
+
+                    completionHandler(.newData)
+
+                })
+
+            }
+            else {
+                print("⏭️ Skipping notification for non-alert subscription: \(id)")
+                completionHandler(.newData)
+
+            }
+
+        }
+        else {
+            print("⚠️ CloudKit notification received with no subscription ID")
+            completionHandler(.noData)
+
+        }
+
     }
         
 }

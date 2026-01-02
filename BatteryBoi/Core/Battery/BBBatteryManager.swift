@@ -273,13 +273,18 @@ public class BatteryManager: ObservableObject {
     }
     
     func powerStoreEvent(_ device: AppDeviceObject?, battery: Int? = nil, force: AppAlertTypes? = nil) {
+        print("🔋 powerStoreEvent called for device: \(device?.name ?? "system"), battery: \(battery ?? -1)")
+
         if let context = AppManager.shared.appStorageContext() {
             let deviceName = device?.name ?? "system"
+            print("✅ Got storage context")
 
             guard let system = UserDefaults.main.object(forKey: AppDefaultsKeys.deviceIdentifyer.rawValue) as? String else {
+                print("❌ No device identifier in UserDefaults")
                 return
 
             }
+            print("✅ System device ID: \(system)")
 
             var currentPercentage = self.percentage
             if let battery = battery {
@@ -293,12 +298,12 @@ public class BatteryManager: ObservableObject {
             var descriptor: FetchDescriptor<BatteryObject>
             if let deviceId: UUID? = device?.id {
                 descriptor = FetchDescriptor<BatteryObject>(predicate: #Predicate { object in
-                    object.session != sessionId && object.device?.id == deviceId && object.percent == percentValue && object.created != nil && object.created! > thirtyMinutesAgo
+                    object.session != sessionId && object.device?.id == deviceId && object.percent == percentValue
                 })
             }
             else if let systemId: UUID? = UUID(uuidString: system) {
                 descriptor = FetchDescriptor<BatteryObject>(predicate: #Predicate { object in
-                    object.session != sessionId && object.device?.id == systemId && object.percent == percentValue && object.created != nil && object.created! > thirtyMinutesAgo
+                    object.session != sessionId && object.device?.id == systemId && object.percent == percentValue
                 })
             }
             else {
@@ -313,13 +318,16 @@ public class BatteryManager: ObservableObject {
                 if let last = try context.fetch(descriptor).first {
                     let fetchTime = Date().timeIntervalSince(fetchStart)
 
-                    if let converted = AppEventObject(last) {
-                        AlertManager.shared.alertCreate(event: converted, force: force, context: context)
-
+                    if let created = last.created, created > thirtyMinutesAgo {
+                        if let converted = AppEventObject(last) {
+                            AlertManager.shared.alertCreate(event: converted, force: force, context: context)
+                        }
+                        return
                     }
 
                 }
-                else {
+
+                if true {
                     let store = BatteryObject()
                     store.id = UUID()
                     store.created = Date()
@@ -359,10 +367,12 @@ public class BatteryManager: ObservableObject {
 
                     }
 
+                    print("💾 Creating new battery event: percent=\(store.percent ?? 0), state=\(store.state ?? "nil")")
                     context.insert(store)
                     let saveStart = Date()
                     try context.save()
                     let saveTime = Date().timeIntervalSince(saveStart)
+                    print("✅ Battery event saved in \(saveTime)s")
 
                     if saveTime > 1.0 {
 
@@ -372,6 +382,7 @@ public class BatteryManager: ObservableObject {
 
             }
             catch {
+                print("❌ Error in powerStoreEvent: \(error)")
 
             }
 

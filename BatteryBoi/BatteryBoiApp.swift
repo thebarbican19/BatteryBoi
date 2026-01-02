@@ -100,12 +100,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
                 //EnalogManager.main.crash(AppEvents.fatalError, channel: .init(.slack, id: channel))
                 //EnalogManager.main.ingest(AppEvents.userLaunched, description: "Launched BatteryBoi")
             #endif
-        }
+                    
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                    _ = SettingsManager.shared.enabledTheme
+                    
+                    BluetoothManager.shared.bluetoothAuthorization(true)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-            _ = SettingsManager.shared.enabledTheme
-            
-            print("\n\nApp Installed: \(AppManager.shared.appInstalled)\n\n")
+                    print("\n\nApp Installed: \(AppManager.shared.appInstalled)\n\n")
             print("App Usage (Days): \(AppManager.shared.appUsage?.day ?? 0)\n\n")
 
             UpdateManager.shared.updateCheck()

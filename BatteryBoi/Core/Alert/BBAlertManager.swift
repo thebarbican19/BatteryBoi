@@ -12,6 +12,7 @@ public class AlertManager: ObservableObject {
     static var shared = AlertManager()
 
     @Published var alerts = Array<AppPushObject>()
+    private var lastTriggeredAlert: (eventId: UUID, type: String, triggeredOn: Date)?
 
     init() {
         self.alertTypeList()
@@ -147,6 +148,11 @@ public class AlertManager: ObservableObject {
             if let existing = try context.fetch(descriptor).first {
                 let fetchTime = Date().timeIntervalSince(fetchStart)
 
+                if let lastAlert = self.lastTriggeredAlert, lastAlert.eventId == existing.event?.id, lastAlert.type == type.rawValue {
+                    return
+
+                }
+
                 existing.triggeredOn = Date()
                 existing.type = type.rawValue
 
@@ -155,11 +161,6 @@ public class AlertManager: ObservableObject {
                 let saveTime = Date().timeIntervalSince(saveStart)
 
                 if saveTime > 1.0 {
-
-                }
-
-                if let converted = AppAlertObject(existing) {
-                    self.alertTrigger(alert: converted)
 
                 }
 
@@ -183,6 +184,7 @@ public class AlertManager: ObservableObject {
                 }
 
                 if let converted = AppAlertObject(store) {
+                    self.lastTriggeredAlert = (eventId: store.event?.id ?? UUID(), type: store.type ?? "", triggeredOn: Date())
                     self.alertTrigger(alert: converted)
 
                 }

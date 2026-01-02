@@ -377,6 +377,28 @@ public enum AppDeviceTypes: String, Codable {
         sysctlbyname("hw.model", &machine, &size, nil, 0)
         return String(cString: machine)
     }
+    #elseif os(iOS)
+    static var serial: String? {
+        return nil
+    }
+
+    static var model: String {
+        var systemInfo = utsname()
+        uname(&systemInfo)
+        let machineMirror = Mirror(reflecting: systemInfo.machine)
+        let identifier = machineMirror.children.reduce("") { identifier, element in
+            guard let value = element.value as? Int8 else {
+                return identifier
+            }
+
+            guard value != 0 else {
+                return identifier
+            }
+
+            return identifier + String(UnicodeScalar(UInt8(value)))
+        }
+        return identifier
+    }
     #else
     static var serial: String? { return nil }
     static var model: String { return "unknown" }
@@ -612,44 +634,51 @@ public struct AppDeviceObject: Hashable, Equatable, Identifiable {
             let existing: [AppDeviceObject] = list.compactMap( { .init($0) })
 
             if let device = device {
-                if let address = device.address {
+                if let address = device.address, address.isEmpty == false {
                     if let match = existing.first(where: { $0.address == address }) {
                         return match
                     }
                 }
 
-                if let serial = device.profile.serial {
+                if let serial = device.profile.serial, serial.isEmpty == false {
                     if let match = existing.first(where: { $0.profile.model == device.profile.model && $0.profile.serial == serial }) {
                         return match
                     }
                 }
 
-                if let match = existing.first(where: { $0.profile.model == device.profile.model }) {
-                    return match
+                if device.name.isEmpty == false, device.profile.model.isEmpty == false {
+                    if let match = existing.first(where: { $0.profile.model == device.profile.model && $0.name == device.name }) {
+                        return match
+                    }
                 }
 
-                if let match = existing.first(where: { $0.name == device.name }) {
-                    return match
+                if device.name.isEmpty == false, device.profile.model.isEmpty == false {
+                    let normalizedName = device.name.normalizedDeviceName
+                    let similarityThreshold = 0.85
+
+                    if let match = existing.first(where: { existingDevice in
+                        let existingNormalized = existingDevice.name.normalizedDeviceName
+                        let similarity = normalizedName.jaroWinklerSimilarity(with: existingNormalized)
+                        return existingDevice.profile.model == device.profile.model && similarity >= similarityThreshold
+                    }) {
+                        return match
+                    }
                 }
             }
             else {
-                if let serial = AppDeviceTypes.serial {
+                if let serial = AppDeviceTypes.serial, serial.isEmpty == false {
                     if let match = existing.first(where: { $0.profile.model == AppDeviceTypes.model && $0.profile.serial == serial }) {
                         return match
                     }
                 }
 
-                if let name = AppDeviceTypes.name(true) {
+                if let name = AppDeviceTypes.name(true), name.isEmpty == false {
                     if let match = existing.first(where: { $0.profile.model == AppDeviceTypes.model && $0.name == name }) {
                         return match
                     }
                 }
 
-                if let match = existing.first(where: { $0.profile.model == AppDeviceTypes.model }) {
-                    return match
-                }
-
-                if let match = existing.first(where: { $0.name == AppDeviceTypes.name(true) }) {
+                if let match = existing.first(where: { $0.profile.model == AppDeviceTypes.model && ($0.profile.serial?.isEmpty != false) }) {
                     return match
                 }
             }
@@ -742,6 +771,9 @@ public enum AppDefaultsKeys: String {
     case bluetoothUpdated = "bb_bluetoothlte_updated"
     case bluetoothEnabled = "bb_bluetoothlte_enabled"
 
+    case homekitUpdated = "bb_homekit_updated"
+    case homekitEnabled = "bb_homekit_enabled"
+
     case onboardingStep = "bb_onboarding_step"
     case onboardingComplete = "bb_onboarding_updated"
 
@@ -783,8 +815,11 @@ public enum AppDefaultsKeys: String {
             case .bluetoothEnabled: return "Bluetooth State"
             case .bluetoothUpdated: return "Bluetooth Updated"
 
+            case .homekitEnabled: return "HomeKit State"
+            case .homekitUpdated: return "HomeKit Updated"
+
 		}
-		
+
     }
 	
 }

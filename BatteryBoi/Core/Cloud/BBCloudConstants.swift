@@ -12,6 +12,9 @@ import SwiftData
 public enum CloudEntityType: String {
     case devices = "Devices"
     case events = "Events"
+    case alerts = "Alerts"
+    case push = "Push"
+    case entries = "Entries"
 }
 
 public enum CloudNotificationType: String {

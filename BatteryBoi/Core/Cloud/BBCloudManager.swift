@@ -207,18 +207,67 @@ public class CloudManager: NSObject, ObservableObject, UNUserNotificationCenterD
 
     }
 
-    @objc func cloudContextDidChange(notification: Notification) {
-        if let userInfo = notification.userInfo {
-            if userInfo["inserted"] != nil || userInfo["updated"] != nil || userInfo["deleted"] != nil {
-                DispatchQueue.main.async {
-                    AppManager.shared.updated = Date()
+	@objc func cloudContextDidChange(notification: Notification) {
+		if let userInfo = notification.userInfo {
+			if userInfo["inserted"] != nil || userInfo["updated"] != nil || userInfo["deleted"] != nil {
+				DispatchQueue.main.async {
+					AppManager.shared.updated = Date()
+					
+				}
+				
+			}
+			
+		}
+		
+	}
 
+    public func cloudDestroyEntity(_ type: CloudEntityType) {
+        if let container = CloudManager.container?.container {
+            let context = ModelContext(container)
+            context.autosaveEnabled = false
+            
+            do {
+                if type == .devices {
+                    let descriptor = FetchDescriptor<DevicesObject>()
+                    let items = try context.fetch(descriptor)
+                    for item in items {
+                        context.delete(item)
+                    }
                 }
-
+                else if type == .events {
+                    let descriptor = FetchDescriptor<BatteryObject>()
+                    let items = try context.fetch(descriptor)
+                    for item in items {
+                        context.delete(item)
+                    }
+                }
+                else if type == .alerts {
+                    let descriptor = FetchDescriptor<AlertsObject>()
+                    let items = try context.fetch(descriptor)
+                    for item in items {
+                        context.delete(item)
+                    }
+                }
+                else if type == .push {
+                    let descriptor = FetchDescriptor<PushObject>()
+                    let items = try context.fetch(descriptor)
+                    for item in items {
+                        context.delete(item)
+                    }
+                }
+                else if type == .entries {
+                    let descriptor = FetchDescriptor<BatteryEntryObject>()
+                    let items = try context.fetch(descriptor)
+                    for item in items {
+                        context.delete(item)
+                    }
+                }
+                
+                try context.save()
             }
-
+            catch {
+                print("❌ Failed to destroy entity \(type.rawValue): \(error)")
+            }
         }
-
     }
-
 }
