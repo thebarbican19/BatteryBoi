@@ -29,6 +29,8 @@
 	<string>Notifications are used to inform you when your any of your connected Devices need charging.</string>
 	<key>NSHomeKitUsageDescription</key>
 	<string>BatteryBoi uses HomeKit to monitor and display the battery levels of your connected smart home accessories.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>BatteryBoi monitors camera activity to help you understand your device usage. Camera access is optional.</string>
 	<key>SUFeedURL</key>
 	<string>$(ENV_APPCAST_URL)</string>
 	<key>SUPublicEDKey</key>

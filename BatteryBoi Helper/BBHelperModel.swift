@@ -73,7 +73,7 @@ import Foundation
 @objc(HelperProtocol) protocol HelperProtocol {
     func setupHomeDirectory(home: URL)
     func setupExecutables(_ directory:String)
-    
+
     func helperInterfaceState(completion: @escaping(HelperInterfaceState) -> Void)
     func helperDownloadDependancy(_ type:HelperDependencies, destination:URL, completion: @escaping (HelperInstallerStatus, String) -> Void)
     func helperToggleLowPower(_ state:HelperToggleState, completion: @escaping (HelperToggleState) -> Void)
@@ -82,4 +82,5 @@ import Foundation
     func helperProcessTaskWithArguments(_ type:HelperProcessType, path:String, arguments:[String], whitespace:Bool, completion:@escaping(String?) -> Void)
     func helperRetriveDeviceCache(completion: @escaping (String) -> Void)
     func helperWriteData(key: String, value: UInt8, completion: @escaping (HelperWriteDataStatus) -> Void)
+    func helperLaunchMainApp(completion: @escaping (Bool) -> Void)
 }

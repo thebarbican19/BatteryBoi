@@ -417,11 +417,6 @@ public class AppManager: ObservableObject {
 
                         }
 
-                        if let favourite = device?.favourite {
-                            existing.favourite = favourite
-
-                        }
-
                         if let notifications = device?.notifications {
                             existing.notifications = notifications
 
@@ -455,7 +450,6 @@ public class AppManager: ObservableObject {
                 store.order = self.devices.count + 1
                 store.id = UUID()
                 store.notifications = true
-                store.hidden = false
 
                 if let device = device {
                     let type = AppDeviceTypes.type(device.profile.model)
@@ -555,6 +549,33 @@ public class AppManager: ObservableObject {
 
         return nil
 
+    }
+
+    public func appDeviceState(_ device: AppDeviceObject, state: DeviceState) throws {
+        guard state != .discovered else {
+            fatalError("Cannot manually set device state to discovered")
+        }
+
+        guard let context = self.appStorageContext() else {
+            throw AppError(.cloudSync, message: "No storage context available", reference: "appDeviceState")
+        }
+
+        let deviceId = device.id
+        let descriptor = FetchDescriptor<DevicesObject>(predicate: #Predicate { $0.id == deviceId })
+
+        do {
+            if let existingDevice = try context.fetch(descriptor).first {
+                existingDevice.state = state.rawValue
+                try context.save()
+                self.appListDevices()
+            }
+            else {
+                throw AppError(.foreverUnclean, message: "Device not found", reference: "appDeviceState")
+            }
+        }
+        catch {
+            throw error
+        }
     }
 
     #if os(macOS)

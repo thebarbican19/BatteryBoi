@@ -28,7 +28,7 @@ struct TerminalBatteryBoiCLI: ParsableCommand {
         commandName: "cliboi",
         abstract: "BatteryBoi CLI - Monitor your device batteries from the command line",
         version: cliVersion,
-        subcommands: [TerminalInteractive.self, TerminalBatteryCommand.self, TerminalDevicesCommand.self, TerminalMenubarCommand.self, TerminalSettingsCommand.self, TerminalPowerCommand.self, TerminalStatusCommand.self, TerminalLogCommand.self, TerminalIntroCommand.self, TerminalResetCommand.self, TerminalGithubCommand.self, TerminalRateCommand.self, TerminalWebsiteCommand.self],
+        subcommands: [TerminalInteractive.self, TerminalBatteryCommand.self, TerminalDevicesCommand.self, TerminalMenubarCommand.self, TerminalSettingsCommand.self, TerminalPowerCommand.self, TerminalStatusCommand.self, TerminalLogCommand.self, TerminalIntroCommand.self, TerminalResetCommand.self, TerminalDeduplicateCommand.self, TerminalGithubCommand.self, TerminalRateCommand.self, TerminalWebsiteCommand.self, TerminalCameraCommand.self],
         defaultSubcommand: TerminalInteractive.self
     )
 }
@@ -40,7 +40,7 @@ class TerminalInteractiveSession {
     private var isRawMode = false
     private var history: [String] = []
     private var commandList: [String] = [
-        "status", "battery", "devices", "menubar", "settings", "power", "health", "thermal", "time", "help", "clear", "exit", "quit", "log", "intro", "reset", "github", "rate", "website"
+        "status", "battery", "devices", "menubar", "settings", "power", "health", "thermal", "time", "help", "clear", "exit", "quit", "log", "intro", "reset", "deduplicate", "github", "rate", "website", "camera"
     ]
     
     // Input State
@@ -253,6 +253,8 @@ class TerminalInteractiveSession {
                     sendCommand(["rate", "open"])
                 case "website":
                     sendCommand(["website", "open"])
+                case "camera":
+                    sendCommand(["camera", "info"])
                 case "clear":
                     print("\u{001B}[2J\u{001B}[H")
                 case "banner":
@@ -350,6 +352,7 @@ class TerminalInteractiveSession {
         \(ANSIColor.green)menubar, m\(ANSIColor.reset)              Menubar settings
         \(ANSIColor.green)settings\(ANSIColor.reset)                App settings
         \(ANSIColor.green)log\(ANSIColor.reset)                     Application logs
+        \(ANSIColor.green)camera, cam\(ANSIColor.reset)             Camera activity status
         \(ANSIColor.green)intro\(ANSIColor.reset)                   Show intro/onboarding window
         \(ANSIColor.green)reset [action]\(ANSIColor.reset)          Reset application data
           - onboarding, defaults, database, all
@@ -500,6 +503,17 @@ struct TerminalResetCommand: ParsableCommand {
     }
 }
 
+struct TerminalDeduplicateCommand: ParsableCommand {
+    static let configuration = CommandConfiguration(
+        commandName: "deduplicate",
+        abstract: "Remove duplicate devices and merge their battery events"
+    )
+
+    mutating func run() throws {
+        sendCommand(["deduplicate"])
+    }
+}
+
 struct TerminalGithubCommand: ParsableCommand {
     static let configuration = CommandConfiguration(
         commandName: "github",
@@ -539,6 +553,20 @@ struct TerminalWebsiteCommand: ParsableCommand {
 
     mutating func run() throws {
         sendCommand(["website", action])
+    }
+}
+
+struct TerminalCameraCommand: ParsableCommand {
+    static let configuration = CommandConfiguration(
+        commandName: "camera",
+        abstract: "Camera activity and status information"
+    )
+
+    @Argument(help: "Action: info")
+    var action: String = "info"
+
+    mutating func run() throws {
+        sendCommand(["camera", action])
     }
 }
 

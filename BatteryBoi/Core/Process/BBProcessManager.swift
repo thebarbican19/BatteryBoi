@@ -653,7 +653,6 @@ public class ProcessManager: ObservableObject {
                         output.append(self.processValueOutput("ID", value:.init(device.id.uuidString)))
                         output.append(self.processValueOutput("Name", value: .init(device.name)))
                         output.append(self.processValueOutput("Added", value:.init("\(device.added?.formatted ?? "Unknown")")))
-                        output.append(self.processValueOutput("Favourited", value: .init(device.favourite.string(.yes))))
 
                     }
                 }
@@ -691,7 +690,7 @@ public class ProcessManager: ObservableObject {
                 
             }
             else if secondary == .reset {
-                AppManager.shared.appDestoryEntity(.devices)
+                CloudManager.shared.cloudDestroyEntity(.devices)
                 
                 output.append(self.processHeaderOutput("REMOVED ALL DEVICE", state:.sucsess))
                 
@@ -906,6 +905,24 @@ public class ProcessManager: ObservableObject {
             }
 
         }
+        else if command == .camera {
+            if secondary == .info {
+                output.append(self.processBoxHeader("CAMERA STATUS"))
+
+                output.append(self.processValueOutput("Permission", value:.init(CameraManager.shared.state.title)))
+                output.append(self.processValueOutput("Active", value:.init(CameraManager.shared.isActive.string(.yes), type: CameraManager.shared.isActive == true ? .warning : .normal)))
+                output.append(self.processValueOutput("Detection Method", value:.init(CameraManager.shared.detectionMethod.description)))
+
+                if CameraManager.shared.state == .denied {
+                    output.append("\n\u{001B}[90mCamera permission is denied. Grant access in System Settings > Privacy & Security > Camera.\u{001B}[0m\n")
+                }
+                else if CameraManager.shared.detectionMethod == .unavailable {
+                    output.append("\n\u{001B}[90mCamera detection unavailable. No camera found or detection failed.\u{001B}[0m\n")
+                }
+
+            }
+
+        }
         else if command == .log {
             if secondary == .export {
                 let semaphore = DispatchSemaphore(value: 0)
@@ -959,8 +976,8 @@ public class ProcessManager: ObservableObject {
                 }
             }
             else if secondary == .database {
-                AppManager.shared.appDestoryEntity(.devices)
-                AppManager.shared.appDestoryEntity(.events)
+                CloudManager.shared.cloudDestroyEntity(.devices)
+                CloudManager.shared.cloudDestroyEntity(.events)
                 output.append(self.processHeaderOutput("DATABASE CLEARED", state:.sucsess))
             }
             else if secondary == .all {
@@ -969,8 +986,8 @@ public class ProcessManager: ObservableObject {
                 UserDefaults.save(.onboardingComplete, value: nil)
                 
                 // Reset Database
-                AppManager.shared.appDestoryEntity(.devices)
-                AppManager.shared.appDestoryEntity(.events)
+                CloudManager.shared.cloudDestroyEntity(.devices)
+                CloudManager.shared.cloudDestroyEntity(.events)
                 
                 // Reset Defaults
                 if let bundleID = Bundle.main.bundleIdentifier {
@@ -984,6 +1001,12 @@ public class ProcessManager: ObservableObject {
                     self.processRestart()
                 }
             }
+        }
+        else if command == .deduplicate {
+            DispatchQueue.main.async {
+                AppManager.shared.appDeduplicateDevices()
+            }
+            output.append(self.processHeaderOutput("DEVICE DEDUPLICATION COMPLETE", state:.sucsess))
         }
 
         if output.isEmpty {

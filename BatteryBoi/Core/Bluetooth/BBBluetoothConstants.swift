@@ -19,6 +19,8 @@ public struct BluetoothBroadcastItem: Identifiable, Equatable {
     var characteristics: [CBCharacteristic]
     var services: [CBService]
     var proximity: AppDeviceDistanceType = .unknown
+    var pendingTimestamp: Date?
+    var retryCount: Int = 0
 
     init(_ peripheral: CBPeripheral, proximity: AppDeviceDistanceType = .unknown, state: BluetoothConnectionState = .queued) {
         self.peripheral = peripheral
@@ -27,12 +29,17 @@ public struct BluetoothBroadcastItem: Identifiable, Equatable {
         self.characteristics = []
         self.services = []
         self.proximity = proximity
+        self.pendingTimestamp = nil
+        self.retryCount = 0
 
         if peripheral.name == nil {
             self.state = .unavailable
         }
         else {
             self.state = state
+            if state == .pending {
+                self.pendingTimestamp = Date()
+            }
         }
     }
 }

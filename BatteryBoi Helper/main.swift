@@ -34,4 +34,15 @@ let listener = NSXPCListener(machServiceName: "com.ovatar.batteryapp.helperboi.m
 listener.delegate = delegate
 listener.resume()
 
+DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+    HelperManager.shared.helperLaunchMainApp { success in
+        if success == true {
+            os_log("BatteryBoi Helper: Main app launched successfully")
+        }
+        else {
+            os_log("BatteryBoi Helper: Failed to launch main app")
+        }
+    }
+}
+
 RunLoop.current.run()

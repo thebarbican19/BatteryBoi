@@ -25,6 +25,36 @@ struct CloudNotifyAttributes: ActivityAttributes {
 }
 #endif
 
+public enum DeviceState: String, Codable {
+    case discovered = "discovered"
+    case added = "added"
+    case ignored = "ignored"
+
+    public var label: String {
+        switch self {
+        case .discovered: return "Discovered"
+        case .added: return "Added"
+        case .ignored: return "Ignored"
+        }
+    }
+
+    public var tint: String {
+        switch self {
+        case .discovered: return "orange"
+        case .added: return "green"
+        case .ignored: return "red"
+        }
+    }
+
+    public func next() -> DeviceState {
+        switch self {
+        case .discovered: return .added
+        case .added: return .ignored
+        case .ignored: return .added
+        }
+    }
+}
+
 @Model
 public final class DevicesObject {
     public var id: UUID? = UUID()
@@ -42,14 +72,13 @@ public final class DevicesObject {
     public var addedOn: Date? = Date()
     public var refreshedOn: Date? = Date()
     public var order: Int? = 0
-    public var favourite: Bool? = false
-    public var hidden: Bool? = false
     public var primary: Bool? = false
     public var notifications: Bool? = false
     public var findmy: Bool? = false
+    public var state: String? = DeviceState.discovered.rawValue
     @Relationship(deleteRule: .cascade, inverse: \BatteryObject.device) public var events: [BatteryObject]? = []
 
-    public init(id: UUID? = UUID(), name: String? = "", model: String? = "", type: String? = "", subtype: String? = "", product: String? = "", vendor: String? = "", address: String? = "", serial: String? = "", os: String? = "", apperance: String? = "", owner: UUID? = nil, addedOn: Date? = Date(), refreshedOn: Date? = Date(), order: Int? = 0, favourite: Bool? = false, hidden: Bool? = false, primary: Bool? = false, notifications: Bool? = false, findmy: Bool? = false) {
+    public init(id: UUID? = UUID(), name: String? = "", model: String? = "", type: String? = "", subtype: String? = "", product: String? = "", vendor: String? = "", address: String? = "", serial: String? = "", os: String? = "", apperance: String? = "", owner: UUID? = nil, addedOn: Date? = Date(), refreshedOn: Date? = Date(), order: Int? = 0, primary: Bool? = false, notifications: Bool? = false, findmy: Bool? = false, state: DeviceState = .discovered) {
         self.id = id
         self.name = name
         self.model = model
@@ -65,11 +94,10 @@ public final class DevicesObject {
         self.addedOn = addedOn
         self.refreshedOn = refreshedOn
         self.order = order
-        self.favourite = favourite
-        self.hidden = hidden
         self.primary = primary
         self.notifications = notifications
         self.findmy = findmy
+        self.state = state.rawValue
     }
 }
 

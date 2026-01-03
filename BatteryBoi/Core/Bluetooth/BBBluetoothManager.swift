@@ -28,6 +28,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
     private var manager: CBCentralManager!
     private var updates = Set<AnyCancellable>()
     private var discovered = Set<UUID>()
+    private var burst = false
 
     static var shared = BluetoothManager()
     private let logger = LogManager.shared
@@ -52,29 +53,37 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
         }.store(in: &updates)
         #endif
 
-        $proximity.dropFirst().removeDuplicates().delay(for: .seconds(10.0), scheduler: RunLoop.main).receive(on: DispatchQueue.main).sink { state in
-            if state != .proximate {
-                self.proximity = .proximate
-
-            }
-
+        $proximity.dropFirst().removeDuplicates().receive(on: DispatchQueue.main).sink { state in
             self.bluetoothStopScanning()
-			
-            self.bluetoothStartScanning()
+            DispatchQueue.main.async {
+                self.bluetoothStartScanning()
+            }
+            
+            if state != .proximate {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
+                    self.proximity = .proximate
+                }
+            }
 
         }.store(in: &updates)
 
         $broadcasting.debounce(for: .seconds(2), scheduler: RunLoop.main).receive(on: DispatchQueue.main).sink { found in
             for item in found.filter({ $0.state == .connected && $0.characteristics.isEmpty == false }) {
                 if let match = self.bluetoothMatchDevice(item.peripheral) {
-                    let isNewDevice = AppManager.shared.devices.contains(match) == false
-                    if isNewDevice {
-                        self.logger.logInfo("Storing new device: \(match.name) (ID: \(match.id))")
-                        AppManager.shared.appStoreDevice(match)
+                    var isNewDevice = false
+                    if let context = AppManager.shared.appStorageContext() {
+                        let existingDevice = AppDeviceObject.match(match, context: context)
+                        if existingDevice == nil {
+                            isNewDevice = true
+                            self.logger.logInfo("Storing new device: \(match.name) (ID: \(match.id))")
+                            AppManager.shared.appStoreDevice(match)
+                        }
+                        else {
+                            self.logger.logDebug("Device already exists: \(match.name)")
+                        }
                     }
                     else {
-                        self.logger.logDebug("Device already exists: \(match.name)")
-						
+                        self.logger.logError("Cannot check device existence - SwiftData context unavailable")
                     }
 
                     var batteryLevel: Int? = nil
@@ -83,11 +92,11 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
                             if let value = characteristic.value?.first.map(Int.init) {
                                 batteryLevel = value
                                 break
-								
+
                             }
-							
+
                         }
-						
+
                     }
 
                     if isNewDevice && batteryLevel != nil {
@@ -126,7 +135,15 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
 
                 self.bluetoothUpdateBroadcast(state: .disconnected, peripheral: disconnected.peripheral, update: .queued)
             }
-            
+
+            if let failed = found.first(where: { $0.state == .failed && $0.retryCount < 3 }) {
+                self.bluetoothUpdateBroadcast(state: .failed, peripheral: failed.peripheral, update: .queued)
+
+                if let name = failed.peripheral.name {
+                    self.logger.logInfo("Retrying device \(name) (attempt \(failed.retryCount + 1) of 3)")
+                }
+            }
+
             for item in found.filter({ $0.state != .unavailable }) {
                 var dataMap: [BluetoothUUID: Data] = [:]
                 for characteristic in item.characteristics {
@@ -188,8 +205,17 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
         Timer.publish(every: 60.0, on: .main, in: .common).autoconnect().sink { _ in
             self.bluetoothPerformScanCycle()
         }.store(in: &updates)
-		
+
+        Timer.publish(every: 300.0, on: .main, in: .common).autoconnect().sink { _ in
+            self.bluetoothPerformBurstScan()
+        }.store(in: &updates)
+
+        Timer.publish(every: 10.0, on: .main, in: .common).autoconnect().sink { _ in
+            self.bluetoothCheckPendingTimeouts()
+        }.store(in: &updates)
+
 		self.bluetoothFetchIOKitBatteryDevices()
+		self.bluetoothPerformBurstScan()
 
     }
 
@@ -292,6 +318,13 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
                     var payload = self.broadcasting[index]
                     payload.state = update
 
+                    if update == .pending {
+                        payload.pendingTimestamp = Date()
+                    }
+                    else {
+                        payload.pendingTimestamp = nil
+                    }
+
                     self.broadcasting[index] = payload
 
                 }
@@ -306,6 +339,13 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
                 if let index = self.broadcasting.firstIndex(where: { $0.state == state }) {
                     var payload = self.broadcasting[index]
                     payload.state = update
+
+                    if update == .pending {
+                        payload.pendingTimestamp = Date()
+                    }
+                    else {
+                        payload.pendingTimestamp = nil
+                    }
 
                     self.broadcasting[index] = payload
 
@@ -325,12 +365,58 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
         }
     }
 
+    private func bluetoothPerformBurstScan() {
+        logger.logInfo("Starting burst scan for far devices")
+        self.burst = true
+        self.discovered.removeAll()
+
+        let previousProximity = self.proximity
+        self.proximity = .far
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
+            self.bluetoothStopScanning()
+            self.burst = false
+            self.proximity = previousProximity
+            self.logger.logInfo("Burst scan completed")
+        }
+    }
+
+    private func bluetoothCheckPendingTimeouts() {
+        let now = Date()
+        let timeoutInterval: TimeInterval = 30.0
+
+        for (index, item) in self.broadcasting.enumerated() {
+            if item.state == .pending, let timestamp = item.pendingTimestamp {
+                let elapsed = now.timeIntervalSince(timestamp)
+
+                if elapsed > timeoutInterval {
+                    var updated = self.broadcasting[index]
+                    updated.retryCount += 1
+                    updated.state = .failed
+                    updated.pendingTimestamp = nil
+
+                    self.broadcasting[index] = updated
+
+                    if let name = updated.peripheral.name {
+                        self.logger.logWarning("Connection timeout for \(name) after \(Int(elapsed))s (attempt \(updated.retryCount) of 3)")
+                    }
+                }
+            }
+        }
+    }
+
     public func bluetoothStartScanning() {
         if self.manager != nil && self.manager.state == .poweredOn {
             #if os(iOS)
-            let services = [BluetoothUUID.power.uuid].compactMap { $0 }
-            logger.logInfo("Starting BLE scan for battery services (iOS)")
-            self.manager.scanForPeripherals(withServices: services, options: nil)
+            if self.proximity == .far {
+                logger.logInfo("Starting BLE wide scan (iOS)")
+                self.manager.scanForPeripherals(withServices: nil, options: nil)
+            }
+            else {
+                let services = [BluetoothUUID.power.uuid].compactMap { $0 }
+                logger.logInfo("Starting BLE scan for battery services (iOS)")
+                self.manager.scanForPeripherals(withServices: services, options: nil)
+            }
             #else
             logger.logInfo("Starting BLE scan for all services (macOS)")
             self.manager.scanForPeripherals(withServices: nil, options: nil)
@@ -440,10 +526,14 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
         let distance: AppDeviceDistanceObject = .init(Double(truncating: RSSI))
 
-        if discovered.contains(peripheral.identifier) == false {
-            discovered.insert(peripheral.identifier)
-            logger.logDebug("Discovered peripheral: \(peripheral.name ?? "Unknown") - RSSI: \(RSSI) - Distance: \(distance.state)")
+        if discovered.contains(peripheral.identifier) == true {
+            self.bluetoothUpdateDeviceDistance(peripheral: peripheral, rssi: RSSI)
+            UserDefaults.save(.bluetoothUpdated, value: Date())
+            return
         }
+
+        discovered.insert(peripheral.identifier)
+        logger.logDebug("Discovered peripheral: \(peripheral.name ?? "Unknown") - RSSI: \(RSSI) - Distance: \(distance.state)")
 
         var batteryLevel: Int? = nil
 
@@ -486,11 +576,14 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
             device.distance = distance
 
         }
-        
+
         self.bluetoothUpdateDeviceDistance(peripheral: peripheral, rssi: RSSI)
 
-        if distance.state.rawValue <= self.proximity.rawValue {
+        if distance.state.rawValue <= self.proximity.rawValue || self.burst == true {
             self.bluetoothUpdateBroadcast(state: .queued, peripheral: peripheral, update: .queued)
+            if self.burst == true {
+                logger.logDebug("Queuing far device from burst scan: \(peripheral.name ?? "Unknown")")
+            }
 
         }
 

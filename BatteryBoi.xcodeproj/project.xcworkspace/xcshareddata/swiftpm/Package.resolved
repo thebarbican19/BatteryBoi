@@ -1,13 +1,13 @@
 {
-  "originHash" : "5891a4f3490ae8aa78c05190290a7f2c0a6f7d1bafdc252cdbd362332c980e9a",
+  "originHash" : "3aecd1b4010ad9c0d18ffbb4bd52cd512e6a88c9b45afa1a89b13c1d84f12898",
   "pins" : [
     {
       "identity" : "deviice",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/andrealufino/Deviice",
       "state" : {
-        "revision" : "e9ae6fc86dfcdc23430e93fc0b92f7009408e6a4",
-        "version" : "2.1.2"
+        "revision" : "e9df69bd58b73d659fd4e9176cd5103fa980898c",
+        "version" : "2.1.6"
       }
     },
     {
@@ -33,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/swhitty/FlyingFox.git",
       "state" : {
-        "revision" : "00e4d51c57b4fbe4f011650f2f965d3bea1ba7c1",
-        "version" : "0.13.0"
+        "revision" : "02ad2f412a29c9ea8cee3924a3143d51a4288323",
+        "version" : "0.26.0"
       }
     },
     {
@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sindresorhus/KeyboardShortcuts",
       "state" : {
-        "revision" : "8b1a9ce78c2f35c8a55dcc95897573abd2cc4f6e",
-        "version" : "1.13.0"
+        "revision" : "ac12762853126cf2e7ad63a6a58e1c9f58c6a0ee",
+        "version" : "1.17.0"
       }
     },
     {
@@ -61,7 +61,7 @@
       "location" : "https://github.com/thebarbican19/RateBoi/",
       "state" : {
         "branch" : "main",
-        "revision" : "77cad34a446580e437b66e2e08111cf3a879a093"
+        "revision" : "566e0eb4020633932d8c9108521f811579f8403d"
       }
     },
     {
@@ -69,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sparkle-project/Sparkle",
       "state" : {
-        "revision" : "87e4fcbac39912f9cdb9a9acf205cad60e1ca3bc",
-        "version" : "2.4.2"
+        "revision" : "5581748cef2bae787496fe6d61139aebe0a451f6",
+        "version" : "2.8.1"
       }
     },
     {

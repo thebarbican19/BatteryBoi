@@ -462,6 +462,20 @@ extension UserDefaults {
         
     }
     
+    static func sync(_ key: String, value: Any?) {
+        let store = NSUbiquitousKeyValueStore.default
+        if let value = value {
+            store.set(value, forKey: key)
+        } else {
+            store.removeObject(forKey: key)
+        }
+        store.synchronize()
+    }
+    
+    static func cloud<T>(_ key: String) -> T? {
+        return NSUbiquitousKeyValueStore.default.object(forKey: key) as? T
+    }
+    
 }
 
 extension CodingUserInfoKey {

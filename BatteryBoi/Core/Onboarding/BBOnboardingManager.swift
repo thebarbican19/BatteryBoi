@@ -116,7 +116,7 @@ public class OnboardingManager: ObservableObject {
 
             }
 
-            if SettingsManager.shared.enabledAutoLaunch == .undetermined {
+            if SettingsManager.shared.enabledAutoLaunch == .undetermined && self.onboardingStep(.loginatlaunch) == .unseen {
                 self.state = .loginatlaunch
                 self.updated = Date()
                 return
@@ -147,7 +147,7 @@ public class OnboardingManager: ObservableObject {
             }
 
         #elseif os(iOS)
-            if HomeKitManager.shared.state != .allowed && HomeKitManager.shared.state != .unknown && self.onboardingStep(.homekit) == .unseen {
+            if HomeKitManager.shared.state != .unknown && self.onboardingStep(.homekit) == .unseen {
                 self.state = .homekit
                 self.updated = Date()
                 return
@@ -239,6 +239,8 @@ public class OnboardingManager: ObservableObject {
             }
             
             if state == .homekit {
+                _ = self.onboardingStep(self.state, insert: true)
+
                 if type == .primary {
                     switch HomeKitManager.shared.state {
                         case .undetermined : HomeKitManager.shared.homekitAuthorization(true)
@@ -249,7 +251,6 @@ public class OnboardingManager: ObservableObject {
 
                 }
                 else {
-                    _ = self.onboardingStep(.homekit, insert: true)
                     self.onboardingSetup()
 
                 }

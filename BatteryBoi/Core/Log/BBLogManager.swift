@@ -69,7 +69,8 @@ public class LogManager: ObservableObject {
 
     public func logExport(timeRange: LogTimeRange = .last24Hours, levels: [LogLevel] = LogLevel.allCases, categories: [String]? = nil) async throws -> URL {
         guard self.exporting == false else {
-            throw BBAppError(.rickSanity, message: "Export already in progress")
+            throw AppError(.rickSanity, message: "Export already in progress")
+			
         }
 
         await MainActor.run {
@@ -129,7 +130,7 @@ public class LogManager: ObservableObject {
         let exportURL = try await self.logExport(timeRange: timeRange, levels: levels, categories: categories)
 
         guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
-            throw BBAppError(.funkeMobile, message: "Could not access documents directory")
+            throw AppError(.funkeMobile, message: "Could not access documents directory")
         }
 
         let formatter = DateFormatter()
@@ -154,7 +155,7 @@ public class LogManager: ObservableObject {
         let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: [.prettyPrinted, .sortedKeys])
 
         guard let jsonString = String(data: jsonData, encoding: .utf8) else {
-            throw BBAppError(.mcpoylesMilk, message: "Could not encode JSON response data")
+            throw AppError(.mcpoylesMilk, message: "Could not encode JSON response data")
         }
 
         let tempDirectory = FileManager.default.temporaryDirectory

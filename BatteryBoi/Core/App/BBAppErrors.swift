@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum BBAppErrorCode: String, CaseIterable, Codable {
+public enum AppErrorCode: String, CaseIterable, Codable {
 	case floridaMan = "FloridaMan"
 	case soupKitchen = "SoupKitchen"
 	case deskPop = "DeskPop"
@@ -79,12 +79,12 @@ public enum BBAppErrorCode: String, CaseIterable, Codable {
 	}
 }
 
-public struct BBAppError: Error, Equatable {
-	public let code: BBAppErrorCode
+public struct AppError: Error, Equatable {
+	public let code: AppErrorCode
 	public let message: String
 	public let reference: String?
 
-	public init(_ code: BBAppErrorCode, message: String, reference: String? = nil) {
+	public init(_ code: AppErrorCode, message: String, reference: String? = nil) {
 		self.message = message
 		self.code = code
 		self.reference = reference
@@ -98,12 +98,12 @@ public struct BBAppError: Error, Equatable {
 		print("\n\n\(code.icon) \(code.rawValue) - \(message) \nReference: #\(reference ?? "NOREF")\n\n")
 	}
 
-	public static func == (lhs: BBAppError, rhs: BBAppError) -> Bool {
+	public static func == (lhs: AppError, rhs: AppError) -> Bool {
 		return lhs.code == rhs.code && lhs.message == rhs.message
 	}
 }
 
-public enum BBAppDecodingError: Error, LocalizedError {
+public enum AppDecodingError: Error, LocalizedError {
 	case missingRequiredField(String)
 	case invalidFieldType(field: String, expected: String, received: String)
 	case invalidEnumValue(field: String, value: String, allowedValues: [String])
@@ -144,7 +144,7 @@ extension KeyedDecodingContainer {
 		do {
 			return try self.decode(type, forKey: key)
 		} catch {
-			throw BBAppDecodingError.missingRequiredField(errorMessage)
+			throw AppDecodingError.missingRequiredField(errorMessage)
 		}
 	}
 
@@ -153,31 +153,31 @@ extension KeyedDecodingContainer {
 			return try self.decode(type, forKey: key)
 		} catch DecodingError.dataCorrupted {
 			if let rawValue = try? self.decode(String.self, forKey: key) {
-				throw BBAppDecodingError.invalidEnumValue(field: errorMessage, value: rawValue, allowedValues: allowedValues)
+				throw AppDecodingError.invalidEnumValue(field: errorMessage, value: rawValue, allowedValues: allowedValues)
 			}
-			throw BBAppDecodingError.missingRequiredField(errorMessage)
+			throw AppDecodingError.missingRequiredField(errorMessage)
 		} catch {
-			throw BBAppDecodingError.missingRequiredField(errorMessage)
+			throw AppDecodingError.missingRequiredField(errorMessage)
 		}
 	}
 
 	func decodeNestedRequired<T: Decodable>(_ type: T.Type, forKey key: Key, errorMessage: String) throws -> T {
 		do {
 			return try self.decode(type, forKey: key)
-		} catch let decodingError as BBAppDecodingError {
+		} catch let decodingError as AppDecodingError {
 			throw decodingError
 		} catch {
-			throw BBAppDecodingError.nestedObjectValidationFailed(field: errorMessage, underlyingError: error)
+			throw AppDecodingError.nestedObjectValidationFailed(field: errorMessage, underlyingError: error)
 		}
 	}
 
 	func decodeArrayRequired<T: Decodable>(_ type: [T].Type, forKey key: Key, errorMessage: String) throws -> [T] {
 		do {
 			return try self.decode(type, forKey: key)
-		} catch let decodingError as BBAppDecodingError {
+		} catch let decodingError as AppDecodingError {
 			throw decodingError
 		} catch {
-			throw BBAppDecodingError.arrayValidationFailed(field: errorMessage, index: 0, underlyingError: error)
+			throw AppDecodingError.arrayValidationFailed(field: errorMessage, index: 0, underlyingError: error)
 		}
 	}
 
@@ -185,7 +185,7 @@ extension KeyedDecodingContainer {
 		do {
 			return try self.decode(type, forKey: key)
 		} catch {
-			throw BBAppDecodingError.invalidFormat(field: key.stringValue, format: format, example: example)
+			throw AppDecodingError.invalidFormat(field: key.stringValue, format: format, example: example)
 		}
 	}
 }

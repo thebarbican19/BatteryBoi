@@ -57,24 +57,24 @@ struct DebugDeviceCell: View {
     @EnvironmentObject var manager: AppManager
     @State var revealed: Bool
     let device: AppDeviceObject
-    
+
     init(_ device: AppDeviceObject, revealed: Bool = true) {
         self.device = device
         self._revealed = State(initialValue: revealed)
     }
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Circle()
                     .fill(device.connectivity == .system ? Color.green : Color.blue)
                     .frame(width: 8, height: 8)
-                
+
                 Text(device.name)
                     .font(.headline)
-                
+
                 Spacer()
-                
+
                 Text(device.connectivity == .system ? "System" : "Bluetooth")
                     .font(.caption)
                     .padding(.horizontal, 6)
@@ -91,20 +91,43 @@ struct DebugDeviceCell: View {
                     self.revealed.toggle()
                 }
             }
-            
+
             if revealed == true {
                 VStack(alignment: .leading, spacing: 5) {
+                    HStack {
+                        Text("State:")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+
+                        Button(currentState.label) {
+                            try? manager.appDeviceState(device, state: currentState.next())
+                        }
+                        .font(.caption)
+                        .buttonStyle(.bordered)
+                        .tint(Color(currentState.tint))
+                    }
+                    .padding(.leading, 5)
+
                     Text("Recent Events")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .padding(.leading, 5)
-                    
+                        .padding(.top, 5)
+
                     DebugDeviceEventsList(deviceId: device.id)
                 }
                 .padding(.leading, 10)
             }
         }
         .padding(.vertical, 4)
+    }
+
+    private var currentState: DeviceState {
+        if let object = device.object, let stateString = object.state, let state = DeviceState(rawValue: stateString) {
+            return state
+        }
+
+        return .discovered
     }
 }
 
@@ -116,7 +139,7 @@ struct DebugDeviceView: View {
     var body: some View {
         Text("Devices & Events").font(.title)
 
-        if devices.isEmpty == true {
+        if filteredDevices.isEmpty == true {
             Text("No devices detected. Ensure Bluetooth is enabled and devices are nearby.")
                 .font(.caption)
                 .foregroundColor(.secondary)
@@ -124,7 +147,7 @@ struct DebugDeviceView: View {
         }
         else {
             LazyVGrid(columns: layout, alignment: .leading, spacing:10) {
-                ForEach(devices) { device in
+                ForEach(filteredDevices, id: \.id) { device in
                     if let appDevice = AppDeviceObject(device) {
                         DebugDeviceCell(appDevice)
                     }
@@ -136,6 +159,76 @@ struct DebugDeviceView: View {
 
     }
 
+    private var filteredDevices: [DevicesObject] {
+        devices.filter { device in
+            if let stateString = device.state, let state = DeviceState(rawValue: stateString) {
+                return state != .ignored
+            }
+
+            return true
+        }
+    }
+
+}
+
+struct DebugHeartbeatView: View {
+    @ObservedObject var heartbeat = HeartbeatManager.shared
+    
+    let layout = [GridItem(.flexible(minimum: 180, maximum: .infinity))]
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("Active Heartbeats")
+                .font(.title)
+                .padding(.top, 20)
+            
+            if heartbeat.activeDevices.isEmpty {
+                Text("No active devices detected via heartbeat.")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .padding(.vertical)
+            } else {
+                LazyVGrid(columns: layout, alignment: .leading, spacing: 10) {
+                    ForEach(heartbeat.activeDevices) { device in
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack {
+                                Circle()
+                                    .fill(Color.green)
+                                    .frame(width: 8, height: 8)
+                                
+                                Text(device.name)
+                                    .font(.headline)
+                                
+                                Spacer()
+                                
+                                Text(device.deviceType.rawValue.capitalized)
+                                    .font(.caption)
+                                    .padding(.horizontal, 6)
+                                    .padding(.vertical, 2)
+                                    .background(Color.gray.opacity(0.2))
+                                    .cornerRadius(4)
+                            }
+                            
+                            HStack {
+                                Text("OS: \(device.os)")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                
+                                Spacer()
+                                
+                                Text(Date(timeIntervalSince1970: device.timestamp).formatted(date: .omitted, time: .shortened))
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        .padding()
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(8)
+                    }
+                }
+            }
+        }
+    }
 }
 
 struct DebugBroadcastCell: View {
@@ -247,14 +340,16 @@ struct DebugBroadcastView: View {
             .padding(.bottom, 5)
             
             LazyVGrid(columns: layout, alignment: .leading, spacing: 10) {
-                if bluetooth.broadcasting.isEmpty == true {
+                let availableDevices = bluetooth.broadcasting.filter { $0.state != .unavailable }
+
+                if availableDevices.isEmpty == true {
                     Text("Searching for broadcasting devices...")
                         .font(.caption)
                         .foregroundColor(.secondary)
                         .padding(.vertical)
                 }
                 else {
-                    ForEach(bluetooth.broadcasting) { device in
+                    ForEach(availableDevices) { device in
                         DebugBroadcastCell(device)
                     }
                 }
@@ -292,6 +387,8 @@ struct DebugContainer: View {
                     DebugBroadcastView()
                     
                     DebugDeviceView()
+                    
+                    DebugHeartbeatView()
                     
                 }
                 

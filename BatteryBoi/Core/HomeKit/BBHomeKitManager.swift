@@ -15,47 +15,28 @@ public class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, 
     @Published var accessories: [HomeKitAccessoryItem] = []
     @Published var homes: [HMHome] = []
 
+	static var shared = HomeKitManager()
+
     private var manager: HMHomeManager?
     private var updates = Set<AnyCancellable>()
 
-    static var shared = HomeKitManager()
     private let logger = LogManager.shared
 
     override init() {
         super.init()
 
-        logger.logInfo("Initializing HomeKitManager")
-
-        if UserDefaults.main.object(forKey: AppDefaultsKeys.homekitEnabled.rawValue) == nil {
-            self.homekitAuthorization()
-        }
-
-        else {
-            logger.logWarning("HomeKit disabled by user")
-        }
+		self.logger.logInfo("Initializing HomeKitManager")
+		self.homekitAuthorization()
 
         Timer.publish(every: 300, on: .main, in: .common).autoconnect().sink { _ in
             self.homekitRefreshAccessories()
 
         }.store(in: &updates)
 
-        $state.removeDuplicates().receive(on: DispatchQueue.main).sink { state in
-            self.logger.logInfo("HomeKit state changed to: \(state.rawValue)")
-            if state == .denied || state == .restricted {
-                UserDefaults.save(.homekitEnabled, value: state.rawValue)
-                self.accessories = []
-            }
-
-            else if state == .allowed {
-                UserDefaults.save(.homekitEnabled, value: nil)
-                self.homekitInitializeManager()
-            }
-
-        }.store(in: &updates)
-
         $accessories.debounce(for: .seconds(2), scheduler: RunLoop.main).receive(on: DispatchQueue.main).sink { items in
             for item in items.filter({ $0.state == .available && $0.batteryLevel != nil }) {
                 self.logger.logInfo("Processing accessory: \(item.accessory.name) - \(item.batteryLevel ?? 0)%")
+				
             }
 
         }.store(in: &updates)
@@ -65,26 +46,14 @@ public class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, 
 
     deinit {
         self.updates.forEach { $0.cancel() }
+		
     }
 
     public func homekitAuthorization(_ force: Bool = false) {
-        if UserDefaults.main.object(forKey: AppDefaultsKeys.homekitEnabled.rawValue) == nil {
-            if force == true {
-                self.homekitInitializeManager()
-            }
-
-            else {
-                if let manager = self.manager {
-                    self.homekitAuthorizationState()
-                }
-
-            }
-
-            DispatchQueue.main.async {
-                self.homekitAuthorizationState()
-            }
-
-        }
+		if force == true {
+			self.homekitInitializeManager()
+			
+		}
 
     }
 
@@ -92,24 +61,25 @@ public class HomeKitManager: NSObject, ObservableObject, HMHomeManagerDelegate, 
         guard let manager = self.manager else {
             self.state = .undetermined
             return
+			
         }
 
-        let status = manager.authorizationStatus
-
-        if status.contains(.authorized) {
+        if manager.authorizationStatus.contains(.authorized) {
             self.state = .allowed
+			
         }
-
-        else if status.contains(.restricted) {
+        else if manager.authorizationStatus.contains(.restricted) {
             self.state = .restricted
+			
         }
-
-        else if status.contains(.determined) {
+        else if manager.authorizationStatus.contains(.determined) {
             self.state = .denied
+			
         }
 
         else {
             self.state = .undetermined
+			
         }
 
     }

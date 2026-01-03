@@ -582,13 +582,13 @@ public struct AppDeviceObject: Hashable, Equatable, Identifiable {
     public var profile: AppDeviceProfileObject
     public var connectivity: AppConnectivityType = .system
     public var synced: Bool = true
-    public var favourite: Bool = false
     public var notifications: Bool = true
     public var order: Int = 1
     public var distance: AppDeviceDistanceObject? = nil
     public var added: Date? = nil
     public var refreshed: Date? = nil
     public var system: Bool = false
+    public var object: DevicesObject?
 
     public init?(_ device: DevicesObject) {
         if let id = device.id, let model = device.model {
@@ -597,20 +597,20 @@ public struct AppDeviceObject: Hashable, Equatable, Identifiable {
             self.profile = .init(model: model, subtype: device.subtype, vendor: device.vendor ?? "", apperance: device.apperance, findmy: device.findmy ?? false)
             self.synced = true
             self.connectivity = (device.primary ?? false) ? .system : .bluetooth
-            self.favourite = device.favourite ?? false
             self.notifications = device.notifications ?? true
             self.order = device.order ?? 0
             self.distance = nil
             self.added = device.addedOn ?? Date()
             self.refreshed = device.refreshedOn
             self.system = id == AppDeviceTypes.system ? true : false
+            self.object = device
         }
         else {
             return nil
         }
     }
 
-    init(_ id: UUID, name: String, profile: AppDeviceProfileObject, connectivity: AppConnectivityType = .bluetooth, synced: Bool = false, distance: AppDeviceDistanceObject? = nil) {
+    init(_ id: UUID, name: String, profile: AppDeviceProfileObject, connectivity: AppConnectivityType = .bluetooth, synced: Bool = false, distance: AppDeviceDistanceObject? = nil, object: DevicesObject? = nil) {
         self.id = id
         self.name = name
         self.address = ""
@@ -618,9 +618,9 @@ public struct AppDeviceObject: Hashable, Equatable, Identifiable {
         self.connectivity = connectivity
         self.synced = synced
         self.order = 0
-        self.favourite = false
         self.notifications = true
         self.distance = distance
+        self.object = object
     }
 
     public func hash(into hasher: inout Hasher) {
@@ -771,9 +771,6 @@ public enum AppDefaultsKeys: String {
     case bluetoothUpdated = "bb_bluetoothlte_updated"
     case bluetoothEnabled = "bb_bluetoothlte_enabled"
 
-    case homekitUpdated = "bb_homekit_updated"
-    case homekitEnabled = "bb_homekit_enabled"
-
     case onboardingStep = "bb_onboarding_step"
     case onboardingComplete = "bb_onboarding_updated"
 
@@ -814,9 +811,6 @@ public enum AppDefaultsKeys: String {
 
             case .bluetoothEnabled: return "Bluetooth State"
             case .bluetoothUpdated: return "Bluetooth Updated"
-
-            case .homekitEnabled: return "HomeKit State"
-            case .homekitUpdated: return "HomeKit Updated"
 
 		}
 

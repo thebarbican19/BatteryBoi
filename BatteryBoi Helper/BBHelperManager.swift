@@ -265,16 +265,31 @@ final class HelperManager: NSObject, HelperProtocol {
         self.helperProcessTaskWithArguments(.run, path: "/bin/bash", arguments: ["-c", "echo $HOME"], whitespace: true) { home in
             if let home = home {
                 completion(home)
-//                completion(URL(fileURLWithPath: "\(home)/Library/Application Support/BatteryBoi"))
 
             }
             else {
                 completion("DUNNO")
-                
+
             }
-            
+
         }
-        
+
     }
-    
+
+    func helperLaunchMainApp(completion: @escaping (Bool) -> Void) {
+        let bundleID = "com.ovatar.batteryapp"
+        let path = "/usr/bin/open"
+        let arguments = ["-b", bundleID]
+
+        self.helperProcessTaskWithArguments(.run, path: path, arguments: arguments) { response in
+            if let response = response, response.isEmpty == true {
+                completion(true)
+            }
+            else {
+                completion(false)
+            }
+        }
+
+    }
+
 }
