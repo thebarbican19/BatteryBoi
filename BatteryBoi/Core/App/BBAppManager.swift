@@ -40,11 +40,6 @@ public class AppManager: ObservableObject {
     public init() {
         self.appUsageTracker()
 
-        $devices.receive(on: DispatchQueue.global()).debounce(for: .seconds(3), scheduler: RunLoop.main).sink { _ in
-            self.appStoreDevice()
-
-        }.store(in: &updates)
-
         #if os(macOS)
             Timer.publish(every: 300, on: .main, in: .common).autoconnect().sink { [weak self] _ in
                 self?.appStoreDevice()
@@ -507,6 +502,8 @@ public class AppManager: ObservableObject {
                 }
 
             }
+
+            self.appListDevices()
 
         }
 
