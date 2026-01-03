@@ -5,6 +5,8 @@
 //  Created by Joe Barbour on 1/3/26.
 //
 
+import SwiftUI
+
 public enum HeartbeatDeviceType: String, CaseIterable {
 	case iphone
 	case ipad

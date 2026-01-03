@@ -1,6 +1,7 @@
 import Foundation
 import Combine
 import AVFoundation
+import AppKit
 
 public class CameraManager: ObservableObject {
     static var shared = CameraManager()
