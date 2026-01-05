@@ -64,9 +64,9 @@ public enum CloudSubscriptionsType: String {
 
     var record: String {
         switch self {
-            case .alerts: return "CD_Alerts"
-            case .device: return "CD_Devices"
-            case .events: return "CD_Battery"
+            case .alerts: return "AlertsObject"
+            case .device: return "DevicesObject"
+            case .events: return "BatteryObject"
         }
     }
 
