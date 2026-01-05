@@ -28,7 +28,7 @@ struct TerminalBatteryBoiCLI: ParsableCommand {
         commandName: "cliboi",
         abstract: "BatteryBoi CLI - Monitor your device batteries from the command line",
         version: cliVersion,
-        subcommands: [TerminalInteractive.self, TerminalBatteryCommand.self, TerminalDevicesCommand.self, TerminalMenubarCommand.self, TerminalSettingsCommand.self, TerminalPowerCommand.self, TerminalStatusCommand.self, TerminalLogCommand.self, TerminalIntroCommand.self, TerminalResetCommand.self, TerminalDeduplicateCommand.self, TerminalGithubCommand.self, TerminalRateCommand.self, TerminalWebsiteCommand.self, TerminalCameraCommand.self],
+        subcommands: [TerminalInteractive.self, TerminalBatteryCommand.self, TerminalDevicesCommand.self, TerminalMenubarCommand.self, TerminalSettingsCommand.self, TerminalPowerCommand.self, TerminalStatusCommand.self, TerminalLogCommand.self, TerminalIntroCommand.self, TerminalResetCommand.self, TerminalDeduplicateCommand.self, TerminalGithubCommand.self, TerminalRateCommand.self, TerminalWebsiteCommand.self, TerminalCameraCommand.self, TerminalAlertsCommand.self],
         defaultSubcommand: TerminalInteractive.self
     )
 }
@@ -40,7 +40,7 @@ class TerminalInteractiveSession {
     private var isRawMode = false
     private var history: [String] = []
     private var commandList: [String] = [
-        "status", "battery", "devices", "menubar", "settings", "power", "health", "thermal", "time", "help", "clear", "exit", "quit", "log", "intro", "reset", "deduplicate", "github", "rate", "website", "camera"
+        "status", "battery", "devices", "menubar", "settings", "power", "health", "thermal", "time", "help", "clear", "exit", "quit", "log", "intro", "reset", "deduplicate", "github", "rate", "website", "camera", "alerts"
     ]
     
     // Input State
@@ -255,6 +255,16 @@ class TerminalInteractiveSession {
                     sendCommand(["website", "open"])
                 case "camera":
                     sendCommand(["camera", "info"])
+                case "alerts":
+                    let type = args.count > 1 ? args[1] : ""
+                    if type.isEmpty {
+                        sendCommand(["alerts", "trigger"])
+
+                    }
+                    else {
+                        sendCommand(["alerts", "trigger", type])
+
+                    }
                 case "clear":
                     print("\u{001B}[2J\u{001B}[H")
                 case "banner":
@@ -567,6 +577,31 @@ struct TerminalCameraCommand: ParsableCommand {
 
     mutating func run() throws {
         sendCommand(["camera", action])
+    }
+}
+
+struct TerminalAlertsCommand: ParsableCommand {
+    static let configuration = CommandConfiguration(
+        commandName: "alerts",
+        abstract: "Test and trigger alerts for development"
+    )
+
+    @Argument(help: "Action: trigger")
+    var action: String = "trigger"
+
+    @Argument(help: "Alert type to trigger")
+    var alertType: String = ""
+
+    mutating func run() throws {
+        if alertType.isEmpty {
+            sendCommand(["alerts", action])
+
+        }
+        else {
+            sendCommand(["alerts", action, alertType])
+
+        }
+
     }
 }
 

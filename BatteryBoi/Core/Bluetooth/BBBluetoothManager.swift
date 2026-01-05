@@ -29,6 +29,7 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
     private var updates = Set<AnyCancellable>()
     private var discovered = Set<UUID>()
     private var burst = false
+    private var peripheralStates: [UUID: BluetoothConnectionState] = [:]
 
     static var shared = BluetoothManager()
     private let logger = LogManager.shared
@@ -214,6 +215,10 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
             self.bluetoothCheckPendingTimeouts()
         }.store(in: &updates)
 
+        Timer.publish(every: 600.0, on: .main, in: .common).autoconnect().sink { _ in
+            self.bluetoothCleanupStaleStates()
+        }.store(in: &updates)
+
 		self.bluetoothFetchIOKitBatteryDevices()
 		self.bluetoothPerformBurstScan()
 
@@ -314,6 +319,15 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
     private func bluetoothUpdateBroadcast(state: BluetoothConnectionState, peripheral: CBPeripheral? = nil, update: BluetoothConnectionState) {
         DispatchQueue.main.async {
             if let peripheral = peripheral {
+                if let currentState = self.peripheralStates[peripheral.identifier] {
+                    if (update == .queued || update == .pending) && (currentState == .pending || currentState == .connected) {
+                        self.logger.logDebug("Skipping duplicate queue for \(peripheral.name ?? "Unknown") - already \(currentState)")
+                        return
+                    }
+                }
+
+                self.peripheralStates[peripheral.identifier] = update
+
                 if let index = self.broadcasting.firstIndex(where: { $0.state == state && peripheral == peripheral }) {
                     var payload = self.broadcasting[index]
                     payload.state = update
@@ -358,7 +372,12 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
     }
 
     private func bluetoothPerformScanCycle() {
-        self.discovered.removeAll()
+        let activePeripheralIDs = Set(self.broadcasting.filter {
+            $0.state == .connected || $0.state == .pending
+        }.map { $0.peripheral.identifier })
+
+        self.discovered = self.discovered.intersection(activePeripheralIDs)
+
         self.bluetoothStartScanning()
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
             self.bluetoothStopScanning()
@@ -368,7 +387,12 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
     private func bluetoothPerformBurstScan() {
         logger.logInfo("Starting burst scan for far devices")
         self.burst = true
-        self.discovered.removeAll()
+
+        let activePeripheralIDs = Set(self.broadcasting.filter {
+            $0.state == .connected || $0.state == .pending
+        }.map { $0.peripheral.identifier })
+
+        self.discovered = self.discovered.intersection(activePeripheralIDs)
 
         let previousProximity = self.proximity
         self.proximity = .far
@@ -1049,6 +1073,11 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
         }
 
         return nil
+    }
+
+    private func bluetoothCleanupStaleStates() {
+        let activeBroadcastIDs = Set(self.broadcasting.map { $0.peripheral.identifier })
+        self.peripheralStates = self.peripheralStates.filter { activeBroadcastIDs.contains($0.key) }
     }
 
     deinit {

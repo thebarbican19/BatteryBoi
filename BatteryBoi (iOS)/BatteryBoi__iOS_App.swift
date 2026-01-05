@@ -16,12 +16,13 @@ import UserNotifications
 @main
 struct BatteryBoi__iOS_App: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
         WindowGroup {
             if let container = CloudManager.container?.container {
                 NavigationContainer().modelContainer(container)
-				
+
             }
 			else {
                 NavigationContainer()
@@ -29,9 +30,16 @@ struct BatteryBoi__iOS_App: App {
             }
 
         }
+        .onChange(of: scenePhase) { oldPhase, newPhase in
+            if newPhase == .active {
+                HeartbeatManager.shared.heartbeatStart()
+				
+            }
+			
+        }
 
     }
-    
+
 }
 
 class AppDelegate: NSObject, UIApplicationDelegate {

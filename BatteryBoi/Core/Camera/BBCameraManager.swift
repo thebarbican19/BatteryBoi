@@ -14,15 +14,14 @@ public class CameraManager: ObservableObject {
     private let logger = LogManager.shared
 
     init() {
-        Timer.publish(every: 10.0, on: .main, in: .common)
-            .autoconnect()
-            .sink { [weak self] _ in
-                self?.cameraCheckActivity()
-            }
-            .store(in: &updates)
+        Timer.publish(every: 10.0, on: .main, in: .common).autoconnect().sink { [weak self] _ in
+			self?.cameraCheckActivity()
+			
+		}
+		.store(in: &updates)
 
-        cameraCheckPermissions()
-        cameraCheckActivity()
+		self.cameraCheckPermissions()
+		self.cameraCheckActivity()
 
         NotificationCenter.default.addObserver(
             self,

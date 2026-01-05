@@ -35,13 +35,18 @@ public class HeartbeatManager: ObservableObject {
         // Ensure local device presence is recorded immediately
         self.heartbeatBroadcast()
         
-        // AppManager already handles periodic updates (heartbeats) every 5 minutes
-        // We can hook into that or force an update if needed.
+        // Broadcast every 5 minutes to keep device active
+        Timer.publish(every: 300, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                self?.heartbeatBroadcast()
+            }
+            .store(in: &updates)
     }
     
-    private func heartbeatBroadcast() {
+    public func heartbeatBroadcast() {
         // Leverages the existing robust CloudKit sync in AppManager
-        AppManager.shared.appStoreDevice()
+        AppManager.shared.appStoreDevice(refreshDeviceList: false)
     }
     
     public func heartbeatRefreshActiveDevices(_ devices: [AppDeviceObject]? = nil) {

@@ -25,6 +25,7 @@ enum ProcessPrimaryCommands: String, CaseIterable {
     case reset = "reset"
     case deduplicate = "deduplicate"
     case camera = "camera"
+    case alerts = "alerts"
 
     var description: String {
         switch self {
@@ -45,6 +46,7 @@ enum ProcessPrimaryCommands: String, CaseIterable {
             case .reset: return "Reset Application Data"
             case .deduplicate: return "Remove Duplicate Devices & Merge Battery Events"
             case .camera: return "Camera Activity & Status Information"
+            case .alerts: return "Test & Trigger Alerts for Development & Debugging"
         }
     }
 
@@ -67,6 +69,7 @@ enum ProcessPrimaryCommands: String, CaseIterable {
             case .reset: return [.onboarding, .defaults, .database, .all]
             case .deduplicate: return []
             case .camera: return [.info]
+            case .alerts: return [.trigger]
         }
     }
 }
@@ -90,6 +93,7 @@ enum ProcessSecondaryCommands: String {
     case defaults = "defaults"
     case database = "database"
     case all = "all"
+    case trigger = "trigger"
 }
 
 enum ProcessResponseHeaderType: String {

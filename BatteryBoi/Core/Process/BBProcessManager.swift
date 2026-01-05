@@ -395,81 +395,97 @@ public class ProcessManager: ObservableObject {
             if secondary == .info {
                 BatteryManager.shared.powerForceRefresh()
                 
-                output.append("\n----------GENERAL----------\n\n")
+                let hasBattery = (BatteryManager.shared.info?.batteries ?? 0) > 0
                 
-                if BatteryManager.shared.charging == .battery {
-                    if BatteryManager.shared.percentage <= 25 {
-                        output.append(self.processValueOutput("Charge", value:.init( "\(BatteryManager.shared.percentage)%", type:.warning)))
+                output.append(self.processBoxHeader("GENERAL"))
+                
+                if hasBattery {
+                    if BatteryManager.shared.charging == .battery {
+                        if BatteryManager.shared.percentage <= 18 {
+                            output.append(self.processValueOutput("Charge", value:.init( "\(BatteryManager.shared.percentage)%", type:.error)))
+                            
+                        }
+                        else if BatteryManager.shared.percentage <= 25 {
+                            output.append(self.processValueOutput("Charge", value:.init( "\(BatteryManager.shared.percentage)%", type:.warning)))
+                            
+                        }
+                        else {
+                            output.append(self.processValueOutput("Charge", value:.init( "\(BatteryManager.shared.percentage)%", type:.normal)))
+                            
+                        }
                         
-                    }
-                    else if BatteryManager.shared.percentage <= 18 {
-                        output.append(self.processValueOutput("Charge", value:.init( "\(BatteryManager.shared.percentage)%", type:.error)))
+                        output.append(self.processValueOutput("Charging", value:.init( false.string(.yes))))
                         
                     }
                     else {
                         output.append(self.processValueOutput("Charge", value:.init( "\(BatteryManager.shared.percentage)%", type:.normal)))
+                        output.append(self.processValueOutput("Charging", value:.init( true.string(.yes), type: .sucsess)))
                         
                     }
                     
-                    output.append(self.processValueOutput("Charging", value:.init( false.string(.yes))))
+                    output.append(self.processValueOutput("Low Power Mode", value:.init( BatteryManager.shared.mode.flag.string(.enabled), type: BatteryManager.shared.mode.flag ? .sucsess : .normal)))
+                    output.append(self.processValueOutput("Charge To", value: .init("\(BatteryManager.shared.max)%")))
+       
+                    if let powered = BatteryManager.shared.info?.powered {
+                        output.append(self.processValueOutput("Connected to Power", value:.init( powered.string(.enabled), type:.normal)))
+                        
+                    }
+
+                    let timeText = BatteryManager.shared.remaining?.formatted ?? "Calculating..."
+                    if BatteryManager.shared.charging == .charging {
+                        output.append(self.processValueOutput("Time Until Fully Charged", value:.init(timeText)))
+                        
+                    }
+                    else {
+                        output.append(self.processValueOutput("Time Until Empty", value: .init(timeText)))
+                        
+                    }
+                    
+                    if let watts = BatteryManager.shared.info?.watts {
+                        output.append(self.processValueOutput("Watts", value:.init( "\(watts) W")))
+
+                    }
+
+                    output.append(self.processBoxHeader("HEALTH"))
+                    
+                    if let heath = BatteryManager.shared.health {
+                        output.append(self.processValueOutput("Health", value:.init( heath.state.rawValue, type: heath.state.warning)))
+                        output.append(self.processValueOutput("Cycle Count", value:.init( "\(heath.cycles)")))
+                        output.append(self.processValueOutput("Capacity", value:.init( "\(Int(heath.percentage))%")))
+                        output.append(self.processValueOutput("Original Capacity", value:.init( "\(Int(heath.capacity)) mAh")))
+                        output.append(self.processValueOutput("Current Capacity", value:.init( "\(Int(heath.available)) mAh")))
+
+                    }
+                    
+                    output.append(self.processBoxHeader("TEMPERATURE"))
+                    
+                    output.append(self.processValueOutput("Overheating", value: .init(BatteryManager.shared.thermal.state.flag.string(.yes), type: BatteryManager.shared.thermal.state.warning)))
+                    output.append(self.processValueOutput("Battery Temprature", value: .init(BatteryManager.shared.thermal.formatted)))
                     
                 }
                 else {
-                    output.append(self.processValueOutput("Charge", value:.init( "\(BatteryManager.shared.percentage)%", type:.normal)))
-                    output.append(self.processValueOutput("Charging", value:.init( true.string(.yes), type: .sucsess)))
+                    output.append(self.processValueOutput("Power Source", value:.init("AC Power", type: .sucsess)))
+                    output.append(self.processValueOutput("Battery", value:.init("Not Installed", type: .warning)))
+                    output.append("\n\u{001B}[90mThis device runs on AC power only.\u{001B}[0m\n")
                     
                 }
                 
-                output.append(self.processValueOutput("Low Power Mode", value:.init( BatteryManager.shared.mode.flag.string(.enabled), type: BatteryManager.shared.mode.flag ? .sucsess : .normal)))
-                output.append(self.processValueOutput("Charge To", value: .init("\(BatteryManager.shared.max)%")))
-   
-                if let powered = BatteryManager.shared.info?.powered {
-                    output.append(self.processValueOutput("Connected to Power", value:.init( powered.string(.enabled), type:.normal)))
-                    
-                }
-
-                if BatteryManager.shared.charging == .charging {
-                    output.append(self.processValueOutput("Time Until Fully Charged", value:.init( "32 Minutes")))
-                    
-                }
-                else {
-                    output.append(self.processValueOutput("Time Until Empty", value: .init("32 Minutes")))
-                    
-                }
-                
-                if let watts = BatteryManager.shared.info?.watts {
-                    output.append(self.processValueOutput("Watts", value:.init( "\(watts) mAh")))
-
-                }
-
-                output.append(self.processBoxHeader("HEALTH"))
-                
-                if let heath = BatteryManager.shared.health {
-                    output.append(self.processValueOutput("Health", value:.init( heath.state.rawValue, type: heath.state.warning)))
-                    output.append(self.processValueOutput("Cycle Count", value:.init( "\(heath.cycles)")))
-                    output.append(self.processValueOutput("Capacity", value:.init( "\(Int(heath.percentage))%")))
-                    output.append(self.processValueOutput("Original Capacity", value:.init( "\(Int(heath.capacity)) mAh")))
-                    output.append(self.processValueOutput("Current Capacity", value:.init( "\(Int(heath.available)) mAh")))
-
-                }
-                
-                output.append(self.processBoxHeader("TEMPERATURE"))
-                
-                output.append(self.processValueOutput("Overheating", value: .init(BatteryManager.shared.thermal.state.flag.string(.yes), type: BatteryManager.shared.thermal.state.warning)))
-                output.append(self.processValueOutput("Battery Temprature", value: .init(BatteryManager.shared.thermal.formatted)))
-                
-                output.append("\n----------OTHER----------\n\n")
+                output.append(self.processBoxHeader("OTHER"))
                 
                 if let info = BatteryManager.shared.info {
                     output.append(self.processValueOutput("Battery Manufacturer", value: .init(info.manufacturer)))
                     output.append(self.processValueOutput("Serial Number", value: .init(info.serial)))
-                    output.append(self.processValueOutput("Total Batteries", value: .init("\(info.batteries ?? 1)")))
+                    output.append(self.processValueOutput("Total Batteries", value: .init("\(info.batteries ?? 0)")))
 
                     if let accumulated = info.accumulated {
                         output.append(self.processValueOutput("Accumulated Usage", value: .init("\(accumulated) kWh")))
                         
                     }
                         
+                }
+                else {
+                    output.append(self.processValueOutput("Device Model", value: .init(AppDeviceTypes.model)))
+                    output.append(self.processValueOutput("Device Name", value: .init(AppDeviceTypes.name())))
                 }
                 
             }
@@ -1007,6 +1023,53 @@ public class ProcessManager: ObservableObject {
                 AppManager.shared.appDeduplicateDevices()
             }
             output.append(self.processHeaderOutput("DEVICE DEDUPLICATION COMPLETE", state:.sucsess))
+        }
+        else if command == .alerts {
+            if secondary == .trigger {
+                let alertTypeString = flags.first ?? ""
+
+                if alertTypeString.isEmpty {
+                    output.append(self.processBoxHeader("ALERT TYPES AVAILABLE"))
+                    output.append("\n\u{001B}[90mUsage: cliboi alerts trigger <alert_type>\u{001B}[0m\n\n")
+                    output.append("\u{001B}[1mAvailable Alert Types:\u{001B}[0m\n")
+                    output.append("  • chargingComplete\n")
+                    output.append("  • chargingBegan\n")
+                    output.append("  • chargingStopped\n")
+                    output.append("  • userInitiated\n")
+                    output.append("  • userLaunched\n")
+                    output.append("  • deviceOverheating\n")
+                    output.append("  • deviceConnected\n")
+                    output.append("  • deviceDisconnected\n")
+                    output.append("  • deviceNearby\n")
+                    output.append("  • deviceDepleting\n\n")
+                    output.append("\u{001B}[90mExample: cliboi alerts trigger chargingComplete\u{001B}[0m\n")
+                }
+                else {
+                    guard let alertType = AppAlertTypes(rawValue: alertTypeString) else {
+                        output.append(self.processHeaderOutput("INVALID ALERT TYPE", state: .error))
+                        output.append("\n\u{001B}[31m❌ Unknown alert type: \(alertTypeString)\u{001B}[0m\n\n")
+                        output.append("\u{001B}[90mRun 'cliboi alerts trigger' to see available types.\u{001B}[0m\n")
+                        return output
+                    }
+
+                    guard let context = AppManager.shared.appStorageContext() else {
+                        output.append(self.processHeaderOutput("STORAGE ERROR", state: .error))
+                        output.append("\n\u{001B}[31m❌ CloudKit sync not ready. Please wait and try again.\u{001B}[0m\n")
+                        return output
+                    }
+
+                    AlertManager.shared.alertCreateTest(type: alertType, context: context) { alertId in
+
+                    }
+
+                    output.append(self.processBoxHeader("ALERT TEST TRIGGERED"))
+                    output.append(self.processValueOutput("Alert Type", value: .init(alertType.description)))
+                    output.append(self.processValueOutput("macOS Alert", value: .init("Triggered", type: .sucsess)))
+                    output.append(self.processValueOutput("iOS Notification", value: .init("Syncing via CloudKit", type: .normal)))
+                    output.append(self.processValueOutput("Auto-Delete", value: .init("In 5 seconds", type: .warning)))
+                    output.append("\n\u{001B}[90m💡 Check your iOS device for push notification (may take 1-3s)\u{001B}[0m\n")
+                }
+            }
         }
 
         if output.isEmpty {

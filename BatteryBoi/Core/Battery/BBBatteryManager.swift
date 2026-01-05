@@ -50,9 +50,11 @@ public class BatteryManager: ObservableObject {
         private var connection: io_connect_t = 0
 
     #endif
-    
+
     private var counter: Int? = 0
     private var updates = Set<AnyCancellable>()
+    private var lastSaveTimes: [String: Date] = [:]
+    private let debounceQueue = DispatchQueue(label: "com.batteryBoi.debouncer", attributes: .concurrent)
 
     public init() {
         Timer.publish(every: 60, on: .main, in: .common).autoconnect().sink { [weak self] _ in
@@ -114,6 +116,11 @@ public class BatteryManager: ObservableObject {
 
         Timer.publish(every: 86400, on: .main, in: .common).autoconnect().sink { [weak self] _ in
             self?.powerCleanupOldEvents()
+
+        }.store(in: &updates)
+
+        Timer.publish(every: 3600, on: .main, in: .common).autoconnect().sink { [weak self] _ in
+            self?.powerDebounceCleanup()
 
         }.store(in: &updates)
 
@@ -275,6 +282,31 @@ public class BatteryManager: ObservableObject {
     func powerStoreEvent(_ device: AppDeviceObject?, battery: Int? = nil, force: AppAlertTypes? = nil) {
         print("🔋 powerStoreEvent called for device: \(device?.name ?? "system"), battery: \(battery ?? -1)")
 
+        var currentPercentage = self.percentage
+        if let battery = battery {
+            currentPercentage = battery
+        }
+
+        let deviceID: UUID
+        if let device = device {
+            deviceID = device.id
+        }
+        else {
+            guard let system = UserDefaults.main.object(forKey: AppDefaultsKeys.deviceIdentifyer.rawValue) as? String,
+                  let uuid = UUID(uuidString: system) else {
+                print("❌ No device identifier in UserDefaults")
+                return
+            }
+            deviceID = uuid
+        }
+
+        if force == nil {
+            if self.powerDebounceShouldAllow(deviceID: deviceID, currentPercent: currentPercentage) == false {
+                print("⏭️ Skipping battery save - debounced (device: \(device?.name ?? "system"), \(currentPercentage)%)")
+                return
+            }
+        }
+
         if let context = AppManager.shared.appStorageContext() {
             let deviceName = device?.name ?? "system"
             print("✅ Got storage context")
@@ -286,11 +318,6 @@ public class BatteryManager: ObservableObject {
             }
             print("✅ System device ID: \(system)")
 
-            var currentPercentage = self.percentage
-            if let battery = battery {
-                currentPercentage = battery
-            }
-
             let sessionId: UUID? = AppManager.shared.sessionid
             let thirtyMinutesAgo = Date(timeIntervalSinceNow: -30 * 60)
             let percentValue: Int? = currentPercentage
@@ -298,26 +325,40 @@ public class BatteryManager: ObservableObject {
             var descriptor: FetchDescriptor<BatteryObject>
             if let deviceId: UUID? = device?.id {
                 descriptor = FetchDescriptor<BatteryObject>(predicate: #Predicate { object in
-                    object.session != sessionId && object.device?.id == deviceId && object.percent == percentValue
+                    object.session != sessionId && object.device?.id == deviceId
                 })
             }
             else if let systemId: UUID? = UUID(uuidString: system) {
                 descriptor = FetchDescriptor<BatteryObject>(predicate: #Predicate { object in
-                    object.session != sessionId && object.device?.id == systemId && object.percent == percentValue
+                    object.session != sessionId && object.device?.id == systemId
                 })
             }
             else {
                 return
             }
 
-            descriptor.fetchLimit = 1
+            descriptor.fetchLimit = 3
             descriptor.sortBy = [SortDescriptor(\.created, order: .reverse)]
 
             do {
                 let fetchStart = Date()
-                if let last = try context.fetch(descriptor).first {
-                    let fetchTime = Date().timeIntervalSince(fetchStart)
+                let recentEvents = try context.fetch(descriptor)
 
+                if recentEvents.count >= 2 {
+                    let last = recentEvents[0]
+                    let secondLast = recentEvents[1]
+
+                    if let lastPercent = last.percent,
+                       let secondLastPercent = secondLast.percent,
+                       lastPercent == currentPercentage && abs(lastPercent - secondLastPercent) <= 1 {
+                        if let lastCreated = last.created, Date().timeIntervalSince(lastCreated) < 1800 {
+                            print("⏭️ Skipping battery bounce: \(secondLastPercent)% → \(lastPercent)% → \(currentPercentage)%")
+                            return
+                        }
+                    }
+                }
+
+                if let last = recentEvents.first, last.percent == percentValue {
                     if let created = last.created, created > thirtyMinutesAgo {
                         if let converted = AppEventObject(last) {
                             AlertManager.shared.alertCreate(event: converted, force: force, context: context)
@@ -547,5 +588,26 @@ public class BatteryManager: ObservableObject {
         }
 
     #endif
+
+    private func powerDebounceShouldAllow(deviceID: UUID, currentPercent: Int, minimumInterval: TimeInterval = 30.0) -> Bool {
+        let key = "\(deviceID.uuidString)-\(currentPercent)"
+        return debounceQueue.sync(flags: .barrier) {
+            if let lastSave = lastSaveTimes[key] {
+                let elapsed = Date().timeIntervalSince(lastSave)
+                if elapsed < minimumInterval {
+                    return false
+                }
+            }
+            lastSaveTimes[key] = Date()
+            return true
+        }
+    }
+
+    private func powerDebounceCleanup() {
+        let oneHourAgo = Date(timeIntervalSinceNow: -3600)
+        debounceQueue.async(flags: .barrier) { [weak self] in
+            self?.lastSaveTimes = self?.lastSaveTimes.filter { $0.value > oneHourAgo } ?? [:]
+        }
+    }
 
 }

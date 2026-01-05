@@ -41,8 +41,8 @@ public class AppManager: ObservableObject {
         self.appUsageTracker()
 
         #if os(macOS)
-            Timer.publish(every: 300, on: .main, in: .common).autoconnect().sink { [weak self] _ in
-                self?.appStoreDevice()
+            Timer.publish(every: 60, on: .main, in: .common).autoconnect().sink { [weak self] _ in
+                self?.appStoreDevice(refreshDeviceList: false)
             }.store(in: &updates)
         #endif
 
@@ -371,7 +371,9 @@ public class AppManager: ObservableObject {
         }
     }
 
-    func appStoreDevice(_ device: AppDeviceObject? = nil) {
+    func appStoreDevice(_ device: AppDeviceObject? = nil, refreshDeviceList: Bool = false) {
+        var deviceWasCreated = false
+
         if let context = self.appStorageContext() {
             let deviceName = device?.name ?? "system"
 
@@ -483,6 +485,7 @@ public class AppManager: ObservableObject {
                 if store.model?.isEmpty == false || store.name?.isEmpty == false {
                     do {
                         context.insert(store)
+                        deviceWasCreated = true
                         let saveStart = Date()
                         try context.save()
                         let saveTime = Date().timeIntervalSince(saveStart)
@@ -503,7 +506,9 @@ public class AppManager: ObservableObject {
 
             }
 
-            self.appListDevices()
+            if refreshDeviceList || deviceWasCreated {
+                self.appListDevices()
+            }
 
         }
 

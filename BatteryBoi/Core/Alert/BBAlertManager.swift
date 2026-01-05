@@ -53,10 +53,16 @@ public class AlertManager: ObservableObject {
         #if canImport(WindowManager)
 
             WindowManager.shared.windowOpen(alert: alert.type, device: alert.event.device)
+            self.alertTriggerMacOS(alert: alert)
 
         #else
 
         #endif
+
+    }
+
+    private func alertTriggerMacOS(alert: AppAlertObject) {
+        print("[DEBUG] macOS Alert Triggered: \(alert.type.rawValue)")
 
     }
 
@@ -276,6 +282,71 @@ public class AlertManager: ObservableObject {
         }
         catch {
 
+        }
+
+    }
+
+    public func alertCreateTest(type: AppAlertTypes, context: ModelContext, completion: @escaping (UUID?) -> Void) {
+        let event = BatteryObject()
+        event.id = UUID()
+        event.created = Date()
+        event.session = AppManager.shared.sessionid
+
+        if type == .chargingComplete || type == .chargingBegan {
+            event.percent = BatteryManager.shared.max
+            event.state = BatteryChargingState.charging.rawValue
+
+        }
+        else if type == .chargingStopped {
+            event.percent = 95
+            event.state = BatteryChargingState.battery.rawValue
+
+        }
+        else if type == .deviceDepleting {
+            event.percent = 15
+            event.state = BatteryChargingState.battery.rawValue
+
+        }
+        else if type == .deviceOverheating {
+            event.percent = 50
+            event.temprature = 45
+            event.state = BatteryChargingState.battery.rawValue
+
+        }
+        else {
+            event.percent = BatteryManager.shared.percentage
+            event.state = BatteryManager.shared.charging.rawValue
+
+        }
+
+        context.insert(event)
+        try? context.save()
+
+        guard let appEvent = AppEventObject(event) else {
+            completion(nil)
+            return
+
+        }
+
+        self.alertCreate(event: appEvent, force: type, context: context)
+
+        let typeRawValue = type.rawValue
+        let descriptor = FetchDescriptor<AlertsObject>(predicate: #Predicate { $0.type == typeRawValue })
+        let createdAlert = try? context.fetch(descriptor).first
+        let alertId = createdAlert?.id
+
+        completion(alertId)
+
+        if let alertId = alertId {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+                if let context = AppManager.shared.appStorageContext() {
+                    let descriptor = FetchDescriptor<AlertsObject>(predicate: #Predicate { $0.id == alertId })
+                    if let alertToDelete = try? context.fetch(descriptor).first {
+                        context.delete(alertToDelete)
+                        try? context.save()
+                    }
+                }
+            }
         }
 
     }

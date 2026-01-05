@@ -44,37 +44,22 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
     
     private var updates = Set<AnyCancellable>()
     private var callback: CFMessagePortCallBack = { messagePort, messageID, cfData, info in
-        var payload:Data = Data("\n\u{001B}[1m\u{001B}[31m\("PARSING ERROR")\u{001B}[0m\n".utf8)
-        if let pointer = info, let received = cfData as Data? {
-            if let arguments = try? JSONDecoder().decode([String].self, from: received) {
-                var primary:ProcessPrimaryCommands? = nil
-                var secondary:ProcessSecondaryCommands? = nil
-                var flags:[String] = []
+        let errorPayload = Data("\n\u{001B}[1m\u{001B}[31m\("PARSING ERROR")\u{001B}[0m\n".utf8)
 
-                if arguments.indices.contains(0) {
-                    primary = ProcessPrimaryCommands(rawValue: arguments[0])
-                    
-                }
-                
-                if arguments.indices.contains(1) {
-                    secondary = ProcessSecondaryCommands(rawValue: arguments[1])
-                    
-                }
-                
-                if arguments.indices.contains(0) && arguments.indices.contains(0) {
-                    flags = Array(arguments.suffix(arguments.count - 1)).map { String($0) }
-                    
-                }
-                
-                if let response = ProcessManager.shared.processInbound(primary, subcommand: secondary, flags: flags) {
-                    payload = Data(response.utf8)
-
-                }
-    
-            }
-
+        guard let received = cfData as Data?,
+              let arguments = try? JSONDecoder().decode([String].self, from: received) else {
+            return Unmanaged.passRetained(errorPayload as CFData)
         }
-           
+
+        let primary = arguments.indices.contains(0) ? ProcessPrimaryCommands(rawValue: arguments[0]) : nil
+        let secondary = arguments.indices.contains(1) ? ProcessSecondaryCommands(rawValue: arguments[1]) : nil
+        let flags = arguments.count >= 2 ? Array(arguments.dropFirst(2)) : []
+
+        guard let response = ProcessManager.shared.processInbound(primary, subcommand: secondary, flags: flags) else {
+            return Unmanaged.passRetained(errorPayload as CFData)
+        }
+
+        let payload = Data(response.utf8)
         return Unmanaged.passRetained(payload as CFData)
 
     }
@@ -105,7 +90,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSWind
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                     _ = SettingsManager.shared.enabledTheme
-                    
+
+                    ProcessManager.shared.processInstallHelper()
+
                     BluetoothManager.shared.bluetoothAuthorization(true)
         
                     print("\n\nApp Installed: \(AppManager.shared.appInstalled)\n\n")
