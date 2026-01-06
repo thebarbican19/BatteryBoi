@@ -77,6 +77,10 @@
 		C016C8C02F04983200C7E1F6 /* BBAnimationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C016C7FF2F04952100C7E1F6 /* BBAnimationConstants.swift */; };
 		C016C8CB2F049AD500C7E1F6 /* DynamicColor in Frameworks */ = {isa = PBXBuildFile; productRef = C016C8CA2F049AD500C7E1F6 /* DynamicColor */; };
 		C016C8CE2F049C2F00C7E1F6 /* BBSettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D804F22B2B0D646600D13DE6 /* BBSettingsManager.swift */; };
+		C05D56142F0CB2820033A3E3 /* BBClassificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05D56122F0CB2820033A3E3 /* BBClassificationManager.swift */; };
+		C05D56152F0CB2820033A3E3 /* BBClassificationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05D56112F0CB2820033A3E3 /* BBClassificationConstants.swift */; };
+		C05D56162F0CB2820033A3E3 /* BBClassificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05D56122F0CB2820033A3E3 /* BBClassificationManager.swift */; };
+		C05D56172F0CB2820033A3E3 /* BBClassificationConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05D56112F0CB2820033A3E3 /* BBClassificationConstants.swift */; };
 		C0669B052F0337D000EF6308 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = C0669B042F0337D000EF6308 /* ArgumentParser */; };
 		C0669B082F0337E700EF6308 /* Rainbow in Frameworks */ = {isa = PBXBuildFile; productRef = C0669B072F0337E700EF6308 /* Rainbow */; };
 		C0C7FBEA2F04DDA500882E5E /* BBCloudModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8598C962B156198006F36B2 /* BBCloudModels.swift */; };
@@ -266,6 +270,8 @@
 		C016C8322F04952100C7E1F6 /* BBUpdateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBUpdateManager.swift; sourceTree = "<group>"; };
 		C016C8342F04952100C7E1F6 /* BBWindowConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBWindowConstants.swift; sourceTree = "<group>"; };
 		C016C8352F04952100C7E1F6 /* BBWindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBWindowManager.swift; sourceTree = "<group>"; };
+		C05D56112F0CB2820033A3E3 /* BBClassificationConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBClassificationConstants.swift; sourceTree = "<group>"; };
+		C05D56122F0CB2820033A3E3 /* BBClassificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBClassificationManager.swift; sourceTree = "<group>"; };
 		C0C7FBED2F05D59A00882E5E /* BBHomeKitConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBHomeKitConstants.swift; sourceTree = "<group>"; };
 		C0C7FC042F09746300882E5E /* BBAppErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBAppErrors.swift; sourceTree = "<group>"; };
 		C0C7FC072F0974D900882E5E /* BBHeartbeatConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BBHeartbeatConstants.swift; sourceTree = "<group>"; };
@@ -566,6 +572,7 @@
 		C016C8372F04952100C7E1F6 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				C05D56132F0CB2820033A3E3 /* Classification */,
 				C0C7FC122F0975FE00882E5E /* Camera */,
 				C0C7FC092F0974D900882E5E /* Heartbeat */,
 				C016C7FE2F04952100C7E1F6 /* Alert */,
@@ -586,6 +593,15 @@
 				C016C8362F04952100C7E1F6 /* Window */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		C05D56132F0CB2820033A3E3 /* Classification */ = {
+			isa = PBXGroup;
+			children = (
+				C05D56112F0CB2820033A3E3 /* BBClassificationConstants.swift */,
+				C05D56122F0CB2820033A3E3 /* BBClassificationManager.swift */,
+			);
+			path = Classification;
 			sourceTree = "<group>";
 		};
 		C0C7FC092F0974D900882E5E /* Heartbeat */ = {
@@ -1141,6 +1157,8 @@
 				C0C7FC0B2F0974D900882E5E /* BBHeartbeatConstants.swift in Sources */,
 				C0C7FBEF2F05D59A00882E5E /* BBHomeKitConstants.swift in Sources */,
 				C016C8C02F04983200C7E1F6 /* BBAnimationConstants.swift in Sources */,
+				C05D56162F0CB2820033A3E3 /* BBClassificationManager.swift in Sources */,
+				C05D56172F0CB2820033A3E3 /* BBClassificationConstants.swift in Sources */,
 				D8C7849F2B1E815300EBD52A /* BBNavigationView.swift in Sources */,
 				D804F2272B0D63CE00D13DE6 /* BBExtensions.swift in Sources */,
 				D88C19B12AF1735B003C3A0C /* BBDataObject.xcdatamodeld in Sources */,
@@ -1226,6 +1244,8 @@
 				C016C8A82F04952100C7E1F6 /* BBProcessManager.swift in Sources */,
 				C016C8A92F04952100C7E1F6 /* BBCloudModels.swift in Sources */,
 				C016C8AA2F04952100C7E1F6 /* BBProcessConstants.swift in Sources */,
+				C05D56142F0CB2820033A3E3 /* BBClassificationManager.swift in Sources */,
+				C05D56152F0CB2820033A3E3 /* BBClassificationConstants.swift in Sources */,
 				C016C8AB2F04952100C7E1F6 /* BBBluetoothModels.swift in Sources */,
 				C016C8AC2F04952100C7E1F6 /* BBAppManager.swift in Sources */,
 				C016C8AD2F04952100C7E1F6 /* BBBatteryManager.swift in Sources */,
@@ -1407,7 +1427,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/$(TARGET_NAME)/info.plist";
 				"INFOPLIST_FILE[sdk=*]" = "";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ovatar.batteryapp.cliboi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1433,7 +1453,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/$(TARGET_NAME)/info.plist";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ovatar.batteryapp.cliboi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1453,7 +1473,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				INFOPLIST_FILE = "$(SRCROOT)/BatteryBoi Helper/Info.plist";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = (
 					"-sectcreate",
@@ -1483,7 +1503,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				INFOPLIST_FILE = "$(SRCROOT)/BatteryBoi Helper/Info.plist";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 1.1;
 				OTHER_LDFLAGS = (
 					"-sectcreate",

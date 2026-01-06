@@ -808,6 +808,30 @@ public class BluetoothManager: NSObject, ObservableObject, CBCentralManagerDeleg
         let parsed = Self.bluetoothParseCharacteristicData(dataMap)
 
         if let name = peripheral.name, parsed.profile.model.isEmpty == false {
+            Task {
+                let classification = await ClassificationManager.shared.classifyDevice(
+                    model: parsed.profile.model,
+                    vendor: parsed.profile.vendor,
+                    appearance: parsed.profile.apperance,
+                    hardware: parsed.profile.hardware,
+                    name: name
+                )
+
+                var enhancedProfile = parsed.profile
+                enhancedProfile.aiCategory = classification.category
+                enhancedProfile.aiConfidence = classification.confidence
+                enhancedProfile.aiSummary = classification.summary
+
+                let device = AppDeviceObject(
+                    peripheral.identifier,
+                    name: name,
+                    profile: enhancedProfile
+                )
+
+				self.logger.logDebug("Device classified: \(name) as \(classification.category.name) (confidence: \(String(format: "%.2f", classification.confidence)))")
+
+            }
+
             let device = AppDeviceObject(
                 peripheral.identifier,
                 name: name,
