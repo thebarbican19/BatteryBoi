@@ -11,7 +11,61 @@ import SwiftData
 enum HUDProgressLayout {
     case center
     case trailing
-    
+
+}
+
+struct ConfidenceBadgeView: View {
+    let confidence: Double
+    let showLabel: Bool
+
+    private var color: Color {
+        switch confidence {
+        case 0.0..<0.4: return Color.red
+        case 0.4..<0.7: return Color.yellow
+        case 0.7...1.0: return Color.green
+        default: return Color.gray
+        }
+    }
+
+    private var icon: String {
+        switch confidence {
+        case 0.0..<0.4: return "exclamationmark.circle.fill"
+        case 0.4..<0.7: return "questionmark.circle.fill"
+        case 0.7...1.0: return "checkmark.circle.fill"
+        default: return "circle.fill"
+        }
+    }
+
+    private var label: String {
+        switch confidence {
+        case 0.0..<0.4: return "Low"
+        case 0.4..<0.7: return "Medium"
+        case 0.7...1.0: return "High"
+        default: return "Unknown"
+        }
+    }
+
+    var body: some View {
+        HStack(spacing: 4) {
+            Image(systemName: icon)
+                .font(.system(size: 10, weight: .semibold))
+                .foregroundColor(.white)
+
+            if showLabel == true {
+                Text(label)
+                    .font(.system(size: 10, weight: .semibold))
+                    .foregroundColor(.white)
+            }
+
+            Text(String(format: "%.0f%%", confidence * 100))
+                .font(.system(size: 9, weight: .semibold))
+                .foregroundColor(.white)
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .background(color.opacity(0.8))
+        .cornerRadius(6)
+    }
 }
 
 struct HUDIcon: View {
@@ -55,32 +109,37 @@ struct HUDSummary: View {
     @EnvironmentObject var stats:StatsManager
     @EnvironmentObject var updates:UpdateManager
     @EnvironmentObject var window:WindowManager
+    @EnvironmentObject var manager:AppManager
 
     @State private var title = ""
     @State private var subtitle = ""
     @State private var visible:Bool = false
-    
+
     var body: some View {
-        HStack(alignment: .center) {
+        HStack(alignment: .top, spacing: 12) {
             HUDIcon()
-            
-            VStack(alignment: .leading, spacing: 2) {  
+
+            VStack(alignment: .leading, spacing: 6) {
                 Text(self.title)
                     .font(.system(size: 18, weight: .bold))
                     .foregroundColor(.white)
                     .lineLimit(2)
-                
+
                 ViewMarkdown($subtitle)
-                                
+
+                if let device = manager.selected, let confidence = device.profile.aiConfidence, let category = device.profile.aiCategory {
+                    ConfidenceBadgeView(confidence: confidence, showLabel: true)
+                }
+
                 if self.updates.available != nil {
                     UpdatePromptView()
-                    
+
                 }
-                
+
             }
-            
+
             Spacer()
-            
+
         }
         .blur(radius: self.visible ? 0.0 : 4.0)
         .opacity(self.visible ? 1.0 : 0.0)

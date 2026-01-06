@@ -305,6 +305,15 @@ public class AppManager: ObservableObject {
                     if device.profile.model == other.profile.model && similarity >= 0.85 {
                         group.append(other)
                         processed.insert(other.id)
+                        continue
+                    }
+
+                    if let deviceCategory = device.profile.aiCategory, let otherCategory = other.profile.aiCategory, deviceCategory == otherCategory, let deviceSummary = device.profile.aiSummary, let otherSummary = other.profile.aiSummary {
+                        let summarySimilarity = deviceSummary.normalizedDeviceName.jaroWinklerSimilarity(with: otherSummary.normalizedDeviceName)
+                        if summarySimilarity >= 0.75 {
+                            group.append(other)
+                            processed.insert(other.id)
+                        }
                     }
                 }
 

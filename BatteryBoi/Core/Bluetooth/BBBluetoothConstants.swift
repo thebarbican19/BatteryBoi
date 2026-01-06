@@ -9,13 +9,10 @@ import Foundation
 import CoreBluetooth
 
 public struct BluetoothBroadcastItem: Identifiable, Equatable {
-    public static func == (lhs: BluetoothBroadcastItem, rhs: BluetoothBroadcastItem) -> Bool {
-        lhs.id == rhs.id && lhs.state == rhs.state && lhs.proximity == rhs.proximity
-    }
+	public var id: UUID
 
     var peripheral: CBPeripheral
     var state: BluetoothConnectionState
-    public var id: UUID
     var characteristics: [CBCharacteristic]
     var services: [CBService]
     var proximity: AppDeviceDistanceType = .unknown
@@ -39,9 +36,16 @@ public struct BluetoothBroadcastItem: Identifiable, Equatable {
             self.state = state
             if state == .pending {
                 self.pendingTimestamp = Date()
+				
             }
+			
         }
+		
     }
+	
+	public static func == (lhs: BluetoothBroadcastItem, rhs: BluetoothBroadcastItem) -> Bool {
+		lhs.id == rhs.id && lhs.state == rhs.state && lhs.proximity == rhs.proximity
+	}
 }
 
 public enum BluetoothPermissionState: String {

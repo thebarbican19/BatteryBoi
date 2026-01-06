@@ -227,6 +227,15 @@ public enum AppDeviceCategory: String, Codable {
     case gamepad
     case speaker
     case keyboard
+    case tracker
+    case watch
+    case earbuds
+    case stylus
+    case camera
+    case remote
+    case sensor
+    case healthDevice
+    case unknown
     case other
 
     var name: String {
@@ -236,6 +245,15 @@ public enum AppDeviceCategory: String, Codable {
             case .gamepad: return "BluetoothDeviceGamepadLabel".localise()
             case .speaker: return "BluetoothDeviceSpeakerLabel".localise()
             case .keyboard: return "BluetoothDeviceKeyboardLabel".localise()
+            case .tracker: return "Tracker"
+            case .watch: return "Smartwatch"
+            case .earbuds: return "Earbuds"
+            case .stylus: return "Stylus"
+            case .camera: return "Camera"
+            case .remote: return "Remote"
+            case .sensor: return "Sensor"
+            case .healthDevice: return "Health Device"
+            case .unknown: return "Unknown Device"
             case .other: return "BluetoothDeviceOtherLabel".localise()
             default: return ""
         }
@@ -248,6 +266,16 @@ public enum AppDeviceCategory: String, Codable {
             case .gamepad: return "gamecontroller.fill"
             case .speaker: return "hifispeaker.2.fill"
             case .keyboard: return "keyboard.fill"
+            case .tracker: return "location.fill"
+            case .watch: return "applewatch"
+            case .earbuds: return "airpodspro"
+            case .stylus: return "pencil.tip"
+            case .camera: return "camera.fill"
+            case .remote: return "remote.fill"
+            case .sensor: return "sensor.fill"
+            case .healthDevice: return "heart.fill"
+            case .unknown: return "questionmark.circle.fill"
+            case .other: return "questionmark.circle"
             default: return ""
         }
     }
@@ -482,6 +510,9 @@ public struct AppDeviceProfileObject: Hashable, Equatable {
     var hardware: String?
     var apperance: String?
     var findmy: Bool
+    var aiCategory: AppDeviceCategory? = nil
+    var aiConfidence: Double? = nil
+    var aiSummary: String? = nil
 }
 
 public enum AppConnectivityType: String {
@@ -660,6 +691,17 @@ public struct AppDeviceObject: Hashable, Equatable, Identifiable {
                         let existingNormalized = existingDevice.name.normalizedDeviceName
                         let similarity = normalizedName.jaroWinklerSimilarity(with: existingNormalized)
                         return existingDevice.profile.model == device.profile.model && similarity >= similarityThreshold
+                    }) {
+                        return match
+                    }
+                }
+
+                if let deviceSummary = device.profile.aiSummary, let deviceCategory = device.profile.aiCategory, deviceSummary.isEmpty == false {
+                    if let match = existing.first(where: { existingDevice in
+                        guard let existingSummary = existingDevice.profile.aiSummary, let existingCategory = existingDevice.profile.aiCategory else { return false }
+                        guard deviceCategory == existingCategory else { return false }
+                        let similarity = deviceSummary.normalizedDeviceName.jaroWinklerSimilarity(with: existingSummary.normalizedDeviceName)
+                        return similarity >= 0.75
                     }) {
                         return match
                     }

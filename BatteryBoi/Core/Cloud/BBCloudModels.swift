@@ -76,9 +76,14 @@ public final class DevicesObject {
     public var notifications: Bool? = false
     public var findmy: Bool? = false
     public var state: String? = DeviceState.discovered.rawValue
+    public var aiCategory: String? = nil
+    public var aiConfidence: Double? = nil
+    public var aiSummary: String? = nil
+    public var aiClassifiedOn: Date? = nil
+    public var aiVersion: String? = nil
     @Relationship(deleteRule: .cascade, inverse: \BatteryObject.device) public var events: [BatteryObject]? = []
 
-    public init(id: UUID? = UUID(), name: String? = "", model: String? = "", type: String? = "", subtype: String? = "", product: String? = "", vendor: String? = "", address: String? = "", serial: String? = "", os: String? = "", apperance: String? = "", owner: UUID? = nil, addedOn: Date? = Date(), refreshedOn: Date? = Date(), order: Int? = 0, primary: Bool? = false, notifications: Bool? = false, findmy: Bool? = false, state: DeviceState = .discovered) {
+    public init(id: UUID? = UUID(), name: String? = "", model: String? = "", type: String? = "", subtype: String? = "", product: String? = "", vendor: String? = "", address: String? = "", serial: String? = "", os: String? = "", apperance: String? = "", owner: UUID? = nil, addedOn: Date? = Date(), refreshedOn: Date? = Date(), order: Int? = 0, primary: Bool? = false, notifications: Bool? = false, findmy: Bool? = false, state: DeviceState = .discovered, aiCategory: String? = nil, aiConfidence: Double? = nil, aiSummary: String? = nil, aiClassifiedOn: Date? = nil, aiVersion: String? = nil) {
         self.id = id
         self.name = name
         self.model = model
@@ -98,6 +103,11 @@ public final class DevicesObject {
         self.notifications = notifications
         self.findmy = findmy
         self.state = state.rawValue
+        self.aiCategory = aiCategory
+        self.aiConfidence = aiConfidence
+        self.aiSummary = aiSummary
+        self.aiClassifiedOn = aiClassifiedOn
+        self.aiVersion = aiVersion
     }
 }
 

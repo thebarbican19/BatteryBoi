@@ -63,8 +63,30 @@ public class ProcessManager: ObservableObject {
         
         return nil
         
-    }()
-    
+}()
+
+    public func processCheckHelperStatus() {
+        DispatchQueue.global(qos: .userInitiated).async {
+            if let helper = self.connection?.remoteObjectProxy as? HelperProtocol {
+                helper.helperVersion { version in
+                    DispatchQueue.main.async {
+                        if version != nil {
+                            self.helper = .allowed
+                        }
+                        else {
+                            self.helper = .undetermined
+                        }
+                    }
+                }
+            }
+            else {
+                DispatchQueue.main.async {
+                    self.helper = .undetermined
+                }
+            }
+        }
+    }
+
     public func processInstallHelper() {
         var reference: AuthorizationRef?
         var error: Unmanaged<CFError>?
@@ -155,14 +177,12 @@ public class ProcessManager: ObservableObject {
             return helper
             
         }
-        else {
+else {
             if self.helper == .allowed {
-                self.processInstallHelper()
-                
+                self.helper = .undetermined
             }
-            
+
             return nil
-            
         }
         
     }
@@ -657,14 +677,34 @@ public class ProcessManager: ObservableObject {
         }
         else if command == .devices {
             if secondary == .list {
-                if AppManager.shared.devices.isEmpty {
+                let devices = AppManager.shared.devices
+                var uniqueDevices: [AppDeviceObject] = []
+                var seenKeys: Set<String> = []
+                
+                // Sort by recency to pick the best one first
+                let sortedByRecency = devices.sorted {
+                    ($0.refreshed ?? $0.added ?? Date.distantPast) > ($1.refreshed ?? $1.added ?? Date.distantPast)
+                }
+                
+                for device in sortedByRecency {
+                    let key = "\(device.name)-\(device.profile.model)"
+                    if !seenKeys.contains(key) {
+                        uniqueDevices.append(device)
+                        seenKeys.insert(key)
+                    }
+                }
+                
+                // Sort alphabetically for display
+                uniqueDevices.sort { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+                
+                if uniqueDevices.isEmpty {
                     output.append(self.processBoxHeader("DEVICES"))
                     output.append(self.processValueOutput("Status", value:.init("No devices found")))
                     output.append("\n\u{001B}[90mConnect Bluetooth devices to see them here.\u{001B}[0m\n")
                 }
                 else {
-                    for device in AppManager.shared.devices {
-                        output.append("\n----------DEVICE #\(device.order + 1)----------\n\n")
+                    for (index, device) in uniqueDevices.enumerated() {
+                        output.append("\n----------DEVICE #\(index + 1)----------\n\n")
 
                         output.append(self.processValueOutput("ID", value:.init(device.id.uuidString)))
                         output.append(self.processValueOutput("Name", value: .init(device.name)))

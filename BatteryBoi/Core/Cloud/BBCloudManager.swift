@@ -264,6 +264,7 @@ public class CloudManager: NSObject, ObservableObject, UNUserNotificationCenterD
                 }
                 
                 try context.save()
+				
             }
             catch {
                 print("❌ Failed to destroy entity \(type.rawValue): \(error)")
