@@ -90,7 +90,17 @@ struct SettingsItem: View {
                 self.icon = self.settings.charge.icon
 
             }
-            
+            else if item.type == .customiseMinThreshold {
+                self.subtitle = self.settings.minChargeThreshold.subtitle
+                self.icon = self.settings.minChargeThreshold.icon
+
+            }
+            else if item.type == .customiseMaxThreshold {
+                self.subtitle = self.settings.maxChargeThreshold.subtitle
+                self.icon = self.settings.maxChargeThreshold.icon
+
+            }
+
         }
         .onChange(of: self.battery.saver, perform: { newValue in
             withAnimation(Animation.easeOut.delay(0.1)) {
@@ -147,7 +157,23 @@ struct SettingsItem: View {
                 self.icon = self.settings.charge.icon
 
             }
-            
+
+        })
+        .onChange(of: self.settings.minChargeThreshold, perform: { newValue in
+            if item.type == .customiseMinThreshold {
+                self.subtitle = newValue.subtitle
+                self.icon = newValue.icon
+
+            }
+
+        })
+        .onChange(of: self.settings.maxChargeThreshold, perform: { newValue in
+            if item.type == .customiseMaxThreshold {
+                self.subtitle = newValue.subtitle
+                self.icon = newValue.icon
+
+            }
+
         })
         .onTapGesture {
             SettingsManager.shared.settingsAction(item)

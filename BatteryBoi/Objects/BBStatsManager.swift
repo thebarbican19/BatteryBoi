@@ -319,6 +319,8 @@ class StatsManager:ObservableObject {
                 case .percentTen:return "AlertSomePercentTitle".localise([percent])
                 case .percentTwentyFive:return "AlertSomePercentTitle".localise([percent])
                 case .percentOne:return "AlertOnePercentTitle".localise()
+                case .percentMinThreshold:return "AlertSomePercentTitle".localise([percent])
+                case .percentMaxThreshold:return "AlertSomePercentTitle".localise([percent])
                 case .deviceConnected:return "AlertDeviceConnectedTitle".localise()
                 case .deviceRemoved:return "AlertDeviceDisconnectedTitle".localise()
                 case .deviceOverheating:return "AlertOverheatingTitle".localise()
@@ -370,6 +372,8 @@ class StatsManager:ObservableObject {
                 case .percentTen:return "AlertPercentSummary".localise()
                 case .percentTwentyFive:return "AlertPercentSummary".localise()
                 case .percentOne:return "AlertPercentSummary".localise()
+                case .percentMinThreshold:return "AlertPercentSummary".localise()
+                case .percentMaxThreshold:return "AlertChargeLimitSummary".localise()
                 case .userEvent:return "AlertLimitedSummary".localise([event?.name ?? "Unknown Event"])
                 case .deviceOverheating:return "AlertOverheatingSummary".localise()
                 default : break

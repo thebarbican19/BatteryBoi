@@ -88,25 +88,71 @@ enum SettingsCharged:String {
 enum SettingsBeta:String {
     case enabled
     case disabled
-    
+
     var subtitle:String {
         switch self {
             case .enabled : "SettingsEnabledLabel".localise()
             default : "SettingsDisabledLabel".localise()
-            
+
         }
-        
+
     }
-    
+
     var icon:String {
         switch self {
             case .enabled : "AudioIcon"
             default : "MuteIcon"
-            
+
         }
-        
+
     }
 
+}
+
+enum SettingsMinThreshold: Int {
+    case disabled = 0
+    case ten = 10
+    case fifteen = 15
+    case twenty = 20
+    case twentyFive = 25
+    case thirty = 30
+    case thirtyFive = 35
+    case forty = 40
+    case fortyFive = 45
+    case fifty = 50
+
+    var subtitle:String {
+        switch self {
+            case .disabled: return "SettingsDisabledLabel".localise()
+            default: return "\(self.rawValue)%"
+        }
+    }
+
+    var icon:String {
+        return "PercentIcon"
+    }
+}
+
+enum SettingsMaxThreshold: Int {
+    case disabled = 0
+    case seventy = 70
+    case seventyFive = 75
+    case eighty = 80
+    case eightyFive = 85
+    case ninety = 90
+    case ninetyFive = 95
+    case hundred = 100
+
+    var subtitle:String {
+        switch self {
+            case .disabled: return "SettingsDisabledLabel".localise()
+            default: return "\(self.rawValue)%"
+        }
+    }
+
+    var icon:String {
+        return "PercentIcon"
+    }
 }
 
 enum SettingsDisplayType:String {
@@ -163,7 +209,9 @@ struct SettingsActionObject:Hashable {
             case .customiseNotifications : self.title = "SettingsDisplayPercentLabel".localise()
             case .customiseSoundEffects : self.title = "SettingsSoundEffectsLabel".localise()
             case .customiseCharge : self.title = "SettingsEightyLabel".localise()
-            
+            case .customiseMinThreshold : self.title = "SettingsMinThresholdLabel".localise()
+            case .customiseMaxThreshold : self.title = "SettingsMaxThresholdLabel".localise()
+
         }
         
         self.type = type
@@ -188,6 +236,8 @@ enum SettingsActionType {
     case customiseTheme
     case customiseNotifications
     case customiseCharge
+    case customiseMinThreshold
+    case customiseMaxThreshold
 
     var icon:String {
         switch self {
@@ -206,6 +256,8 @@ enum SettingsActionType {
             case .customiseNotifications : return "PercentIcon"
             case .customiseSoundEffects : return "PercentIcon"
             case .customiseCharge : return "PercentIcon"
+            case .customiseMinThreshold: return "PercentIcon"
+            case .customiseMaxThreshold: return "PercentIcon"
 
         }
         
@@ -276,6 +328,8 @@ class SettingsManager:ObservableObject {
     @Published var theme:SettingsTheme = .dark
     @Published var pinned:SettingsPinned = .disabled
     @Published var charge:SettingsCharged = .disabled
+    @Published var minChargeThreshold:SettingsMinThreshold = .twenty
+    @Published var maxChargeThreshold:SettingsMaxThreshold = .eighty
 
     private var updates = Set<AnyCancellable>()
 
@@ -286,6 +340,8 @@ class SettingsManager:ObservableObject {
         self.sfx = self.enabledSoundEffects
         self.pinned = self.enabledPinned
         self.charge = self.enabledChargeEighty
+        self.minChargeThreshold = self.enabledMinThreshold
+        self.maxChargeThreshold = self.enabledMaxThreshold
 
         UserDefaults.changed.receive(on: DispatchQueue.main).sink { key in
             switch key {
@@ -294,6 +350,8 @@ class SettingsManager:ObservableObject {
                 case .enabledSoundEffects : self.sfx = self.enabledSoundEffects
                 case .enabledPinned : self.pinned = self.enabledPinned
                 case .enabledChargeEighty : self.charge = self.enabledChargeEighty
+                case .batteryMinChargeThreshold : self.minChargeThreshold = self.enabledMinThreshold
+                case .batteryMaxChargeThreshold : self.maxChargeThreshold = self.enabledMaxThreshold
                 default : break
                 
             }
@@ -489,7 +547,31 @@ class SettingsManager:ObservableObject {
         }
         
     }
-    
+
+    public var enabledMinThreshold: SettingsMinThreshold {
+        get {
+            if let value = UserDefaults.main.object(forKey: SystemDefaultsKeys.batteryMinChargeThreshold.rawValue) as? Int {
+                return SettingsMinThreshold(rawValue: value) ?? .twenty
+            }
+            return .twenty
+        }
+        set {
+            UserDefaults.save(.batteryMinChargeThreshold, value: newValue.rawValue)
+        }
+    }
+
+    public var enabledMaxThreshold: SettingsMaxThreshold {
+        get {
+            if let value = UserDefaults.main.object(forKey: SystemDefaultsKeys.batteryMaxChargeThreshold.rawValue) as? Int {
+                return SettingsMaxThreshold(rawValue: value) ?? .eighty
+            }
+            return .eighty
+        }
+        set {
+            UserDefaults.save(.batteryMaxChargeThreshold, value: newValue.rawValue)
+        }
+    }
+
     public var enabledProgressBar:Bool {
         get {
             if UserDefaults.main.object(forKey: SystemDefaultsKeys.enabledProgressState.rawValue) == nil {
@@ -673,9 +755,29 @@ class SettingsManager:ObservableObject {
                 case .disabled : self.enabledChargeEighty = .enabled
 
             }
-            
+
         }
-        
+        else if action.type == .customiseMinThreshold {
+            let current = self.enabledMinThreshold
+            let all: [SettingsMinThreshold] = [.disabled, .ten, .fifteen, .twenty, .twentyFive, .thirty, .thirtyFive, .forty, .fortyFive, .fifty]
+            if let index = all.firstIndex(of: current), index + 1 < all.count {
+                self.enabledMinThreshold = all[index + 1]
+            } else {
+                self.enabledMinThreshold = all.first ?? .disabled
+            }
+
+        }
+        else if action.type == .customiseMaxThreshold {
+            let current = self.enabledMaxThreshold
+            let all: [SettingsMaxThreshold] = [.disabled, .seventy, .seventyFive, .eighty, .eightyFive, .ninety, .ninetyFive, .hundred]
+            if let index = all.firstIndex(of: current), index + 1 < all.count {
+                self.enabledMaxThreshold = all[index + 1]
+            } else {
+                self.enabledMaxThreshold = all.first ?? .disabled
+            }
+
+        }
+
     }
     
     private var settingsMenu:[SettingsActionObject] {
@@ -692,7 +794,9 @@ class SettingsManager:ObservableObject {
 
         output.append(.init(.customiseDisplay))
         output.append(.init(.customiseSoundEffects))
-        
+        output.append(.init(.customiseMinThreshold))
+        output.append(.init(.customiseMaxThreshold))
+
         #if DEBUG
             output.append(.init(.customiseCharge))
         #endif

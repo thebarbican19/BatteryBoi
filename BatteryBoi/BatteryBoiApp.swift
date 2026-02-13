@@ -137,6 +137,9 @@ enum SystemDefaultsKeys: String {
     case enabledProgressState = "sd_progress_state"
     case enabledPinned = "sd_pinned_mode"
 
+    case batteryMinChargeThreshold = "sd_battery_min_threshold"
+    case batteryMaxChargeThreshold = "sd_battery_max_threshold"
+
     case batteryUntilFull = "sd_charge_full"
     case batteryLastCharged = "sd_charge_last"
     case batteryDepletionRate = "sd_depletion_rate"
@@ -145,10 +148,10 @@ enum SystemDefaultsKeys: String {
     case versionInstalled = "sd_version_installed"
     case versionCurrent = "sd_version_current"
     case versionIdenfiyer = "sd_version_id"
-    
+
     case usageDay = "sd_usage_days"
     case usageTimestamp = "sd_usage_date"
-    
+
     case profileChecked = "sd_profiles_checked"
     case profilePayload = "sd_profiles_payload"
 
@@ -166,25 +169,28 @@ enum SystemDefaultsKeys: String {
             case .enabledProgressState:return "Show Progress"
             case .enabledPinned:return "Pinned"
 
+            case .batteryMinChargeThreshold:return "Minimum Battery Threshold"
+            case .batteryMaxChargeThreshold:return "Maximum Charge Threshold"
+
             case .batteryUntilFull:return "Seconds until Charged"
             case .batteryLastCharged:return "Seconds until Charged"
             case .batteryDepletionRate:return "Battery Depletion Rate"
             case .batteryWindowPosition:return "Battery Window Positio"
-            
+
             case .versionInstalled:return "Installed on"
             case .versionCurrent:return "Active Version"
             case .versionIdenfiyer:return "App ID"
 
             case .usageDay:return "sd_usage_days"
             case .usageTimestamp:return "sd_usage_timestamp"
-            
+
             case .profileChecked:return "Profile Validated"
             case .profilePayload:return "Profile Payload"
 
         }
-        
+
     }
-    
+
 }
 
 @main
