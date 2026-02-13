@@ -35,7 +35,7 @@ enum HUDAlertTypes:Int {
             case .percentFive : return .low
             case .percentOne : return .low
             case .percentMinThreshold: return .low
-            case .percentMaxThreshold: return .low
+            case .percentMaxThreshold: return .high
             case .userLaunched : return nil
             case .userInitiated : return nil
             case .userEvent : return .low

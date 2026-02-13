@@ -84,33 +84,32 @@ class WindowManager: ObservableObject {
             if BatteryManager.shared.charging.state == .battery {
                 // Custom minimum threshold alert
                 let minTh = SettingsManager.shared.minChargeThreshold
-                if minTh != .disabled && percent == minTh.rawValue {
+                if minTh != .disabled && percent == Double(minTh.rawValue) {
                     self.windowOpen(.percentMinThreshold, device: nil)
                 }
+                else {
+                    switch percent {
+                        case 25 : self.windowOpen(.percentTwentyFive, device: nil)
+                        case 10 : self.windowOpen(.percentTen, device: nil)
+                        case 5 : self.windowOpen(.percentFive, device: nil)
+                        case 1 : self.windowOpen(.percentOne, device: nil)
+                        default : break
 
-                switch percent {
-                    case 25 : self.windowOpen(.percentTwentyFive, device: nil)
-                    case 10 : self.windowOpen(.percentTen, device: nil)
-                    case 5 : self.windowOpen(.percentFive, device: nil)
-                    case 1 : self.windowOpen(.percentOne, device: nil)
-                    default : break
-                    
+                    }
                 }
-                
+
             }
             else {
                 // Custom maximum threshold alert
                 let maxTh = SettingsManager.shared.maxChargeThreshold
-                if maxTh != .disabled && percent == maxTh.rawValue {
+                if maxTh != .disabled && percent == Double(maxTh.rawValue) {
                     self.windowOpen(.percentMaxThreshold, device: nil)
-                } else {
-                    // Legacy behavior only if no custom threshold set
-                    if percent == 100 && SettingsManager.shared.enabledChargeEighty == .disabled && maxTh == .disabled {
-                        self.windowOpen(.chargingComplete, device: nil)
-                    }
-                    else if percent == 80 && SettingsManager.shared.enabledChargeEighty == .enabled && maxTh == .disabled {
-                        self.windowOpen(.chargingComplete, device: nil)
-                    }
+                }
+                else if percent == 100 && SettingsManager.shared.enabledChargeEighty == .disabled {
+                    self.windowOpen(.chargingComplete, device: nil)
+                }
+                else if percent == 80 && SettingsManager.shared.enabledChargeEighty == .enabled {
+                    self.windowOpen(.chargingComplete, device: nil)
                 }
 
             }
