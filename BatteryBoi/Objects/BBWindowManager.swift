@@ -82,26 +82,36 @@ class WindowManager: ObservableObject {
         
         BatteryManager.shared.$percentage.dropFirst().removeDuplicates().sink { percent in
             if BatteryManager.shared.charging.state == .battery {
-                switch percent {
-                    case 25 : self.windowOpen(.percentTwentyFive, device: nil)
-                    case 10 : self.windowOpen(.percentTen, device: nil)
-                    case 5 : self.windowOpen(.percentFive, device: nil)
-                    case 1 : self.windowOpen(.percentOne, device: nil)
-                    default : break
-                    
+                // Custom minimum threshold alert
+                let minTh = SettingsManager.shared.minChargeThreshold
+                if minTh != .disabled && percent == Double(minTh.rawValue) {
+                    self.windowOpen(.percentMinThreshold, device: nil)
                 }
-                
+                else {
+                    switch percent {
+                        case 25 : self.windowOpen(.percentTwentyFive, device: nil)
+                        case 10 : self.windowOpen(.percentTen, device: nil)
+                        case 5 : self.windowOpen(.percentFive, device: nil)
+                        case 1 : self.windowOpen(.percentOne, device: nil)
+                        default : break
+
+                    }
+                }
+
             }
             else {
-                if percent == 100 && SettingsManager.shared.enabledChargeEighty == .disabled {
+                // Custom maximum threshold alert
+                let maxTh = SettingsManager.shared.maxChargeThreshold
+                if maxTh != .disabled && percent == Double(maxTh.rawValue) {
+                    self.windowOpen(.percentMaxThreshold, device: nil)
+                }
+                else if percent == 100 && SettingsManager.shared.enabledChargeEighty == .disabled {
                     self.windowOpen(.chargingComplete, device: nil)
-                    
                 }
                 else if percent == 80 && SettingsManager.shared.enabledChargeEighty == .enabled {
                     self.windowOpen(.chargingComplete, device: nil)
-                    
                 }
-                
+
             }
             
         }.store(in: &updates)

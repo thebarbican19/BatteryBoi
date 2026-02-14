@@ -54,6 +54,11 @@
 "SettingsNotificationsLabel" = "Notifications";
 "SettingsPrereleasesLabel" = "Beta Releases";
 
+"SettingsMinThresholdLabel" = "Low Battery Alert";
+"SettingsMaxThresholdLabel" = "Charge Limit Alert";
+
+"AlertChargeLimitSummary" = "Consider unplugging to preserve battery health.";
+
 "SettingsCustomizationMenuLabel" = "Menu Bar Icon";
 "SettingsCustomizationThemeDarkLabel" = "Dark";
 "SettingsCustomizationThemeLightLabel" = "Light";
