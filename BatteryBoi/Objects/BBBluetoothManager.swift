@@ -3,6 +3,7 @@
 //  BatteryBoi
 //
 //  Created by Joe Barbour on 8/22/23.
+//  Fixed by Toby Fox on 1/11/24
 //
 
 import Foundation
@@ -204,53 +205,64 @@ struct BluetoothObject:Decodable,Equatable {
     
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-                
-        self.battery = try! BluetoothBatteryObject(from: decoder)
-        self.address = try! values.decode(String.self, forKey: .address).lowercased().replacingOccurrences(of: ":", with: "-")
-        self.firmware = try? values.decode(String.self, forKey: .firmware)
-        self.connected = .disconnected
-        self.device = nil
-        self.updated = Date.distantPast
-        
-        if let distance = try? values.decode(String.self, forKey: .rssi) {
-            if let value = Double(distance) {
-                if value >= -50 && value <= -20 {
-                    self.distance = .proximate
-
-                } 
-                else if value >= -70 && value < -50 {
-                    self.distance = .near
-
+        do {
+            self.battery = try! BluetoothBatteryObject(from: decoder)
+            self.address = (try? values.decode(String.self, forKey: .address))?.lowercased().replacingOccurrences(of: ":", with: "-") ?? ""
+            self.firmware = try? values.decode(String.self, forKey: .firmware)
+            self.connected = .disconnected
+            self.device = nil
+            self.updated = Date.distantPast
+            
+            if let distance = try? values.decode(String.self, forKey: .rssi) {
+                if let value = Double(distance) {
+                    if value >= -50 && value <= -20 {
+                        self.distance = .proximate
+                        
+                    }
+                    else if value >= -70 && value < -50 {
+                        self.distance = .near
+                        
+                    }
+                    else {
+                        self.distance = .far
+                        
+                    }
+                    
                 }
                 else {
-                    self.distance = .far
-
+                    self.distance = .unknown
+                    
                 }
                 
             }
             else {
                 self.distance = .unknown
-
+                
             }
-
-        }
-        else {
-            self.distance = .unknown
-
-        }
-        
-        if let type = try? values.decode(String.self, forKey: .type) {
-            let subtype = try? values.decode(String.self, forKey: .product)
-            let vendor = try? values.decode(String.self, forKey: .product)
-
-            self.type = BluetoothDeviceObject(type, subtype:subtype, vendor: vendor)
-
-        }
-        else {
-            self.type = BluetoothDeviceObject("")
             
+            if let type = try? values.decode(String.self, forKey: .type) {
+                let subtype = try? values.decode(String.self, forKey: .product)
+                let vendor = try? values.decode(String.self, forKey: .product)
+                
+                self.type = BluetoothDeviceObject(type, subtype:subtype, vendor: vendor)
+                
+            }
+            else {
+                self.type = BluetoothDeviceObject("")
+                
+            }
+        } catch {
+            // Handle the decoding error here (e.g., log it, print an error message, or set default values)
+            print("Error decoding BluetoothObject: \(error)")
+            self.battery = try BluetoothBatteryObject(from: decoder)
+            self.address = ""
+            self.firmware = nil
+            self.connected = .disconnected
+            self.device = nil
+            self.updated = Date.distantPast
+            self.distance = .unknown
+            self.type = BluetoothDeviceObject("")
         }
-        
     }
     
     enum CodingKeys: String, CodingKey {
